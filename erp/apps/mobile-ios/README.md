@@ -1,3 +1,17 @@
+## 0.6.0 credential-safe test candidate
+
+The shared website styling is complemented by40 scoped native module entries, including shared vehicle trips. Password rotation and MFA setup use an explicit one-shot path with fresh identity validation, secure text controls and exact password bytes. Credentials and nested secret-shaped inputs cannot enter durable command recovery. After a dispatched credential change, sign in again; a timeout is an unknown outcome and is never automatically retried. Unrelated unresolved commands remain intact.
+
+Source now contains91 XCTest methods including regression cases for credential storage, stale completion/new login races, secure fields and navigation. This source count is not a test result; consult the exact-source hosted receipt for actual execution. iOS17 remains the minimum target. Simulator artifacts cannot be installed on an iPhone; owner Apple team/signing/provisioning and registered customer devices are required for a separate signed device archive.
+
+## Current iOS candidate — 0.6.0 / build 8
+
+Adapts the current KNABA website/workspace design to native SwiftUI: the exact compact wordmark, deep teal/lime identity, semantic light/dark surfaces, accessible cards, horizontally scrollable module tabs, readable forms/messages/recovery notices and the worker shift dashboard. All six languages, contextual commands, session/actor/version fences, encrypted pending-command recovery and explicit GPS consent remain in force. Domain/transport/storage source is unchanged from the accepted0.5.1 base.
+
+New native rendering tests cover all six login locales, narrow screens, accessibility Dynamic Type, semantic contrast and synthetic overview/shift fixtures with GPS OFF. Their actual execution, screenshots and simulator install proof must be checked in the exact-source CI receipt. A simulated fixture is not a real company session.
+
+[0.6.0 scope and delivery gates](../../../docs/mobile/MOBILE_BRAND_0.6.0_UK.md). Owner Apple signing/profile and a customer distribution channel remain required for an installable IPA. The portable source and unsigned Simulator ZIP cannot be installed on an iPhone. The following checkpoints retain their historical versions/results.
+
 ## Current iOS candidate — 0.5.1 / build 7
 
 Adds 61 contextual record actions for 15 existing ERP record types. Forms bind the selected record ID and exact version, retain quote/assignment snapshot fields, refresh current identity and server catalog before writing, and cannot move to a later login session. Sensitive commands require explicit confirmation. Boolean/enum controls, action search, six-language action labels and exact decimal-to-integer quantity conversion use the existing ERP contracts. A confirmed write remains successful when the following list refresh fails; an uncertain write retains its original encrypted recovery envelope.

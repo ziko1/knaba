@@ -1,5 +1,53 @@
 # KNABA Mobile — module memory
 
+## 2026-11-08 — final bounded test-artifact checkpoint
+
+Current state: **PARTIAL_TEST_ARTIFACTS_VERIFIED_IPHONE_AND_LIVE_UAT_BLOCKED**. Binary source is `2a9038e14d5dba47ba636556e905ae36144c266e`, tree `303585bf7cec5e381a5908a20407c2cce4f067af`. This checkpoint preserves the request for two customer-installable Android and iPhone files; an iOS Simulator bundle or source archive does not satisfy the iPhone requirement.
+
+Actual native run `42497195566` passed Android **60/60** tests and iOS **91/91** XCTest, with zero failed/skipped cases. Repository run `42497195695` passed all four required jobs: root **30**, site **1119**, ERP with PostgreSQL **3000**, and signed HTTP bridge **82**. These results belong to this exact candidate. [Repository report](evidence/brand-20261108/repo-ci-42497195695-report.json).
+
+| Artifact | Verified identity | Scope |
+|---|---|---|
+| Android APK | SHA-256 `243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c`; **3,113,733 bytes** | `de.knaba.mobile.test`, `0.6.0-test`, versionCode **9**, Android **12+**; debug evaluation signing |
+| iOS Simulator ZIP | SHA-256 `6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9`; **7,148,898 bytes** | `0.6.0`, build **8**, iOS **17+**, arm64 Simulator; not an iPhone IPA |
+| iOS source archive | SHA-256 `50f3bc4abe63e874e9cb972e111fae5b0e0d8f34cbe567018643b02ba4fcba50`; **391,662 bytes**, **52 files** | Source for an owner-controlled build; not an installable application |
+| Partial test-kit ZIP | SHA-256 `2303d10b17882f35aceac78d36791f98e384e036297c945de05607fdb28f3939`; **14,713,526 bytes** | `KNABA-DE-Test-Kit-0.6.0.zip`; APK, Simulator/source, instructions and evidence; no signed iPhone IPA |
+
+Android signature/package/source checks, ordinary emulator installation, equality of installed and downloaded APK bytes, live process and resumed Activity passed. Certificate SHA-256 is `6f1973f8a072d24616397d4df6b15554e7a1fd228b67dfcc19a2913c31940c37`; compatibility with older debug-signed installations is not established. The actual emulator PNG is preserved with a **Pixel Launcher ANR overlay** and does not close unobstructed runtime visual acceptance or establish that KNABA itself stopped responding. **14 Robolectric fixture renders** were independently accepted for their visible, synthetic-data scope. [Android artifact review](evidence/brand-20261108/android-final-artifact-review-2a9038e1.json).
+
+iOS clean Simulator installation/launch, **48 bundle hashes**, and **15 PNG identities** were accepted in the recorded Simulator scope. This includes 13 fixture PNGs and two clean-launch screenshots, with no physical-iPhone or live-backend claim. [iOS review](evidence/brand-20261108/ios-artifact-review-2a9038e.json), [hash audit](evidence/brand-20261108/ios-artifact-hash-audit-2a9038e.json).
+
+At **2026-11-08 15:58:00 UTC**, the public KNABA release endpoint returned HTTP 200 with `erpOrigin: null`; automatic customer ERP connection was not configured in that response. Readiness and real-account login were not tested by this unauthenticated observation. [Public connection receipt](evidence/brand-20261108/knaba-public-connection-handoff-20261108.json). Owner Apple distribution/signing and a signed iPhone IPA, physical-device/customer installation, upgrade/data preservation, hardware/background GPS, real company workflows and full-system acceptance remain open. The Android demo is explicitly local fake data; it does not expose the worker screen or prove live delivery.
+
+Independent kit review **PASS** is bound to subject SHA-256 `851d9ad59c3fc926575d1c9bccb44d9bd503a49483011c7658647dd97d697044` and accepts the accuracy and integrity of the partial package. The release gate remains **EVIDENCE_INCOMPLETE: 2 PASS / 7 BLOCKED / 0 FAIL**. Final ZIP CRC, safe unique paths, all **149 files**, **148 inventory entries**, and every archive entry’s byte equality with the reviewed directory passed. [Independent review](evidence/brand-20261108/independent-kit-review.json), [final integrity report](evidence/brand-20261108/brand-final-delivery-integrity.json), [release gate](evidence/brand-20261108/RELEASE_GATE.json). Gate-relative paths refer to the supplied test-kit ZIP; binaries are intentionally absent from Git.
+
+The APK and `KNABA-DE-Test-Kit-0.6.0.zip` were saved successfully: both upload helper results returned `succeeded` with `local_metadata_applied: true`. These are **stored partial deliverables**; customer sharing, download and installation are not claimed. Final evidence reports are incorporated under `evidence/brand-20261108/` with this documentation checkpoint. Four bounded native checkpoints are complete; no further rerun is authorized or needed for the current candidate. Balance remains **UNKNOWN** and no paid service was activated. A documentation-only publication uses `[skip ci]`, leaves product/workflow inputs unchanged, retains binary source `2a9038e`, and makes no CI-PASS claim for the later documentation HEAD. No merge or production release is authorized.
+
+## 2026-11-08 — b9 Android compile accepted; AVD lookup correction
+
+Source b9bacbccfd358dbea0fddfde2e9a688fa2717380 passed all60 actual Android XML cases (0 failures/errors/skips), APK/AAB packaging, v2 signature, standalone/alignment checks and libpulse prerequisite. APK1352e0cf59820283bb9e537133ca65e6083b607357d95e153adf3a3e8d5c2d68 is3113733bytes; all69 input hashes matched exact Git. Android emulator creation exited0 and KVM was available, but emulator37.2.13 could not find the named AVD, so no install/launch is claimed. Fix only the workflow's scoped AVD location and verify visibility before boot. Repository run42495904472 independently passed root30/site1119/ERP PostgreSQL3000/HTTP bridge82. All later native artifacts must keep their own checkout/hash; the signed iPhone, real ERP and physical/customer gates remain open.
+
+## 2026-11-08 — a632 repository acceptance and Android fixture correction
+
+Repository run42494461119 at a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6 passed all four required jobs: root30/30, site1119/1119, ERP with genuine PostgreSQL3000/3000, signed HTTP bridge82/82; no failed/skipped test cases. Android native run42494461120 executed60 framework tests,59 passed/1 failed. The new discovery-overlapping-login regression accidentally referenced inherited CountDownLatch fields instead of its outer locals. Independent XML/source review and a local Java probe confirmed the issue. Rename only its two captured locals; production, timeouts, assertions and test inventory remain unchanged. The a632 iOS job128773630570 subsequently compiled and executed91 XCTest with0 failures, exported13 attachments and passed clean simulator install/launch; those results retain sourcea632. A fresh source build is required before handing over an APK. Public erpOrigin:null, Apple owner signing, physical and full-product acceptance remain open.
+
+## 2026-11-08 — branded native reconciliation checkpoint
+
+First brand source0234895: Android36/36 Robolectric and APK/AAB build succeeded; iOS74/74 XCTest and Simulator launch succeeded, with independently viewed native PNGs. Android emulator failed before install on missing libpulse.so.0; inherited Telegram exact-replay fixture failed in ERP CI (2968/2969). Both concrete corrections are prepared without weakening production equality.
+
+A divergent already-built Android0.5.0/code8 line at dc54f109 contains additional security/discovery/foreground-refresh/vehicle functionality. Current base F1/F2/F4/C08 remains; compatible Android and narrow vehicle backend pieces are reconciled into0.6.0/code9, preserving brand UI. iOS0.6.0/build8 adds vehicle navigation parity. New source needs its own complete CI; old build results are not transferred.198 focused worktree checks pass after independently discovered external-role vehicle-write rejection is fixed. All source/review hashes are recorded before publication.
+
+Next: exact-source native/repository runs, final artifact hashes/signature/ordinary APK install + launch, image review, customer instructions and durable files. Signed iPhone IPA and two installable-file delivery remain BLOCKED by owner Apple distribution prerequisites; full-product/physical/live/company acceptance remains open. No merge, production or provider activation.
+
+
+## 08.11.2026 — Native0.6.0 brand continuation, candidate source
+
+User requested beautiful iOS/Android matching the KNABA website and two already-built customer-installable test files. Base is accepted PR133 `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2`; the current authenticated website teal/lime palette and exact compact wordmark are used. Android ERP/worker UI and SwiftUI login/overview/forms/shift are adapted without changing backend, auth/recovery/domain contracts or existing six-language scope. Both versions0.6.0/build8. [Acceptance and constraints](MOBILE_BRAND_0.6.0_UK.md).
+
+Capability audit confirms existing public nativeCI, local Linux withoutXcode/AndroidSDK and KNABA Linux build tools; no authorized Mac/Apple signing identity/profile/channel available. Android APK build/install and iOS real Simulator/XCTest/visual acceptance remain pending for this changed source. Installable iPhone IPA and two-phone-file handoff remain BLOCKED_EXTERNAL; source/Simulator files never substitute. No production/main/store/provider/paid activation.
+
+Skills selected by actual scope: ai-team-orchestrator, app-release, ecc-frontend-mobile SwiftUI/Kotlin/design/a11y, kotlin-platform-engineering existingGradle; Android Views retained. Source discovery/contract review precedes build; final independent review must bind exact artifacts. Existing whole-product/SSO/specialist/device/live criteria stay open.
+
 ## 08.11.2026 — iOS 0.5.1 accepted; consolidation with current backend pending
 
 Accepted iOS source `65f341e76749a03fc62997da5a77e17b84caf8ba`: CI42467913707, iOS job128691606881, 67/67 actual XCTest, iPhone 16 / iOS 18.5 Simulator / Xcode 16.4. Parallel Android dependency HTTP504 occurred before compilation; Android retains its separate accepted fb4be719 artifact proof. Native receipt and actual XCTest summary are preserved under `evidence/ios-context-actions-20261108/`.

@@ -1,0 +1,8 @@
+{
+  "type": "VERBATIM_UTF8_EVIDENCE_ENVELOPE",
+  "originalFilename": "reconciliation-focused-tests.log",
+  "originalSha256": "2c7ad6a41b2937eec3fae764c5c4a325a0f5c4273e1f56afc2e0d4d857a3badf",
+  "originalBytes": 737,
+  "text": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> knaba-de@0.1.0 test\n> vitest run --maxWorkers=2 tests/vehicle-trips.test.ts tests/vehicle-trip-engine-authority.test.ts tests/native-console-contract.test.ts tests/operations.test.ts\n\n\n RUN  v4.1.11 /workspace/scratch/a3c43ba31037/knaba/erp\n\n ✓ tests/vehicle-trips.test.ts (14 tests) 54ms\n ✓ tests/vehicle-trip-engine-authority.test.ts (13 tests) 81ms\n ✓ tests/operations.test.ts (45 tests) 295ms\n ✓ tests/native-console-contract.test.ts (126 tests) 52ms\n\n Test Files  4 passed (4)\n      Tests  198 passed (198)\n   Start at  15:55:07\n   Duration  3.65s (transform 3.01s, setup 0ms, import 5.65s, tests 481ms, environment 1ms)\n\n",
+  "reason": "Preserve exact original output including meaningful patch context and trailing blank lines while keeping repository diff hygiene."
+}

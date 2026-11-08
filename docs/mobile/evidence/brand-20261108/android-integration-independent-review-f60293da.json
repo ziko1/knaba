@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/release_capabilities; independent from Android integration author",
+  "scope": "FROZEN59_SOURCE_REVIEW",
+  "baseHead": "0234895b0075b1bb7639fa27ded4c5168e519305",
+  "incomingSource": "dc54f109c52e3b8f8a2e506821a6eb322b5417c4",
+  "sourceInputsSha256": "f60293dac64333966b48671e4dfc0629d1449a8877c9873be099de123ee3fad6",
+  "manifestSha256": "72bb4feee41cdaf5785014858b6d7d2470f155a204aea321a0e6b77ec14dbf82",
+  "all70InputHashesVerifiedAtStart": true,
+  "documentationDriftAtReviewEnd": [
+    {
+      "path": "erp/apps/mobile-android/README.md",
+      "expected": "74da620a004ece4260fb2a645216bce3c189f6fcbb2fbdc13693c2c47d8aed98",
+      "current": "e563af9a9e3509847ecc3ba133a9b21487bb2e6d48ab5353dcb9df7b0fc4b757"
+    }
+  ],
+  "executableInputHashesUnchangedAtReviewEnd": true,
+  "result": "ACCEPTED_SOURCE_REVIEW_WITH_NONBLOCKING_OBSERVATION_NATIVE_CI_PENDING",
+  "blockers": [],
+  "observations": [
+    {
+      "id": "ANDROID_DISCOVERY_BUSY_TICK",
+      "severity": "NONBLOCKING",
+      "finding": "Discovery timer returns on busy login without rescheduling; after NETWORK_ERROR/5xx it can need manual retry/onStart. No automatic credential replay.",
+      "correction": "Authorized foreground-only bounded busy reschedule and one focused regression will be separately reviewed by root."
+    }
+  ],
+  "reviewFindings": [
+    "Official HTTPS config schema and ERP readiness fields match current server source; no guessed host, credential transfer, redirects or unbounded response body in discovery",
+    "Fresh normalized whole actor authority fences permission/scope/MFA changes, preserving newer sessions against stale responses",
+    "Only visible-screen authenticated GETs repeat; Retry-After/backoff is respected; uncertain mutation and form screens never auto-submit",
+    "Credential one-shot shapes match backend; masked unsaved inputs preserve exact password bytes; no durable secret journal or retry after unknown result",
+    "Record actions use fresh server versions; search/drafts persist through refresh; private UI is cleared on authority change",
+    "Standalone APK guards bind actual identity/version/signature/alignment/split/testOnly/launcher/min31/target36 and optional certificate continuity; no phone-install claim",
+    "versionCode9 avoids previous code8 reuse; debug certificate continuity remains a separate upgrade gate"
+  ],
+  "retainedPresentationWorkerAssetsUnchanged": [
+    "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/KnabaTheme.kt",
+    "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+    "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_launcher_foreground.png",
+    "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_wordmark.png",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_back.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_building.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_chat.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_clock.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_foreground.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_grid.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_monochrome.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_refresh.xml",
+    "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_tasks.xml",
+    "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+    "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml",
+    "erp/apps/mobile-android/app/src/main/res/values/styles.xml"
+  ],
+  "testSource": {
+    "incomingActivityMethodsPreserved": 49,
+    "brandMethodsPreserved": [
+      "narrowUkrainianAndDoubleSizeTextRemainReachable",
+      "workerScreenStartsWithGpsOffAndLabelsEveryInput",
+      "workerScreenSupportsDoubleSizeText",
+      "workspaceSearchFiltersAndRestoresOnlyAuthorizedModules"
+    ],
+    "activityAnnotations": 53,
+    "journalAnnotations": 5,
+    "iconAnnotations": 1,
+    "expectedNativeCount": 59,
+    "nativeExecution": "NOT_RUN"
+  },
+  "localReviewValidation": {
+    "bashSyntax": "PASS_3_SCRIPTS",
+    "embeddedPythonSyntax": "PASS",
+    "diffCheck": "PASS",
+    "hostBehaviorChecks": "AUTHOR_REPORTED_NOT_DUPLICATED"
+  },
+  "authorHostChecks": {
+    "gitDiffCheck": "PASS",
+    "localizationXML": "PASS_6_LOCALES_287_STRINGS",
+    "localeClockGenerationJavaVectors": "PASS_39",
+    "mobileWorkspaceSourceNodeTests": "PASS_3",
+    "hostTransportCredentialDiscovery": "PASS_76_TRANSPORT_ASSERTIONS_10_CREDENTIAL_TESTS_30_CREDENTIAL_ASSERTIONS_109_DISCOVERY_ASSERTIONS",
+    "packageAndHostShellPythonSyntax": "PASS"
+  },
+  "pending": [
+    "Exact committed SHA and new CI",
+    "Actual compile/lint/native tests",
+    "Actual final APK emulator installation and launch",
+    "New Android visual capture review",
+    "Physical devices, live ERP, upgrade/data retention, GPS/battery, company acceptance"
+  ],
+  "excludedFromIndependentAcceptance": [
+    "Reviewer-authored workflow and Telegram fixture changes",
+    "Subsequent busy-discovery fix authored by reviewer",
+    "Root README delta and separately reviewed vehicle backend"
+  ],
+  "subjectFiles": [
+    {
+      "path": "erp/apps/mobile-android/.gitignore",
+      "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042"
+    },
+    {
+      "path": "erp/apps/mobile-android/README.md",
+      "sha256": "74da620a004ece4260fb2a645216bce3c189f6fcbb2fbdc13693c2c47d8aed98"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/build.gradle.kts",
+      "sha256": "679f0c8375e64daea1213e40b136d12f8c29d0602b85eaea15d60e57a825483f"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+      "sha256": "a87ff1ccf88bbd0bec0e655e2aab1a02371af549e54fd64a250288662cd6cb6f"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ApiClient.kt",
+      "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+      "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleModules.kt",
+      "sha256": "23d3b7c1c9297dd45485ea012b0808c1bd40cadbef06bab258f3156fec239c8b"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+      "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecordActions.kt",
+      "sha256": "1747326f5ace85d619d10d03da055da8254de3843a759866c9c293aa142ad15c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+      "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+      "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+      "sha256": "b9de6b7d413a676b5b70ecde2c3440edc7ecf1b9663087bd5c4d9849a4997a62"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "0d6e5ed546e264bb5715f51921cae42c292abc0f1e569e0b0eb0277f541a8d40"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+      "sha256": "3401d52f790d8ad7a87992daa781f0b0291bae2afa87ebf5e38a326a54612bc8"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+      "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpReadRetry.java",
+      "sha256": "050f3ea5bff0c21a9f3a21d27184a368df9123fc2a460b2fe59dcaed152e0635"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpServerDiscovery.java",
+      "sha256": "d0c45b22eb3f527895997700ef238204ee2e4bc6d232e23e409cf3e44362c400"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GenerationFence.java",
+      "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+      "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/KnabaTheme.kt",
+      "sha256": "c651e4330caa925b07ea3a64adff16b13e0e13c15f0483ec6628fab477e2c2a7"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+      "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "sha256": "ae097eae0b4c90e00afd8028778afa9eb91c05fdfa39ebe5b42b5b791cb536c7"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+      "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeText.kt",
+      "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+      "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/SecureStore.kt",
+      "sha256": "0892c3fedf284bd7d86e3678ec287014c570bad6e9dea2a50c0e9be8272440e2"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ShiftClock.java",
+      "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/TrackingService.kt",
+      "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_launcher_foreground.png",
+      "sha256": "61323c3fe5a4bb7585a3ebd56d7686831d1815e6de766fed63218bc8a741be92"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_wordmark.png",
+      "sha256": "8602009147e219088d6ee8f7f3a174d9d9a98084e384f5a88888ac0932411c1d"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_back.xml",
+      "sha256": "e7e0edb008d5d49324a1fd3c5e6b2d102f2126c1718e72ad1125631565c08428"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_building.xml",
+      "sha256": "4cc16d2c67c487ff845b0360e7baa051a7ccc6008bf027a52ed588ff7b2dce04"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_chat.xml",
+      "sha256": "bea92c08f22b0aed86edd141a67daa45535de8e1f8018be5b86e425f961e5238"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_clock.xml",
+      "sha256": "b07ef84d098091d601ed5aa21f1995cb69806c397e89f81030c8185f5f9aeccb"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_foreground.xml",
+      "sha256": "f62135a469e7727cc9cd5539fb7537d2ba6c75016cb0c1f936a42145f6ed52a0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_grid.xml",
+      "sha256": "449a4d49a678adcd793059f37584bbfeda6e5508b4c55b535009238bc11bf658"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_monochrome.xml",
+      "sha256": "064e64d7c19cd5b2802902be56f927c3a4299a239dda36cbb883ee91c4d7f426"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_refresh.xml",
+      "sha256": "c7164329f871806c666950c9c727eb690ecca1c8b451a294595e878b52183a27"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_tasks.xml",
+      "sha256": "b929c120cd40424c81372f1f277abb12afcb7c20dfe0ca5a0823270b02d843fc"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "sha256": "059ae2955b709eeb1044a37f6d8c00ba57dd51ea2b8d95578f7a5d1cd89d52d1"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml",
+      "sha256": "74fed8ab56ea6012cf40e5c72ae1042f7a594647f3c33d24d394bd1e6778e926"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "sha256": "2a62051a639875c60b127fbb3ded473af472572cb910ca55127d87a3e6e06e97"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "sha256": "aad59fdb12a26ba21f473b4b061d382a0497141d5c727cd2ffcb5b3214be7f99"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "sha256": "a94e614127be4748a924fe5a1e5286be8a2612735a234f484d96b14176ce8323"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "sha256": "e1e2d6219dbb5dde8e4dcadc241a1ac21dd6ba582945231f33bca892d554823e"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "sha256": "94b0fd8b971a433a9c4fcd49018c2cbc03c580bf0524fa7e2fd39c6633bb12ac"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "sha256": "0d4645b0f2b942d3ff81c2247fec0cd30c923cd547326704ba653e625a16a017"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/styles.xml",
+      "sha256": "124dc7d69852107d17a920e3ad7198e21728921155bf28d8540ce918add07dbc"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/xml/data_extraction_rules.xml",
+      "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+      "sha256": "a8b34061144dd14beef80c407ab41a32dfc2ae11819c379c02126edf1f69e5e2"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "92c7c871eae0660ee3e439dc88809c2dcfda28af5a64ae79f75c523c083fe3ec"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+      "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e"
+    },
+    {
+      "path": "erp/apps/mobile-android/build.gradle.kts",
+      "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradle.properties",
+      "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradlew",
+      "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650"
+    },
+    {
+      "path": "erp/apps/mobile-android/gradlew.bat",
+      "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/VerifyAppBundle.java",
+      "sha256": "61a867c1e5073fd48882c33e00dadc858cd7baaf16d8cc29b39e3b93defa0f70"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/fixtures/DemoConsoleTransportVectors.java",
+      "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/package.sh",
+      "sha256": "ffffe302570f29db3d5ae14fed14d4f894054e0a0f3da59d79343f87c70502bb"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-app-bundle.py",
+      "sha256": "26013cddcaf7ee1c42ac859c0e6ab74bd4d9bfb47d64b36a0e1d312cba587610"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-demo-console.sh",
+      "sha256": "dc1c6cf5d342c574794ded8c5a98256707f08da23ee68bc14b8f3a4ab4e115ff"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-localization.sh",
+      "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-transport.sh",
+      "sha256": "9f985a8be83cde700fc5d1ded3632dc6a2792a049eae50364f9164ca5f4ae89c"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/test-vectors.sh",
+      "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpConsoleTransportTest.java",
+      "sha256": "8a74f3065a07290bb6572ea5168ec56847dd457faafb3c343dd35f065f39fdcc"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpCredentialSafetyTest.java",
+      "sha256": "df249c4d6b4e965a34bfb9867e8b552cb016d0fe10012debdfa894b6a0e2ef62"
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/tests/ErpServerDiscoveryTest.java",
+      "sha256": "4b5a4e2939d3c8c4642e3516a8d75a9ee2bd011e7097c0ed8f1231c7c64d37d4"
+    },
+    {
+      "path": "erp/apps/mobile-android/settings.gradle.kts",
+      "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34"
+    },
+    {
+      "path": "erp/tests/native-vectors.json",
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a"
+    }
+  ]
+}

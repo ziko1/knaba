@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root",
+  "author": "/root/release_capabilities",
+  "observedAt": "2026-11-08T15:53:45.510327+00:00",
+  "baseSourceGitSha": "b9bacbccfd358dbea0fddfde2e9a688fa2717380",
+  "workflowSha256": "956bbb5515ff1dc22e30c16ba2935265d09ea8243d4c8929948d532d01fab476",
+  "status": "SOURCE_ACCEPTED_ACTUAL_AVD_BOOT_REQUIRED",
+  "checks": [
+    "All Android processes inherit one scoped environment with documented preferences and AVD directories.",
+    "Explicit create path and exact list-avds membership plus ini/data existence fail closed before boot.",
+    "HOME is not assigned or repurposed; only task directory is created.",
+    "Product source/test inputs remain byte-identical to b9; all runtime deadlines and ordinary install/installed APK digest/resumed Activity assertions retained.",
+    "Observed b9 failure is unknown AVD; no claim of failed product installation because installer was never invoked."
+  ],
+  "sources": [
+    "https://developer.android.com/tools/variables/",
+    "https://developer.android.com/tools/avdmanager"
+  ],
+  "limits": [
+    "Static review does not substitute for actual emulator installation."
+  ]
+}

@@ -29,12 +29,24 @@ import java.util.concurrent.Executors
 /** Native, server-authorized workspace. Demo data never enters a company session. */
 class ErpConsoleActivity : Activity() {
     private var api = ErpConsoleTransport()
+    private var discovery = ErpServerDiscovery()
     private val worker = Executors.newSingleThreadExecutor()
+    private val configWorker = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
     private lateinit var content: LinearLayout
     private lateinit var notice: TextView
     private lateinit var progress: ProgressBar
     private lateinit var scroller: ScrollView
+    private lateinit var syncNotice: TextView
+    private lateinit var screenTitle: TextView
+    private var foreground = false
+    private var startedOnce = false
+    private var nextRefreshDelay = 0L
+    private var readRetryAt = 0L
+    private var refreshRead: (() -> Unit)? = null
+    private var refreshFailures = 0
+    private var discoveryBusy = false
+    private val refreshTick = Runnable { refreshRead?.invoke() }
     private var screen = 0L
     private var actor: JSONObject? = null
     private var demoMode = false
@@ -44,12 +56,12 @@ class ErpConsoleActivity : Activity() {
     private var backAction: (() -> Unit)? = null
     private var removePlatformBackCallback: (() -> Unit)? = null
     private data class PendingMutation(val title: String, val name: String, val input: String, val version: Int?, val key: String)
-    private data class RetainedSession(val transport: ErpConsoleTransport, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
+    private data class RetainedSession(val transport: ErpConsoleTransport, val discovery: ErpServerDiscovery, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
     private var pendingRecovery: PendingMutation? = null
     private val controls = mutableListOf<View>()
-    private val ink = Color.rgb(24, 52, 52)
-    private val teal = Color.rgb(0, 105, 94)
-    private val muted = Color.rgb(86, 109, 107)
+    private val ink = KnabaTheme.ink
+    private val teal = KnabaTheme.teal
+    private val muted = KnabaTheme.muted
     // Discovery only: the ERP freshly authorizes and projects every returned entity.
     // A role name never grants finance, location or customer access here.
     private val modules = ConsoleModules.items
@@ -58,12 +70,13 @@ class ErpConsoleActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         api = newTransport()
-        content = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(22), dp(20), dp(28))
-            setBackgroundColor(Color.rgb(244, 248, 247))
+        KnabaTheme.configureWindow(this)
+        content = KnabaTheme.content(this)
+        scroller = ScrollView(this).apply {
+            isFillViewport = true
+            setBackgroundColor(KnabaTheme.paper)
+            addView(content, FrameLayout.LayoutParams(-1, -2, Gravity.CENTER_HORIZONTAL))
         }
-        scroller = ScrollView(this).apply { isFillViewport = true; addView(content) }
         scroller.setOnApplyWindowInsetsListener { view, insets ->
             val safe = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout() or WindowInsets.Type.ime())
             view.setPadding(safe.left, safe.top, safe.right, safe.bottom)
@@ -78,7 +91,7 @@ class ErpConsoleActivity : Activity() {
         }
         val retained = lastNonConfigurationInstance as? RetainedSession
         if (retained != null) {
-            api = retained.transport; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
+            api = retained.transport; discovery = retained.discovery; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
             if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard() }
             else showLogin()
         } else showLogin()
@@ -93,25 +106,47 @@ class ErpConsoleActivity : Activity() {
     }
     private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
     private fun shape(color: Int, border: Int? = null): GradientDrawable = GradientDrawable().apply {
-        setColor(color); cornerRadius = dp(16).toFloat(); if (border != null) setStroke(dp(1), border)
+        setColor(color); cornerRadius = dp(18).toFloat(); if (border != null) setStroke(dp(1), border)
     }
     private fun heading(title: String, subtitle: String = "", back: (() -> Unit)? = null, showPending: Boolean = true) {
         screen++
+        main.removeCallbacks(refreshTick); refreshRead = null; refreshFailures = 0; discoveryBusy = false
         busy = false; mutation = false; uncertain = false; controls.clear(); backAction = back
         content.removeAllViews()
-        if (demoMode) label(getString(R.string.erp_demo_banner), color = Color.rgb(104, 62, 0)).apply {
-            background = shape(Color.rgb(255, 239, 197)); setPadding(dp(12), dp(10), dp(12), dp(10))
+        content.addView(KnabaTheme.wordmark(this))
+        if (demoMode) label(getString(R.string.erp_demo_banner), size = 13f, color = Color.rgb(104, 62, 0)).apply {
+            background = shape(Color.rgb(255, 239, 197)); setPadding(dp(14), dp(12), dp(14), dp(12))
         }
-        if (back != null) button(getString(R.string.erp_back), navigation = true) { goBack() }
-        label("KNABA DE", 12f, teal).apply { letterSpacing = .14f; setTypeface(null, Typeface.BOLD) }
-        label(title, 28f).apply { setTypeface(null, Typeface.BOLD); setPadding(0, dp(4), 0, dp(8)) }
-        if (subtitle.isNotEmpty()) label(subtitle, 14f, muted)
+        if (back != null) button(getString(R.string.erp_back), navigation = true) { goBack() }.apply {
+            gravity = Gravity.START or Gravity.CENTER_VERTICAL
+            setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_knaba_back, 0, 0, 0)
+            compoundDrawablePadding = dp(10)
+        }
+        val hero = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = KnabaTheme.hero(this@ErpConsoleActivity)
+            setPadding(dp(22), dp(20), dp(22), dp(22))
+            content.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8); bottomMargin = dp(12) })
+        }
+        label(getString(R.string.erp_brand_workspace), 12f, KnabaTheme.lime, hero).apply {
+            letterSpacing = .12f; setTypeface(null, Typeface.BOLD)
+        }
+        screenTitle = label(title, if (back == null) 30f else 26f, Color.WHITE, hero).apply {
+            setTypeface(null, Typeface.BOLD); setPadding(0, dp(4), 0, dp(8)); isAccessibilityHeading = true
+        }
+        if (subtitle.isNotEmpty()) label(subtitle, 15f, Color.rgb(222, 236, 230), hero)
         progress = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
             isIndeterminate = true; visibility = View.GONE
+            indeterminateTintList = android.content.res.ColorStateList.valueOf(teal)
         }
         content.addView(progress, LinearLayout.LayoutParams(-1, dp(4)))
         notice = label("", 14f, Color.rgb(142, 48, 35)).apply {
             accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE; visibility = View.GONE
+        }
+        syncNotice = label("", 13f, muted).apply {
+            background = shape(KnabaTheme.soft)
+            setPadding(dp(14), dp(10), dp(14), dp(10))
+            visibility = View.GONE
         }
         if (showPending && pendingRecovery != null && api.hasPendingCommand()) {
             status(getString(R.string.erp_unknown_result))
@@ -121,17 +156,22 @@ class ErpConsoleActivity : Activity() {
     }
     private fun status(text: String, success: Boolean = false) {
         notice.text = text; notice.visibility = if (text.isBlank()) View.GONE else View.VISIBLE
-        notice.setTextColor(if (success) teal else Color.rgb(142, 48, 35))
+        notice.setTextColor(if (success) teal else KnabaTheme.error)
+        notice.background = shape(if (success) KnabaTheme.soft else KnabaTheme.coral)
+        notice.setPadding(dp(14), dp(12), dp(14), dp(12))
     }
     private fun label(text: String, size: Float = 15f, color: Int = ink, parent: LinearLayout = content): TextView = TextView(this).apply {
         this.text = text; textSize = size; setTextColor(color); setPadding(0, dp(7), 0, dp(7))
+        setLineSpacing(dp(2).toFloat(), 1f)
         parent.addView(this, LinearLayout.LayoutParams(-1, -2))
     }
     private fun button(text: String, primary: Boolean = false, navigation: Boolean = false, parent: LinearLayout = content, action: () -> Unit): Button = Button(this).apply {
-        this.text = text; isAllCaps = false; textSize = 15f; minHeight = dp(50)
-        setTextColor(if (primary) Color.WHITE else teal)
-        background = shape(if (primary) teal else Color.WHITE, if (primary) null else Color.rgb(213, 228, 223))
-        setPadding(dp(14), dp(8), dp(14), dp(8))
+        this.text = text
+        KnabaTheme.applyButton(this, primary)
+        if (text == getString(R.string.erp_refresh)) {
+            setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_knaba_refresh, 0, 0, 0)
+            compoundDrawablePadding = dp(10)
+        }
         parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(9); bottomMargin = dp(3) })
         if (!navigation) { controls.add(this); isEnabled = !busy }
         setOnClickListener { if (!busy || navigation) action() }
@@ -141,9 +181,7 @@ class ErpConsoleActivity : Activity() {
         return EditText(this).apply {
             id = View.generateViewId(); caption.labelFor = id; hint = title; inputType = input
             setSingleLine(!multiline); if (multiline) { minLines = 3; maxLines = 7; gravity = Gravity.TOP }
-            textSize = 16f; setTextColor(ink); setHintTextColor(muted)
-            background = shape(Color.WHITE, Color.rgb(198, 219, 210))
-            setPadding(dp(12), dp(12), dp(12), dp(12)); minHeight = dp(52)
+            KnabaTheme.applyInput(this)
             isSaveEnabled = false
             if (input and InputType.TYPE_TEXT_VARIATION_PASSWORD != 0) importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(5) })
@@ -159,18 +197,19 @@ class ErpConsoleActivity : Activity() {
         parent.removeAllViews()
     }
     private fun panel(parent: LinearLayout = content): LinearLayout = LinearLayout(this).apply {
-        orientation = LinearLayout.VERTICAL; background = shape(Color.WHITE)
-        setPadding(dp(16), dp(10), dp(16), dp(12))
+        orientation = LinearLayout.VERTICAL; background = shape(Color.WHITE, KnabaTheme.line)
+        setPadding(dp(18), dp(14), dp(18), dp(16))
         parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10); bottomMargin = dp(2) })
     }
-    private fun loading(value: Boolean) {
+    private fun loading(value: Boolean, preserveInputs: Boolean = false) {
         busy = value; progress.visibility = if (value) View.VISIBLE else View.GONE
-        controls.forEach { it.isEnabled = !value }
+        controls.forEach { if (!(value && preserveInputs && it is EditText)) it.isEnabled = !value }
     }
-    private fun run(operation: () -> JSONObject, changing: Boolean = false, failed: ((Exception) -> Unit)? = null, done: (JSONObject) -> Unit) {
+    private fun run(operation: () -> JSONObject, changing: Boolean = false, refreshing: Boolean = false, failed: ((Exception) -> Unit)? = null, done: (JSONObject) -> Unit) {
         if (busy) return
         val ticket = screen
-        mutation = changing; loading(true); status(getString(R.string.erp_loading))
+        mutation = changing; loading(true, preserveInputs = refreshing)
+        if (!refreshing) status(getString(R.string.erp_loading))
         worker.execute {
             try {
                 val result = operation()
@@ -185,7 +224,7 @@ class ErpConsoleActivity : Activity() {
                         loading(false); mutation = false
                         val failure = error as? ErpConsoleTransport.Failure
                         uncertain = changing && (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT")
-                        if (failure?.status == 401 || failure?.code in setOf("NEEDS_REAUTH", "ACCESS_CHANGED")) {
+                        if (failure?.status == 401 || (refreshing && failure?.status == 403) || failure?.code in setOf("NEEDS_REAUTH", "ACCESS_CHANGED")) {
                             api.clear(); actor = null; showLogin(); status(getString(R.string.erp_session_expired))
                         } else {
                             status(if (uncertain) getString(R.string.erp_unknown_result) else errorText(error))
@@ -202,40 +241,154 @@ class ErpConsoleActivity : Activity() {
         return getString(when {
             code == "INVALID_ORIGIN" -> R.string.error_origin
             code == "INVALID_LOGIN_INPUT" || code == "INVALID_MESSAGE" -> R.string.error_validation
+            code == "SENSITIVE_COMMAND" -> R.string.erp_sensitive_command
             failure?.status == 403 -> R.string.erp_access_denied
             failure?.status == 409 -> R.string.error_conflict
             failure?.status == 429 -> R.string.erp_rate_limit
             failure?.status == 400 || failure?.status == 422 -> R.string.error_validation
-            error is java.io.IOException || failure?.outcomeUnknown == true || (failure?.status ?: 0) >= 500 -> R.string.erp_connection_error
+            code == "NETWORK_ERROR" || error is java.io.IOException || failure?.outcomeUnknown == true || (failure?.status ?: 0) >= 500 -> R.string.erp_connection_error
             else -> R.string.erp_request_failed
         })
+    }
+    private fun scheduleRefresh(delay: Long) {
+        nextRefreshDelay = delay
+        main.removeCallbacks(refreshTick)
+        if (foreground && refreshRead != null && !isDestroyed) main.postDelayed(refreshTick, delay)
+    }
+    private fun authority(value: JSONObject?): String {
+        val identity = JSONArray().put(value?.optString("userId")).put(value?.optString("companyId"))
+        listOf("roles", "permissions", "siteIds", "warehouseIds", "customerIds").forEach { key ->
+            val values = value?.optJSONArray(key) ?: JSONArray()
+            identity.put(JSONArray((0 until values.length()).map { values.optString(it) }.sorted()))
+        }
+        return identity.toString()
+    }
+    /** The only repeating work is authenticated GET. Forms and uncertain writes never retry themselves. */
+    private fun observe(interval: Long = 30_000, operation: () -> JSONObject, apply: (JSONObject) -> Unit) {
+        val ticket = screen
+        val transport = api
+        var lastPayload: String? = null
+        var lastUpdated: String? = null
+        refreshRead = refresh@{
+            if (!foreground || ticket != screen || isDestroyed) return@refresh
+            main.removeCallbacks(refreshTick)
+            if (busy) { scheduleRefresh(1_000); return@refresh }
+            if (uncertain || transport.hasPendingCommand()) { scheduleRefresh(interval); return@refresh }
+            val wait = readRetryAt - android.os.SystemClock.elapsedRealtime()
+            if (wait > 0) { status(getString(R.string.erp_rate_limit)); scheduleRefresh(wait); return@refresh }
+            syncNotice.visibility = View.VISIBLE
+            syncNotice.text = getString(R.string.erp_sync_updating)
+            val expectedAuthority = authority(actor)
+            run({
+                val current = transport.me().getJSONObject("actor")
+                if (authority(current) != expectedAuthority) throw ErpConsoleTransport.Failure(401, "ACCESS_CHANGED", false)
+                operation().put("_actor", current)
+            }, refreshing = true, failed = { error ->
+                val failure = error as? ErpConsoleTransport.Failure
+                val retryable = failure?.code == "NETWORK_ERROR" || error is java.io.IOException || failure?.status == 429 || (failure?.status ?: 0) >= 500
+                syncNotice.text = if (lastUpdated == null) getString(R.string.erp_sync_waiting) else getString(R.string.erp_sync_stale, lastUpdated)
+                if (retryable) {
+                    refreshFailures = (refreshFailures + 1).coerceAtMost(3)
+                    val serverDelay = failure?.retryAfterMillis ?: 0
+                    readRetryAt = android.os.SystemClock.elapsedRealtime() + serverDelay
+                    scheduleRefresh(ErpReadRetry.delay(interval, refreshFailures, serverDelay, Math.random()))
+                } // Protocol and other client errors require an explicit refresh or a new foreground entry.
+            }) { result ->
+                actor = result.getJSONObject("_actor")
+                val payload = result.toString()
+                val scroll = scroller.scrollY
+                if (payload != lastPayload) { apply(result); lastPayload = payload }
+                scroller.post { if (screen == ticket && !isDestroyed) scroller.scrollTo(0, scroll) }
+                lastUpdated = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss", resources.configuration.locales[0]))
+                syncNotice.text = if (demoMode) getString(R.string.erp_demo_banner) else getString(R.string.erp_sync_updated, lastUpdated)
+                refreshFailures = 0; readRetryAt = 0
+                if (!demoMode) scheduleRefresh(interval)
+            }
+        }
+        refreshRead?.invoke()
     }
     private fun showLogin() {
         actor = null; pendingRecovery = null
         heading(getString(R.string.erp_title), getString(R.string.erp_login_intro))
-        if (BuildConfig.DEBUG) {
-            button(getString(R.string.erp_try_demo), primary = true) { enterDemo() }
-            label(getString(R.string.erp_demo_intro), 13f, muted)
+        button(getString(R.string.language_label) + " · " + resources.configuration.locales[0].getDisplayLanguage(resources.configuration.locales[0])) { chooseLanguage() }
+        val connectionPanel = panel().apply { background = shape(KnabaTheme.soft) }
+        val connection = label(getString(R.string.erp_server_connecting), 14f, muted, connectionPanel).apply {
+            accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         }
-        button(getString(R.string.language_label)) { chooseLanguage() }
-        val server = field(getString(R.string.erp_server), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
-        server.setText(getPreferences(Context.MODE_PRIVATE).getString("erp-origin", ""))
-        val email = field(getString(R.string.erp_email), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-        val password = field(getString(R.string.erp_password), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        val code = field(getString(R.string.erp_otp), InputType.TYPE_CLASS_NUMBER).apply { filters = arrayOf(InputFilter.LengthFilter(6)) }
-        button(getString(R.string.erp_sign_in), primary = true) {
-            val url = server.text.toString().trim(); val address = email.text.toString().trim()
+        label(getString(R.string.erp_server_automatic), 13f, muted, connectionPanel)
+        var resolvedOrigin = ""
+        val ticket = screen
+        val resolver = discovery
+        var configRetryAt = 0L
+        var configFailures = 0
+        refreshRead = discover@{
+            if (!foreground || ticket != screen || isDestroyed || discoveryBusy) return@discover
+            if (busy) { scheduleRefresh(1_000); return@discover }
+            val wait = configRetryAt - android.os.SystemClock.elapsedRealtime()
+            if (wait > 0) { scheduleRefresh(wait); return@discover }
+            discoveryBusy = true
+            connection.text = getString(R.string.erp_server_connecting)
+            configWorker.execute {
+                try {
+                    val origin = resolver.discover()
+                    main.post {
+                        if (ticket == screen && !isDestroyed) {
+                            discoveryBusy = false; resolvedOrigin = origin; configFailures = 0; configRetryAt = 0
+                            connection.text = getString(R.string.erp_server_connected)
+                            connection.setTextColor(teal)
+                            scheduleRefresh(60_000)
+                        }
+                    }
+                } catch (error: Exception) {
+                    main.post {
+                        if (ticket == screen && !isDestroyed) {
+                            discoveryBusy = false; resolvedOrigin = ""
+                            val failure = error as? ErpConsoleTransport.Failure
+                            val code = failure?.code
+                            connection.text = getString(when (code) {
+                                "SERVER_NOT_CONFIGURED" -> R.string.erp_server_pending
+                                "SERVER_CONFIG_INVALID" -> R.string.erp_server_invalid
+                                "SERVER_NOT_READY" -> R.string.erp_server_not_ready
+                                else -> R.string.erp_server_unavailable
+                            })
+                            connection.setTextColor(muted)
+                            if (code == "SERVER_NOT_CONFIGURED" || code == "SERVER_CONFIG_INVALID" || code == "SERVER_NOT_READY") scheduleRefresh(60_000)
+                            else {
+                                configFailures = (configFailures + 1).coerceAtMost(3)
+                                val serverDelay = failure?.retryAfterMillis ?: 0
+                                configRetryAt = android.os.SystemClock.elapsedRealtime() + serverDelay
+                                scheduleRefresh(ErpReadRetry.delay(30_000, configFailures, serverDelay, Math.random()))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        button(getString(R.string.erp_server_retry), parent = connectionPanel) { refreshRead?.invoke() }
+        val account = panel()
+        val email = field(getString(R.string.erp_email), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, parent = account)
+        val password = field(getString(R.string.erp_password), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD, parent = account)
+        val code = field(getString(R.string.erp_otp), InputType.TYPE_CLASS_NUMBER, parent = account).apply { filters = arrayOf(InputFilter.LengthFilter(6)) }
+        button(getString(R.string.erp_sign_in), primary = true, parent = account) {
+            val url = resolvedOrigin; val address = email.text.toString().trim()
             val secret = password.text.toString(); val otp = code.text.toString()
-            if (url.isBlank() || address.isBlank() || secret.isBlank()) { status(getString(R.string.erp_fields_required)); return@button }
+            if (address.isBlank() || secret.isBlank()) { status(getString(R.string.erp_fields_required)); return@button }
+            if (url.isBlank() || discoveryBusy) { status(getString(R.string.erp_server_wait)); refreshRead?.invoke(); return@button }
             val transport = api
             run({ transport.configure(url); transport.login(address, secret, otp) }, failed = { password.setText(""); code.setText("") }) { response ->
                 actor = response.optJSONObject("actor")
-                getPreferences(Context.MODE_PRIVATE).edit().putString("erp-origin", transport.origin()).apply()
+                readRetryAt = 0
                 password.setText(""); code.setText(""); recoverPending()
                 if (pendingRecovery != null) showPendingRecovery() else showDashboard()
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
+        if (BuildConfig.DEBUG) {
+            val demo = panel().apply { background = shape(KnabaTheme.soft) }
+            button(getString(R.string.erp_try_demo), parent = demo) { enterDemo() }
+            label(getString(R.string.erp_demo_intro), 13f, muted, demo)
+        }
+        refreshRead?.invoke()
     }
     private fun enterDemo() {
         if (!BuildConfig.DEBUG) return
@@ -261,63 +414,118 @@ class ErpConsoleActivity : Activity() {
         heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
         val roles = actor?.optJSONArray("roles") ?: JSONArray()
         label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { human(roles.optString(it)) }, 13f, muted)
-        val summary = panel()
+        val summary = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
         label(getString(R.string.erp_loading), 15f, muted, summary)
-        button(getString(R.string.erp_refresh)) { showDashboard() }
-        val destinations = panel()
-        renderModules(destinations, null)
-        button(getString(R.string.erp_actions)) { showActions() }
-        if (!demoMode) button(getString(R.string.erp_time_tools)) { startActivity(Intent(this, MainActivity::class.java)) }
-        button(getString(if (demoMode) R.string.erp_exit_demo else R.string.erp_logout)) { signOut() }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        label(getString(R.string.erp_sections), 20f).apply { setTypeface(null, Typeface.BOLD); isAccessibilityHeading = true; setPadding(0, dp(24), 0, dp(8)) }
+        val search = field(getString(R.string.erp_search))
+        val destinations = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        var counts: JSONObject? = null
+        fun renderDestinations() { clearList(destinations); renderModules(destinations, counts, search.text.toString()) }
+        renderDestinations()
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { renderDestinations() }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        val tools = panel()
+        button(getString(R.string.erp_actions), parent = tools) { showActions() }
+        if (!demoMode) button(getString(R.string.erp_time_tools), parent = tools) { startActivity(Intent(this, MainActivity::class.java)) }
+        button(getString(if (demoMode) R.string.erp_exit_demo else R.string.erp_logout), parent = tools) { signOut() }
         label(getString(if (demoMode) R.string.erp_demo_intro else R.string.erp_presence_notice), 13f, muted)
         val transport = api
-        run({ val who = transport.me(); transport.dashboard().put("_actor", who.getJSONObject("actor")) }) { result ->
-            actor = result.getJSONObject("_actor")
+        observe(operation = { transport.dashboard() }) { result ->
             summary.removeAllViews()
-            label(getString(R.string.erp_active_sites, result.optInt("activeSites")), 18f, ink, summary)
-            label(getString(R.string.erp_active_shifts) + ": " + result.optInt("activeShifts"), 16f, muted, summary)
-            label(getString(R.string.erp_open_decisions, result.optInt("openDecisions")), 16f, muted, summary)
-            clearList(destinations); renderModules(destinations, result.optJSONObject("counts"))
+            renderMetrics(summary, result)
+            counts = result.optJSONObject("counts")
+            renderDestinations()
         }
     }
-    private fun renderModules(parent: LinearLayout, counts: JSONObject?) {
-        for ((kind, name, permissions) in modules) {
-            if (permissions.any(::permitted)) {
-                val count = if (counts?.has(kind) == true) " · " + counts.optInt(kind) else ""
-                button(getString(name) + count, parent = parent) { if (kind == "channel") showChannels() else showRecords(kind, getString(name)) }
+    private fun renderMetrics(parent: LinearLayout, result: JSONObject) {
+        val horizontal = resources.configuration.screenWidthDp >= 380 && resources.configuration.fontScale <= 1.2f
+        parent.orientation = if (horizontal) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
+        val metrics = listOf(
+            Triple("activeSites", R.string.erp_metric_sites, KnabaTheme.green),
+            Triple("activeShifts", R.string.erp_active_shifts, KnabaTheme.lilac),
+            Triple("openDecisions", R.string.erp_metric_decisions, KnabaTheme.coral)
+        )
+        metrics.forEachIndexed { index, (key, title, color) ->
+            val card = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL; background = shape(color)
+                setPadding(dp(14), dp(12), dp(14), dp(14))
+                parent.addView(this, LinearLayout.LayoutParams(if (horizontal) 0 else -1, if (horizontal) -1 else -2, if (horizontal) 1f else 0f).apply {
+                    topMargin = dp(10); if (horizontal && index > 0) marginStart = dp(8)
+                })
             }
+            // Missing data is unknown, never a fabricated zero.
+            label(if (result.has(key) && !result.isNull(key)) result.optInt(key).toString() else "—", 30f, ink, card).setTypeface(null, Typeface.BOLD)
+            label(getString(title), 13f, ink, card)
         }
+    }
+    private fun renderModules(parent: LinearLayout, counts: JSONObject?, query: String = "") {
+        val visible = modules.filter { it.permissions.any(::permitted) && getString(it.title).contains(query.trim(), ignoreCase = true) }
+        if (visible.isEmpty()) { label(getString(R.string.erp_empty), color = muted, parent = parent); return }
+        val columns = if (resources.configuration.screenWidthDp >= 390 && resources.configuration.fontScale <= 1.2f) 2 else 1
+        visible.chunked(columns).forEach { group ->
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; parent.addView(this) }
+            group.forEachIndexed { index, module ->
+                val count = if (counts?.has(module.kind) == true) " · " + counts.optInt(module.kind) else ""
+                button(getString(module.title) + count, parent = row) {
+                    if (module.kind == "channel") showChannels() else showRecords(module.kind, getString(module.title))
+                }.apply {
+                    layoutParams = LinearLayout.LayoutParams(0, -2, 1f).apply { topMargin = dp(10); if (index > 0) marginStart = dp(10) }
+                    minHeight = dp(if (columns == 2) 96 else 64)
+                    gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                    setCompoundDrawablesRelativeWithIntrinsicBounds(moduleIcon(module.kind), 0, 0, 0)
+                    compoundDrawablePadding = dp(12)
+                }
+            }
+            if (group.size < columns) row.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f).apply { marginStart = dp(10) })
+        }
+    }
+    private fun moduleIcon(kind: String) = when (kind) {
+        "channel", "notification" -> R.drawable.ic_knaba_chat
+        "task", "decision", "worklog", "defect", "timesheet" -> R.drawable.ic_knaba_tasks
+        "shift", "trip", "vehicle_trip", "presence" -> R.drawable.ic_knaba_clock
+        "site", "stock_location", "material", "material_request", "stock_reservation", "stock_movement" -> R.drawable.ic_knaba_building
+        else -> R.drawable.ic_knaba_grid
     }
     private fun showRecords(kind: String, title: String) {
         heading(title, getString(R.string.erp_server_scope), ::showDashboard)
-        button(getString(R.string.erp_refresh)) { showRecords(kind, title) }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
         val search = field(getString(R.string.erp_search))
+        val count = label("", 13f, muted)
         val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
-        val transport = api
-        run({ JSONObject().put("items", transport.entities(kind)) }) { result ->
-            val items = result.getJSONArray("items"); var limit = 40
-            fun render() {
-                clearList(list)
-                val query = search.text.toString().trim().lowercase(Locale.ROOT)
-                val selected = (0 until items.length()).mapNotNull { items.optJSONObject(it) }.filter {
-                    query.isEmpty() || (recordTitle(it) + " " + recordState(it) + " " + it.optString("id")).lowercase(Locale.ROOT).contains(query)
-                }
-                status(getString(R.string.erp_count, selected.size), success = true)
-                if (selected.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = list)
-                selected.take(limit).forEach { item ->
-                    val card = panel(list)
-                    label(recordTitle(item), 18f, ink, card).setTypeface(null, Typeface.BOLD)
-                    recordState(item).takeIf { it.isNotBlank() }?.let { label(human(it), 13f, teal, card) }
-                    button(getString(R.string.erp_view_details), parent = card) { showDetail(item, title) { showRecords(kind, title) } }
-                }
-                if (selected.size > limit) button(getString(R.string.erp_more), parent = list) { limit += 40; render() }
+        var items = JSONArray(); var limit = 40
+        fun render() {
+            clearList(list)
+            val query = search.text.toString().trim().lowercase(Locale.ROOT)
+            val selected = (0 until items.length()).mapNotNull { items.optJSONObject(it) }.filter {
+                query.isEmpty() || (recordTitle(it) + " " + recordState(it) + " " + it.optString("id")).lowercase(Locale.ROOT).contains(query)
             }
-            search.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { limit = 40; render() }
-                override fun afterTextChanged(s: Editable?) {}
-            })
-            render()
+            count.text = getString(R.string.erp_count, selected.size)
+            if (selected.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = list)
+            selected.take(limit).forEach { item ->
+                val card = panel(list)
+                label(recordTitle(item), 18f, ink, card).setTypeface(null, Typeface.BOLD)
+                recordState(item).takeIf { it.isNotBlank() }?.let { value ->
+                    label(human(value), 13f, teal, card).apply {
+                        background = shape(KnabaTheme.soft)
+                        setPadding(dp(12), dp(8), dp(12), dp(8))
+                    }
+                }
+                button(getString(R.string.erp_view_details), parent = card) { showDetail(item, title) { showRecords(kind, title) } }
+            }
+            if (selected.size > limit) button(getString(R.string.erp_more), parent = list) { limit += 40; render() }
+        }
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { limit = 40; render() }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        val transport = api
+        observe(operation = { JSONObject().put("items", transport.entities(kind)) }) { result ->
+            items = result.getJSONArray("items"); render()
         }
     }
     private fun recordTitle(item: JSONObject): String {
@@ -332,41 +540,48 @@ class ErpConsoleActivity : Activity() {
     private fun showDetail(item: JSONObject, title: String, back: () -> Unit) {
         heading(recordTitle(item), title, back)
         val card = panel()
-        val data = item.optJSONObject("data") ?: JSONObject()
-        showValues(data, card)
-        label(getString(R.string.erp_record_id), 12f, muted, card)
-        label(item.optString("id"), 14f, ink, card).setTextIsSelectable(true)
-        if (item.has("version")) label(getString(R.string.erp_record_version, item.optInt("version")), 13f, muted, card)
-        val kind = item.optString("kind")
-        if (ConsoleRecordActions.supports(kind) && item.optInt("version") > 0) {
-            val transport = api
-            run({ JSONObject().put("items", transport.catalog()) }) { result ->
-                val list = result.getJSONArray("items")
-                val state = data.optString("status", data.optString("state"))
-                val taskActions = when (state) {
-                    "ASSIGNED" -> setOf("task.start")
-                    "IN_PROGRESS" -> setOf("task.worklog", "task.submit")
-                    else -> emptySet()
-                }
-                for (i in 0 until list.length()) {
-                    val command = list.optJSONObject(i) ?: continue
-                    val name = command.optString("name")
-                    val field = ConsoleRecordActions.field(kind, name) ?: continue
-                    val schema = command.optJSONObject("schema") ?: continue
-                    val required = schema.optJSONArray("required") ?: continue
-                    if (!permitted(command.optString("permission")) ||
-                        schema.optJSONObject("properties")?.optJSONObject(field)?.optString("type") != "string" ||
-                        (0 until required.length()).none { required.optString(it) == field } ||
-                        (kind == "task" && name !in taskActions)) continue
-                    button(commandTitle(name), primary = true) { showCommand(command, JSONObject(item.toString())) }
-                }
+        val actions = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        button(getString(R.string.erp_actions)) { showActions() }
+        val transport = api
+        val id = item.optString("id"); val kind = item.optString("kind")
+        observe(operation = {
+            val rows = transport.entities(kind)
+            val fresh = (0 until rows.length()).mapNotNull { rows.optJSONObject(it) }.firstOrNull { it.optString("id") == id }
+                ?: throw ErpConsoleTransport.Failure(403, "ACCESS_CHANGED", false)
+            JSONObject().put("item", fresh).put("catalog", if (ConsoleRecordActions.supports(kind) && fresh.optInt("version") > 0) transport.catalog() else JSONArray())
+        }) { result ->
+            val fresh = result.getJSONObject("item")
+            val data = fresh.optJSONObject("data") ?: JSONObject()
+            screenTitle.text = recordTitle(fresh)
+            clearList(card); clearList(actions)
+            showValues(data, card)
+            label(getString(R.string.erp_record_id), 12f, muted, card)
+            label(id, 14f, ink, card).setTextIsSelectable(true)
+            if (fresh.has("version")) label(getString(R.string.erp_record_version, fresh.optInt("version")), 13f, muted, card)
+            val taskActions = when (data.optString("status", data.optString("state"))) {
+                "ASSIGNED" -> setOf("task.start")
+                "IN_PROGRESS" -> setOf("task.worklog", "task.submit")
+                else -> emptySet()
+            }
+            val catalog = result.getJSONArray("catalog")
+            for (i in 0 until catalog.length()) {
+                val command = catalog.optJSONObject(i) ?: continue
+                val name = command.optString("name")
+                val field = ConsoleRecordActions.field(kind, name) ?: continue
+                val schema = command.optJSONObject("schema") ?: continue
+                val required = schema.optJSONArray("required") ?: continue
+                if (!permitted(command.optString("permission")) ||
+                    schema.optJSONObject("properties")?.optJSONObject(field)?.optString("type") != "string" ||
+                    (0 until required.length()).none { required.optString(it) == field } ||
+                    (kind == "task" && name !in taskActions)) continue
+                button(commandTitle(name), primary = true, parent = actions) { showCommand(command, JSONObject(fresh.toString())) }
             }
         }
-        button(getString(R.string.erp_actions)) { showActions() }
     }
     private fun showValues(data: JSONObject, parent: LinearLayout, depth: Int = 0) {
         data.keys().asSequence().sorted().take(40).forEach { key ->
-            if (key.lowercase(Locale.ROOT).contains("token") || key.lowercase(Locale.ROOT).contains("password") || key.lowercase(Locale.ROOT).contains("secret")) return@forEach
+            if (ErpCommandSecrets.sensitiveKey(key)) return@forEach
             val value = data.opt(key)
             if (value == null || value == JSONObject.NULL) return@forEach
             label(fieldLabel(key), 12f, muted, parent)
@@ -388,15 +603,17 @@ class ErpConsoleActivity : Activity() {
     }
     private fun showChannels() {
         heading(getString(R.string.erp_messages), getString(R.string.erp_server_scope), ::showDashboard)
-        button(getString(R.string.erp_refresh)) { showChannels() }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        val channels = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
         val transport = api
-        run({ JSONObject().put("items", transport.entities("channel")) }) { result ->
+        observe(operation = { JSONObject().put("items", transport.entities("channel")) }) { result ->
+            clearList(channels)
             val list = result.getJSONArray("items")
-            if (list.length() == 0) label(getString(R.string.erp_empty), color = muted)
+            if (list.length() == 0) label(getString(R.string.erp_empty), color = muted, parent = channels)
             for (i in 0 until list.length()) {
                 val channel = list.optJSONObject(i) ?: continue
                 val id = channel.optString("id"); val title = recordTitle(channel)
-                button(title) { showConversation(id, title) }
+                button(title, parent = channels) { showConversation(id, title) }
             }
         }
     }
@@ -422,15 +639,16 @@ class ErpConsoleActivity : Activity() {
             }) { pendingRecovery = null; composer.setText(""); showConversation(channel, title); status(getString(R.string.erp_sent), true) }
         }
         button(getString(R.string.erp_refresh)) {
-            if (pendingText != null) status(getString(R.string.erp_unknown_result)) else showConversation(channel, title)
+            if (pendingText != null) status(getString(R.string.erp_unknown_result)) else refreshRead?.invoke()
         }
-        run({ JSONObject().put("items", transport.messages(channel)) }) { result ->
+        observe(interval = 15_000, operation = { JSONObject().put("items", transport.messages(channel)) }) { result ->
+            clearList(messages)
             val list = result.getJSONArray("items")
             if (list.length() == 0) label(getString(R.string.erp_empty), color = muted, parent = messages)
             for (i in 0 until list.length()) {
                 val item = list.optJSONObject(i) ?: continue; val data = item.optJSONObject("data") ?: continue
                 val own = data.optString("author_id") == actor?.optString("userId")
-                val card = panel(messages).apply { background = shape(if (own) Color.rgb(218, 240, 229) else Color.WHITE) }
+                val card = panel(messages).apply { background = shape(if (own) KnabaTheme.green else Color.WHITE, if (own) null else KnabaTheme.line) }
                 label(getString(if (own) R.string.erp_you else R.string.erp_conversation), 12f, muted, card)
                 label(data.optString("text"), 16f, ink, card).setTextIsSelectable(true)
                 item.optString("createdAt").takeIf { it.isNotBlank() }?.let { label(displayTime(it), 12f, muted, card) }
@@ -439,32 +657,33 @@ class ErpConsoleActivity : Activity() {
     }
     private fun showActions() {
         heading(getString(R.string.erp_actions), getString(R.string.erp_actions_intro), ::showDashboard)
-        button(getString(R.string.erp_refresh)) { showActions() }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
         val search = field(getString(R.string.erp_search))
         val actions = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
-        val transport = api
-        run({ JSONObject().put("items", transport.catalog()) }) { result ->
-            val catalog = result.getJSONArray("items")
-            fun render() {
-                clearList(actions)
-                val query = search.text.toString().trim()
-                val matches = (0 until catalog.length()).mapNotNull { catalog.optJSONObject(it) }.filter {
-                    permitted(it.optString("permission")) && (query.isEmpty() ||
-                        (commandTitle(it.optString("name")) + " " + it.optString("name")).contains(query, ignoreCase = true))
-                }
-                if (matches.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = actions)
-                matches.forEach { command -> button(commandTitle(command.optString("name")), parent = actions) { showCommand(command) } }
+        var catalog = JSONArray()
+        fun render() {
+            clearList(actions)
+            val query = search.text.toString().trim()
+            val matches = (0 until catalog.length()).mapNotNull { catalog.optJSONObject(it) }.filter {
+                permitted(it.optString("permission")) && (query.isEmpty() ||
+                    (commandTitle(it.optString("name")) + " " + it.optString("name")).contains(query, ignoreCase = true))
             }
-            search.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { render() }
-                override fun afterTextChanged(s: Editable?) {}
-            })
-            render()
+            if (matches.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = actions)
+            matches.forEach { command -> button(commandTitle(command.optString("name")), parent = actions) { showCommand(command) } }
+        }
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { render() }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        val transport = api
+        observe(operation = { JSONObject().put("items", transport.catalog()) }) { result ->
+            catalog = result.getJSONArray("items"); render()
         }
     }
     private fun showCommand(command: JSONObject, contextItem: JSONObject? = null) {
         val name = command.optString("name")
+        val oneShot = ErpCommandSecrets.isOneShot(name)
         val contextKind = contextItem?.optString("kind").orEmpty()
         val contextTitle = modules.firstOrNull { it.kind == contextKind }?.let { getString(it.title) }.orEmpty()
         val contextField = ConsoleRecordActions.field(contextKind, name)
@@ -473,6 +692,7 @@ class ErpConsoleActivity : Activity() {
             label(recordTitle(contextItem), 18f)
             label(getString(R.string.erp_record_version, contextItem.getInt("version")), 13f, muted)
         }
+        if (oneShot) label(getString(R.string.erp_account_change_once), 13f, muted)
         val schema = command.optJSONObject("schema") ?: JSONObject()
         val properties = schema.optJSONObject("properties") ?: JSONObject()
         val required = schema.optJSONArray("required") ?: JSONArray()
@@ -508,19 +728,22 @@ class ErpConsoleActivity : Activity() {
                 if (def.has("default")) picker.setSelection(values.indexOf(def.opt("default")).let { if (it < 0) 0 else it + 1 })
                 readers[key] = { if (picker.selectedItemPosition == 0) null else values[picker.selectedItemPosition - 1] }
             } else {
-                val inputType = if (key == "quantityMilli") InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL else when (type) {
+                val secretField = ErpCommandSecrets.sensitiveKey(key)
+                val inputType = if (secretField) InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    else if (key == "quantityMilli") InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL else when (type) {
                     "integer" -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
                     "number" -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_NUMBER_FLAG_DECIMAL
                     else -> InputType.TYPE_CLASS_TEXT
                 }
                 val edit = field(caption, inputType, multiline = type == "object" || type == "array")
+                if (secretField) edit.isSaveEnabled = false
                 val defaultValue = def.opt("default")
                 if (defaultValue != null && defaultValue != JSONObject.NULL) {
                     edit.setText(if (key == "quantityMilli" && defaultValue is Number) ConsoleQuantity.display(defaultValue.toLong()) else defaultValue.toString())
                 }
                 if (type == "object" || type == "array") label(getString(R.string.erp_json_hint), 12f, muted)
                 readers[key] = {
-                    val raw = edit.text.toString().trim()
+                    val raw = if (secretField) edit.text.toString() else edit.text.toString().trim()
                     if (raw.isEmpty()) null else if (key == "quantityMilli") ConsoleQuantity.parse(raw, def.optLong("minimum", 0), def.optLong("maximum", 9_007_199_254_740_991L)) else when (type) {
                         "integer" -> raw.toLong()
                         "number" -> raw.toDouble().also { require(it.isFinite()) }
@@ -531,7 +754,7 @@ class ErpConsoleActivity : Activity() {
                 }
             }
         }
-        val version = if (contextItem == null) field(getString(R.string.erp_expected_version), InputType.TYPE_CLASS_NUMBER) else null
+        val version = if (contextItem == null && !oneShot) field(getString(R.string.erp_expected_version), InputType.TYPE_CLASS_NUMBER) else null
         var pending: JSONObject? = null; var pendingVersion: Int? = null; var key = UUID.randomUUID().toString()
         val transport = api
         button(getString(R.string.erp_submit), primary = true) {
@@ -544,6 +767,7 @@ class ErpConsoleActivity : Activity() {
                         if (value == null && field in mandatory) throw IllegalArgumentException()
                         if (value != null) input.put(field, value)
                     }
+                    if (oneShot) ErpCommandSecrets.validateOneShot(name, input)
                     val rawVersion = version?.text?.toString()?.trim().orEmpty()
                     pendingVersion = if (contextItem != null) contextItem.getInt("version").also { require(it > 0) }
                         else if (rawVersion.isEmpty()) null else rawVersion.toInt().also { require(it > 0) }
@@ -552,12 +776,23 @@ class ErpConsoleActivity : Activity() {
             }
             val payload = pending!!
             val submit = {
-                pendingRecovery = PendingMutation(commandTitle(name), name, payload.toString(), pendingVersion, key)
-                run({ transport.command(name, payload, pendingVersion, key) }, changing = true, failed = { error ->
-                    val failure = error as? ErpConsoleTransport.Failure
-                    if (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT") controls.filterNot { it is Button }.forEach { it.isEnabled = false }
-                    else { pending = null; pendingVersion = null; pendingRecovery = null; key = UUID.randomUUID().toString() }
-                }) { pendingRecovery = null; if (contextItem == null) showActions() else showRecords(contextKind, contextTitle); status(getString(R.string.erp_saved), true) }
+                if (oneShot) {
+                    val requestVersion = pendingVersion
+                    controls.filterIsInstance<EditText>().forEach { it.setText("") }
+                    pending = null; pendingVersion = null; pendingRecovery = null
+                    run({ transport.command(name, payload, requestVersion, key) }, changing = true, failed = { error ->
+                        api.clear(); actor = null; showLogin()
+                        val unknown = (error as? ErpConsoleTransport.Failure)?.outcomeUnknown == true
+                        status((if (unknown) getString(R.string.erp_unknown_result) + " " else "") + getString(R.string.erp_account_change_reauth))
+                    }) { api.clear(); actor = null; showLogin(); status(getString(R.string.erp_account_change_reauth), true) }
+                } else {
+                    pendingRecovery = PendingMutation(commandTitle(name), name, payload.toString(), pendingVersion, key)
+                    run({ transport.command(name, payload, pendingVersion, key) }, changing = true, failed = { error ->
+                        val failure = error as? ErpConsoleTransport.Failure
+                        if (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT") controls.filterNot { it is Button }.forEach { it.isEnabled = false }
+                        else { pending = null; pendingVersion = null; pendingRecovery = null; key = UUID.randomUUID().toString() }
+                    }) { pendingRecovery = null; if (contextItem == null) showActions() else showRecords(contextKind, contextTitle); status(getString(R.string.erp_saved), true) }
+                }
             }
             if (command.optBoolean("highRisk")) {
                 val summary = commandTitle(name) + if (contextItem == null) "" else "\n" + recordTitle(contextItem) + "\n" + getString(R.string.erp_record_version, contextItem.getInt("version"))
@@ -591,6 +826,10 @@ class ErpConsoleActivity : Activity() {
             "text", "description" -> R.string.erp_field_description
             "status", "state" -> R.string.erp_field_status
             "email" -> R.string.erp_email
+            "currentPassword" -> R.string.erp_current_password
+            "newPassword" -> R.string.erp_new_password
+            "secret" -> R.string.erp_mfa_secret
+            "otp" -> R.string.erp_otp
             "phone" -> R.string.erp_field_phone
             "address" -> R.string.erp_field_address
             "siteId", "site_id" -> R.string.erp_sites
@@ -614,6 +853,8 @@ class ErpConsoleActivity : Activity() {
         "task.start" -> getString(R.string.erp_start_task)
         "task.worklog" -> getString(R.string.erp_log_work)
         "task.submit" -> getString(R.string.erp_submit_task)
+        "user.password.rotate" -> getString(R.string.erp_change_password)
+        "user.mfa.configure" -> getString(R.string.erp_configure_mfa)
         "request.submit", "request.batch.submit", "payout.submit", "order.submit", "issue.submit" -> getString(R.string.erp_action_submit)
         "quote.approve", "payout.approve", "report.approve", "procurement.approve" -> getString(R.string.erp_action_approve)
         "request.approve", "request.batch.approve", "timesheet.review", "report.review", "order.review", "trip.approve" -> getString(R.string.erp_action_review)
@@ -696,10 +937,20 @@ class ErpConsoleActivity : Activity() {
     @SuppressLint("GestureBackNavigation")
     @Deprecated("Compatibility fallback; modern gestures use the platform back dispatcher")
     override fun onBackPressed() { goBack() }
-    override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, actor, demoMode, pendingRecovery)
+    override fun onStart() {
+        super.onStart(); foreground = true
+        // Start deferred initial work or resume an idle screen only while visible.
+        if (!busy && !discoveryBusy) scheduleRefresh(if (startedOnce) 0 else nextRefreshDelay)
+        startedOnce = true
+    }
+    override fun onStop() {
+        foreground = false; main.removeCallbacks(refreshTick); super.onStop()
+    }
+    override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, discovery, actor, demoMode, pendingRecovery)
     override fun onDestroy() {
         removePlatformBackCallback?.invoke(); removePlatformBackCallback = null
         screen++; if (!isChangingConfigurations) api.clear()
-        main.removeCallbacksAndMessages(null); worker.shutdown(); super.onDestroy()
+        foreground = false; refreshRead = null
+        main.removeCallbacksAndMessages(null); worker.shutdown(); configWorker.shutdownNow(); super.onDestroy()
     }
 }

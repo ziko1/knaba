@@ -267,4 +267,31 @@
     <string name="erp_action_resume">Resume trip</string>
     <string name="erp_action_arrive">Confirm arrival</string>
     <string name="erp_action_end">End trip</string>
+    <string name="erp_brand_workspace">WORKSPACE</string>
+    <string name="erp_sections">Your workspace</string>
+    <string name="erp_metric_sites">Active sites</string>
+    <string name="erp_metric_decisions">Open decisions</string>
+
+    <string name="erp_server_connecting">Checking the KNABA connection…</string>
+    <string name="erp_server_automatic">The server address is loaded automatically from knaba.de. Use your approved ERP account.</string>
+    <string name="erp_server_connected">KNABA is ready. You can sign in.</string>
+    <string name="erp_server_pending">The ERP connection is not configured yet. It will be checked again automatically.</string>
+    <string name="erp_server_invalid">The server configuration is invalid. Please contact KNABA.</string>
+    <string name="erp_server_not_ready">ERP is not ready yet. The connection will be checked again automatically.</string>
+    <string name="erp_server_unavailable">KNABA is currently unavailable. The connection will be checked again automatically.</string>
+    <string name="erp_server_retry">Check connection again</string>
+    <string name="erp_server_wait">You can sign in when the KNABA server is ready.</string>
+    <string name="erp_sync_updating">Updating data…</string>
+    <string name="erp_sync_waiting">No data has been loaded yet.</string>
+    <string name="erp_sync_stale">Last received at %1$s. The displayed data may be out of date.</string>
+    <string name="erp_sync_updated">Updated at %1$s · Automatic refresh is on</string>
+    <string name="erp_vehicle_trips">Shared vehicle trips</string>
+    <string name="erp_account_change_once">These credentials are sent once and are not saved for recovery. Sign in again afterwards.</string>
+    <string name="erp_account_change_reauth">Sign in again to verify the change to your account credentials.</string>
+    <string name="erp_sensitive_command">This credential action is unavailable in the mobile app.</string>
+    <string name="erp_change_password">Change password</string>
+    <string name="erp_configure_mfa">Set up two-factor sign-in</string>
+    <string name="erp_current_password">Current password</string>
+    <string name="erp_new_password">New password</string>
+    <string name="erp_mfa_secret">Authenticator setup key</string>
 </resources>

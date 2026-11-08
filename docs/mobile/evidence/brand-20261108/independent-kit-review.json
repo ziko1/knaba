@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS",
+  "reviewer": "/root/ios_brand",
+  "prepared_by": "/root",
+  "observed_at": "2026-11-08T16:28:25.227361+00:00",
+  "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+  "sourceTree": "303585bf7cec5e381a5908a20407c2cce4f067af",
+  "subject_sha256": "851d9ad59c3fc926575d1c9bccb44d9bd503a49483011c7658647dd97d697044",
+  "acceptance": "ACCEPTED_AS_HONEST_PARTIAL_TEST_PACKAGE_EVIDENCE",
+  "clientHandoff": "BLOCKED_NOT_READY",
+  "expectedReleaseGate": "EVIDENCE_INCOMPLETE",
+  "requirementCounts": {
+    "PASS": 2,
+    "FAIL": 0,
+    "BLOCKED": 7
+  },
+  "scope": "Independent read-only review of the final kit, all seven declared artifact records, source/evidence consistency, original nine requirements, installation guides and disclosed blockers. This review accepts the accuracy and integrity of the partial package; it does not waive device, signing, backend, visual-runtime or full-system prerequisites.",
+  "independence": {
+    "kitPreparedBy": "/root",
+    "kitReviewer": "/root/ios_brand",
+    "reviewerDidNotPrepare": "Final kit, release-manifest or final customer guides",
+    "sourceAuthorshipDisclosure": "Reviewer authored the initial iOS visual layer and rendering tests. Their independent design-source review was done by /root/brand_design_audit. Reviewer independently inspected credential correction and workflow changes authored by other agents. This kit review is independent of package preparation and is not self-approval of all product source.",
+    "guideAuthorFactCheck": "/root/brand_design_audit, author of initial UA/DE guide drafts, confirmed Android demo labels/flows against source. This was supplementary factual support; final guide acceptance is by /root/ios_brand."
+  },
+  "scopeChecks": {
+    "goalRetained": "client-handoff",
+    "requirementsRetained": 9,
+    "twoPhoneInstallableFilesRetained": true,
+    "fullSystemCoverageRetained": true,
+    "noReductionToSimulatorOnlyGoal": true,
+    "allSystemUATRemainsBlocked": true,
+    "matrix": [
+      {
+        "id": "BRAND-01",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "BRAND-02",
+        "status": "PASS"
+      },
+      {
+        "id": "BRAND-03",
+        "status": "PASS"
+      },
+      {
+        "id": "BRAND-04",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "BRAND-05",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "BRAND-06",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "BRAND-07",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "BRAND-08",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "BRAND-09",
+        "status": "BLOCKED"
+      }
+    ]
+  },
+  "artifactChecks": {
+    "count": 7,
+    "allHashesAndByteSizesMatch": true,
+    "artifacts": [
+      {
+        "id": "ANDROID-APK",
+        "platform": "android",
+        "kind": "apk",
+        "path": "artifacts/KNABA-DE-Android-0.6.0-9.apk",
+        "sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+        "size_bytes": 3113733,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      },
+      {
+        "id": "IOS-SIMULATOR",
+        "platform": "ios",
+        "kind": "ios-simulator-zip",
+        "path": "artifacts/KNABA-DE-iOS-0.6.0-Simulator.zip",
+        "sha256": "6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9",
+        "size_bytes": 7148898,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      },
+      {
+        "id": "IOS-SOURCE",
+        "platform": "ios",
+        "kind": "source",
+        "path": "artifacts/KNABA-DE-iOS-0.6.0-Source.tar.gz",
+        "sha256": "50f3bc4abe63e874e9cb972e111fae5b0e0d8f34cbe567018643b02ba4fcba50",
+        "size_bytes": 391662,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      },
+      {
+        "id": "HANDOFF-UK",
+        "platform": "shared",
+        "kind": "docs",
+        "path": "HANDOFF_UK.md",
+        "sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e",
+        "size_bytes": 18617,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      },
+      {
+        "id": "HANDOFF-DE",
+        "platform": "shared",
+        "kind": "docs",
+        "path": "KUNDENTEST_DE.md",
+        "sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34",
+        "size_bytes": 6650,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      },
+      {
+        "id": "IOS-MAC-GUIDE",
+        "platform": "ios",
+        "kind": "docs",
+        "path": "IOS_MAC_UK.md",
+        "sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc",
+        "size_bytes": 5383,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      },
+      {
+        "id": "README",
+        "platform": "shared",
+        "kind": "docs",
+        "path": "README_UK.md",
+        "sha256": "12b4b70ee058f20c07b0de3b6a0b48259f4ec1c596c1277188114b74bd395241",
+        "size_bytes": 2668,
+        "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+      }
+    ],
+    "fileReferencesVerified": 57,
+    "uniqueReferencedFiles": 44,
+    "scopeAndEvidenceHashesMatch": true,
+    "archiveSafety": [
+      {
+        "artifact": "ANDROID-APK",
+        "safeEntriesAndCrc": "PASS",
+        "entries": 28
+      },
+      {
+        "artifact": "IOS-SIMULATOR",
+        "safeEntriesAndCrc": "PASS",
+        "entries": 72
+      },
+      {
+        "artifact": "IOS-SOURCE",
+        "safeEntries": "PASS",
+        "entries": 53,
+        "sourceFilesMatchedGit": 52,
+        "manifestSource": "2a9038e14d5dba47ba636556e905ae36144c266e"
+      }
+    ],
+    "noPrivateKeyOrDotEnvFilenameHits": true,
+    "limitation": "Filename screening and reviewed content are not a universal secret scanner. APK public certificates and explicitly synthetic test fixtures are not private signing credentials."
+  },
+  "sourceAndRuntimeEvidence": {
+    "sourceGitSha": "2a9038e14d5dba47ba636556e905ae36144c266e",
+    "android": {
+      "sourceInputsMatchedGit": 69,
+      "sharedVerificationInputsMatchedGit": 1,
+      "actualJUnit": {
+        "tests": 60,
+        "unique": 60,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "package": "de.knaba.mobile.test",
+      "versionName": "0.6.0-test",
+      "versionCode": 9,
+      "minSdk": 31,
+      "targetSdk": 36,
+      "certificateSha256": "6f1973f8a072d24616397d4df6b15554e7a1fd228b67dfcc19a2913c31940c37",
+      "metadataAndSignatureEvidence": "Read actual aapt/apksigner outputs and receipt; expected package/version/SDK and v2 signature match final APK identity.",
+      "installedApkSha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+      "installAndLaunchEvidence": "Ordinary emulator install without -t, installed-byte hash equality, process/resumed Activity evidence accepted within that scope.",
+      "visualRuntime": "BLOCKED_BY_PIXEL_LAUNCHER_ANR_OVERLAY",
+      "overlayImagePersonallyViewed": "evidence/android/emulator/login-android35.png",
+      "noInferenceFromOverlay": "The observed dialog names Pixel Launcher. The kit correctly preserves it and does not claim clean runtime visual acceptance; this review does not diagnose a KNABA crash."
+    },
+    "ios": {
+      "actualXCTest": {
+        "tests": 91,
+        "passed": 91,
+        "failed": 0,
+        "skipped": 0,
+        "expectedFailures": 0
+      },
+      "bundle": "de.knaba.mobile",
+      "version": "0.6.0",
+      "build": 8,
+      "platform": "iPhoneSimulator arm64; iOS18.5; minimum17.0",
+      "bundleFilesMatched": 48,
+      "installLaunchCommandsWithExitZero": 10,
+      "pngEvidenceCovered": 15,
+      "sourceTarFilesMatchedGit": 52,
+      "packageClass": "Unsigned Simulator test-host app with XCTest plugin. No signed device IPA.",
+      "priorFinalArtifactReview": "evidence/ios/ios-artifact-review-2a9038e.json"
+    },
+    "repository": {
+      "runId": 42497195695,
+      "sourceMatchesFinalCandidate": true,
+      "rootTests": 30,
+      "siteTests": 1119,
+      "siteComponents": {
+        "vitest": 732,
+        "node": [
+          37,
+          35,
+          10,
+          8,
+          297
+        ]
+      },
+      "erpPostgreSQLTests": 3000,
+      "bridgeTests": 82,
+      "method": "Read exact-source original job logs and report; summaries reconcile. REPOSITORY-AUTOMATED.command is a descriptive workflow identity, not a standalone shell invocation.",
+      "noLiveDeploymentInference": true
+    },
+    "timestamps": "Recorded check timestamps were checked against the actual UTC clock; none is future-dated. Raw execution times remain available in original logs; manifest observed_at records package/evidence observation."
+  },
+  "guideReview": {
+    "files": [
+      "scope.md",
+      "README_UK.md",
+      "HANDOFF_UK.md",
+      "KUNDENTEST_DE.md",
+      "IOS_MAC_UK.md"
+    ],
+    "result": "Accepted for the explicitly partial package and future customer test procedure.",
+    "details": [
+      "UA and DE clearly distinguish Android debug APK, iOS Simulator and source from missing phone IPA; version/build, exact hashes and source identity agree.",
+      "Android demo is explicitly local and synthetic; task start/work quantity/submit, local chat and reset steps match current behavior. Worker UI requires genuine ERP login and device binding, and is unavailable in demo.",
+      "Keyboard, scrolling, physical-device, update/data-retention, permissions and GPS steps remain a future customer protocol, not claimed as already executed UAT.",
+      "Public ERP observation is time-bounded to 2026-11-08T15:58:00.938018Z, reports erpOrigin:null and does not claim a known live deployment SHA or real login.",
+      "Old debug-signature mismatch guidance preserves the existing application/data and does not advise destructive reinstall.",
+      "Mac guide uses the actual available Simulator bundle and archived signing script/env names. Future Apple export is clearly unexecuted and blocked."
+    ],
+    "appleAdHocReferenceChecked": "https://developer.apple.com/help/account/provisioning-profiles/create-an-ad-hoc-provisioning-profile/",
+    "appleAdHocReferenceScope": "The official page supports App ID/distribution certificate/registered-device prerequisites. No account, provisioning, upload or paid action was performed."
+  },
+  "resolvedMetadataCorrection": {
+    "check": "ANDROID-CLEAN-RUNTIME-VISUAL",
+    "field": "exit_code",
+    "before": null,
+    "after": 0,
+    "reason": "Actual screenshot capture exited zero; visual review remains blocked by the system dialog.",
+    "originalSubjectSha256": "6d9d11bd81679dd15291a7046ce7c2f1dbd63e67f0623a78d7898647d4c41ced",
+    "onlySubjectChangeVerifiedByReconstructingPriorDigest": true
+  },
+  "openMaterialIntegrityDefects": [],
+  "remainingPrerequisites": [
+    "Clean Android runtime visual inspection is blocked by the retained Pixel Launcher overlay.",
+    "Physical Android customer download/install, upgrade/data retention and agreed business journey have not been performed.",
+    "Owner-signed iPhone IPA, appropriate Apple provisioning/channel and customer iPhone install are missing.",
+    "Approved live/test ERP configuration, scoped accounts and real role/business journeys are unavailable or unverified.",
+    "Full KNABA system/mobile parity and customer acceptance remain open.",
+    "Two customer-installable phone files and full client handoff remain incomplete."
+  ],
+  "notPerformedByThisReview": [
+    "Product builds or tests",
+    "CI reruns",
+    "Source edits",
+    "Changing manifest or guides",
+    "Signing or publication",
+    "Customer delivery or physical-device testing"
+  ],
+  "afterReview": "Root may record this exact subject acceptance under manifest.review, then generate gate reports, FILES_SHA256SUMS and outer ZIP. Those final generated files and outer ZIP do not yet exist in this accepted subject; root must verify their byte integrity before delivery.",
+  "gateBeforeReview": {
+    "exitCode": 1,
+    "verdict": "EVIDENCE_INCOMPLETE",
+    "requirements": {
+      "PASS": 2,
+      "FAIL": 0,
+      "BLOCKED": 7
+    },
+    "integrityFailures": 0,
+    "pendingReviewWillBeResolvedOnly": "No other blocker is waived."
+  },
+  "supportingScratchAudit": {
+    "path": "/workspace/scratch/a3c43ba31037/kit-independent-static-audit-2a9038e.json",
+    "sha256": "9126ed932b0a37632b608aec90a11cb658b6740cdcaeea26c77b5363296a2c7d"
+  }
+}

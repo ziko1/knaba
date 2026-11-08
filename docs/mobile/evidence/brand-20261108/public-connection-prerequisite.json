@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "task": "Read-only customer connection prerequisite",
+  "observer": "/root/release_capabilities",
+  "method": "Established authorized KNABA SentinelX host; one bounded unauthenticated HTTPS GET",
+  "host": {
+    "id": "host_007b016d01b5066b",
+    "label": "knaba"
+  },
+  "publicRelease": {
+    "androidDistribution": null,
+    "androidVersion": null,
+    "bodyBytesRead": 404,
+    "contentType": "application/json",
+    "credentialsSent": false,
+    "elapsedSeconds": 0.11,
+    "erpOrigin": null,
+    "httpStatus": 200,
+    "maximumBodyBytes": 32768,
+    "method": "GET",
+    "observedAt": "2026-11-08T15:13:38.721197+00:00",
+    "redirectsFollowed": false,
+    "responseSha256": "de600bd8de245739c2d0205c0d0298a7fb635a8f111b8474ccae4f63813f8d33",
+    "result": "ERP_NOT_CONFIGURED",
+    "schemaValid": true,
+    "schemaVersion": 1,
+    "socketTimeoutSeconds": 12,
+    "sourceGitSha": null,
+    "sourceVersionExposure": "NOT_EXPOSED",
+    "stage": "prototype",
+    "url": "https://knaba.de/api/public/release",
+    "wallClockLimitSeconds": 15
+  },
+  "readyProbe": {
+    "attempted": false,
+    "status": "NOT_RUN",
+    "reason": "The public release response did not advertise an ERP origin; no other host was probed."
+  },
+  "conclusion": "Public discovery is reachable, but it currently advertises no ERP origin. Automatic customer connection is not configured by this response.",
+  "sourceVersion": {
+    "status": "NOT_EXPOSED",
+    "deployedGitSha": null
+  },
+  "scope": {
+    "noCredentials": true,
+    "noRedirects": true,
+    "noMutations": true,
+    "noLiveLogin": true,
+    "noUnrelatedHosts": true,
+    "noProductionChanges": true
+  },
+  "limits": [
+    "This is an observation of the public release endpoint at the recorded time, not a claim that no ERP exists elsewhere.",
+    "ERP readiness, user authentication, role permissions and business workflows were not tested.",
+    "The response did not expose a deployment source revision."
+  ]
+}

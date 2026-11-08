@@ -65,8 +65,10 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
 
  it('exact update replay is one guest/channel/message and cannot cross company or impersonate operator',async()=>{
    const f=await setup();
-   expect(await f.submit(100,'Baureinigung anbieten')).toEqual({accepted:true});
-   expect(await f.submit(100,'Baureinigung anbieten')).toEqual({accepted:true});
+   // Telegram retries the original bytes, including its original message timestamp.
+   const original=input(100,'Baureinigung anbieten');
+   expect(await acceptTelegramWebhook(db,f.company,original,SECRET,SECRET)).toEqual({accepted:true});
+   expect(await acceptTelegramWebhook(db,f.company,original,SECRET,SECRET)).toEqual({accepted:true});
    await f.drain();
    const users=await f.list('user'),channels=await f.list('channel'),messages=await f.list('message');
    expect(users.filter(u=>u.data.guest)).toHaveLength(1);
@@ -76,7 +78,7 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    expect(messages[0].data.text).toBe('Baureinigung anbieten');
    expect(messages[0].data.author_id).not.toBe('operator');
    const other='telegram-foreign-'+randomUUID();
-   await expect(acceptTelegramWebhook(db,other,input(100,'Baureinigung anbieten'),SECRET,SECRET)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+   await expect(acceptTelegramWebhook(db,other,original,SECRET,SECRET)).rejects.toMatchObject({code:'ACCESS_DENIED'});
  });
 
  it('Telegram contact identity must not import a privileged KNABA role into inbound messages',async()=>{
@@ -191,7 +193,8 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
 
  it('STOP on a new private Telegram thread records a durable channel opt-out without sending a chat message',async()=>{
    const f=await setup();
-   await f.submit(301,'STOP');await f.drain();
+   const original=input(301,'STOP');
+   await acceptTelegramWebhook(db,f.company,original,SECRET,SECRET);await f.drain();
    const guest=(await f.list('user')).find(u=>u.data.guest);
    expect(guest).toBeDefined();
    const settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest!.id);
@@ -200,7 +203,7 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    expect(await f.list('message')).toHaveLength(0);
    const command=(await f.list('conversation_input')).find(i=>i.data.provider_event_id==='TELEGRAM:301');
    expect(command?.data).toMatchObject({status:'PROCESSED',router_state:'TELEGRAM_OPT_OUT'});
-   await f.submit(301,'STOP');await f.drain();
+   await acceptTelegramWebhook(db,f.company,original,SECRET,SECRET);await f.drain();
    expect((await f.list('notification_setting')).filter(s=>s.data.user_id===guest!.id)).toHaveLength(1);
  });
 

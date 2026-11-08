@@ -1,0 +1,51 @@
+{
+  "sourceBase": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+  "correctedTestSha256": "1600e3adf7e60d4e96ca6d023035741a0d2cd0e210d63445b6cf74f92dddb6da",
+  "startedAt": "2026-11-08T15:35:45.359609+00:00",
+  "finishedAt": "2026-11-08T15:37:54.451850+00:00",
+  "exitCode": 0,
+  "command": [
+    "timeout",
+    "--kill-after=10s",
+    "480s",
+    "/workspace/scratch/4686fcc1b388/toolchain/gradle-8.13/bin/gradle",
+    "--offline",
+    "--no-daemon",
+    "--no-build-cache",
+    "--console=plain",
+    "--max-workers=2",
+    "-I",
+    "/workspace/scratch/a3c43ba31037/android-busy-offline-20261108/offline-robolectric.gradle",
+    "-Pandroid.builder.sdkDownload=false",
+    "-Dorg.gradle.java.installations.auto-download=false",
+    ":app:testDebugUnitTest",
+    "--tests",
+    "de.knaba.mobile.ErpConsoleActivityTest.discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials"
+  ],
+  "project": "/workspace/scratch/a3c43ba31037/android-busy-offline-20261108/project",
+  "log": "/workspace/scratch/a3c43ba31037/android-busy-offline-20261108/test.log",
+  "logSha256": "65ba50a024ac4c292567dee5e22293df9d5dd9a4110fe1d5cc7896ee35e06fe6",
+  "cleanProjectOutputs": true,
+  "isolatedGradleCache": true,
+  "gradleOffline": true,
+  "robolectricOffline": true,
+  "sdkAutoDownloadDisabled": true,
+  "suites": [
+    {
+      "file": "/workspace/scratch/a3c43ba31037/android-busy-offline-20261108/project/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+      "sha256": "4288c147f1ebb9be65ed30985bbc4bb2fdfe75fefc5665394766d4de0d9e5e16",
+      "name": "de.knaba.mobile.ErpConsoleActivityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "testcases": [
+        {
+          "name": "discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials",
+          "failures": []
+        }
+      ]
+    }
+  ],
+  "scope": "Only one named Android Robolectric regression, not the whole native suite or device installation."
+}

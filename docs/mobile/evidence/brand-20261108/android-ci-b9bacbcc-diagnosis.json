@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 1,
+  "sourceGitSha": "b9bacbccfd358dbea0fddfde2e9a688fa2717380",
+  "sourceTree": "de827d99e0d56c429779704f3d8b31a86df7fdb5",
+  "runId": 42495904369,
+  "jobId": 128778088905,
+  "observedAt": "2026-11-08T15:44:56.019Z",
+  "status": "EMULATOR_BOOT_FAILED_BEFORE_APK_INSTALL",
+  "packageStep": "SUCCESS",
+  "emulatorRuntimeLibraryStep": "SUCCESS",
+  "firstJobFailure": "AssertionError: Emulator exited before completing boot",
+  "exactEmulatorCause": "Emulator 37.2.13 reported Unknown AVD name [knaba-api35] and no knaba-api35.ini in its default lookup directory, despite avdmanager create exit 0.",
+  "artifact": {
+    "id": 13623282569,
+    "bytes": 3218478,
+    "sha256": "f8a9d24bfe867135c260ebfa9174551395bca8bc1612b6df71167e6ca97623c4"
+  },
+  "jobLog": "/workspace/scratch/a3c43ba31037/android-ci-b9bacbcc-job.log",
+  "pollHistory": [
+    {
+      "observedAt": "2026-11-08T15:40:20.521Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify source and SDK 36 toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Resolve the pinned JVM fixture dependency",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Test and package APK and App Bundle",
+          "status": "in_progress",
+          "conclusion": null,
+          "number": 7
+        },
+        {
+          "name": "Install the Android emulator runtime library",
+          "status": "pending",
+          "conclusion": null,
+          "number": 8
+        },
+        {
+          "name": "Install and launch the delivered APK on an isolated Android 35 emulator",
+          "status": "pending",
+          "conclusion": null,
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 10
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 18
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 20
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-11-08T15:41:22.026Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify source and SDK 36 toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Resolve the pinned JVM fixture dependency",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Test and package APK and App Bundle",
+          "status": "in_progress",
+          "conclusion": null,
+          "number": 7
+        },
+        {
+          "name": "Install the Android emulator runtime library",
+          "status": "pending",
+          "conclusion": null,
+          "number": 8
+        },
+        {
+          "name": "Install and launch the delivered APK on an isolated Android 35 emulator",
+          "status": "pending",
+          "conclusion": null,
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 10
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 18
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 20
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-11-08T15:42:23.526Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify source and SDK 36 toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Resolve the pinned JVM fixture dependency",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Test and package APK and App Bundle",
+          "status": "in_progress",
+          "conclusion": null,
+          "number": 7
+        },
+        {
+          "name": "Install the Android emulator runtime library",
+          "status": "pending",
+          "conclusion": null,
+          "number": 8
+        },
+        {
+          "name": "Install and launch the delivered APK on an isolated Android 35 emulator",
+          "status": "pending",
+          "conclusion": null,
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 10
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 18
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 20
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-11-08T15:43:25.043Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify source and SDK 36 toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Resolve the pinned JVM fixture dependency",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Test and package APK and App Bundle",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install the Android emulator runtime library",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Install and launch the delivered APK on an isolated Android 35 emulator",
+          "status": "in_progress",
+          "conclusion": null,
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 10
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 18
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "pending",
+          "conclusion": null,
+          "number": 20
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-11-08T15:44:26.525Z",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify source and SDK 36 toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Resolve the pinned JVM fixture dependency",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Test and package APK and App Bundle",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install the Android emulator runtime library",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Install and launch the delivered APK on an isolated Android 35 emulator",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    }
+  ],
+  "edits": "AUTHORIZED_ANDROID_EMULATOR_SETUP_ONLY",
+  "ciRetry": "NOT_REQUESTED",
+  "sourceSelfApprovalExcluded": [
+    "busy discovery reschedule",
+    "latch fixture correction",
+    "native workflow"
+  ],
+  "updatedAt": "2026-11-08T15:52:36.755079+00:00",
+  "causeEvidence": {
+    "emulatorLog": "/workspace/scratch/a3c43ba31037/brand-ci-b9bacbc/android/build/evidence/android-emulator/emulator.log",
+    "emulatorLogSha256": "141c240bc8f89a105e1b42e6170516965f785732f75829bf4b3815a2eb9b3274",
+    "commands": "/workspace/scratch/a3c43ba31037/brand-ci-b9bacbc/android/build/evidence/android-emulator/commands.json",
+    "commandsSha256": "68c2ab9849240567ff3c2d359f8a0fdebc37801e6391f10b6a3678c0ab6ef225",
+    "avdCreate": {
+      "command": [
+        "/usr/local/lib/android/sdk/cmdline-tools/latest/bin/avdmanager",
+        "create",
+        "avd",
+        "--force",
+        "--name",
+        "knaba-api35",
+        "--package",
+        "system-images;android-35;google_apis;x86_64",
+        "--device",
+        "pixel_6"
+      ],
+      "exitCode": 0,
+      "stdout": "Loading local repository...                                                     \n[=========                              ] 25% Loading local repository...       \n[=========                              ] 25% Fetch remote repository...        \n[=======================================] 100% Fetch remote repository...       \nAuto-selecting single ABI x86_64\n",
+      "stderr": ""
+    },
+    "kvmCheck": {
+      "command": [
+        "/usr/local/lib/android/sdk/emulator/emulator",
+        "-accel-check"
+      ],
+      "exitCode": 0,
+      "stdout": "accel:\n0\nKVM (version 12) is installed and usable.\naccel\n",
+      "stderr": ""
+    },
+    "interpretation": "The created AVD was not discoverable through the implicit paths. The prior log does not identify where avdmanager placed its definition."
+  },
+  "junitXmlAudit": {
+    "sourceGitSha": "b9bacbccfd358dbea0fddfde2e9a688fa2717380",
+    "status": "PASS_60_ACTUAL_CASES",
+    "counts": {
+      "tests": 60,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "testcaseElements": 60
+    },
+    "suites": [
+      {
+        "path": "/workspace/scratch/a3c43ba31037/brand-ci-b9bacbc/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+        "sha256": "cd68258566df2c47b05307f6901465599dbaa596e1a6a33fcae3e53ab8d85440",
+        "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "testcaseElements": 5
+      },
+      {
+        "path": "/workspace/scratch/a3c43ba31037/brand-ci-b9bacbc/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+        "sha256": "e36c5ae0b68bcac6ce62bb2303bf74f6dd278895b7e8321ce553b2b1858e6449",
+        "name": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 54,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "testcaseElements": 54
+      },
+      {
+        "path": "/workspace/scratch/a3c43ba31037/brand-ci-b9bacbc/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.LauncherIconTest.xml",
+        "sha256": "be8437ec08b00f0c9d482635c5c1868c0813a205096c72b3ba1ecaa029d909bf",
+        "name": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "testcaseElements": 1
+      }
+    ]
+  },
+  "correction": {
+    "path": "/workspace/scratch/a3c43ba31037/knaba/.github/workflows/native.yml",
+    "beforeSha256": "a53471d25f109f99de909ab2b850bea1c640761a3cbae9fbd694ab137a5e704a",
+    "afterSha256": "956bbb5515ff1dc22e30c16ba2935265d09ea8243d4c8929948d532d01fab476",
+    "patch": "/workspace/scratch/a3c43ba31037/android-avd-path-fix.patch",
+    "patchSha256": "f9ac7304efea1566d540b8b5a61072153ef273501bfcd3372b8904b2f5ea0284",
+    "validation": "/workspace/scratch/a3c43ba31037/android-avd-path-fix-validation.json",
+    "validationSha256": "99909803b2c88fc0312f340991aeed254f5625fc55fea5ecc29f8d09b4a29533",
+    "summary": "All Python subprocesses share task-scoped ANDROID_USER_HOME/ANDROID_EMULATOR_HOME/ANDROID_AVD_HOME; avdmanager uses --path; emulator -list-avds and definition/data existence fail closed before boot and retain avd-inventory.json.",
+    "homeChanged": false,
+    "timeoutsChanged": false,
+    "installSemanticsChanged": false,
+    "productOrTestsChanged": false,
+    "independentReview": "PENDING_BRAND_DESIGN_AUDIT_AND_ROOT",
+    "ciAfterCorrection": "NOT_RUN"
+  },
+  "primaryDocumentation": [
+    "https://developer.android.com/tools/variables/",
+    "https://developer.android.com/tools/avdmanager"
+  ]
+}

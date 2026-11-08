@@ -267,4 +267,31 @@
     <string name="erp_action_resume">Продолжить поездку</string>
     <string name="erp_action_arrive">Подтвердить прибытие</string>
     <string name="erp_action_end">Завершить поездку</string>
+    <string name="erp_brand_workspace">РАБОЧИЙ КАБИНЕТ</string>
+    <string name="erp_sections">Разделы системы</string>
+    <string name="erp_metric_sites">Активные объекты</string>
+    <string name="erp_metric_decisions">Ожидают решения</string>
+
+    <string name="erp_server_connecting">Проверяем подключение к KNABA…</string>
+    <string name="erp_server_automatic">Адрес сервера загружается автоматически с knaba.de. Используйте подтверждённую учётную запись ERP.</string>
+    <string name="erp_server_connected">Сервер KNABA готов. Можно входить.</string>
+    <string name="erp_server_pending">Подключение к ERP ещё не настроено. Проверим снова автоматически.</string>
+    <string name="erp_server_invalid">Настройки сервера некорректны. Сообщите KNABA.</string>
+    <string name="erp_server_not_ready">ERP ещё не готова. Проверим подключение снова автоматически.</string>
+    <string name="erp_server_unavailable">KNABA сейчас недоступна. Проверим подключение снова автоматически.</string>
+    <string name="erp_server_retry">Проверить подключение</string>
+    <string name="erp_server_wait">Вход станет доступен, когда сервер KNABA будет готов.</string>
+    <string name="erp_sync_updating">Обновляем данные…</string>
+    <string name="erp_sync_waiting">Данные ещё не загружены.</string>
+    <string name="erp_sync_stale">Последние полученные данные: %1$s. Сейчас они могут быть устаревшими.</string>
+    <string name="erp_sync_updated">Обновлено в %1$s · Автоматическое обновление включено</string>
+    <string name="erp_vehicle_trips">Совместные поездки</string>
+    <string name="erp_account_change_once">Эти данные отправляются один раз и не сохраняются для повторной отправки. Затем войдите снова.</string>
+    <string name="erp_account_change_reauth">Войдите снова, чтобы проверить изменение данных учётной записи.</string>
+    <string name="erp_sensitive_command">Это действие с учётными данными недоступно в мобильном приложении.</string>
+    <string name="erp_change_password">Изменить пароль</string>
+    <string name="erp_configure_mfa">Настроить двухфакторный вход</string>
+    <string name="erp_current_password">Текущий пароль</string>
+    <string name="erp_new_password">Новый пароль</string>
+    <string name="erp_mfa_secret">Ключ настройки приложения аутентификации</string>
 </resources>

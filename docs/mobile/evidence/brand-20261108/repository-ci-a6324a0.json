@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-08T15:31:39+00:00",
+  "repository": "ziko1/knaba",
+  "runId": 42494461119,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42494461119",
+  "sourceCommit": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+  "sourceTreeReportedByRoot": "3a913cdd996c211ba7dce3529687bbdd8066eead",
+  "verdict": "ALL_FOUR_REQUIRED_JOBS_PASSED",
+  "firstFailure": null,
+  "results": [
+    {
+      "jobId": 128773630801,
+      "name": "Source integrity and policy tests",
+      "conclusion": "success",
+      "tests": 30,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "jobId": 128773630841,
+      "name": "Corporate site checks and production build",
+      "conclusion": "success",
+      "vitest": {
+        "files": 72,
+        "tests": 732,
+        "passed": 732
+      },
+      "nodeTestSuites": [
+        37,
+        35,
+        10,
+        8
+      ],
+      "vpsTests": 297,
+      "totalTestCases": 1119,
+      "failed": 0,
+      "skipped": 0,
+      "check": "PASS",
+      "build": "PASS",
+      "verifyBuild": "PASS"
+    },
+    {
+      "jobId": 128773630565,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "conclusion": "success",
+      "testFiles": 127,
+      "tests": 3000,
+      "passed": 3000,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "skipsGate": "PASS",
+      "typecheck": "PASS",
+      "migration": "PASS",
+      "build": "PASS",
+      "builtSourceIdentity": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6"
+    },
+    {
+      "jobId": 128773630796,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "conclusion": "success",
+      "tests": 82,
+      "passed": 82,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "skipsGate": "PASS"
+    }
+  ],
+  "conditionalJob": {
+    "jobId": 128775413688,
+    "name": "Sanitized failure summary",
+    "conclusion": "skipped",
+    "expected": true,
+    "reason": "ci.yml defines if: failure(); all required jobs succeeded"
+  },
+  "evidenceSha256": {
+    "source-integrity.log": "742457f9d072f893c26c62b5776f31ae3ee32c22492f4937b7d02f55dd675e6a",
+    "corporate-site.log": "de024c480fceaae0ab43e7fa23f1db9e5edee107d97617cec216e581574b5094",
+    "erp.log": "4072a931fcc238009cc584b4042b1a9d659343b206d6961c95ef5fa3c19e4983",
+    "bridge.log": "a162016543ac695afe148321b10845796954a234a0df0bc08a0d998fb0db4519",
+    "final-jobs.json": "0f89095eb8494128bfe970cfece980b4ceab16f427753f78cddb261586b246b8"
+  },
+  "limitations": [
+    "Only repository PR run 42494461119 monitored; no native run polling or native acceptance claimed",
+    "CI used isolated services and synthetic test data; not production deployment or physical-device validation"
+  ],
+  "actionsTaken": [
+    "Read-only status/log retrieval with at least 60 seconds between polling batches",
+    "Saved evidence in scratch; no source changes, reruns or publication"
+  ]
+}

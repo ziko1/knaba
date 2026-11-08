@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA_DE",
+  "reviewer": "/root/release_capabilities",
+  "observedAt": "2026-11-08T14:34:24.041819+00:00",
+  "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "subjectSnapshotSha256": "3fbf4261e5f80e41c57224cf2db4aa17ef0fa0ca5cc83b5b9256ce906b3b5da1",
+  "subjectFiles": [
+    {
+      "path": "corporate-site/public/images/knaba-3d-mobile-header.svg",
+      "sha256": "cb660f68f72f14b3b3fa3e4f9a735a8f68cd6dfd2e63da9d9ead05cae549e0e6"
+    },
+    {
+      "path": "docs/mobile/BRAND_ASSETS.json",
+      "sha256": "091e10e20b4719b387421e57d26d5a62b39453f7557e38ee77f980265a25231f"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/build.gradle.kts",
+      "sha256": "4ed12f823d40fd069d8e614e46c9d988e51a0bb440e328f0ee0d3f44b3887e43"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/AndroidManifest.xml",
+      "sha256": "a87ff1ccf88bbd0bec0e655e2aab1a02371af549e54fd64a250288662cd6cb6f"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "sha256": "216011e0bfbc84c38e76b52f9b443493a40c594ee4dd88849cc7d432b97acb8a"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/KnabaTheme.kt",
+      "sha256": "c651e4330caa925b07ea3a64adff16b13e0e13c15f0483ec6628fab477e2c2a7"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "sha256": "ae097eae0b4c90e00afd8028778afa9eb91c05fdfa39ebe5b42b5b791cb536c7"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_wordmark.png",
+      "sha256": "8602009147e219088d6ee8f7f3a174d9d9a98084e384f5a88888ac0932411c1d"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_back.xml",
+      "sha256": "e7e0edb008d5d49324a1fd3c5e6b2d102f2126c1718e72ad1125631565c08428"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_building.xml",
+      "sha256": "4cc16d2c67c487ff845b0360e7baa051a7ccc6008bf027a52ed588ff7b2dce04"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_chat.xml",
+      "sha256": "bea92c08f22b0aed86edd141a67daa45535de8e1f8018be5b86e425f961e5238"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_clock.xml",
+      "sha256": "b07ef84d098091d601ed5aa21f1995cb69806c397e89f81030c8185f5f9aeccb"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_grid.xml",
+      "sha256": "449a4d49a678adcd793059f37584bbfeda6e5508b4c55b535009238bc11bf658"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_refresh.xml",
+      "sha256": "c7164329f871806c666950c9c727eb690ecca1c8b451a294595e878b52183a27"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_tasks.xml",
+      "sha256": "b929c120cd40424c81372f1f277abb12afcb7c20dfe0ca5a0823270b02d843fc"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+      "sha256": "e5813f9e7c77288ec1c7403ac3504fe56eab4028ebe776ab7c1481abd5dbc533"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+      "sha256": "849862d5823290239f4c319ff38955d1b428290a1a6120c4bc32026fddbcc688"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+      "sha256": "c8d73ea14c2e449ebfcac4700977a5ecc020413c1af8ba6239a160e034a95234"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+      "sha256": "ac40f3a0a03ef4dc795c5e9707ddd8e2a9611e23e0387d6ab2d8ffc70d5bdc8c"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+      "sha256": "58e1399046433f8cd8fb7a6c797a99d9120e4c9879dc4d3d97c7f5f33ef191af"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+      "sha256": "d9461682f82daf084fb1fad9062a6926533c471d0bbd078943edadc2a8e9c8be"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/values/styles.xml",
+      "sha256": "124dc7d69852107d17a920e3ad7198e21728921155bf28d8540ce918add07dbc"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "2579bd6e26cabed4d192b830cebef834ed0bb8ee8a676e659c0c327799b31651"
+    },
+    {
+      "path": "scripts/mobile/generate-brand-assets.mjs",
+      "sha256": "294743f648f21990f8f2fe1b7cfcea5cb1921931a0777d213b2e0af58673aefc"
+    }
+  ],
+  "status": "ACCEPTED_SOURCE_REVIEW_NATIVE_EXECUTION_PENDING",
+  "scope": "Android 0.6.0 branding UI/theme/resources/generator and focused UI regression test changes; no review acceptance of reviewer-authored workflow",
+  "blockingFindings": [],
+  "verified": [
+    "MainActivity all 12 prior action lambdas are byte-identical; new Back only finishes Activity",
+    "MainActivity work/session/GPS/permission/lifecycle suffix byte-identical to baseline",
+    "Console auth/screen-fence/permission/recovery/mutation/logout guards retained; module search applies permission filter before localized query matching",
+    "Navigation remains native and server-scoped; styling adds no endpoint, credential, tenant, GPS or provider authorization",
+    "Busy controls retain enabled-state and click guards; focused/disabled Button states preserve contrast; input labels remain bound with labelFor",
+    "Theme APIs are within minimum API31 by source inspection; no dependency/toolchain migration",
+    "Large font and narrow viewport select vertical metrics/single-column modules, wrapping controls use minimum rather than fixed height",
+    "New worker fields disable view-state saving and enrollment password autofill, preserve explicit labeled controls",
+    "New XML parses; all 4 new strings exist in each of six locales; canonical wordmark and generated asset hashes match manifest",
+    "New UI tests cover authorized module search, narrow Ukrainian/font2 layouts, worker GPS-off launch and labels; these have not executed locally"
+  ],
+  "unchangedConsoleFunctions": [
+    "attachBaseContext",
+    "newTransport",
+    "recoverPending",
+    "dp",
+    "clearList",
+    "loading",
+    "run",
+    "errorText",
+    "enterDemo",
+    "chooseLanguage",
+    "permitted",
+    "recordTitle",
+    "recordState",
+    "showDetail",
+    "showValues",
+    "showChannels",
+    "showActions",
+    "showCommand",
+    "showPendingRecovery",
+    "displayTime",
+    "fieldLabel",
+    "quantityUnit",
+    "commandTitle",
+    "human",
+    "signOut",
+    "goBack",
+    "onBackPressed",
+    "onRetainNonConfigurationInstance",
+    "onDestroy"
+  ],
+  "unchangedWorkerActionIds": [
+    "language_label",
+    "action_enroll",
+    "action_sync",
+    "action_shift_start",
+    "action_gps_activate",
+    "action_pause",
+    "action_return",
+    "action_trip_start",
+    "action_arrive",
+    "action_shift_end",
+    "action_gps_off",
+    "action_sign_out"
+  ],
+  "contrastRatios": {
+    "normal_text_paper": 12.859,
+    "muted_text_paper": 5.49,
+    "muted_text_green": 4.762,
+    "muted_text_soft": 5.034,
+    "primary_button_white": 7.431,
+    "error_on_coral": 6.52,
+    "input_border_white": 3.748
+  },
+  "pending": [
+    "Actual Kotlin/AAPT/Gradle compile and existing/new native tests/lint",
+    "Actual rendered screenshots and independent visual inspection",
+    "Emulator install and first launch of final APK bytes",
+    "Physical Android install/update, TalkBack, hardware Keystore and live ERP customer journeys"
+  ],
+  "notClaimed": [
+    "Native test PASS",
+    "Emulator/physical install PASS",
+    "Live backend or full product readiness",
+    "Owner signing or previous-APK upgrade compatibility"
+  ],
+  "skills": [
+    "app-release preferences/android/ios/manifest",
+    "ecc-frontend-mobile accessibility/kotlin-patterns",
+    "kotlin-platform-engineering actual toolchain compatibility; no Spring migration"
+  ]
+}

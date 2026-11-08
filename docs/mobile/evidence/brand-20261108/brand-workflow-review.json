@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA",
+  "reviewKind": "INDEPENDENT_NATIVE_WORKFLOW_SOURCE_REVIEW",
+  "observedAt": "2026-11-08T14:42:20Z",
+  "reviewer": "/root/brand_design_audit",
+  "implementationAuthor": "/root/release_capabilities",
+  "verdict": "ACCEPT_SCOPED_WORKFLOW_SOURCE_NATIVE_RUN_PENDING",
+  "sourceGitSha": "0234895b0075b1bb7639fa27ded4c5168e519305",
+  "comparisonBaseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "workingTreeAtInspection": "CLEAN",
+  "scope": {
+    "acceptedSource": [
+      ".github/workflows/native.yml"
+    ],
+    "supportingReadOnlyInputs": [
+      "erp/apps/mobile-android/scripts/package.sh",
+      "erp/apps/mobile-ios/scripts/build.sh",
+      "erp/apps/mobile-ios/project.yml",
+      "erp/scripts/native-ios-simulator.py"
+    ],
+    "excluded": [
+      "App UI acceptance, already reviewed separately",
+      "Independent acceptance of MainActivity.kt, which this reviewer authored",
+      "Executing builds, tests, emulator or simulator",
+      "Candidate CI conclusions, downloaded artifact verification and visual acceptance",
+      "Customer device installation, live backend journeys, signing eligibility and publication"
+    ]
+  },
+  "files": [
+    {
+      "path": ".github/workflows/native.yml",
+      "sha256": "1219b338156d4255f0c6d192723a694e44c0aaf5727a230a5f7fd217d9cb20e3",
+      "bytes": 26564
+    },
+    {
+      "path": "erp/apps/mobile-android/scripts/package.sh",
+      "sha256": "1532cefc9238194762ca4691bcbbebb053969407b0a2a374e29d367b9ed1b0e5",
+      "bytes": 9024,
+      "changedSinceComparisonBase": false
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "sha256": "94ddbc2fcb03e081b6af72015e300f9ff8f08ca70093a5a0736303fa4f7ba435",
+      "bytes": 742,
+      "changedSinceComparisonBase": false
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "sha256": "7b8586f191722f8212c4b05c486d800f3714e97f4f30ebf284c0a843b87179dd",
+      "bytes": 1320
+    },
+    {
+      "path": "erp/scripts/native-ios-simulator.py",
+      "sha256": "4b980ddeadb321c8ff2b8bc817d0b0774a534e8b88ecd123288cf4156225260f",
+      "bytes": 9802,
+      "changedSinceComparisonBase": false
+    }
+  ],
+  "executedReadOnlyChecks": [
+    {
+      "check": "git rev-parse HEAD and git status --short",
+      "exitCode": 0,
+      "result": "Exact candidate SHA; no working-tree changes"
+    },
+    {
+      "check": "PyYAML BaseLoader parse of workflow",
+      "exitCode": 0,
+      "result": "VALID"
+    },
+    {
+      "check": "bash -n through stdin for all workflow run blocks",
+      "exitCode": 0,
+      "checkedBlocks": 11,
+      "result": "VALID"
+    },
+    {
+      "check": "ast.parse for all embedded Python heredocs, without executing their bodies",
+      "exitCode": 0,
+      "checkedBlocks": 5,
+      "result": "VALID"
+    },
+    {
+      "check": "SHA-256 of reviewed workflow and supporting input files",
+      "exitCode": 0,
+      "result": "RECORDED"
+    }
+  ],
+  "sourceReviewChecks": [
+    {
+      "id": "WF-SOURCE-01",
+      "status": "PASS_SOURCE",
+      "subject": "Exact source checkout",
+      "evidence": "Both jobs check out NATIVE_SOURCE_SHA resolved from pull_request.head.sha or github.sha and assert git HEAD equality. Android smoke compares receipt source and checkout; iOS launch smoke checks checkout again."
+    },
+    {
+      "id": "WF-SOURCE-02",
+      "status": "PASS_SOURCE",
+      "subject": "Failure propagation and deadlines",
+      "evidence": "All run blocks use set -euo pipefail; no continue-on-error was introduced. Android/iOS job limits are 30/50 minutes. New Android emulator, XCTest export and iOS launch steps are limited to 10/3/5 minutes. Emulator commands and boot polling have finite deadlines; failure records are written and Python exceptions propagate. Android process cleanup uses bounded terminate/kill waits."
+    },
+    {
+      "id": "WF-SOURCE-03",
+      "status": "PASS_SOURCE",
+      "subject": "Delivered Android APK and installed bytes",
+      "evidence": "The prototype package helper checks identity, version, v2 signature, signer fingerprint and source files before/after packaging. New emulator smoke verifies the packaged SHA-256 and byte size, restricts package to de.knaba.mobile.test, verifies installed identity/SDK/version, pulls the single installed base APK and requires its SHA-256 to equal the delivered APK. Launch must report Status ok, retain a live PID and be the resumed foreground activity. Screenshot signature/dimensions/hash are recorded."
+    },
+    {
+      "id": "WF-SOURCE-04",
+      "status": "PASS_SOURCE",
+      "subject": "Android App Bundle evidence scope",
+      "evidence": "The unchanged package helper creates and hashes the AAB, executes existing bundle verification and integrity checks and records its certificate/metadata result. It does not claim AAB phone installation or Play upload. This review inspected the workflow/helper linkage, not a new independent audit of the unchanged bundle verifier."
+    },
+    {
+      "id": "WF-SOURCE-05",
+      "status": "PASS_SOURCE",
+      "subject": "iOS simulator source and bundle scope",
+      "evidence": "Xcode 16.4, SDK/runtime 18.5 and XcodeGen commit 7193eb447a6f60061f069e07bc1efd32d73c0e19 remain pinned. The helper verifies a booted concrete iPhone 16 simulator. Launch smoke requires de.knaba.mobile and iPhoneSimulator metadata and records the original app bundle file inventory before/after installation/screenshots. The archive receipt includes exact ZIP hash/size, bundle hashes, source SHA, XCTest summary and launch receipt. It explicitly says CODE_SIGNING_ALLOWED=NO and no installable signed IPA."
+    },
+    {
+      "id": "WF-SOURCE-06",
+      "status": "PASS_SOURCE",
+      "subject": "XCTest summary and rendering evidence",
+      "evidence": "The added gate requires integer counters, nonzero executed cases, result Passed, passedTests == totalTestCount, zero failed/skipped/expected failures and no testFailures. Attachment export requires at least one valid nonempty PNG and records file hashes/sizes/dimensions. Rendered presentation fixtures are explicitly distinct from customer journeys; visual acceptance remains pending."
+    },
+    {
+      "id": "WF-SOURCE-07",
+      "status": "PASS_SOURCE",
+      "subject": "Diagnostic preservation and retention",
+      "evidence": "Both artifact uploads retain evidence for 14 days and run with always(). Android includes raw JUnit XML/lint, package receipts, QA images and emulator logs; iOS includes xcresult, images, logs and receipts. Diagnostic artifacts can therefore exist on failure and must not be treated as a successful CI result by themselves."
+    },
+    {
+      "id": "WF-SOURCE-08",
+      "status": "PASS_SOURCE",
+      "subject": "Secrets, permissions and authorized scope",
+      "evidence": "Workflow remains pull_request/workflow_dispatch with contents: read, uses standard ubuntu-24.04/macos-15 hosted runners and contains no secrets expressions, store uploads, deployment or merge commands. Debug prototype packaging does not use owner signing keys. New KVM permissions are limited to the ephemeral runner. Android networking is disabled before installation; no account credentials are entered or location permission granted by the smoke commands."
+    }
+  ],
+  "blockingFindings": [],
+  "nonblockingEvidenceLimits": [
+    {
+      "id": "WF-NOTE-01",
+      "issue": "Android raw test counts still require artifact review",
+      "detail": "Gradle fails on test failures, but the workflow does not add a zero-skipped/expected-count assertion to Android JUnit XML. The actual candidate count and zero skips must be read from the downloaded result XML before reporting a count or accepting all Android tests."
+    },
+    {
+      "id": "WF-NOTE-02",
+      "issue": "iOS bundle inventory is the install input, not an installed-container readback",
+      "detail": "simctl install receives the hashed build bundle. The before/after inventory checks that local bundle; it does not independently hash the simulator's installed application container. Do not describe this as an installed-bytes comparison equivalent to Android."
+    },
+    {
+      "id": "WF-NOTE-03",
+      "issue": "Screenshots need independent review",
+      "detail": "PNG validity and a successful simctl launch do not prove the intended screen remains visible or that layout is correct. iOS does not perform the Android-style PID/resumed-activity readback. The saved light/dark screenshots and XCTest presentation attachments must be opened before any visual PASS."
+    },
+    {
+      "id": "WF-NOTE-04",
+      "issue": "Global deadlines can end a slow environment before individual command budgets are exhausted",
+      "detail": "Android SDK download, AVD setup and boot may collectively exceed the ten-minute step limit. This fails the job rather than accepting an incomplete smoke. A hard step/job cancellation may prevent final cleanup/receipt creation, so inspect the actual conclusion and failure logs."
+    },
+    {
+      "id": "WF-NOTE-05",
+      "issue": "Evidence remains temporary and runtime versions are observed",
+      "detail": "Fourteen-day CI retention is not durable customer delivery. Emulator and system-image package revisions are resolved by SDK Manager and captured in source.properties; they are not immutable image revision pins. Existing action major-version tags are unchanged. Final artifact review must preserve exact downloaded evidence and actual tool versions."
+    }
+  ],
+  "historicalSchemaCompatibilityOnly": {
+    "path": "docs/mobile/evidence/ios-context-actions-20261108/xctest-summary.json",
+    "sha256": "b3f47decb7c0f9868f005c2cf4891777938a815b4d12ba7f3f9ae11f8b11ab88",
+    "result": "Required integer counters and empty testFailures exist in the retained genuine Xcode 16.4 summary",
+    "candidateTestResult": "NOT_RUN_BY_THIS_REVIEW",
+    "historicalCountsReusedForCandidateAcceptance": false
+  },
+  "officialReference": {
+    "url": "https://developer.android.com/studio/run/emulator-acceleration",
+    "observedAt": "2026-11-08T14:42:20Z",
+    "checkedFact": "The official current emulator documentation lists software as a valid -gpu mode; no substitution of deprecated swiftshader_indirect is needed."
+  },
+  "pendingAcceptance": {
+    "actualCandidateCiOutcome": "NOT_REVIEWED",
+    "downloadedApkAabAndSimulatorZip": "NOT_REVIEWED",
+    "exactCandidateTestCounts": "NOT_REVIEWED",
+    "nativeScreenshotVisualReview": "NOT_RUN",
+    "physicalDeviceInstall": "NOT_RUN",
+    "customerFileDownloadInstallerJourney": "NOT_RUN",
+    "upgradeAndDataRetention": "NOT_RUN",
+    "liveBackendJourney": "NOT_RUN",
+    "signedCustomerInstallableIpa": "NOT_PRODUCED_BY_THIS_WORKFLOW"
+  },
+  "nextStep": "Inspect completed candidate job conclusions and downloaded receipts/results/binaries. Independently view the native screenshots, compare archive contents and hashes, and keep physical-device/live/iOS signing criteria open."
+}

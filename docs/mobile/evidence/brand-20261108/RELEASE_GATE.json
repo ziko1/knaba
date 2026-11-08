@@ -1,0 +1,1499 @@
+{
+  "verdict": "EVIDENCE_INCOMPLETE",
+  "project_id": "KNABA_DE",
+  "release_id": "KNABA-0.6.0-android9-ios8-2a9038e",
+  "goal": "client-handoff",
+  "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+  "subject_sha256": "851d9ad59c3fc926575d1c9bccb44d9bd503a49483011c7658647dd97d697044",
+  "requirement_counts": {
+    "PASS": 2,
+    "FAIL": 0,
+    "BLOCKED": 7
+  },
+  "matrix": [
+    {
+      "id": "BRAND-01",
+      "title": "Стиль сайту KNABA",
+      "acceptance": "Both native apps match committed KNABA website tokens/assets and pass visual inspection",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "corporate-site/src/styles/global.css",
+        "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/KnabaTheme.kt",
+        "erp/apps/mobile-ios/Sources/KNABADesign.swift"
+      ],
+      "check_ids": [
+        "NATIVE-RENDER-REVIEW",
+        "ANDROID-CLEAN-RUNTIME-VISUAL"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ]
+    },
+    {
+      "id": "BRAND-02",
+      "title": "Адаптивність, великий текст та 6 мов",
+      "acceptance": "Readable native controls/layouts and DE/EN/PL/LT/RU/UK localization",
+      "status": "PASS",
+      "implementation_refs": [
+        "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+        "erp/apps/mobile-ios/Tests/BrandPresentationTests.swift"
+      ],
+      "check_ids": [
+        "ANDROID-AUTOMATED",
+        "IOS-AUTOMATED",
+        "NATIVE-RENDER-REVIEW"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ]
+    },
+    {
+      "id": "BRAND-03",
+      "title": "Збережені функції й безпека",
+      "acceptance": "Existing API/scopes/session/recovery/explicitGPS contracts preserved; secrets not journaled/replayed",
+      "status": "PASS",
+      "implementation_refs": [
+        "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpCommandSecrets.java",
+        "erp/apps/mobile-ios/Sources/ERPCredentialPolicy.swift",
+        "erp/apps/api/engine.ts"
+      ],
+      "check_ids": [
+        "ANDROID-AUTOMATED",
+        "IOS-AUTOMATED",
+        "REPOSITORY-AUTOMATED",
+        "SECURITY-SOURCE-REVIEW"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ]
+    },
+    {
+      "id": "BRAND-04",
+      "title": "Android APK для тестового встановлення",
+      "acceptance": "Exact-source signed standalone APK with installed-byte and launch evidence",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "erp/apps/mobile-android/scripts/package.sh",
+        ".github/workflows/native.yml"
+      ],
+      "check_ids": [
+        "ANDROID-BUILD",
+        "ANDROID-PACKAGE",
+        "ANDROID-EMULATOR-INSTALL"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK"
+      ]
+    },
+    {
+      "id": "BRAND-05",
+      "title": "iPhone IPA для замовника",
+      "acceptance": "Owner-signed real device IPA and authorized customer iPhone installation",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "erp/apps/mobile-ios/scripts/archive-release.sh",
+        "IOS_MAC_UK.md"
+      ],
+      "check_ids": [
+        "IOS-DEVICE-PACKAGE",
+        "IOS-DEVICE-INSTALL"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "BRAND-06",
+      "title": "Справжня iOS compile/XCTest",
+      "acceptance": "Actual Mac compile, executed XCTest, exact reviewed Simulator package/source",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "erp/apps/mobile-ios/scripts/build.sh",
+        ".github/workflows/native.yml",
+        "scripts/mobile/package-ios-source.py"
+      ],
+      "check_ids": [
+        "IOS-BUILD",
+        "IOS-PACKAGE",
+        "IOS-AUTOMATED",
+        "IOS-SIMULATOR-INSTALL",
+        "IOS-SOURCE-ARCHIVE"
+      ],
+      "artifact_ids": [
+        "IOS-SIMULATOR",
+        "IOS-SOURCE"
+      ]
+    },
+    {
+      "id": "BRAND-07",
+      "title": "Два встановлювані файли та інструкція",
+      "acceptance": "Android and iPhone installable packages and full independently reviewed handoff",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "HANDOFF_UK.md",
+        "KUNDENTEST_DE.md",
+        "IOS_MAC_UK.md"
+      ],
+      "check_ids": [
+        "TWO-INSTALLABLE-HANDOFF"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK",
+        "HANDOFF-DE",
+        "HANDOFF-UK",
+        "IOS-MAC-GUIDE",
+        "IOS-SIMULATOR",
+        "IOS-SOURCE",
+        "README"
+      ]
+    },
+    {
+      "id": "BRAND-08",
+      "title": "Фізичні пристрої та реальний робочий сценарій",
+      "acceptance": "Exact packages pass real customer device, role, permission, update and ERP UAT",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "HANDOFF_UK.md",
+        "docs/mobile/ROADMAP.md"
+      ],
+      "check_ids": [
+        "ANDROID-DEVICE-INSTALL",
+        "ANDROID-DEVICE-JOURNEY",
+        "IOS-DEVICE-INSTALL",
+        "IOS-DEVICE-JOURNEY",
+        "ERP-CONNECTION"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ]
+    },
+    {
+      "id": "BRAND-09",
+      "title": "Увесь функціонал системи",
+      "acceptance": "Full KNABA system/mobile role workflow coverage verified rather than inferred from generic catalog",
+      "status": "BLOCKED",
+      "implementation_refs": [
+        "docs/mobile/BACKLOG.json",
+        "docs/mobile/MOBILE_BRAND_0.6.0_UK.md",
+        "erp/PROJECT_MEMORY.md"
+      ],
+      "check_ids": [
+        "FULL-SYSTEM-UAT",
+        "ERP-CONNECTION"
+      ],
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ANDROID-BUILD",
+      "title": "Справжня Android-збірка",
+      "kind": "build",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "Зібраний APK з точного чистого source",
+      "actual": "Gradle package step succeeded; APK3113733B, source inputs69 + shared1 matched Git",
+      "environment": {
+        "kind": "ci",
+        "label": "Ubuntu24.04 CI; JDK17.0.21, Gradle8.13, SDK36; isolated synthetic tests"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/android/ci-job.log",
+          "sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1"
+        },
+        {
+          "path": "evidence/android/receipt.json",
+          "sha256": "2d88f988b94597c6dbdad19ceae4bf1b007861aa04011fb57159efa7b23d7cf6"
+        },
+        {
+          "path": "evidence/android/root-binary-verification.json",
+          "sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "ANDROID-PACKAGE",
+      "title": "Android metadata, standalone package і підпис",
+      "kind": "package",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "Правильні package/version/SDK, v2 signature, no testOnly/splits, valid aligned APK",
+      "actual": "de.knaba.mobile.test /0.6.0-test/code9, min31/target36; v2 signature, ZIP and alignment verified",
+      "environment": {
+        "kind": "static",
+        "label": "Linux; cached Android build-tools36.0.0 and JDK17.0.21"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/android/root-binary-verification.json",
+          "sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d"
+        },
+        {
+          "path": "evidence/android/apksigner-local.txt",
+          "sha256": "ebb198d6ca0fcddbe672f663686d2f69b57285a1cbd77021b63b88cbb99c7d17"
+        },
+        {
+          "path": "evidence/android/aapt-badging-local.txt",
+          "sha256": "ed18cf51c1e321cf6d3293927bf3f405ef6a63b1a9c72c8447c541608d1a3437"
+        },
+        {
+          "path": "evidence/android/aapt-manifest-local.txt",
+          "sha256": "8afaacf887878e60f461b36859e911064db69e8ecf6c5cae232a241f53b704a9"
+        },
+        {
+          "path": "evidence/android/zipalign-execution.json",
+          "sha256": "4373c718e44959a6447bb699406987e9915bff45c92f254a124e6e61c57c7a8f"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "ANDROID-AUTOMATED",
+      "title": "Android framework і regression тести",
+      "kind": "automated",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "Усі актуальні native тести виконані, без fail/skip",
+      "actual": "60 unique JUnit cases:54 Activity,5 recovery journal,1 launcher; zero fail/error/skip",
+      "environment": {
+        "kind": "ci",
+        "label": "Ubuntu24.04 CI; JDK17.0.21, Gradle8.13, SDK36; isolated synthetic tests"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/android/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+          "sha256": "30f7591f7991be0d2d9ce46434d32c9d227db482363095113cb70a5a35f43dd4"
+        },
+        {
+          "path": "evidence/android/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+          "sha256": "24fe5eb823bbd8774208d2db6cc20369a321772abc488f78e1b63489ef57bb00"
+        },
+        {
+          "path": "evidence/android/TEST-de.knaba.mobile.LauncherIconTest.xml",
+          "sha256": "e539a0ce2bcbb7c7be18f62868593d86204988258d0b67e20d20816827ca4d74"
+        },
+        {
+          "path": "evidence/android/ci-job.log",
+          "sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "ANDROID-EMULATOR-INSTALL",
+      "title": "Звичайне встановлення і запуск точного APK в емуляторі",
+      "kind": "install",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "adb install без -t; installed bytes equal delivered APK; running and resumed KNABA",
+      "actual": "Ordinary install and launch PASS; installed base APK SHA256 equals243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+      "environment": {
+        "kind": "emulator",
+        "label": "Android15/API35 Google APIs x86_64 / Pixel6 profile; network disabled"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/android/emulator/receipt.json",
+          "sha256": "edae1825d2938c78b50c5c892db71fb049482b5418649c6a81ab3b4c60d82caa"
+        },
+        {
+          "path": "evidence/android/emulator/commands.json",
+          "sha256": "0faa5737884e5942e0661af7f761cf0386257a62098c1fe3367bd8129de04cbf"
+        },
+        {
+          "path": "evidence/android/independent-artifact-review.json",
+          "sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "ANDROID-CLEAN-RUNTIME-VISUAL",
+      "title": "Повний візуальний огляд установленого Android",
+      "kind": "automated",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "Видимий без системних перекриттів інтерфейс установленого кандидата",
+      "actual": "Actual screenshot is obscured by the Pixel Launcher system ANR dialog; original image retained. Install/PID/resumed evidence is separate.",
+      "environment": {
+        "kind": "emulator",
+        "label": "Android35 CI; launcher overlay prevented unobstructed review"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/android/emulator/login-android35.png",
+          "sha256": "ce5d60478000c157ef6b1c4384359a94a9584f781f6c4feca144fd491e63b0e8"
+        },
+        {
+          "path": "evidence/android/independent-artifact-review.json",
+          "sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1"
+        }
+      ],
+      "reason": "System launcher overlay prevents the full runtime visual inspection; native render fixtures do not close this gate.",
+      "next_action": "Repeat an unobstructed review on a stable emulator or the customer test phone; preserve original evidence.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "ANDROID-DEVICE-INSTALL",
+      "title": "Установлення Android на пристрій замовника",
+      "kind": "install",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "Саме цей APK встановлено з переданого файла на дозволений телефон",
+      "actual": "Physical customer phone and file-download installer journey not available",
+      "environment": {
+        "kind": "device",
+        "label": "Customer Android12+ device not available"
+      },
+      "observed_at": null,
+      "evidence": [],
+      "reason": "No physical customer device test was performed.",
+      "next_action": "Customer installs the exact APK and records model/OS/version/result without deleting prior app data.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "ANDROID-DEVICE-JOURNEY",
+      "title": "Основний Android-сценарій на телефоні",
+      "kind": "journey",
+      "platform": "android",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK"
+      ],
+      "expected": "Tasks/actions/chat/permissions/recovery tested on exact installed customer candidate",
+      "actual": "Robolectric synthetic flows passed; physical and live ERP journey were not executed",
+      "environment": {
+        "kind": "device",
+        "label": "Customer phone + approved test ERP not available"
+      },
+      "observed_at": null,
+      "evidence": [],
+      "reason": "No customer device/live-account journey.",
+      "next_action": "Run HANDOFF_UK.md protocol on the phone, then approved ERP/role/worker flows.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "IOS-BUILD",
+      "title": "Справжня SwiftUI-збірка на Mac",
+      "kind": "build",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Xcode компілює зафіксований source в Simulator application",
+      "actual": "Xcode16.4 / SDK18.5 compiled the exact-source arm64 test-host application",
+      "environment": {
+        "kind": "ci",
+        "label": "macOS15.8.2 arm64 CI; Xcode16.4 / SDK18.5; iPhone16 Simulator"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/ios/ios-build.log",
+          "sha256": "e724807412876f2c686cff0f2aba773448559e93ee619323c4b759cf1804c1fd"
+        },
+        {
+          "path": "evidence/ios/ci-job.log",
+          "sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad"
+        },
+        {
+          "path": "evidence/ios/native-receipt.json",
+          "sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "IOS-PACKAGE",
+      "title": "Перевірений формат і hashes iOS Simulator ZIP",
+      "kind": "package",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Simulator platform, bundle ID/version, safe archive and exact bundle hashes",
+      "actual": "de.knaba.mobile /0.6.0/build8, iPhoneSimulator; inner ZIP7148898B;48/48 hashes match archive and source-bundle launch receipt; no signed IPA",
+      "environment": {
+        "kind": "static",
+        "label": "Downloaded actual Xcode Simulator archive reviewed on Linux"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/ios/native-receipt.json",
+          "sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c"
+        },
+        {
+          "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+          "sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423"
+        },
+        {
+          "path": "evidence/ios/ios-artifact-hash-audit-2a9038e.json",
+          "sha256": "7af7c9c0335ece55eae57a446a4a7beb3491568fc590f2f3d625f12ab8cb273b"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "IOS-AUTOMATED",
+      "title": "Фактичні XCTest",
+      "kind": "automated",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Actual XCTest, zero failed/skipped/expected failures",
+      "actual": "91/91 passed; credential, recovery, navigation and presentation tests executed",
+      "environment": {
+        "kind": "ci",
+        "label": "macOS15.8.2 arm64 CI; Xcode16.4 / SDK18.5; iPhone16 Simulator"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/ios/xctest-summary.json",
+          "sha256": "fd2143386420d49106cbe0d9b962f69423bf9ae41f694875ee48919978299621"
+        },
+        {
+          "path": "evidence/ios/ios-tests.log",
+          "sha256": "e2ecf9208959ee9bd15e4051209150dc6bbe3a15935f15696f2334944ba89de3"
+        },
+        {
+          "path": "evidence/ios/ci-job.log",
+          "sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "IOS-SIMULATOR-INSTALL",
+      "title": "Чисте встановлення і запуск iOS Simulator",
+      "kind": "install",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "IOS-SIMULATOR"
+      ],
+      "expected": "The reviewed Simulator bundle installs/launches and yields clean light/dark captures",
+      "actual": "10/10 commands exit0, install/launch PASS; light and dark login captures independently reviewed;48 source-bundle hashes preserved",
+      "environment": {
+        "kind": "simulator",
+        "label": "macOS15.8.2 arm64 CI; Xcode16.4 / SDK18.5; iPhone16 Simulator"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/ios/simulator-launch-smoke.json",
+          "sha256": "89494cd40dce3fc9316c5377957576df956f2fbc0c14ef5ae4be1606da82352a"
+        },
+        {
+          "path": "evidence/ios/simulator-launch-commands.json",
+          "sha256": "80164f3cd1e980658bbfb1b3ceb2a595a23e2e387a4a3017719ec04281698007"
+        },
+        {
+          "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+          "sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "IOS-DEVICE-PACKAGE",
+      "title": "Підписаний iPhone IPA",
+      "kind": "package",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [],
+      "expected": "Owner-signed device IPA covers the agreed Apple distribution channel and customer device",
+      "actual": "No IPA exists; only unsigned Simulator archive and verified source are available",
+      "environment": {
+        "kind": "static",
+        "label": "Authorized Apple owner signing environment not available"
+      },
+      "observed_at": null,
+      "evidence": [],
+      "reason": "Apple team certificate/private key, provisioning profile and agreed registered device/channel are unavailable.",
+      "next_action": "Owner configures authorized signing; export real device IPA with archive-release.sh and verify signature/profile/expiry.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "IOS-DEVICE-INSTALL",
+      "title": "Установлення iPhone-пакета",
+      "kind": "install",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [],
+      "expected": "Actual signed IPA installs on the authorized customer iPhone",
+      "actual": "No device IPA or physical iPhone test",
+      "environment": {
+        "kind": "device",
+        "label": "Customer iPhone + signed IPA not available"
+      },
+      "observed_at": null,
+      "evidence": [],
+      "reason": "Required signed IPA/device are unavailable.",
+      "next_action": "After owner signing, install the exact IPA on the registered customer device and record the result.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "IOS-DEVICE-JOURNEY",
+      "title": "Основний iPhone-сценарій",
+      "kind": "journey",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [],
+      "expected": "Real account, permissions, tasks/actions/recovery and worker flow pass on installed iPhone",
+      "actual": "Only isolated Simulator tests were performed",
+      "environment": {
+        "kind": "device",
+        "label": "Customer iPhone + approved ERP account not available"
+      },
+      "observed_at": null,
+      "evidence": [],
+      "reason": "No signed phone candidate or customer live journey.",
+      "next_action": "Run approved device/role/permission/recovery journey and preserve its exact build identity.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "IOS-SOURCE-ARCHIVE",
+      "title": "Portable iOS source archive",
+      "kind": "automated",
+      "platform": "ios",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "IOS-SOURCE"
+      ],
+      "expected": "All archived input bytes match the declared clean Git source",
+      "actual": "52/52 files matched Git; safe archive; sourceWorkingTree false; source only",
+      "environment": {
+        "kind": "static",
+        "label": "Clean Linux checkout of2a9038e; Python3 source packager and independent byte comparison"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/ios-source-package-verification.json",
+          "sha256": "2891822b69a005076d31f4ee205b119ec5adeb256b18fd7e91bdfb1df4ca1f22"
+        },
+        {
+          "path": "evidence/ios-source-package.log",
+          "sha256": "6244a780073cc32ab1a7697d1653ff9ba99cb70d75eebb1b5ae4f763ed4a5afe"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "REPOSITORY-AUTOMATED",
+      "title": "Серверні контракти, сайт і PostgreSQL integration",
+      "kind": "automated",
+      "platform": "shared",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Required exact-source root/site/ERP/bridge checks pass without skipped tests",
+      "actual": "Root30; site1119; ERP real PostgreSQL3000; signed HTTP bridge82 — all passed",
+      "environment": {
+        "kind": "ci",
+        "label": "GitHub repository run42497195695; isolated databases and synthetic data"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/repository/report.json",
+          "sha256": "c20f50786faf6eb68b0206c3d823344017e686a32c3931d8c70df2f0e049246d"
+        },
+        {
+          "path": "evidence/repository/source-integrity.log",
+          "sha256": "b0a15156648610ba4829bda2f78f471af970186ccd476a9d89572baf05b32784"
+        },
+        {
+          "path": "evidence/repository/corporate-site.log",
+          "sha256": "979d0552c76dd95075a2b27bc41481a75cad5341d0114f6e2f106650f579bc3b"
+        },
+        {
+          "path": "evidence/repository/erp.log",
+          "sha256": "1584834138e9711cb56f701501cf039a1f3f62d38f8bace34c6db1ea7f7b2dec"
+        },
+        {
+          "path": "evidence/repository/bridge.log",
+          "sha256": "b09806c3e509b631247963f8aefab176e371a2f81a31a2cfc5e0f1b7215654fc"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "NATIVE-RENDER-REVIEW",
+      "title": "Фірмовий стиль, доступність і мови в native renders",
+      "kind": "handoff",
+      "platform": "shared",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Canonical KNABA website style and responsive/large-font/localized presentation reviewed in actual native renders",
+      "actual": "14 Android synthetic native-view fixtures accepted within viewport scope;13 iOS fixtures and2 clean Simulator captures accepted. Physical UI and Android overlay remain separate.",
+      "environment": {
+        "kind": "manual",
+        "label": "Actual Robolectric/SwiftUI XCTest render evidence; two iOS Simulator launch images"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/android/independent-artifact-review.json",
+          "sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1"
+        },
+        {
+          "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+          "sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423"
+        },
+        {
+          "path": "BRAND_DESIGN_0.6.0.md",
+          "sha256": "4f310102256711b9a3b8dc15a5ef102466cc7c3c4fac58202154ed97c40bbdab"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "SECURITY-SOURCE-REVIEW",
+      "title": "Незалежний огляд меж сесії та credential commands",
+      "kind": "security",
+      "platform": "shared",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Scoped authorization/session fences and one-shot secret commands reviewed; current binaries tested",
+      "actual": "Source-bound independent reviews and current native tests cover credentials/recovery; no physical/live security acceptance claimed",
+      "environment": {
+        "kind": "manual",
+        "label": "Independent source review plus exact-input/current CI binding"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/source-review/ios-credential-independent-review.json",
+          "sha256": "7d52f818b84a589c0d358ea61cc339b052499f79fef519df2f95a7f2ef86371d"
+        },
+        {
+          "path": "evidence/source-review/ios-credential-source-manifest.json",
+          "sha256": "d44ac65f2285f7f30676d74c0760c7d9ae82648f0f1e817b5754a6c9e3b2f001"
+        },
+        {
+          "path": "evidence/source-review/android-integration-independent-review-f60293da.json",
+          "sha256": "9452151ac2e6bfa9aed1fd26d83991b426e8f26440a17cb1b4e8dff74712a25c"
+        },
+        {
+          "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+          "sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423"
+        },
+        {
+          "path": "evidence/android/root-binary-verification.json",
+          "sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d"
+        }
+      ],
+      "reason": null,
+      "next_action": null,
+      "declared_status": "PASS",
+      "evidence_status": "PASS"
+    },
+    {
+      "id": "ERP-CONNECTION",
+      "title": "Дозволене ERP-підключення для замовника",
+      "kind": "handoff",
+      "platform": "shared",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ],
+      "expected": "Approved ERP endpoint/accounts and real authentication are available",
+      "actual": "Bounded public GET08.11.2026 15:58UTC: HTTP200/schema1/stage prototype/erpOrigin:null; deployment source not exposed; no live login",
+      "environment": {
+        "kind": "manual",
+        "label": "One unauthenticated read via established authorized KNABA host"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "evidence/public-connection-handoff.json",
+          "sha256": "030512844c355d914a8cea31a17a1985ace391c6d97bad0fc85d41fafa1d1f05"
+        }
+      ],
+      "reason": "Public automatic ERP origin is not configured; live accounts/readiness/role journeys not verified.",
+      "next_action": "Owner configures an approved test ERP and scoped accounts; verify readiness and real role flows before company acceptance.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "FULL-SYSTEM-UAT",
+      "title": "Повна функціональність KNABA в обох native клієнтах",
+      "kind": "handoff",
+      "platform": "shared",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR"
+      ],
+      "expected": "All existing system requirements mapped and accepted in real role/device workflows",
+      "actual": "Generic scoped modules/actions and selected workflows exist; full shared identity, specialist lifecycle/provider and customer acceptance gates remain open",
+      "environment": {
+        "kind": "manual",
+        "label": "Full-product backlog and customer/device environment"
+      },
+      "observed_at": null,
+      "evidence": [
+        {
+          "path": "MOBILE_BRAND_0.6.0_UK.md",
+          "sha256": "14ae861e5b92d33c585f2ea7fc819c54f9e881163cb13528c84bb7d52826c497"
+        }
+      ],
+      "reason": "Current candidate and CI do not establish all-system/mobile parity or live customer acceptance.",
+      "next_action": "Continue the canonical KNABA roadmap/backlog with owner-approved ERP/device journeys; keep unimplemented or unverified criteria open.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    },
+    {
+      "id": "TWO-INSTALLABLE-HANDOFF",
+      "title": "Два встановлювані пакети та повна передача",
+      "kind": "handoff",
+      "platform": "shared",
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+      "artifact_ids": [
+        "ANDROID-APK",
+        "IOS-SIMULATOR",
+        "IOS-SOURCE",
+        "HANDOFF-UK",
+        "HANDOFF-DE",
+        "IOS-MAC-GUIDE",
+        "README"
+      ],
+      "expected": "Both Android and iPhone installable files, instructions and verified customer availability",
+      "actual": "APK and Simulator/source test kit are prepared with hashes and guides; missing signed iPhone IPA keeps the requested two-phone handoff incomplete",
+      "environment": {
+        "kind": "manual",
+        "label": "Partial test package prepared; no customer acknowledgment"
+      },
+      "observed_at": "2026-11-08T16:16:42.148765+00:00",
+      "evidence": [
+        {
+          "path": "HANDOFF_UK.md",
+          "sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e"
+        },
+        {
+          "path": "KUNDENTEST_DE.md",
+          "sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34"
+        },
+        {
+          "path": "IOS_MAC_UK.md",
+          "sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc"
+        }
+      ],
+      "reason": "The second customer-installable phone artifact is missing; Simulator/source are explicitly not IPA substitutes.",
+      "next_action": "Complete Apple signing and physical verification, then hand over the signed IPA and obtain customer test results.",
+      "declared_status": "BLOCKED",
+      "evidence_status": "BLOCKED"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "ANDROID-APK",
+      "platform": "android",
+      "kind": "apk",
+      "path": "artifacts/KNABA-DE-Android-0.6.0-9.apk",
+      "sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+      "size_bytes": 3113733,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "id": "IOS-SIMULATOR",
+      "platform": "ios",
+      "kind": "ios-simulator-zip",
+      "path": "artifacts/KNABA-DE-iOS-0.6.0-Simulator.zip",
+      "sha256": "6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9",
+      "size_bytes": 7148898,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "id": "IOS-SOURCE",
+      "platform": "ios",
+      "kind": "source",
+      "path": "artifacts/KNABA-DE-iOS-0.6.0-Source.tar.gz",
+      "sha256": "50f3bc4abe63e874e9cb972e111fae5b0e0d8f34cbe567018643b02ba4fcba50",
+      "size_bytes": 391662,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "id": "HANDOFF-UK",
+      "platform": "shared",
+      "kind": "docs",
+      "path": "HANDOFF_UK.md",
+      "sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e",
+      "size_bytes": 18617,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "id": "HANDOFF-DE",
+      "platform": "shared",
+      "kind": "docs",
+      "path": "KUNDENTEST_DE.md",
+      "sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34",
+      "size_bytes": 6650,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "id": "IOS-MAC-GUIDE",
+      "platform": "ios",
+      "kind": "docs",
+      "path": "IOS_MAC_UK.md",
+      "sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc",
+      "size_bytes": 5383,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    },
+    {
+      "id": "README",
+      "platform": "shared",
+      "kind": "docs",
+      "path": "README_UK.md",
+      "sha256": "12b4b70ee058f20c07b0de3b6a0b48259f4ec1c596c1277188114b74bd395241",
+      "size_bytes": 2668,
+      "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e"
+    }
+  ],
+  "files": [
+    {
+      "subject": "scope",
+      "path": "scope.md",
+      "declared_sha256": "758d2159bbe481f5f9f414f1cbc0f40f79ff229fd14d8ecd504d5343944be086",
+      "actual_sha256": "758d2159bbe481f5f9f414f1cbc0f40f79ff229fd14d8ecd504d5343944be086",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 6967
+    },
+    {
+      "subject": "artifact:ANDROID-APK",
+      "path": "artifacts/KNABA-DE-Android-0.6.0-9.apk",
+      "declared_sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+      "actual_sha256": "243d847a903d44754548c768793416e82fc881e63218e98ce9b4d664241a783c",
+      "declared_size_bytes": 3113733,
+      "actual_size_bytes": 3113733
+    },
+    {
+      "subject": "artifact:IOS-SIMULATOR",
+      "path": "artifacts/KNABA-DE-iOS-0.6.0-Simulator.zip",
+      "declared_sha256": "6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9",
+      "actual_sha256": "6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9",
+      "declared_size_bytes": 7148898,
+      "actual_size_bytes": 7148898
+    },
+    {
+      "subject": "artifact:IOS-SOURCE",
+      "path": "artifacts/KNABA-DE-iOS-0.6.0-Source.tar.gz",
+      "declared_sha256": "50f3bc4abe63e874e9cb972e111fae5b0e0d8f34cbe567018643b02ba4fcba50",
+      "actual_sha256": "50f3bc4abe63e874e9cb972e111fae5b0e0d8f34cbe567018643b02ba4fcba50",
+      "declared_size_bytes": 391662,
+      "actual_size_bytes": 391662
+    },
+    {
+      "subject": "artifact:HANDOFF-UK",
+      "path": "HANDOFF_UK.md",
+      "declared_sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e",
+      "actual_sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e",
+      "declared_size_bytes": 18617,
+      "actual_size_bytes": 18617
+    },
+    {
+      "subject": "artifact:HANDOFF-DE",
+      "path": "KUNDENTEST_DE.md",
+      "declared_sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34",
+      "actual_sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34",
+      "declared_size_bytes": 6650,
+      "actual_size_bytes": 6650
+    },
+    {
+      "subject": "artifact:IOS-MAC-GUIDE",
+      "path": "IOS_MAC_UK.md",
+      "declared_sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc",
+      "actual_sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc",
+      "declared_size_bytes": 5383,
+      "actual_size_bytes": 5383
+    },
+    {
+      "subject": "artifact:README",
+      "path": "README_UK.md",
+      "declared_sha256": "12b4b70ee058f20c07b0de3b6a0b48259f4ec1c596c1277188114b74bd395241",
+      "actual_sha256": "12b4b70ee058f20c07b0de3b6a0b48259f4ec1c596c1277188114b74bd395241",
+      "declared_size_bytes": 2668,
+      "actual_size_bytes": 2668
+    },
+    {
+      "subject": "check:ANDROID-BUILD",
+      "path": "evidence/android/ci-job.log",
+      "declared_sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1",
+      "actual_sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 72111
+    },
+    {
+      "subject": "check:ANDROID-BUILD",
+      "path": "evidence/android/receipt.json",
+      "declared_sha256": "2d88f988b94597c6dbdad19ceae4bf1b007861aa04011fb57159efa7b23d7cf6",
+      "actual_sha256": "2d88f988b94597c6dbdad19ceae4bf1b007861aa04011fb57159efa7b23d7cf6",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 12320
+    },
+    {
+      "subject": "check:ANDROID-BUILD",
+      "path": "evidence/android/root-binary-verification.json",
+      "declared_sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+      "actual_sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 4173
+    },
+    {
+      "subject": "check:ANDROID-PACKAGE",
+      "path": "evidence/android/root-binary-verification.json",
+      "declared_sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+      "actual_sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 4173
+    },
+    {
+      "subject": "check:ANDROID-PACKAGE",
+      "path": "evidence/android/apksigner-local.txt",
+      "declared_sha256": "ebb198d6ca0fcddbe672f663686d2f69b57285a1cbd77021b63b88cbb99c7d17",
+      "actual_sha256": "ebb198d6ca0fcddbe672f663686d2f69b57285a1cbd77021b63b88cbb99c7d17",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 955
+    },
+    {
+      "subject": "check:ANDROID-PACKAGE",
+      "path": "evidence/android/aapt-badging-local.txt",
+      "declared_sha256": "ed18cf51c1e321cf6d3293927bf3f405ef6a63b1a9c72c8447c541608d1a3437",
+      "actual_sha256": "ed18cf51c1e321cf6d3293927bf3f405ef6a63b1a9c72c8447c541608d1a3437",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 1858
+    },
+    {
+      "subject": "check:ANDROID-PACKAGE",
+      "path": "evidence/android/aapt-manifest-local.txt",
+      "declared_sha256": "8afaacf887878e60f461b36859e911064db69e8ecf6c5cae232a241f53b704a9",
+      "actual_sha256": "8afaacf887878e60f461b36859e911064db69e8ecf6c5cae232a241f53b704a9",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 3803
+    },
+    {
+      "subject": "check:ANDROID-PACKAGE",
+      "path": "evidence/android/zipalign-execution.json",
+      "declared_sha256": "4373c718e44959a6447bb699406987e9915bff45c92f254a124e6e61c57c7a8f",
+      "actual_sha256": "4373c718e44959a6447bb699406987e9915bff45c92f254a124e6e61c57c7a8f",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 712
+    },
+    {
+      "subject": "check:ANDROID-AUTOMATED",
+      "path": "evidence/android/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+      "declared_sha256": "30f7591f7991be0d2d9ce46434d32c9d227db482363095113cb70a5a35f43dd4",
+      "actual_sha256": "30f7591f7991be0d2d9ce46434d32c9d227db482363095113cb70a5a35f43dd4",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 9176
+    },
+    {
+      "subject": "check:ANDROID-AUTOMATED",
+      "path": "evidence/android/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+      "declared_sha256": "24fe5eb823bbd8774208d2db6cc20369a321772abc488f78e1b63489ef57bb00",
+      "actual_sha256": "24fe5eb823bbd8774208d2db6cc20369a321772abc488f78e1b63489ef57bb00",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 1174
+    },
+    {
+      "subject": "check:ANDROID-AUTOMATED",
+      "path": "evidence/android/TEST-de.knaba.mobile.LauncherIconTest.xml",
+      "declared_sha256": "e539a0ce2bcbb7c7be18f62868593d86204988258d0b67e20d20816827ca4d74",
+      "actual_sha256": "e539a0ce2bcbb7c7be18f62868593d86204988258d0b67e20d20816827ca4d74",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 457
+    },
+    {
+      "subject": "check:ANDROID-AUTOMATED",
+      "path": "evidence/android/ci-job.log",
+      "declared_sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1",
+      "actual_sha256": "7ce2e5e04f56ba6afacf6c73524b72dafd97654ebedcdc9857cc6dbee57be5d1",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 72111
+    },
+    {
+      "subject": "check:ANDROID-EMULATOR-INSTALL",
+      "path": "evidence/android/emulator/receipt.json",
+      "declared_sha256": "edae1825d2938c78b50c5c892db71fb049482b5418649c6a81ab3b4c60d82caa",
+      "actual_sha256": "edae1825d2938c78b50c5c892db71fb049482b5418649c6a81ab3b4c60d82caa",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 2621
+    },
+    {
+      "subject": "check:ANDROID-EMULATOR-INSTALL",
+      "path": "evidence/android/emulator/commands.json",
+      "declared_sha256": "0faa5737884e5942e0661af7f761cf0386257a62098c1fe3367bd8129de04cbf",
+      "actual_sha256": "0faa5737884e5942e0661af7f761cf0386257a62098c1fe3367bd8129de04cbf",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 69268
+    },
+    {
+      "subject": "check:ANDROID-EMULATOR-INSTALL",
+      "path": "evidence/android/independent-artifact-review.json",
+      "declared_sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1",
+      "actual_sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 32374
+    },
+    {
+      "subject": "check:ANDROID-CLEAN-RUNTIME-VISUAL",
+      "path": "evidence/android/emulator/login-android35.png",
+      "declared_sha256": "ce5d60478000c157ef6b1c4384359a94a9584f781f6c4feca144fd491e63b0e8",
+      "actual_sha256": "ce5d60478000c157ef6b1c4384359a94a9584f781f6c4feca144fd491e63b0e8",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 192101
+    },
+    {
+      "subject": "check:ANDROID-CLEAN-RUNTIME-VISUAL",
+      "path": "evidence/android/independent-artifact-review.json",
+      "declared_sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1",
+      "actual_sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 32374
+    },
+    {
+      "subject": "check:IOS-BUILD",
+      "path": "evidence/ios/ios-build.log",
+      "declared_sha256": "e724807412876f2c686cff0f2aba773448559e93ee619323c4b759cf1804c1fd",
+      "actual_sha256": "e724807412876f2c686cff0f2aba773448559e93ee619323c4b759cf1804c1fd",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 113994
+    },
+    {
+      "subject": "check:IOS-BUILD",
+      "path": "evidence/ios/ci-job.log",
+      "declared_sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad",
+      "actual_sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 333536
+    },
+    {
+      "subject": "check:IOS-BUILD",
+      "path": "evidence/ios/native-receipt.json",
+      "declared_sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c",
+      "actual_sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 19703
+    },
+    {
+      "subject": "check:IOS-PACKAGE",
+      "path": "evidence/ios/native-receipt.json",
+      "declared_sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c",
+      "actual_sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 19703
+    },
+    {
+      "subject": "check:IOS-PACKAGE",
+      "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+      "declared_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "actual_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 23847
+    },
+    {
+      "subject": "check:IOS-PACKAGE",
+      "path": "evidence/ios/ios-artifact-hash-audit-2a9038e.json",
+      "declared_sha256": "7af7c9c0335ece55eae57a446a4a7beb3491568fc590f2f3d625f12ab8cb273b",
+      "actual_sha256": "7af7c9c0335ece55eae57a446a4a7beb3491568fc590f2f3d625f12ab8cb273b",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 14902
+    },
+    {
+      "subject": "check:IOS-AUTOMATED",
+      "path": "evidence/ios/xctest-summary.json",
+      "declared_sha256": "fd2143386420d49106cbe0d9b962f69423bf9ae41f694875ee48919978299621",
+      "actual_sha256": "fd2143386420d49106cbe0d9b962f69423bf9ae41f694875ee48919978299621",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 1170
+    },
+    {
+      "subject": "check:IOS-AUTOMATED",
+      "path": "evidence/ios/ios-tests.log",
+      "declared_sha256": "e2ecf9208959ee9bd15e4051209150dc6bbe3a15935f15696f2334944ba89de3",
+      "actual_sha256": "e2ecf9208959ee9bd15e4051209150dc6bbe3a15935f15696f2334944ba89de3",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 109283
+    },
+    {
+      "subject": "check:IOS-AUTOMATED",
+      "path": "evidence/ios/ci-job.log",
+      "declared_sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad",
+      "actual_sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 333536
+    },
+    {
+      "subject": "check:IOS-SIMULATOR-INSTALL",
+      "path": "evidence/ios/simulator-launch-smoke.json",
+      "declared_sha256": "89494cd40dce3fc9316c5377957576df956f2fbc0c14ef5ae4be1606da82352a",
+      "actual_sha256": "89494cd40dce3fc9316c5377957576df956f2fbc0c14ef5ae4be1606da82352a",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 8275
+    },
+    {
+      "subject": "check:IOS-SIMULATOR-INSTALL",
+      "path": "evidence/ios/simulator-launch-commands.json",
+      "declared_sha256": "80164f3cd1e980658bbfb1b3ceb2a595a23e2e387a4a3017719ec04281698007",
+      "actual_sha256": "80164f3cd1e980658bbfb1b3ceb2a595a23e2e387a4a3017719ec04281698007",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 2476
+    },
+    {
+      "subject": "check:IOS-SIMULATOR-INSTALL",
+      "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+      "declared_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "actual_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 23847
+    },
+    {
+      "subject": "check:IOS-SOURCE-ARCHIVE",
+      "path": "evidence/ios-source-package-verification.json",
+      "declared_sha256": "2891822b69a005076d31f4ee205b119ec5adeb256b18fd7e91bdfb1df4ca1f22",
+      "actual_sha256": "2891822b69a005076d31f4ee205b119ec5adeb256b18fd7e91bdfb1df4ca1f22",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 510
+    },
+    {
+      "subject": "check:IOS-SOURCE-ARCHIVE",
+      "path": "evidence/ios-source-package.log",
+      "declared_sha256": "6244a780073cc32ab1a7697d1653ff9ba99cb70d75eebb1b5ae4f763ed4a5afe",
+      "actual_sha256": "6244a780073cc32ab1a7697d1653ff9ba99cb70d75eebb1b5ae4f763ed4a5afe",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 257
+    },
+    {
+      "subject": "check:REPOSITORY-AUTOMATED",
+      "path": "evidence/repository/report.json",
+      "declared_sha256": "c20f50786faf6eb68b0206c3d823344017e686a32c3931d8c70df2f0e049246d",
+      "actual_sha256": "c20f50786faf6eb68b0206c3d823344017e686a32c3931d8c70df2f0e049246d",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 3194
+    },
+    {
+      "subject": "check:REPOSITORY-AUTOMATED",
+      "path": "evidence/repository/source-integrity.log",
+      "declared_sha256": "b0a15156648610ba4829bda2f78f471af970186ccd476a9d89572baf05b32784",
+      "actual_sha256": "b0a15156648610ba4829bda2f78f471af970186ccd476a9d89572baf05b32784",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 42365
+    },
+    {
+      "subject": "check:REPOSITORY-AUTOMATED",
+      "path": "evidence/repository/corporate-site.log",
+      "declared_sha256": "979d0552c76dd95075a2b27bc41481a75cad5341d0114f6e2f106650f579bc3b",
+      "actual_sha256": "979d0552c76dd95075a2b27bc41481a75cad5341d0114f6e2f106650f579bc3b",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 142411
+    },
+    {
+      "subject": "check:REPOSITORY-AUTOMATED",
+      "path": "evidence/repository/erp.log",
+      "declared_sha256": "1584834138e9711cb56f701501cf039a1f3f62d38f8bace34c6db1ea7f7b2dec",
+      "actual_sha256": "1584834138e9711cb56f701501cf039a1f3f62d38f8bace34c6db1ea7f7b2dec",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 108273
+    },
+    {
+      "subject": "check:REPOSITORY-AUTOMATED",
+      "path": "evidence/repository/bridge.log",
+      "declared_sha256": "b09806c3e509b631247963f8aefab176e371a2f81a31a2cfc5e0f1b7215654fc",
+      "actual_sha256": "b09806c3e509b631247963f8aefab176e371a2f81a31a2cfc5e0f1b7215654fc",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 105683
+    },
+    {
+      "subject": "check:NATIVE-RENDER-REVIEW",
+      "path": "evidence/android/independent-artifact-review.json",
+      "declared_sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1",
+      "actual_sha256": "a5bf842f7a7188c72b3cc11b6f87839c003efc7a9bdb8d326ee4f49271f357b1",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 32374
+    },
+    {
+      "subject": "check:NATIVE-RENDER-REVIEW",
+      "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+      "declared_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "actual_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 23847
+    },
+    {
+      "subject": "check:NATIVE-RENDER-REVIEW",
+      "path": "BRAND_DESIGN_0.6.0.md",
+      "declared_sha256": "4f310102256711b9a3b8dc15a5ef102466cc7c3c4fac58202154ed97c40bbdab",
+      "actual_sha256": "4f310102256711b9a3b8dc15a5ef102466cc7c3c4fac58202154ed97c40bbdab",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 9105
+    },
+    {
+      "subject": "check:SECURITY-SOURCE-REVIEW",
+      "path": "evidence/source-review/ios-credential-independent-review.json",
+      "declared_sha256": "7d52f818b84a589c0d358ea61cc339b052499f79fef519df2f95a7f2ef86371d",
+      "actual_sha256": "7d52f818b84a589c0d358ea61cc339b052499f79fef519df2f95a7f2ef86371d",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 15443
+    },
+    {
+      "subject": "check:SECURITY-SOURCE-REVIEW",
+      "path": "evidence/source-review/ios-credential-source-manifest.json",
+      "declared_sha256": "d44ac65f2285f7f30676d74c0760c7d9ae82648f0f1e817b5754a6c9e3b2f001",
+      "actual_sha256": "d44ac65f2285f7f30676d74c0760c7d9ae82648f0f1e817b5754a6c9e3b2f001",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 5389
+    },
+    {
+      "subject": "check:SECURITY-SOURCE-REVIEW",
+      "path": "evidence/source-review/android-integration-independent-review-f60293da.json",
+      "declared_sha256": "9452151ac2e6bfa9aed1fd26d83991b426e8f26440a17cb1b4e8dff74712a25c",
+      "actual_sha256": "9452151ac2e6bfa9aed1fd26d83991b426e8f26440a17cb1b4e8dff74712a25c",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 17960
+    },
+    {
+      "subject": "check:SECURITY-SOURCE-REVIEW",
+      "path": "evidence/ios/ios-artifact-review-2a9038e.json",
+      "declared_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "actual_sha256": "c2efc03ae203319f00eda325ef0649da5e42a444115fed0fd7f07ab5e0c50423",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 23847
+    },
+    {
+      "subject": "check:SECURITY-SOURCE-REVIEW",
+      "path": "evidence/android/root-binary-verification.json",
+      "declared_sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+      "actual_sha256": "4c0c249205be6b2aa72346ac5e91b713b5626e3522302733cf3cba22cae22a6d",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 4173
+    },
+    {
+      "subject": "check:ERP-CONNECTION",
+      "path": "evidence/public-connection-handoff.json",
+      "declared_sha256": "030512844c355d914a8cea31a17a1985ace391c6d97bad0fc85d41fafa1d1f05",
+      "actual_sha256": "030512844c355d914a8cea31a17a1985ace391c6d97bad0fc85d41fafa1d1f05",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 2133
+    },
+    {
+      "subject": "check:FULL-SYSTEM-UAT",
+      "path": "MOBILE_BRAND_0.6.0_UK.md",
+      "declared_sha256": "14ae861e5b92d33c585f2ea7fc819c54f9e881163cb13528c84bb7d52826c497",
+      "actual_sha256": "14ae861e5b92d33c585f2ea7fc819c54f9e881163cb13528c84bb7d52826c497",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 11543
+    },
+    {
+      "subject": "check:TWO-INSTALLABLE-HANDOFF",
+      "path": "HANDOFF_UK.md",
+      "declared_sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e",
+      "actual_sha256": "33551832be37c98100d6cc6f9f5e67f9b5f426928fa437fa227a649a4fdb610e",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 18617
+    },
+    {
+      "subject": "check:TWO-INSTALLABLE-HANDOFF",
+      "path": "KUNDENTEST_DE.md",
+      "declared_sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34",
+      "actual_sha256": "d1d164d9069864cce38a9acc227578b5eb51ca3a2ff8d138a27dc3c686571e34",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 6650
+    },
+    {
+      "subject": "check:TWO-INSTALLABLE-HANDOFF",
+      "path": "IOS_MAC_UK.md",
+      "declared_sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc",
+      "actual_sha256": "ea278797fda7f2fc18e59bafe0641fa70aad1ca8f95856ef8c1ec1074d0f62bc",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 5383
+    },
+    {
+      "subject": "review",
+      "path": "evidence/independent-kit-review.json",
+      "declared_sha256": "4d6e38c7d69f0e2f1fa61bc5c03ffa75c001f7ed732f1ff8895be28f970d14cb",
+      "actual_sha256": "4d6e38c7d69f0e2f1fa61bc5c03ffa75c001f7ed732f1ff8895be28f970d14cb",
+      "declared_size_bytes": null,
+      "actual_size_bytes": 12422
+    }
+  ],
+  "scope": {
+    "path": "scope.md",
+    "sha256": "758d2159bbe481f5f9f414f1cbc0f40f79ff229fd14d8ecd504d5343944be086"
+  },
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/ios_brand",
+    "source_id": "git:2a9038e14d5dba47ba636556e905ae36144c266e",
+    "subject_sha256": "851d9ad59c3fc926575d1c9bccb44d9bd503a49483011c7658647dd97d697044",
+    "observed_at": "2026-11-08T16:28:25.227361+00:00",
+    "evidence": [
+      {
+        "path": "evidence/independent-kit-review.json",
+        "sha256": "4d6e38c7d69f0e2f1fa61bc5c03ffa75c001f7ed732f1ff8895be28f970d14cb"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "status": "BLOCKED",
+      "subject": "check:ANDROID-EMULATOR-INSTALL",
+      "message": "client-handoff requires one of these runtime environments: ['device']"
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:ANDROID-CLEAN-RUNTIME-VISUAL",
+      "message": "System launcher overlay prevents the full runtime visual inspection; native render fixtures do not close this gate."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:ANDROID-DEVICE-INSTALL",
+      "message": "No physical customer device test was performed."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:ANDROID-DEVICE-JOURNEY",
+      "message": "No customer device/live-account journey."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-SIMULATOR-INSTALL",
+      "message": "client-handoff requires one of these runtime environments: ['device']"
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-DEVICE-PACKAGE",
+      "message": "Apple team certificate/private key, provisioning profile and agreed registered device/channel are unavailable."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-DEVICE-PACKAGE",
+      "message": "check is not bound to any binary artifact"
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-DEVICE-INSTALL",
+      "message": "Required signed IPA/device are unavailable."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-DEVICE-INSTALL",
+      "message": "check is not bound to any binary artifact"
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-DEVICE-JOURNEY",
+      "message": "No signed phone candidate or customer live journey."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:IOS-DEVICE-JOURNEY",
+      "message": "check is not bound to any binary artifact"
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:ERP-CONNECTION",
+      "message": "Public automatic ERP origin is not configured; live accounts/readiness/role journeys not verified."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:FULL-SYSTEM-UAT",
+      "message": "Current candidate and CI do not establish all-system/mobile parity or live customer acceptance."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "check:TWO-INSTALLABLE-HANDOFF",
+      "message": "The second customer-installable phone artifact is missing; Simulator/source are explicitly not IPA substitutes."
+    },
+    {
+      "status": "BLOCKED",
+      "subject": "platform:ios",
+      "message": "build, package, install and journey do not identify the same candidate"
+    }
+  ],
+  "limits": "Checks consistency of supplied local evidence only; does not prove test authenticity, product readiness, or permission to publish."
+}

@@ -29,6 +29,8 @@ class ErpConsoleTransport {
     private long epoch;
     private PendingCommand pending;
     private String actorScope = "";
+    private String actorAuthority = "";
+    private boolean sensitiveFlight;
     private final ConnectionFactory connections;
     private final Journal journal;
 
@@ -56,8 +58,12 @@ class ErpConsoleTransport {
         public final int status;
         public final String code;
         public final boolean outcomeUnknown;
+        public final long retryAfterMillis;
         Failure(int status, String code, boolean outcomeUnknown) {
-            super(code); this.status = status; this.code = code; this.outcomeUnknown = outcomeUnknown;
+            this(status, code, outcomeUnknown, 0);
+        }
+        Failure(int status, String code, boolean outcomeUnknown, long retryAfterMillis) {
+            super(code); this.status = status; this.code = code; this.outcomeUnknown = outcomeUnknown; this.retryAfterMillis = retryAfterMillis;
         }
     }
 
@@ -83,7 +89,7 @@ class ErpConsoleTransport {
         if (!next.equals(origin)) clear();
         origin = next;
     }
-    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; actorScope = ""; }
+    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; actorScope = ""; actorAuthority = ""; sensitiveFlight = false; }
     synchronized boolean isSignedIn() { return !cookie.isEmpty() && !csrf.isEmpty(); }
     synchronized String origin() { return origin; }
     synchronized boolean hasPendingCommand() { return pending != null; }
@@ -98,6 +104,22 @@ class ErpConsoleTransport {
         StringBuilder value = new StringBuilder(); for (byte b : hash) value.append(String.format(Locale.ROOT, "%02x", b & 255));
         return value.toString();
     }
+    private String authority(JSONObject actor) throws Exception {
+        JSONObject normalized = new JSONObject(actor.toString());
+        // /me reports this timestamp; the actual mfaVerified value still fences expiry.
+        normalized.remove("mfaVerifiedAt");
+        for (String field : new String[]{"roles", "permissions", "siteIds", "warehouseIds", "customerIds"}) {
+            JSONArray values = normalized.optJSONArray(field);
+            if (values == null) continue;
+            List<String> sorted = new ArrayList<>();
+            for (int i=0;i<values.length();i++) {
+                if (!(values.get(i) instanceof String)) throw new Failure(0,"INVALID_RESPONSE",false);
+                sorted.add(values.getString(i));
+            }
+            Collections.sort(sorted); normalized.put(field,new JSONArray(sorted));
+        }
+        return canonical(normalized);
+    }
     private void restorePending() throws Exception {
         String saved;
         try { saved = journal.read(actorScope); }
@@ -109,7 +131,8 @@ class ErpConsoleTransport {
             String name = record.getString("name"), key = body.getString("idempotency_key");
             if (!name.matches("[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+") || !key.matches("[A-Za-z0-9_-]{8,200}") ||
                     record.getInt("version") != 1 || !actorScope.equals(record.getString("scope")) ||
-                    body.getJSONObject("input") == null || body.has("expected_version") && (!(body.get("expected_version") instanceof Number) || body.getInt("expected_version") < 1)) throw new IllegalArgumentException();
+                    body.getJSONObject("input") == null || ErpCommandSecrets.isOneShot(name) || ErpCommandSecrets.containsSecret(body.getJSONObject("input")) ||
+                    body.has("expected_version") && (!(body.get("expected_version") instanceof Number) || body.getInt("expected_version") < 1)) throw new IllegalArgumentException();
             JSONObject fingerprintBody = new JSONObject(body.toString()); fingerprintBody.remove("idempotency_key");
             pending = new PendingCommand(name + ":" + canonical(fingerprintBody), name, body.toString(), capture(), actorScope);
             pending.uncertain = true; // Crash may have happened after the server committed.
@@ -183,7 +206,8 @@ class ErpConsoleTransport {
             catch (Exception ignored) { /* Errors are classified by status, never by raw HTML/body. */ }
             if (status >= 400) {
                 String code = errorCode(result);
-                throw new Failure(status, code, mutation && (status >= 500 || "IDEMPOTENCY_CONFLICT".equals(code)));
+                throw new Failure(status, code, mutation && (status >= 500 || "IDEMPOTENCY_CONFLICT".equals(code)),
+                    (status == 429 || status == 503) ? ErpReadRetry.retryAfter(http.getHeaderField("Retry-After"), System.currentTimeMillis()) : 0);
             }
             if (result == null) throw new Failure(status, "INVALID_RESPONSE", mutation && submitted);
             if (detachedLogout) return result;
@@ -196,7 +220,7 @@ class ErpConsoleTransport {
                     if (nextCookie == null || !proof.matches("[A-Za-z0-9_-]{30,100}") || actor == null || actor.optString("userId").isEmpty() || actor.optString("companyId").isEmpty())
                         throw new Failure(status, "LOGIN_RESPONSE_INVALID", false);
                     cookie = nextCookie; csrf = proof;
-                    try { actorScope = scope(actor); restorePending(); }
+                    try { actorScope = scope(actor); actorAuthority = authority(actor); restorePending(); }
                     catch (Exception error) { clear(); throw error; }
                 } else if (authenticated && result.has("csrfToken")) {
                     String proof = result.optString("csrfToken");
@@ -237,12 +261,19 @@ class ErpConsoleTransport {
         return call("/api/v1/auth/login", body, false, true, session, false);
     }
     JSONObject me() throws Exception {
-        Session session = capture();
+        return me(capture());
+    }
+    private JSONObject me(Session session) throws Exception {
         JSONObject result = call("/api/v1/me", null, true, false, session, false);
         synchronized (this) {
             requireCurrent(session);
             JSONObject actor = result.optJSONObject("actor");
-            if (actor == null || !(actor.opt("userId") instanceof String) || !(actor.opt("companyId") instanceof String) || actor.optString("userId").isEmpty() || actor.optString("companyId").isEmpty() || !actorScope.equals(scope(actor))) {
+            boolean valid;
+            try {
+                valid = actor != null && actor.opt("userId") instanceof String && actor.opt("companyId") instanceof String &&
+                    !actor.optString("userId").isEmpty() && !actor.optString("companyId").isEmpty() && actorScope.equals(scope(actor)) && actorAuthority.equals(authority(actor));
+            } catch (Exception invalid) { valid = false; }
+            if (!valid) {
                 clear(); throw new Failure(0, "ACCESS_CHANGED", false);
             }
         }
@@ -281,6 +312,19 @@ class ErpConsoleTransport {
         if (name == null || !name.matches("[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+") || input == null || (expectedVersion != null && expectedVersion < 1))
             throw new Failure(0, "INVALID_COMMAND", false);
         if (idempotencyKey == null || !idempotencyKey.matches("[A-Za-z0-9_-]{8,200}")) throw new Failure(0, "INVALID_IDEMPOTENCY_KEY", false);
+        if (ErpCommandSecrets.isOneShot(name)) {
+            JSONObject payload = new JSONObject(input.toString());
+            ErpCommandSecrets.validateOneShot(name,payload);
+            final Session session;
+            synchronized (this) {
+                if (!isSignedIn()) throw new Failure(0,"NEEDS_REAUTH",false);
+                if (sensitiveFlight) throw new Failure(0,"COMMAND_IN_PROGRESS",false);
+                if (pending != null) throw new Failure(0,"PENDING_COMMAND_REQUIRES_RETRY",true);
+                sensitiveFlight = true; session = capture();
+            }
+            return executeSensitive(name,payload,expectedVersion,idempotencyKey,session);
+        }
+        if (ErpCommandSecrets.containsSecret(input)) throw new Failure(0,"SENSITIVE_COMMAND",false);
         JSONObject body = new JSONObject().put("input", input);
         if (expectedVersion != null) body.put("expected_version", expectedVersion);
         String fingerprint = name + ":" + canonical(body);
@@ -288,6 +332,7 @@ class ErpConsoleTransport {
         final PendingCommand attempt;
         synchronized (this) {
             if (!isSignedIn()) throw new Failure(0, "NEEDS_REAUTH", false);
+            if (sensitiveFlight) throw new Failure(0,"COMMAND_IN_PROGRESS",false);
             if (pending != null && !pending.fingerprint.equals(fingerprint)) throw new Failure(0, "PENDING_COMMAND_REQUIRES_RETRY", true);
             if (pending == null) {
                 PendingCommand next = new PendingCommand(fingerprint, name, body.toString(), capture(), actorScope);
@@ -309,6 +354,22 @@ class ErpConsoleTransport {
             if (attempt.uncertain && !failure.outcomeUnknown) throw new Failure(failure.status, failure.code, true);
             throw failure;
         } finally { synchronized (this) { attempt.inFlight = false; } }
+    }
+    private JSONObject executeSensitive(String name,JSONObject input,Integer version,String key,Session session) throws Exception {
+        try {
+            me(session);
+            final Session fresh;
+            synchronized (this) { requireCurrent(session); fresh = capture(); }
+            JSONObject body = new JSONObject().put("input",input).put("idempotency_key",key);
+            if (version != null) body.put("expected_version",version);
+            JSONObject result = call("/api/v1/commands/"+name,body,true,false,fresh,false);
+            if (!Boolean.TRUE.equals(result.opt("ok")) || !Boolean.TRUE.equals(result.opt("reauthenticationRequired")))
+                throw new Failure(0,"INVALID_RESPONSE",true);
+            return result;
+        } finally {
+            // Never clear a newer login or retain secrets for a retry, including after timeout.
+            synchronized (this) { if (epoch == session.epoch && origin.equals(session.origin)) clear(); }
+        }
     }
     private static String canonical(Object value) throws Exception {
         if (value instanceof JSONObject) {

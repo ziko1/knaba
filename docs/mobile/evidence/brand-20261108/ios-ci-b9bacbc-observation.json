@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-08T15:50:33.928Z",
+  "sourceGitSha": "b9bacbccfd358dbea0fddfde2e9a688fa2717380",
+  "sourceTree": "de827d99e0d56c429779704f3d8b31a86df7fdb5",
+  "workflowRunId": 42495904369,
+  "workflowJobId": 128778088988,
+  "result": "ALL_JOB_STEPS_SUCCESS_ACTUAL_91_XCTEST_ARTIFACT_REVIEW_PENDING",
+  "artifact": {
+    "id": 13623404407,
+    "byteSize": 11093422,
+    "sha256": "aa36dbe55f733c67c7cee30d5610f597bfd5fbbdaf37f1a8c18946321ab96ff0"
+  },
+  "rawJobLog": {
+    "path": "/workspace/scratch/a3c43ba31037/ios-credential-safety-20261108/ios-job-b9bacbcc.log",
+    "byteSize": 333684,
+    "sha256": "fa6707bbf6ead525246687d511e14443f9d779fd7fc54e3c304c8d00e15abdcc"
+  },
+  "actualTestEvidence": [
+    "2026-11-08T15:47:24.1443430Z \t Executed 91 tests, with 0 failures (0 unexpected) in 4.133 (4.235) seconds",
+    "2026-11-08T15:47:24.1652920Z \t Executed 91 tests, with 0 failures (0 unexpected) in 4.133 (4.236) seconds",
+    "2026-11-08T15:47:24.2163670Z ** TEST SUCCEEDED **",
+    "2026-11-08T15:47:27.5260250Z XCTest accepted: 91 executed, zero failed/skipped/expected failures"
+  ],
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Check out exact XcodeGen 2.43.0 source",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Verify host and build pinned project generator",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Prepare exact iOS 18.5 runtime and boot a concrete iPhone 16 simulator",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5
+    },
+    {
+      "name": "Compile unsigned iOS simulator application",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6
+    },
+    {
+      "name": "Execute native XCTest vectors on pinned iOS 18.5 simulator",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Export XCTest presentation attachments for independent visual review",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Install and launch the simulator app with light and dark screenshots",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Archive simulator app and record exact source and artifact hashes",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11
+    },
+    {
+      "name": "Post Check out exact XcodeGen 2.43.0 source",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 21
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 22
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 23
+    }
+  ],
+  "sourceComparison": {
+    "comparedFrom": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+    "method": "git diff --name-only scoped to erp/apps/mobile-ios and .github/workflows/native.yml",
+    "changedPaths": []
+  },
+  "artifactHashVerification": "PENDING_DOWNLOAD",
+  "screenshotsVisualReview": "PENDING_NEW_ARTIFACT_OR_BYTE_IDENTITY_COMPARISON",
+  "customerIPhoneInstallation": "NOT_RUN"
+}

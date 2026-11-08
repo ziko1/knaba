@@ -6,6 +6,7 @@ on:
       - 'erp/apps/mobile-ios/**'
       - 'erp/tests/native-vectors.json'
       - 'corporate-site/public/favicon.svg'
+      - 'corporate-site/public/images/knaba-3d-mobile-header.svg'
       - 'scripts/mobile/generate-brand-assets.mjs'
       - 'erp/scripts/native-ios-simulator.py'
       - '.github/workflows/native.yml'
@@ -63,6 +64,190 @@ jobs:
         run: |
           set -euo pipefail
           bash scripts/package.sh prototype
+      - name: Install the Android emulator runtime library
+        working-directory: erp/apps/mobile-android
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/evidence/android-emulator
+          # The Ubuntu 24.04 runner lacks libpulse.so.0 required even with -no-audio.
+          # https://packages.ubuntu.com/noble/amd64/libpulse0/filelist
+          timeout --kill-after=10s 60s sudo apt-get update -qq
+          timeout --kill-after=10s 60s sudo env DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends libpulse0
+          dpkg-query -W -f='${Package}\t${Version}\n' libpulse0 > build/evidence/android-emulator/runtime-packages.txt
+      - name: Install and launch the delivered APK on an isolated Android 35 emulator
+        working-directory: erp/apps/mobile-android
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/evidence/android-emulator
+          # Ephemeral GitHub-hosted runner only. Official KVM setup:
+          # https://github.blog/changelog/2024-04-02-github-actions-hardware-accelerated-android-virtualization-now-available/
+          test -c /dev/kvm
+          printf '%s\n' 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-knaba-ci-kvm.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          test -r /dev/kvm && test -w /dev/kvm
+          python3 - <<'PY'
+          import datetime, hashlib, json, os, pathlib, re, struct, subprocess, time
+          evidence = pathlib.Path('build/evidence/android-emulator')
+          # Give every Android tool the same task-scoped preferences and AVD paths.
+          # https://developer.android.com/tools/variables/
+          android_prefs = (pathlib.Path(os.environ['RUNNER_TEMP']) / 'knaba-android-emulator' / 'prefs').resolve()
+          avd_home = android_prefs / 'avd'
+          avd_home.mkdir(parents=True, exist_ok=True)
+          android_environment = os.environ.copy()
+          android_environment.update({'ANDROID_USER_HOME': str(android_prefs), 'ANDROID_EMULATOR_HOME': str(android_prefs), 'ANDROID_AVD_HOME': str(avd_home)})
+          distribution = pathlib.Path('build/distribution/prototype')
+          packaged = json.loads((distribution / 'receipt.json').read_text())
+          assert pathlib.Path(packaged['artifact']).name == packaged['artifact'], 'Invalid packaged APK path'
+          apk = (distribution / packaged['artifact']).resolve()
+          digest = hashlib.sha256(apk.read_bytes()).hexdigest()
+          assert digest == packaged['sha256'] and apk.stat().st_size == packaged['bytes'], 'APK differs from packaging receipt'
+          assert packaged['sourceGitSha'] == os.environ['NATIVE_SOURCE_SHA'], 'Unexpected APK source'
+          assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True, env=android_environment).strip() == packaged['sourceGitSha'], 'Unexpected checkout'
+          package = packaged['package']
+          assert package == 'de.knaba.mobile.test', 'Only the separate debug test package is allowed'
+          sdk = pathlib.Path(os.environ['ANDROID_HOME'])
+          sdkmanager = sdk / 'cmdline-tools/latest/bin/sdkmanager'
+          avdmanager = sdk / 'cmdline-tools/latest/bin/avdmanager'
+          emulator = sdk / 'emulator/emulator'
+          adb = sdk / 'platform-tools/adb'
+          image = 'system-images;android-35;google_apis;x86_64'
+          avd_name = 'knaba-api35'
+          avd_path = avd_home / (avd_name + '.avd')
+          serial = 'emulator-5554'
+          commands = []
+          stage = 'sdk-and-avd'
+          process = None
+          def run(*command, timeout=30, input=None, check=True, binary=False):
+              try:
+                  result = subprocess.run([str(part) for part in command], input=input, capture_output=True, text=not binary, timeout=timeout, env=android_environment)
+              except subprocess.TimeoutExpired:
+                  commands.append({'command': [str(part) for part in command], 'exitCode': None, 'timedOutSeconds': timeout})
+                  (evidence / 'commands.json').write_text(json.dumps(commands, indent=2) + '\n')
+                  raise
+              entry = {'command': [str(part) for part in command], 'exitCode': result.returncode}
+              if binary:
+                  entry.update({'stdoutBytes': len(result.stdout), 'stderr': result.stderr.decode('utf-8', errors='replace')})
+              else:
+                  entry.update({'stdout': result.stdout, 'stderr': result.stderr})
+              commands.append(entry)
+              (evidence / 'commands.json').write_text(json.dumps(commands, indent=2) + '\n')
+              if check:
+                  result.check_returncode()
+              return result
+          def device(*args, **kwargs):
+              return run(adb, '-s', serial, *args, **kwargs)
+          try:
+              run(sdkmanager, '--sdk_root=' + str(sdk), 'emulator', image, timeout=240)
+              versions = {'emulator': run(emulator, '-version').stdout, 'adb': run(adb, 'version').stdout}
+              run(emulator, '-accel-check')
+              devices = run(avdmanager, 'list', 'device').stdout
+              assert '"pixel_6"' in devices, 'Expected Pixel 6 hardware profile is unavailable'
+              run(avdmanager, 'create', 'avd', '--force', '--name', avd_name, '--package', image, '--device', 'pixel_6', '--path', avd_path, input='no\n', timeout=60)
+              for name, path in [('emulator-source.properties', sdk / 'emulator/source.properties'), ('system-image-source.properties', sdk / 'system-images/android-35/google_apis/x86_64/source.properties')]:
+                  (evidence / name).write_bytes(path.read_bytes())
+              stage = 'avd-inventory'
+              listed = run(emulator, '-list-avds', check=False)
+              avd_definition = avd_home / (avd_name + '.ini')
+              inventory = {
+                  'expectedAvd': avd_name, 'listedAvds': [name.strip() for name in listed.stdout.splitlines() if name.strip()],
+                  'listingExitCode': listed.returncode,
+                  'environment': {key: android_environment[key] for key in ['ANDROID_USER_HOME', 'ANDROID_EMULATOR_HOME', 'ANDROID_AVD_HOME']},
+                  'avdDataPath': str(avd_path), 'avdDefinitionPath': str(avd_definition),
+                  'avdDataDirectoryExists': avd_path.is_dir(), 'avdDefinitionExists': avd_definition.is_file()
+              }
+              (evidence / 'avd-inventory.json').write_text(json.dumps(inventory, indent=2) + '\n')
+              assert listed.returncode == 0 and avd_name in inventory['listedAvds'], 'Created AVD is not discoverable by the emulator'
+              assert inventory['avdDataDirectoryExists'] and inventory['avdDefinitionExists'], 'Created AVD files are missing from the explicit task directory'
+              run(adb, 'start-server')
+              launch = [str(emulator), '-avd', avd_name, '-port', '5554', '-no-window', '-no-audio', '-no-boot-anim', '-no-snapshot', '-no-metrics', '-gpu', 'software', '-accel', 'on', '-memory', '2048', '-cores', '2', '-camera-front', 'none', '-camera-back', 'none']
+              (evidence / 'emulator-command.json').write_text(json.dumps(launch, indent=2) + '\n')
+              stage = 'boot'
+              with (evidence / 'emulator.log').open('w') as log:
+                  process = subprocess.Popen(launch, stdout=log, stderr=subprocess.STDOUT, env=android_environment)
+              deadline = time.monotonic() + 240
+              booted = False
+              while time.monotonic() < deadline:
+                  assert process.poll() is None, 'Emulator exited before completing boot'
+                  try:
+                      result = device('shell', 'getprop', 'sys.boot_completed', timeout=10, check=False)
+                  except subprocess.TimeoutExpired:
+                      continue
+                  if result.returncode == 0 and result.stdout.strip() == '1':
+                      booted = True
+                      break
+                  time.sleep(2)
+              assert booted, 'Android emulator did not boot within 240 seconds'
+              system = {key: device('shell', 'getprop', key).stdout.strip() for key in ['ro.build.version.sdk', 'ro.build.version.release', 'ro.product.cpu.abi', 'ro.build.fingerprint']}
+              assert system['ro.build.version.sdk'] == '35' and system['ro.product.cpu.abi'] == 'x86_64', 'Unexpected Android emulator target'
+              device('shell', 'svc', 'wifi', 'disable')
+              device('shell', 'svc', 'data', 'disable')
+              device('shell', 'input', 'keyevent', '82')
+              stage = 'install'
+              installed = device('install', '--no-streaming', str(apk), timeout=60)
+              assert 'Success' in installed.stdout, 'Android installer did not report Success'
+              details = device('shell', 'dumpsys', 'package', package).stdout
+              code = re.search(r'\bversionCode=(\d+)\s+minSdk=(\d+)\s+targetSdk=(\d+)', details)
+              version = re.search(r'\bversionName=(\S+)', details)
+              assert code and version, 'Installed package metadata is incomplete'
+              assert int(code[1]) == packaged['versionCode'] and version[1] == packaged['versionName'], 'Installed APK version differs'
+              assert int(code[2]) == 31 and int(code[3]) == 36, 'Installed SDK contract differs'
+              paths = device('shell', 'pm', 'path', package).stdout.strip().splitlines()
+              assert len(paths) == 1 and paths[0].startswith('package:/data/app/'), 'Expected one installed base APK'
+              pulled = pathlib.Path(os.environ['RUNNER_TEMP']) / 'knaba-installed-base.apk'
+              device('pull', paths[0].removeprefix('package:'), str(pulled), timeout=60)
+              installed_hash = hashlib.sha256(pulled.read_bytes()).hexdigest()
+              assert installed_hash == digest, 'Installed APK bytes differ from delivered artifact'
+              stage = 'launch'
+              start = device('shell', 'am', 'start', '-W', '-S', '-n', package + '/de.knaba.mobile.ErpConsoleActivity', timeout=45)
+              assert re.search(r'^Status:\s*ok\s*$', start.stdout, re.MULTILINE), 'Activity manager did not confirm launch'
+              time.sleep(2)
+              assert device('shell', 'pidof', package).stdout.strip(), 'App process exited after launch'
+              activity = device('shell', 'dumpsys', 'activity', 'activities').stdout
+              resumed = [line.strip() for line in activity.splitlines() if 'ResumedActivity' in line or 'mResumedActivity' in line]
+              assert any(package + '/' in line for line in resumed), 'KNABA is not the resumed foreground activity'
+              stage = 'screenshot'
+              png = device('exec-out', 'screencap', '-p', binary=True).stdout
+              assert png[:8] == b'\x89PNG\r\n\x1a\n' and png[12:16] == b'IHDR', 'Invalid Android screenshot'
+              width, height = struct.unpack('>II', png[16:24])
+              assert width > 0 and height > 0, 'Empty Android screenshot'
+              (evidence / 'login-android35.png').write_bytes(png)
+              assert hashlib.sha256(apk.read_bytes()).hexdigest() == digest, 'Delivered APK changed during smoke test'
+              receipt = {
+                  'sourceGitSha': packaged['sourceGitSha'],
+                  'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  'scope': 'ANDROID_EMULATOR_CLEAN_INSTALL_AND_LOGIN_LAUNCH_ONLY',
+                  'artifact': packaged['artifact'], 'sha256': digest, 'installedApkSha256': installed_hash,
+                  'package': package, 'versionName': version[1], 'versionCode': int(code[1]),
+                  'minSdk': int(code[2]), 'targetSdk': int(code[3]),
+                  'certificateSha256': packaged['certificateSha256'],
+                  'serial': serial, 'systemImage': image, 'system': system, 'tools': versions,
+                  'install': 'PASS', 'launch': 'PASS', 'resumedActivity': resumed,
+                  'screenshot': {'path': 'login-android35.png', 'sha256': hashlib.sha256(png).hexdigest(), 'bytes': len(png), 'width': width, 'height': height},
+                  'visualReview': 'PENDING_INDEPENDENT_REVIEW',
+                  'accountsEntered': False, 'locationPermissionsGranted': False,
+                  'gpsActivated': False, 'liveBackendJourney': 'NOT_RUN',
+                  'physicalDeviceInstall': 'NOT_RUN', 'fileDownloadInstallerJourney': 'NOT_RUN',
+                  'upgradeAndDataRetention': 'NOT_RUN'
+              }
+              (evidence / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+              print(json.dumps(receipt, indent=2))
+          except Exception as error:
+              (evidence / 'failure.json').write_text(json.dumps({'stage': stage, 'errorType': type(error).__name__, 'message': str(error), 'sourceGitSha': packaged['sourceGitSha'], 'apkSha256': digest, 'completion': 'FAILED', 'physicalDeviceInstall': 'NOT_RUN'}, indent=2) + '\n')
+              raise
+          finally:
+              if process is not None and process.poll() is None:
+                  process.terminate()
+                  try:
+                      process.wait(timeout=15)
+                  except subprocess.TimeoutExpired:
+                      process.kill()
+                      process.wait(timeout=5)
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -74,7 +259,7 @@ jobs:
             erp/apps/mobile-android/app/build/qa/
             erp/apps/mobile-android/build/evidence/
           if-no-files-found: warn
-          retention-days: 1
+          retention-days: 14
   ios-simulator:
     name: iOS unsigned simulator app and XCTest
     runs-on: macos-15
@@ -128,6 +313,103 @@ jobs:
           test -n '${{ steps.simulator.outputs.device_udid }}'
           xcodebuild -project KNABADE.xcodeproj -scheme KNABADE -configuration Debug -sdk iphonesimulator18.5 -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.device_udid }}' -destination-timeout 120 -derivedDataPath build -resultBundlePath build/NativeTests.xcresult CODE_SIGNING_ALLOWED=NO test | tee build/evidence/ios-tests.log
           xcrun xcresulttool get test-results summary --path build/NativeTests.xcresult > build/evidence/xctest-summary.json
+          python3 - <<'PY'
+          import json, pathlib
+          summary = json.loads(pathlib.Path('build/evidence/xctest-summary.json').read_text())
+          for key in ['totalTestCount', 'passedTests', 'failedTests', 'skippedTests', 'expectedFailures']:
+              assert type(summary.get(key)) is int, f'Missing or invalid XCTest counter: {key}'
+          assert summary.get('result') == 'Passed', 'XCTest did not report Passed'
+          assert summary['totalTestCount'] > 0, 'No XCTest cases executed'
+          assert summary['passedTests'] == summary['totalTestCount'], 'Not every XCTest case passed'
+          assert summary['failedTests'] == summary['skippedTests'] == summary['expectedFailures'] == 0, 'Failed, skipped or expected-failure XCTest cases are not acceptance'
+          assert summary.get('testFailures') == [], 'XCTest reported failure details'
+          print(f"XCTest accepted: {summary['passedTests']} executed, zero failed/skipped/expected failures")
+          PY
+      - name: Export XCTest presentation attachments for independent visual review
+        working-directory: erp/apps/mobile-ios
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcrun xcresulttool help export attachments > build/evidence/xcresult-attachments-help.txt
+          xcrun xcresulttool export attachments --path build/NativeTests.xcresult --output-path build/evidence/visual
+          python3 - <<'PY'
+          import hashlib, json, pathlib, struct
+          root = pathlib.Path('build/evidence/visual')
+          pngs = sorted(root.rglob('*.png'))
+          assert pngs, 'No XCTest presentation PNG attachments were exported'
+          images = []
+          for path in pngs:
+              data = path.read_bytes()
+              assert data[:8] == b'\x89PNG\r\n\x1a\n' and data[12:16] == b'IHDR', 'Invalid XCTest PNG attachment'
+              width, height = struct.unpack('>II', data[16:24])
+              assert width > 0 and height > 0, 'Empty XCTest presentation attachment'
+              images.append({'path': str(path.relative_to(root)), 'sha256': hashlib.sha256(data).hexdigest(), 'bytes': len(data), 'width': width, 'height': height})
+          pathlib.Path('build/evidence/xctest-presentation-images.json').write_text(json.dumps({'scope': 'XCTEST_RENDERED_PRESENTATIONS_NOT_CUSTOMER_JOURNEYS', 'visualReview': 'PENDING_INDEPENDENT_REVIEW', 'images': images}, indent=2) + '\n')
+          print(f'Exported {len(images)} XCTest presentation images for review')
+          PY
+      - name: Install and launch the simulator app with light and dark screenshots
+        working-directory: erp/apps/mobile-ios
+        timeout-minutes: 5
+        env:
+          KNABA_IOS_SIMULATOR_UDID: ${{ steps.simulator.outputs.device_udid }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import datetime, hashlib, json, os, pathlib, plistlib, struct, subprocess, time, uuid
+          evidence = pathlib.Path('build/evidence')
+          bundle = pathlib.Path('build/Build/Products/Debug-iphonesimulator/KNABADE.app')
+          udid = str(uuid.UUID(os.environ['KNABA_IOS_SIMULATOR_UDID']))
+          source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          assert source == os.environ['NATIVE_SOURCE_SHA'], 'Unexpected screenshot source'
+          metadata = plistlib.loads((bundle / 'Info.plist').read_bytes())
+          assert metadata['CFBundleIdentifier'] == 'de.knaba.mobile', 'Unexpected simulator application'
+          assert metadata['CFBundleSupportedPlatforms'] == ['iPhoneSimulator'], 'Expected simulator bundle'
+          def bundle_files():
+              return [{'path': str(p.relative_to(bundle)), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(bundle.rglob('*')) if p.is_file()]
+          before = bundle_files()
+          commands, screenshots = [], []
+          def run(*command):
+              result = subprocess.run(command, capture_output=True, text=True, timeout=45)
+              commands.append({'command': list(command), 'exitCode': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr})
+              (evidence / 'simulator-launch-commands.json').write_text(json.dumps(commands, indent=2) + '\n')
+              result.check_returncode()
+          # XCTest used this bundle as its host; remove its synthetic app sandbox before launch evidence.
+          run('xcrun', 'simctl', 'uninstall', udid, metadata['CFBundleIdentifier'])
+          run('xcrun', 'simctl', 'install', udid, str(bundle))
+          for appearance in ['light', 'dark']:
+              run('xcrun', 'simctl', 'ui', udid, 'appearance', appearance)
+              run('xcrun', 'simctl', 'launch', '--terminate-running-process', udid, metadata['CFBundleIdentifier'])
+              time.sleep(2)
+              screenshot = evidence / f'login-{appearance}.png'
+              run('xcrun', 'simctl', 'io', udid, 'screenshot', str(screenshot))
+              data = screenshot.read_bytes()
+              assert data[:8] == b'\x89PNG\r\n\x1a\n' and data[12:16] == b'IHDR', 'Invalid simulator PNG'
+              width, height = struct.unpack('>II', data[16:24])
+              assert width > 0 and height > 0, 'Empty simulator screenshot'
+              screenshots.append({'path': screenshot.name, 'appearance': appearance, 'width': width, 'height': height, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
+          run('xcrun', 'simctl', 'terminate', udid, metadata['CFBundleIdentifier'])
+          run('xcrun', 'simctl', 'ui', udid, 'appearance', 'light')
+          assert bundle_files() == before, 'Installed application inputs changed during screenshots'
+          receipt = {
+              'sourceGitSha': source,
+              'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'deviceUdid': udid,
+              'bundleId': metadata['CFBundleIdentifier'],
+              'version': metadata['CFBundleShortVersionString'],
+              'build': str(metadata['CFBundleVersion']),
+              'scope': 'SIMULATOR_RESET_SANDBOX_INSTALL_LAUNCH_AND_SCREENSHOT_CAPTURE_ONLY',
+              'installAndLaunch': 'PASS',
+              'screenshots': screenshots,
+              'bundleFiles': before,
+              'interactiveJourney': 'NOT_RUN',
+              'visualReview': 'PENDING_INDEPENDENT_REVIEW',
+              'physicalDevice': 'NOT_RUN'
+          }
+          (evidence / 'simulator-launch-smoke.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          print(json.dumps({key: value for key, value in receipt.items() if key != 'bundleFiles'}, indent=2))
+          PY
       - name: Archive simulator app and record exact source and artifact hashes
         working-directory: erp/apps/mobile-ios
         shell: bash
@@ -147,8 +429,10 @@ jobs:
               'build': 'iOS simulator; Xcode 16.4, SDK 18.5, XcodeGen 2.43.0, Swift 5 language mode',
               'xcodegenSourceSha': '7193eb447a6f60061f069e07bc1efd32d73c0e19',
               'simulator': json.loads(pathlib.Path('build/evidence/simulator-preparation.json').read_text()),
+              'xctestSummary': json.loads(pathlib.Path('build/evidence/xctest-summary.json').read_text()),
+              'simulatorInstallAndLaunch': json.loads(pathlib.Path('build/evidence/simulator-launch-smoke.json').read_text()),
               'signing': 'CODE_SIGNING_ALLOWED=NO; simulator app only, no installable signed IPA',
-              'checks': ['xcodebuild simulator build', 'native XCTest including ERP recovery, identity fences, role navigation and GPS vectors', 'plist validation'],
+              'checks': ['xcodebuild simulator build', 'native XCTest including ERP recovery, identity fences, role navigation and GPS vectors', 'plist validation', 'simulator install and launch with light/dark screenshot capture'],
               'bundleFiles': [{'path': str(p.relative_to(bundle)), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(bundle.rglob('*')) if p.is_file()],
               'physicalDeviceVerification': 'NOT_RUN',
               'realGPSAndBatteryAcceptance': 'NOT_RUN',
@@ -165,4 +449,4 @@ jobs:
             erp/apps/mobile-ios/build/NativeTests.xcresult/
             erp/apps/mobile-ios/build/evidence/
           if-no-files-found: warn
-          retention-days: 1
+          retention-days: 14

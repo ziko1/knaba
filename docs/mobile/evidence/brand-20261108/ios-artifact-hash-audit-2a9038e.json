@@ -1,0 +1,345 @@
+{
+  "sourceGitSha": "2a9038e14d5dba47ba636556e905ae36144c266e",
+  "sourceTree": "303585bf7cec5e381a5908a20407c2cce4f067af",
+  "outerArtifact": {
+    "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios.zip",
+    "byteSize": 11096165,
+    "sha256": "1e0557f7b740b9c7dab873f996daa9b241f1605d10c5cca69a67e097a163c6d8"
+  },
+  "outerEntries": 292,
+  "innerSimulatorArchive": {
+    "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/KNABADE-simulator.app.zip",
+    "byteSize": 7148898,
+    "sha256": "6256c4779d87e10641e868b943dc6237140306d82241a2d91701ee96a925f3a9"
+  },
+  "bundleFilesVerified": 48,
+  "archiveAndInstalledBundleReceiptMatch": true,
+  "bundlePlist": {
+    "CFBundleIdentifier": "de.knaba.mobile",
+    "CFBundleShortVersionString": "0.6.0",
+    "CFBundleVersion": "8",
+    "CFBundleSupportedPlatforms": [
+      "iPhoneSimulator"
+    ],
+    "DTPlatformName": "iphonesimulator",
+    "DTSDKName": "iphonesimulator18.5",
+    "MinimumOSVersion": "17.0",
+    "UIDeviceFamily": [
+      1,
+      2
+    ],
+    "NSAppTransportSecurity": {
+      "NSAllowsArbitraryLoads": false
+    }
+  },
+  "xctestPluginFileCount": 3,
+  "testSummary": {
+    "totalTestCount": 91,
+    "passedTests": 91,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "result": "Passed"
+  },
+  "device": {
+    "architecture": "arm64",
+    "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+    "deviceName": "KNABA-iOS-18.5-2a9038e14d5d",
+    "modelName": "iPhone 16",
+    "osBuildNumber": "22F77",
+    "osVersion": "18.5",
+    "platform": "iOS Simulator"
+  },
+  "commandCount": 10,
+  "allCommandExitsZero": true,
+  "resetBeforeInstall": true,
+  "images": [
+    {
+      "path": "evidence/visual/0FD353EF-799D-4EA5-8064-3B75052833C1.png",
+      "sha256": "c407f996fe82974259839ce7637b185f1ddaa439f222411cebe061fc53860568",
+      "byteSize": 135541,
+      "width": 390,
+      "height": 1100,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testShiftEmptyStateAndAuthenticatedSummaryFixtureRenderWithGPSOff()",
+      "label": "shift-empty-de-390-light_0_5212533E-82C8-4F4C-B7A5-0D5B269446DA.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/C4573DC1-CC32-4508-A2B7-26E9D2154908.png"
+    },
+    {
+      "path": "evidence/visual/112E8BFB-7C5E-42EE-8064-8BAAF1077C0E.png",
+      "sha256": "259b708a71b54941decc50d058b256d019ab0c03d4324063badb7de452402a9c",
+      "byteSize": 152676,
+      "width": 320,
+      "height": 1300,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testShiftEmptyStateAndAuthenticatedSummaryFixtureRenderWithGPSOff()",
+      "label": "shift-summary-synthetic-uk-320-dark-accessibility_0_A1465625-F13E-443B-B4DE-8396F79B0B81.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/5FF104A2-5DF5-4890-9C21-701DC9525FFE.png"
+    },
+    {
+      "path": "evidence/visual/488DFDC3-91E4-4306-A768-7DEE814DFD2E.png",
+      "sha256": "1d93cede443b1f8f8df12883edaa2722f7c41b38564fa312e27bd9990cc5c025",
+      "byteSize": 78283,
+      "width": 390,
+      "height": 1000,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testShiftEmptyStateAndAuthenticatedSummaryFixtureRenderWithGPSOff()",
+      "label": "shift-summary-synthetic-de-390-light_0_58056ACD-0B8D-4DF3-BFA7-6852CA82D433.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/C7FB1CB9-5B3F-4FF5-A328-DB4AD7E05229.png"
+    },
+    {
+      "path": "evidence/visual/5E189768-727D-405E-9E5B-D43F65A1BB7A.png",
+      "sha256": "8cc11661a1f1ae448ed494bbcc4c25e04f23843f3cc4a3baf4982491d5cfec66",
+      "byteSize": 107248,
+      "width": 320,
+      "height": 900,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginRendersAtNarrowWidthInAllSixLanguages()",
+      "label": "login-pl-320-light_0_7DB666FA-688B-4ECD-ADC0-FE244620B57F.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/236AC32F-E701-4114-B402-F3C1D28F5672.png"
+    },
+    {
+      "path": "evidence/visual/5EE293BF-FFDF-4414-8D0E-D8E71322824C.png",
+      "sha256": "1f31570d881b19ca2103518752f9c3170f089b0e41c2b9b88586c11fd70c80a2",
+      "byteSize": 12406,
+      "width": 320,
+      "height": 150,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginAndLongNavigationLabelsRenderAtAccessibilitySizeInDarkMode()",
+      "label": "navigation-de-320-dark-accessibility_0_9A1046B4-EA8C-491C-9C53-1B257571ABF5.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/E96F9DAC-9C88-4FF3-8CAD-78E25C393236.png"
+    },
+    {
+      "path": "evidence/visual/6CDDF28B-D894-4263-952B-ED6031727052.png",
+      "sha256": "831a94a5114266b590f5daaae5e2e4370422c3aa3edbe6416553d6a3f4c608d8",
+      "byteSize": 117861,
+      "width": 320,
+      "height": 900,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginRendersAtNarrowWidthInAllSixLanguages()",
+      "label": "login-ru-320-light_0_D242FD96-6116-4B0C-96B1-53F581417FAB.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/1852FB20-F5C4-45F7-9DF6-7E6EDFC4B12A.png"
+    },
+    {
+      "path": "evidence/visual/7BB1542E-ECC1-4BCA-A0E4-268638BD11A6.png",
+      "sha256": "dd6d3a38d6fa417f739ca2cce2290896698b61eb659ecd541512694f159ab16c",
+      "byteSize": 149727,
+      "width": 390,
+      "height": 1000,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginAndLongNavigationLabelsRenderAtAccessibilitySizeInDarkMode()",
+      "label": "login-uk-390-dark-accessibility_0_653FA446-CB06-45A1-83C5-DB035725DD6E.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/23B2E3D3-93B0-450E-A793-BDB6D36142C7.png"
+    },
+    {
+      "path": "evidence/visual/7F7C2803-3A01-4596-9EA0-6890AB035287.png",
+      "sha256": "01d9d2a5bf1e3483d956f3f280438e9a752114d867f402e6ab58d91fd7982cf4",
+      "byteSize": 115985,
+      "width": 320,
+      "height": 900,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginRendersAtNarrowWidthInAllSixLanguages()",
+      "label": "login-uk-320-light_0_4C9D5EF9-7985-4C47-B40D-5BD02B9A7616.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/5115ABED-0522-4FBF-A3A8-422A72A29DB8.png"
+    },
+    {
+      "path": "evidence/visual/98BB96BD-F505-4650-B455-C75EF988F7FE.png",
+      "sha256": "ac3d844149baca0fae079b2e78f37e0977acdebdef9b757df36b650af7540585",
+      "byteSize": 113737,
+      "width": 320,
+      "height": 900,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginRendersAtNarrowWidthInAllSixLanguages()",
+      "label": "login-de-320-light_0_A8996CE1-8B94-47B1-A3E4-6416D57B703F.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/16B97B62-AEEF-4E61-932F-C4D7196C2467.png"
+    },
+    {
+      "path": "evidence/visual/B12ED528-90B8-48CF-BD9A-0153B2B978D2.png",
+      "sha256": "1be55a7dd2e012fa120b0757cfc389863b76b446c2b95df96a567f748328f67b",
+      "byteSize": 115566,
+      "width": 320,
+      "height": 1300,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testOverviewFixtureKeepsLargeTypeAndDarkSurfacesAtNarrowWidth()",
+      "label": "overview-synthetic-uk-320-dark-accessibility_0_DBE8ED9D-31A5-4CA3-A58E-6865F428E10E.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/F3B646C9-5C29-4BC9-81FD-35C7CD73317A.png"
+    },
+    {
+      "path": "evidence/visual/BDDE2DE0-0924-40E9-AE5A-6900F32E8BFB.png",
+      "sha256": "130f7e4332a8b192ade3d41a16aa2edd528effe04075ac72daefcdc7deaf4298",
+      "byteSize": 107949,
+      "width": 320,
+      "height": 900,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginRendersAtNarrowWidthInAllSixLanguages()",
+      "label": "login-en-320-light_0_8562D7CA-478A-4FCB-879B-C311FE4C179B.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/AE23DE5A-29CF-45C3-A1EE-70EA9CC0DC93.png"
+    },
+    {
+      "path": "evidence/visual/D2F718FE-A17E-4DC3-A359-7615B4F8BF12.png",
+      "sha256": "920cb452a950f336e75591e14b9cba6d92b537021bdf0ed98664ad5e6babf074",
+      "byteSize": 110412,
+      "width": 320,
+      "height": 900,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testLoginRendersAtNarrowWidthInAllSixLanguages()",
+      "label": "login-lt-320-light_0_ACB6DDCC-E60D-4B00-9115-41DC910627A6.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/86E50F20-59FF-4E84-B499-D08B991D3363.png"
+    },
+    {
+      "path": "evidence/visual/FD8E7226-DB90-4FC7-A0AC-DFCB284FE175.png",
+      "sha256": "6967faef490a9272339721cd2398993e3ba08ca57a761d35b59f9115e236efa0",
+      "byteSize": 123764,
+      "width": 390,
+      "height": 1100,
+      "hashAndDimensionsMatch": true,
+      "testIdentifier": "BrandPresentationTests/testServerScopedOverviewFixtureRendersWithoutStartingRequests()",
+      "label": "overview-synthetic-de-390-light_0_172C63E0-EEE5-4C67-AD09-0360EE13F652.png",
+      "deviceId": "AE079284-4657-4C1B-B309-F14138813126",
+      "failure": false,
+      "byteIdenticalToPreviouslyViewed": "evidence/visual/45313082-FAF5-4B0C-B7C2-AC57A0C9833B.png"
+    },
+    {
+      "path": "evidence/login-light.png",
+      "sha256": "db99cfea1ef4f310008851ffe263b3a34d1c378881a2c32ed196bcb051f4f60d",
+      "byteSize": 448177,
+      "width": 1179,
+      "height": 2556,
+      "hashAndDimensionsMatch": true,
+      "byteIdenticalToPreviouslyViewed": null
+    },
+    {
+      "path": "evidence/login-dark.png",
+      "sha256": "f2e1ab800a19de6ced58938a2c81a293af7cc92ebb95f00452bbb46dae99b9c2",
+      "byteSize": 476643,
+      "width": 1179,
+      "height": 2556,
+      "hashAndDimensionsMatch": true,
+      "byteIdenticalToPreviouslyViewed": null
+    }
+  ],
+  "credentialInputs": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "b2977dc3fe926d791a1d146a980bacad19bd05d5e0085359b3f8c6a00c1b487e",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "bafea02d5352f35e91f39df2f08e89d01ff1049823e047b78651e89d8c2a1bf4",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPCredentialPolicy.swift",
+      "sha256": "32e5360266c7a3d96c2bc6bd69982b2d2b3d093aa13efd7a02638f0f5f722520",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPPendingCommand.swift",
+      "sha256": "250319216f13b332c2cc3f3f61b2c0f1c07ce66dc1ea6213a00cbbd0337e12d0",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+      "sha256": "245fd4888b14040c88fe548a1b84090895ec31b7bae270d40e0f181dc90e4bc9",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "9f283f30132075a430b7a6655aa9e5aa119dc1ee4a59f6aa9a8b7aa05aff3fe5",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPCommandRecoveryTests.swift",
+      "sha256": "573db7cb6ba22c9a32d325f9f19f9057f94c7f96d634c9d881fa46aef713b45f",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPCredentialPolicyTests.swift",
+      "sha256": "f9854dc4398f12764f748ddb2017b3736b2208644fa8d0a8e4d6e7a835d1cabf",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPCredentialPresentationTests.swift",
+      "sha256": "85324ec3d4e74483573f9294f52021bcc3e53205ee191045d58c65640b5c3255",
+      "matchesReviewedSource": true
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPPendingStorageTests.swift",
+      "sha256": "a1ddd1cc044c78878763f9f6f3ca18c8118386233d40d02326cb25a5459938c0",
+      "matchesReviewedSource": true
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/native-receipt.json",
+      "byteSize": 19703,
+      "sha256": "a7d5cf2d56e4b76ea1660c4c275f42e6c357c6fb00c3a5be2067fe3c45576e2c"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/xctest-summary.json",
+      "byteSize": 1170,
+      "sha256": "fd2143386420d49106cbe0d9b962f69423bf9ae41f694875ee48919978299621"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/simulator-launch-smoke.json",
+      "byteSize": 8275,
+      "sha256": "89494cd40dce3fc9316c5377957576df956f2fbc0c14ef5ae4be1606da82352a"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/simulator-launch-commands.json",
+      "byteSize": 2476,
+      "sha256": "80164f3cd1e980658bbfb1b3ceb2a595a23e2e387a4a3017719ec04281698007"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/xctest-presentation-images.json",
+      "byteSize": 2973,
+      "sha256": "d782d3aa1c8687595b5ca7c33e5b40e36ca58a4d1a212653b9dc580ef7f79ec3"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/visual/manifest.json",
+      "byteSize": 7385,
+      "sha256": "67d26aa368a768c5497a3976657a6a0bae0ad8f330f6c3a488027d697e35acef"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/ios-tests.log",
+      "byteSize": 109283,
+      "sha256": "e2ecf9208959ee9bd15e4051209150dc6bbe3a15935f15696f2334944ba89de3"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-ci-2a9038e/ios/evidence/ios-build.log",
+      "byteSize": 113994,
+      "sha256": "e724807412876f2c686cff0f2aba773448559e93ee619323c4b759cf1804c1fd"
+    }
+  ],
+  "rawJobLog": {
+    "path": "/workspace/scratch/a3c43ba31037/ios-credential-safety-20261108/ios-job-2a9038e.log",
+    "byteSize": 333536,
+    "sha256": "d14c019b54286a5542379207f4e64d46ef3f8c636e1aace3d8bfc19b247f8aad"
+  },
+  "errors": []
+}

@@ -1,3 +1,17 @@
+## 0.6.0 test candidate — final reconciliation
+
+Android versionCode9 avoids the already issued divergent code8. On launch the app reads the official KNABA public release configuration, accepts only the reviewed HTTPS KNABA host policy, and checks ERP readiness before enabling account login. A missing/unready official configuration remains an explicit waiting/error state. Debug synthetic demo is available for UI/task/chat evaluation without a live account. Manual server entry is no longer the normal console flow; the separate shift companion still uses its existing device enrollment contract.
+
+The website theme is retained alongside the existing foreground-only refresh, bounded read retry, credential-safe one-shot password/MFA changes and shared vehicle-trip navigation. There are60 framework tests in source, pending execution for this reconciled build. Android12/API31 remains minimum; a fresh debug certificate does not upgrade an earlier APK signed with a different key. Never delete customer data to bypass that mismatch. Signed APK install/emulator evidence is recorded separately from physical and live-company acceptance.
+
+## Current Android candidate — 0.6.0-test / versionCode8
+
+The native ERP workspace and employee tools now share the current KNABA website style: canonical compact wordmark, deep teal/lime identity, paper surfaces, pastel metrics, accessible controls and adaptive module cards. A scoped workspace search filters only authorized modules. At narrow widths or large text, metrics/navigation use one column; tablets retain a readable maximum content width. The light appearance is explicit, consistent with the current website and prior Android theme.
+
+The package remains `de.knaba.mobile.test`, Android12/API31 minimum, with a clearly marked optional synthetic offline demo. Login, server scopes, record identity/version, unknown-write recovery, encrypted storage and explicit GPS consent are preserved. New rendered UI checks include320dp/font2, six-locale resources and worker GPS-off state. Exact-source CI must verify build, tests, APK signature and emulator install/launch; physical installation, live company UAT and upgrade compatibility remain separate.
+
+[0.6.0 scope and delivery gates](../../../docs/mobile/MOBILE_BRAND_0.6.0_UK.md). Test artifacts use a debug certificate; an old KNABA Test can only be updated with a compatible signer. Preserve existing data if Android rejects an incompatible update. No owner production signing or store upload is implied. Historical notes follow.
+
 ## Current Android candidate — 0.5.0 / build 6
 
 Native discovery now covers 39 ERP entity kinds, including customer quotes/reports, warehouse, purchasing, time and finance. Fifteen record types expose schema-checked contextual actions with the opened record ID/version; quote and personal crew revisions stay bound to the displayed snapshot. Visibility follows permissions, never the role name. Every request is still authorized and scoped by ERP.
