@@ -1,15 +1,15 @@
 import { openLocalDatabase } from './database.mjs';
 import { createOwner,normalizeEmail } from './auth.mjs';
 import { issueOwnerInvite } from './owner-invite.mjs';
-import { backup } from 'node:sqlite';
-import { createHash, randomBytes } from 'node:crypto';
-import { readFile, mkdir, chmod, stat, lstat, writeFile } from 'node:fs/promises';
+import { randomBytes } from 'node:crypto';
+import { mkdir, chmod, stat, lstat, writeFile } from 'node:fs/promises';
 import { DatabaseSync } from 'node:sqlite';
 import { join,dirname } from 'node:path';
 import { inspectStorage } from './storage.mjs';
 import {ACCESS_REQUEST_TTL_DAYS} from './access-requests.mjs';
 import {manageAccessRetention} from './access-retention.mjs';
 import {updateExistingOwner} from './owner-maintenance.mjs';
+import {createPrivateSqliteBackup} from './private-backup.mjs';
 const command=process.argv[2];
 const dbPath=process.env.KNABA_DB_PATH||'/var/lib/knaba/site.sqlite';
 if(['backup','migrate'].includes(command)){
@@ -85,14 +85,11 @@ if(command==='migrate'){
   const original=await stat(dbPath).catch(()=>null);
   if(original?.size){
     const directory=process.env.KNABA_BACKUP_DIR||'/var/lib/knaba/backups';
-    await mkdir(directory,{recursive:true,mode:0o700});
-    const timestamp=new Date().toISOString().replace(/[:.]/g,'-');
-    const target=join(directory,'pre-migrate-'+timestamp+'.sqlite');
-    const existing=new DatabaseSync(dbPath);
-    try{await backup(existing,target);} finally {existing.close();}
-    await chmod(target,0o600);
-    const digest=createHash('sha256').update(await readFile(target)).digest('hex');
-    process.stdout.write('Pre-migration backup verified sha256='+digest+' path='+target+'\n');
+    const existing=new DatabaseSync(dbPath,{readOnly:true});
+    try{
+      const saved=await createPrivateSqliteBackup({db:existing,directory,prefix:'pre-migrate'});
+      process.stdout.write('Pre-migration backup verified sha256='+saved.sha256+' path='+saved.path+'\n');
+    }finally{existing.close();}
   }
 }
 if(command==='invite-owner'||command==='invite-developer'||command==='update-owner'){
@@ -181,13 +178,8 @@ try {
     }catch(error){db.exec('ROLLBACK');throw error;}
   }
   if(command==='backup'){
-    const location=process.env.KNABA_BACKUP_DIR||'/var/lib/knaba/backups';
-    await mkdir(location,{recursive:true,mode:0o700});
-    const tag=new Date().toISOString().replace(/[:.]/g,'-');
-    const path=join(location,'knaba-'+tag+'.sqlite');
-    await backup(db,path);
-    await chmod(path,0o600);
-    const h=createHash('sha256').update(await readFile(path)).digest('hex');
-    process.stdout.write(JSON.stringify({path,sha256:h,migrations,bytes:(await readFile(path)).length})+'\n');
+    const directory=process.env.KNABA_BACKUP_DIR||'/var/lib/knaba/backups';
+    const saved=await createPrivateSqliteBackup({db,directory,prefix:'knaba'});
+    process.stdout.write(JSON.stringify({path:saved.path,sha256:saved.sha256,migrations,bytes:saved.bytes})+'\n');
   }
 } finally {db.close();}

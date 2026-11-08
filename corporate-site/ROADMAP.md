@@ -1,5 +1,21 @@
 # KnaBa corporate-site roadmap
 
+## 08.11.2026 — KN-US01–US08, технічне продовження
+
+- [x] SOURCE_QA: private backup from birth, independent consistency checks,
+  failure-before-migration, no overwrite; focused failing→passing evidence.
+- [x] LOCAL_RECOVERY: actual15→19 migration/restore, current credentials і
+  revocations збережені; pre-F2 runtime відмовляє на0018, pending denial збережено.
+- [x] CI_INTEGRATION: дев'ять обов'язкових account journeys, exact source/artifact
+  binding, independent source review; real browser execution очікується в CI.
+- [ ] TARGET_ACCEPTANCE: private server path недоступний поточному агенту;
+  потрібні target-bound rehearsal та користувацьке приймання.
+- [ ] DELIVERY_ACCEPTANCE: реальна перевірена скринька/відправник/квота й
+  окремо дозволене отримання листа; in-memory transport цього не доводить.
+
+Перевірені code inputs, результати та попередні FAIL збережені в
+[поточному account receipt](../docs/unified/evidence/user-settings-20261108/continuation-local.json).
+
 ## 08.11.2026 — актуальний identity slice у Draft PR123
 
 OIDC original-session proof, owner subject binding і current-session API/SQL fences реалізовано та перевірено в ізольованому VPS/SQLite scope. [Evidence](../docs/unified/evidence/identity-20261108/verification.json), [контракт federation](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md).

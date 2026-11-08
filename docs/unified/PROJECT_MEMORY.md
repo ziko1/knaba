@@ -1,5 +1,22 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — продовження account acceptance від актуального PR129
+
+На ізольованій `feat/knaba-account-acceptance-20261108` від перевіреного remote
+e03d2be збережено інтегровані F2 guards/marker0018 та інші паралельні зміни.
+Локальний code3fec021 виправляє приватність CLI backup від створення inode й
+перевіряє integrity/FK до міграції. Додано два actual historical-runtime CLI
+restore journeys та дев'ять rendered account cases до наявного Chrome CI.
+Схеми, залежності, права акаунтів і поштові providers не змінюються.
+
+Local31root/344VPS/900Vitest+92Node/30browser-guards PASS, check/build/i18n PASS;
+independent source review ACCEPT. Browser execution очікує exact-source CI,
+пошта використовує лише in-memory test transport. Target-host read/restore
+BLOCKED_ACCESS: uid999(sentinelx) не має Unix-доступу до `/srv/knaba/customer`;
+права й дані не змінено. Whole product NOT_READY, UAT/provider/distributed
+restore gates відкриті. [Докази й межі](USER_SETTINGS_2026-11-08_UK.md),
+[source-bound receipt](evidence/user-settings-20261108/continuation-local.json).
+
 ## 2026-11-08 — F2 інтегровано; локальні перевірки пройшли, aggregate CI відкритий
 
 Виконуваний код зв’язування акаунтів інтегровано в `20fbbb55cbdfb34c17a6eab98fc8e805159bab21`.

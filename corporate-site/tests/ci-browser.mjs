@@ -66,6 +66,17 @@ export function assertSuiteReceipt(value,{publicCases,requiredChecks=[]}={}){
   else if(!value.checks?.length||value.checks.some(check=>check.status!=='PASS'))throw Error('INCOMPLETE_BROWSER_CHECKS');
   if(requiredChecks.some(id=>value.checks?.filter(check=>check.caseId===id).length!==1))throw Error('MISSING_REQUIRED_BROWSER_CASE');
 }
+export const accountRequiredChecks=Object.freeze([
+  'account.profile.persisted','account.validation.focus','account.sessions.revoke-others',
+  'account.password.rotate','account.mail.disabled','account.reset.fragment',
+  'account.reset.replay','account.email.confirm','account.layout.keyboard',
+]);
+export function assertAccountReceipt(value,manifest){
+  assertSuiteReceipt(value,{requiredChecks:accountRequiredChecks});
+  if(value.checks.length!==accountRequiredChecks.length)throw Error('EXACT_ACCOUNT_BROWSER_INVENTORY_REQUIRED');
+  if(value.sourceSha!==manifest.sourceSha||value.clientArtifactSha256!==manifest.artifacts.siteClient.sha256)
+    throw Error('ACCOUNT_BROWSER_SOURCE_ARTIFACT_MISMATCH');
+}
 export const erpFixtureSuites=Object.freeze([
   {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
   {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
@@ -128,6 +139,10 @@ export async function main(){
     await run('tests/portal-languages-browser.mjs',{KNABA_QA_SOURCE_SHA:manifest.sourceSha,KNABA_QA_CLIENT_SHA256:manifest.artifacts.siteClient.sha256,KNABA_PORTAL_LANGUAGE_QA_DIR:join(output,'languages')});
     const languages=JSON.parse(readFileSync(join(output,'languages/portal-languages-browser-receipt.json'),'utf8'));assertSuiteReceipt(languages);
     receipt.stages.push({name:'site six-language navigation',kind:'ACTUAL_SQLITE_HTTP_BROWSER',checks:languages.checks.length,engine:languages.browser,browserVersion:languages.browserVersion,status:'PASS'});
+    await run('tests/account-settings-browser.mjs',{KNABA_QA_SOURCE_SHA:manifest.sourceSha,KNABA_QA_CLIENT_SHA256:manifest.artifacts.siteClient.sha256,KNABA_ACCOUNT_QA_DIR:join(output,'account')});
+    const account=JSON.parse(readFileSync(join(output,'account/account-settings-browser-receipt.json'),'utf8'));
+    assertAccountReceipt(account,manifest);
+    receipt.stages.push({name:'account profile, credentials, recovery and sessions',kind:'ACTUAL_SQLITE_HTTP_BROWSER',checks:account.checks.length,engine:account.browser,browserVersion:account.browserVersion,status:'PASS',scope:'Synthetic identities and in-memory mail transport; real provider delivery is separate'});
     const staticPreview=await startPreview('python3',['-u','-m','http.server','18769','--bind','127.0.0.1','--directory',join(site,'dist/client')],{
       cwd:site,env,url:'http://127.0.0.1:18769/',marker:'Serving HTTP on 127.0.0.1 port 18769',signal:abort.signal,logPath:join(output,'static-preview.log')});previews.push(staticPreview);
     const publicRun=await run('tests/knaba-logo-browser.cjs',{KNABA_TEST_URL:'http://127.0.0.1:18769',KNABA_SCREENSHOT_DIR:join(output,'public')});

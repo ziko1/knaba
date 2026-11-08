@@ -1,5 +1,16 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — account backup/recovery і browser acceptance continuation
+
+Від PR129 e03d2be, local code3fec021: CLI backup приватний з моменту створення,
+перевірка integrity/FK до міграції; actual legacy/current restore з credential
+revocation та незмінним F2 barrier. 344VPS/900Vitest+92Node/31root/30CI-guards
+PASS, check/build/verify PASS, independent source ACCEPT. Дев'ять account
+browser journeys інтегровані до existing installed-Chrome CI; фактичний запуск
+очікується. Mail transport лише в пам'яті. Live target read/restore заблокований
+Unix-доступом server agent; прав/даних/production не змінено.
+[Поточний scope/evidence](../docs/unified/USER_SETTINGS_2026-11-08_UK.md).
+
 ## 08.11.2026 — PR123 identity/revocation checkpoint
 
 Від d03e72b додано original-session hash binding для OIDC linking, повторні current-session fences біля body/SQL/private API response та stable owner subject pin через `OWNER_USER_ID`. Same-email linking не створює owner/admin. Additive VPS auth column мігрує лише за чинним migration gate; Drizzle/intake SQL незмінні. Legacy unbound linking states fail closed.

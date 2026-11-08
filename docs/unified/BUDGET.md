@@ -1,5 +1,24 @@
 # KnaBa — окремий бюджет і квоти
 
+## Резерв продовження account acceptance — 08.11.2026
+
+Резервовано один початковий і, лише за конкретної помилки, один коригувальний
+source checkpoint на ізольованій гілці від PR129. Використовуються чинні
+standard GitHub-hosted jobs, timeout і retention без нових workflows/runners.
+Поточні public visibility та write access `ziko1/knaba` перевірені через GitHub;
+чинна [офіційна політика Actions](https://docs.github.com/en/actions/concepts/billing-and-usage)
+підтверджує безплатне використання standard runners публічного репозиторію.
+Це резерв EUR0 нової paid activation, а не твердження про баланс чи необмежену
+квоту. Фактичні автоматичні push/PR/native run IDs звіряються перед наступним
+checkpoint. Docs-only повторний продуктовий CI без зміни ризику не планується.
+
+Локальні Node24/SQLite/dependencies уже наявні; нових браузерів не завантажуємо.
+Mail adapter у сценаріях має контрольований in-memory transport; зовнішніх
+листів/AI/provider calls немає. Першу збірку auto-review зупинив через Astro
+telemetry; повтор виконано зі штатними `ASTRO_TELEMETRY_DISABLED=1` та
+`TELEMETRY_DISABLED=1`, підтвердженими встановленим кодом. Server agent доступ
+до приватного target не має; жодної зміни прав чи платної активації не виконано.
+
 ## Фактичний інкремент — 08.11.2026
 
 Нові платні сервіси/AI/канали не активовано, зовнішній дозволений бюджет0 EUR. Використано існуюче середовище Work, локальний Node24/Android toolchain і наявний фізичний сервер із cached QA image та PostgreSQL17.11. QA: isolated internal network, no published ports, synthetic tmpfs DB,CPU2/RAM3GiB/PIDs512; cleanup лише власних тимчасових ресурсів. Реальні ChatGPT кредити, provider quotas і загальна вартість hosting невідомі; число0 не є заявою про безкоштовність чинних ресурсів. Немає нових CI/paid runners або зовнішніх модельних викликів.

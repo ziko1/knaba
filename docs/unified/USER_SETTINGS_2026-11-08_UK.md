@@ -1,5 +1,71 @@
 # KNABA — налаштування власного облікового запису
 
+## Продовження приймання — 08.11.2026
+
+Повторне доручення «продовжуй на чому закінчив» продовжує KN-US01–US08.
+PR125 уже входить до інтегрованого PR129. Новий ізольований кандидат
+`feat/knaba-account-acceptance-20261108` починається з фактично звіреного
+`e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5`, tree
+`7dd5cf0868b6774e80712324cf692c1f18a24342`; паралельні native/ERP checkout
+збережені. Старий модуль повторно не переноситься; F2 guards/marker0018 збережені.
+
+Продовження закриває конкретні технічні прогалини: приватність CLI backup від
+моменту створення, незалежну integrity/FK перевірку до міграції, справжній
+legacy→current→restore rehearsal та дев'ять account browser journeys у наявному
+installed-Chrome CI. Поштові browser сценарії використовують тільки synthetic
+in-memory transport. Фактична доставка до скриньки залишається окремим критерієм.
+
+На базовому незміненому CLI відтворено шість FAIL: `backup` і `migrate` приймали
+наявний0755 каталог, symlink та FK-invalid копію. Ці результати збережені; вони
+не є доказом витоку даних на живому сервері. Нові перевірки вимагають відмови
+до зміни джерела, приватного файла0600/каталогу0700 та відсутності overwrite.
+
+Підключений серверний агент має uid999(sentinelx), а `/srv/knaba/customer`
+повертає Unix permission denied. Реальний target audit/restore/deployment
+**BLOCKED_ACCESS**; права/ACL не змінювалися, інший шлях обходу не застосовувався.
+Локальні browser executables відсутні. Встановлений Chrome доступний у чинному
+GitHub workflow; фактичний результат нового запуску фіксується у Draft PR та
+окремому source/artifact receipt. Наведені нижче результати PR125 є історичними.
+
+Команда продовження: root — інтеграція CI, контракти, документація та незалежний
+review; account_ops_review — CLI privacy й regressions; account_qa_environment —
+браузерні journeys; account_restore_rehearsal — міграція/відновлення. Навички:
+ai-team-orchestrator, ecc-backend-patterns/database-migrations та
+ecc-quality-delivery/e2e-testing. Поточний Product Quality Standard v1.3 і
+QUALITY_GATE_CRITERIA 2026-10-15.2 звірені; synthetic acceptance не замінює PQ-B05 UAT.
+
+### Локальний checkpoint продовження
+
+Перевірений code commit `3fec02165a293431887186728844e24c95026849`, tree
+`53bb2cc011a7d6d7a4b3572d7b435bd7e8c0d3ad`. Наступний локальний commit додає
+лише evidence/пам'ять; remote SHA і actual hosted acceptance записуються в Draft PR.
+Зіставлення десяти змінених code inputs і compiled artifacts:
+[continuation-local.json](evidence/user-settings-20261108/continuation-local.json).
+
+| Перевірка | Фактичний результат на Node24.22.1 |
+| --- | --- |
+| Root, включно з двома реальними CLI restore journeys | 31 PASS, 0 FAIL/SKIP; clean-source та module audits PASS |
+| VPS SQLite/HTTP/security | 344 PASS, 0 FAIL/SKIP; 14 нових backup cases входять до цієї суми |
+| Сайт | 900 Vitest у 83 files +92 Node; check 0 errors/0 warnings, 7 hints |
+| Official build / verifier / i18n | PASS, 161 HTML; JS222640/225280 B і CSS40832/40960 B gzip |
+| Browser runner/provenance/policy guards | 30 PASS, 0 FAIL/SKIP; це ще не виконання браузерних journeys |
+| Незалежний source review | ACCEPT: CLI/restore, CI/provenance та final browser/fixture bytes |
+
+Legacy rehearsal використовує незмінені Git runtime9ff77d7 (15 міграцій) та
+pre-F2 dc54f10 (до0017). Current CLI виконує upgrade до19, перевіряє копію до
+міграції та відновлює актуальну копію в окремий третій файл. Новий пароль,
+відкликання старих сесій/токенів, інший акаунт, бізнес-заявка й audit збережені.
+Окремий lost-ACK F2 fixture зберігає `PENDING_DENY` після restore; справжній
+pre-F2 binary відмовляється саме на0018 без зміни ledger або guards.
+
+Історія невдалих перевірок збережена в evidence. Після 6 відтворених backup
+дефектів виправлення пройшло регресії. Один запуск infrastructure guards дав
+29/30 через3s deadline старого late-stdout fixture під час паралельних перевірок;
+йому надано обмежені10s на запуск двох Node-процесів. Точний stdout/close та
+production timeouts не змінено; delta незалежно прийнята, final30/30 PASS.
+Свіжий local client SHA256 — `173670da5588f2d519d3f62bf040a3f23c2c33d184a6038a987063748d110bb7`;
+він не підміняє майбутній CI artifact hash або історичний PR125 artifact.
+
 ## Доручення і межі
 
 Запит користувача 08.11.2026: доповнити KNABA DE налаштуваннями користувача,

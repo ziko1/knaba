@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createServer} from 'node:net';
-import {runProcess,ownProcess,startPreview,assertSuiteReceipt,assertErpUiReport} from './ci-browser.mjs';
+import {runProcess,ownProcess,startPreview,assertSuiteReceipt,assertErpUiReport,assertAccountReceipt,accountRequiredChecks} from './ci-browser.mjs';
 const node=process.execPath;
 async function unusedLoopbackPort(){
   const server=createServer();await new Promise((yes,no)=>{server.once('error',no);server.listen(0,'127.0.0.1',yes);});
@@ -22,7 +22,9 @@ test('an owned preview HTTP failure is not accepted as ready',async()=>{
 test('waits for close and captures inherited stdout even after the direct child exits',async()=>{
   const grandchild="setTimeout(()=>process.stdout.write('LATE_RESULT\\n'),75)";
   const script="require('node:child_process').spawn(process.execPath,['-e',"+JSON.stringify(grandchild)+"],{stdio:['ignore',1,2]});process.exit(0)";
-  const result=await runProcess(node,['-e',script],{timeoutMs:3000,tee:false});
+  // This is a close/pipe-ownership assertion, not a cold Node startup budget.
+  // Leave bounded headroom for two processes on a busy shared CI runner.
+  const result=await runProcess(node,['-e',script],{timeoutMs:10000,tee:false});
   assert.equal(result.stdout,'LATE_RESULT\n');assert.equal(result.code,0);
 });
 test('a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored',async()=>{
@@ -62,9 +64,24 @@ test('ERP report requires both named fixture suites, all nine distinct cases and
   const unknown=structuredClone(report);unknown.suites[1].specs[0].file='unrelated.spec.ts';assert.throws(()=>assertErpUiReport(unknown));
   report.suites[0].specs[0].tests[0].results.push({status:'passed'});assert.throws(()=>assertErpUiReport(report));
 });
+test('account acceptance rejects partial, duplicate, failed or stale source/artifact receipts',()=>{
+  const manifest={sourceSha:'a'.repeat(40),artifacts:{siteClient:{sha256:'b'.repeat(64)}}};
+  const receipt={status:'PASS',sourceSha:manifest.sourceSha,clientArtifactSha256:manifest.artifacts.siteClient.sha256,
+    checks:accountRequiredChecks.map(caseId=>({caseId,status:'PASS'}))};
+  assertAccountReceipt(receipt,manifest);
+  for(const id of accountRequiredChecks){
+    assert.throws(()=>assertAccountReceipt({...receipt,checks:receipt.checks.filter(check=>check.caseId!==id)},manifest),/MISSING_REQUIRED/);
+  }
+  assert.throws(()=>assertAccountReceipt({...receipt,checks:[...receipt.checks,receipt.checks[0]]},manifest),/MISSING_REQUIRED/);
+  assert.throws(()=>assertAccountReceipt({...receipt,checks:[...receipt.checks,{caseId:'unrelated.case',status:'PASS'}]},manifest),/EXACT_ACCOUNT_BROWSER_INVENTORY_REQUIRED/);
+  assert.throws(()=>assertAccountReceipt({...receipt,checks:receipt.checks.map((check,i)=>i?check:{...check,status:'FAIL'})},manifest),/INCOMPLETE/);
+  for(const patch of [{sourceSha:'c'.repeat(40)},{clientArtifactSha256:'d'.repeat(64)}])
+    assert.throws(()=>assertAccountReceipt({...receipt,...patch},manifest),/SOURCE_ARTIFACT_MISMATCH/);
+});
 test('fixture isolates provider environments and runner uses only local owned previews and temp reporters',()=>{
   const fixture=readFileSync(new URL('./fixtures/role-ux-server.mjs',import.meta.url),'utf8');
-  assert.match(fixture,/releaseEnvironment=\{\}/);assert.match(fixture,/erpIntakeEnvironment:\{\},accountEmailEnvironment:\{\}/);
+  assert.match(fixture,/releaseEnvironment=\{\}/);assert.match(fixture,/accountEmailEnvironment=\{\}/);
+  assert.match(fixture,/erpIntakeEnvironment:\{\},accountEmailEnvironment,accountMailerFactory,\s*federationEnvironment:\{\}/);
   const runner=readFileSync(new URL('./ci-browser.mjs',import.meta.url),'utf8');
   assert.match(runner,/strictPort:true,proxy:\{\}/);assert.match(runner,/--reporter=json/);assert.match(runner,/PLAYWRIGHT_JSON_OUTPUT_FILE:reportPath/);
   assert.doesNotMatch(runner,/playwright install|--no-sandbox/);
