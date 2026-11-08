@@ -299,3 +299,11 @@ The first1988090 run had six stale14-migration fixture failures; correction veri
 Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
 
 Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.
+
+
+## 2026-11-08 — KN-LA Lead Agent
+
+- LA01–LA12: source implemented and independent core review accepted for TEST candidate; exact-source CI, actual rendered UI and live verification pending.
+- LA13: authorized scoped bot.knaba.de deployment on existing server; new isolated TEST company/PG/connector, private credentials, seed-free bootstrap, backup/restore and rollback gates. No existing service/data replacement.
+- LA14–LA20: external/platform account permission, LLM budget/credentials, outbound consent/spend reconciliation, verified production company, live session SSO and measured scale/retention remain open.
+- Scope/evidence plan: [LEAD_AGENT_2026-11-08_UK.md](LEAD_AGENT_2026-11-08_UK.md). No blanket acceptance of KNABA V4/V3 or fake platform capabilities.

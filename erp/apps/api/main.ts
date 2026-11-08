@@ -31,6 +31,11 @@ const buildSha=globals.__KNABA_BUILD_SHA__??env.GIT_SHA??'0000000000000000000000
 const federation=parseFederationAuthorities(process.env.SITE_FEDERATION_AUTHORITIES_JSON,env.COMPANY_ID,env.APP_MODE);
 const app=await NestFactory.create(createApiModule({db,engine,companyId:env.COMPANY_ID,appMode:env.APP_MODE,buildSha,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY,integrationCredentials:parseIntegrationCredentials(process.env.INTEGRATION_CREDENTIALS_JSON),cookieSecure:env.PUBLIC_ORIGIN?.startsWith('https:'),federationAuthorities:()=>federation}),{bodyParser:false,logger:['error','warn']});
 const server=app.getHttpAdapter().getInstance();server.set('trust proxy',1);
+const moduleLanding=z.enum(['lead-agent']).optional().parse(process.env.KNABA_MODULE_LANDING||undefined);
+if(moduleLanding){
+  app.use((_req:any,res:any,next:any)=>{res.setHeader('X-Robots-Tag','noindex, nofollow, noarchive, nosnippet');next();});
+  server.get('/',(_req:any,res:any)=>{res.setHeader('Cache-Control','no-store');res.redirect(302,'/app/lead-agent?language=UK');});
+}
 app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'","data:","blob:"],connectSrc:["'self'"],frameAncestors:["'self'",...(process.env.WIDGET_ALLOWED_ORIGINS??'').split(',').filter(Boolean).map(origin=>z.string().url().parse(origin))]}},crossOriginEmbedderPolicy:false}));
 app.use(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],whatsAppRawBody());
 app.use(FEDERATION_ERP_PATH,federationRawBody());

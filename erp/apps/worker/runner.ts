@@ -1,3 +1,4 @@
+import {processLeadSearch,scheduleLeadSearch} from './lead-agent.ts';
 import {queueHandoffSla} from '../../packages/domain/handoff-calendar.ts';
 import {processGuestConversationTransfer} from './conversation-transfer.ts';
 import {transferredGuestChannelIn} from '../api/conversation-transfer.ts';
@@ -37,7 +38,7 @@ import { DeepSeekAdapter, WhatsAppCloudAdapter, type WhatsAppInbound, type Whats
 
 export interface OutboxJob {id:string;company_id:string;type:string;data:Data;attempts:number;leased_until:string|Date;lease_token?:string;}
 export interface SqlRunner {query:(statement:string,params?:unknown[])=>Promise<{rows:any[]}>;}
-export interface WorkerOptions {integrationWebhook?:IntegrationWebhookAdapter;companyId:string;appMode:string;batchSize?:number;leaseMs?:number;maxAttempts?:number;now?:()=>Date;ai?:DeepSeekAdapter;whatsapp?:WhatsAppCloudAdapter;testRecipients?:string[];publicOrigin?:string;whatsappCapabilities?:{accountVerified:boolean;buttons:boolean;lists:boolean};telegram?:TelegramBotAdapter;telegramApprovedConsentVersion?:string;}
+export interface WorkerOptions {publicLeadSearchEnabled?:boolean;integrationWebhook?:IntegrationWebhookAdapter;companyId:string;appMode:string;batchSize?:number;leaseMs?:number;maxAttempts?:number;now?:()=>Date;ai?:DeepSeekAdapter;whatsapp?:WhatsAppCloudAdapter;testRecipients?:string[];publicOrigin?:string;whatsappCapabilities?:{accountVerified:boolean;buttons:boolean;lists:boolean};telegram?:TelegramBotAdapter;telegramApprovedConsentVersion?:string;}
 const key=(...values:string[])=>createHash('sha256').update(values.join('\u0000')).digest('hex');
 const at=(value:string|Date)=>new Date(value).toISOString();
 export const serviceId='knaba-integration-service';
@@ -95,6 +96,7 @@ export class WorkerRunner {
     case 'notification.scheduled':return this.notification(job);
     case 'assistant.answer_requested':return this.answer(job);
     case 'internal_assistant.requested':return this.internalDraft(job);
+    case 'lead_agent.search_requested':return processLeadSearch(this.db,this.engine,job,this.options.publicLeadSearchEnabled===true,this.now);
     case 'automation.action_requested':return this.automationAction(job);
     case 'digest.requested':return this.operationsDigest(job);
     case 'task.calendar_requested':return this.calendar(job);
@@ -648,6 +650,7 @@ export class WorkerRunner {
   private async calendar(job:OutboxJob){const actor=await this.engine.getActor(job.data.ownerId,job.company_id);return this.command(job,'task_template.generate_due',{templateId:job.data.templateId,templateVersion:job.data.templateVersion},'generate-due',actor);}
   private localDay(){const p=berlinParts(this.now());return `${p.year}-${p.month}-${p.day}`;}
   async scheduled(){const now=this.now(),p=berlinParts(now),minute=`${this.localDay()}:${p.hour}:${p.minute}`;if(minute===this.lastScheduleMinute)return;await this.db.transaction(this.options.companyId,serviceId,async tx=>{const day=this.localDay();if(Number(p.hour)>=18){for(const order of await tx.list('order'))if(order.data.siteId&&order.data.customerId&&!['CANCELLED','CLOSED'].includes(order.data.status)){const id=key('daily-report',tx.companyId,order.id,day);await tx.query(`INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'report.daily_requested',$3) ON CONFLICT(id) DO NOTHING`,[id,tx.companyId,JSON.stringify({siteId:order.data.siteId,orderId:order.id,day})]);}}
+    await scheduleLeadSearch(tx,this.engine,now.toISOString(),this.options.publicLeadSearchEnabled===true);
     const calendarCursors=await tx.list('task_calendar_cursor');for(const template of await tx.list('task_template')){if(template.data.active!==true||template.data.recurrence==='MANUAL'||!template.data.schedule||!template.data.activatedAt||!template.data.scheduleOwnerId)continue;const cursor=calendarCursors.find(c=>c.data.templateId===template.id&&c.data.scheduleRevision===template.data.revision);if(cursor?.data.nextDueAt&&!cursor.data.hasMore&&Date.parse(cursor.data.nextDueAt)>now.getTime())continue;const id=key('task-calendar',template.id,String(template.data.revision),minute);await tx.query("INSERT INTO outbox(id,company_id,type,data) VALUES($1,$2,'task.calendar_requested',$3) ON CONFLICT(id) DO NOTHING",[id,tx.companyId,JSON.stringify({templateId:template.id,templateVersion:template.version,ownerId:template.data.scheduleOwnerId})]);}
     for(const policy of await tx.list('digest_policy')){
       let slot;try{slot=policyDue(policy,now);}catch{continue;}if(!slot)continue;

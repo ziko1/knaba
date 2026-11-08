@@ -69,6 +69,7 @@ export function assertSuiteReceipt(value,{publicCases,requiredChecks=[]}={}){
 export const erpFixtureSuites=Object.freeze([
   {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
   {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
+  {file:'lead-agent-ui.spec.ts',cases:4,name:'ERP lead discovery agent'},
 ]);
 export function assertErpUiReport(report){
   const tests=[],ids=new Set(),counts=Object.fromEntries(erpFixtureSuites.map(suite=>[suite.file,0]));
@@ -81,7 +82,7 @@ export function assertErpUiReport(report){
   const expected=erpFixtureSuites.reduce((total,suite)=>total+suite.cases,0);
   if(report?.stats?.expected!==expected||report.stats.unexpected!==0||report.stats.skipped!==0||report.stats.flaky!==0||
     report.errors?.length||tests.length!==expected||erpFixtureSuites.some(suite=>counts[suite.file]!==suite.cases)||
-    tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('ALL_NINE_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
+    tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('ALL_REQUIRED_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
   return counts;
 }
 export async function startPreview(command,args,{url,marker,signal,...options}){

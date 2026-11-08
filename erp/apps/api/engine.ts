@@ -1,3 +1,4 @@
+import {leadAgentKinds,leadAgentAccess} from '../../packages/domain/lead-agent.ts';
 import {vehicleTripReadable} from '../../packages/domain/vehicle-trips.ts';
 import {assertRequestAuthority,assertRequestBinding,carryRequestAuthority,recordResponseAuthority,responseAuthorityFingerprint,revocationAcknowledgement,revokesRequestAuthority} from './request-authority.ts';
 import {crewOffers,personalCrewResponse} from '../../packages/domain/crew-offers.ts';
@@ -35,7 +36,7 @@ const operationKinds=new Set(['site','location','location_revision','work_packag
 const ownKinds=new Set(['shift','time_segment','time_event','timesheet','timesheet_correction','absence_explanation','location_incident','presence','presence_event','trip','trip_segment','trip_approval','device','tracking_session','device_event_review','manual_device_event']);
 const commerceKinds=new Set(['lead','service','price_book','quote','quote_version','quote_acceptance','change_order','dispatch_request','crew','crew_assignment','schedule_reservation','order_review','order_transition','site_visit_request','customer','customer_membership','employee_availability']);
 const adminKinds=new Set(['knowledge','assistant_config','knowledge_document','knowledge_version','glossary','automation_rule','automation_run','bot_config','legal_approval','tracking_policy','geofence','integration_config','integration_event','integration_record','integration_quarantine','integration_outbound','integration_decision']);
-const readOnlyCommands=new Set(['assistant.playground','assistant.usage','digest.preview','bot.channel.preferences.read','worker_registration_interest.inbox','partner_registration_interest.inbox']);
+const readOnlyCommands=new Set(['lead_agent.catalog','lead_agent.list','lead_agent.run.read','lead_agent.estimate','assistant.playground','assistant.usage','digest.preview','bot.channel.preferences.read','worker_registration_interest.inbox','partner_registration_interest.inbox']);
 const freshReadCommands=new Set(['vehicle_trip.summary','internal_assistant.preview','shift.working_time_advisory','timesheet.working_time_advisory','assistant.playground','assistant.usage','handoff.inbox','channel.list','message.read','translation.read','service.list','dispatch.recommend','customer.portal','knowledge.search','quote.get','issue.context','issue.get','issue.list','material.lookup','privacy.status','channel.unread','delivery.reply_context','location.breadcrumb','shift.summary','timesheet.summary','task.summary','operations.statistics','stock.balance','procurement.calculate','request.batch.view']);
 export class Engine{
  private authority=new WeakMap<Actor,{base:Actor;effective:EffectiveDelegations}>();
@@ -255,6 +256,7 @@ export class Engine{
  if(k==='media_asset'){if(d.visibility==='CONFIDENTIAL'||d.employeeId){return !external&&(d.employeeId===a.userId||(p.some(x=>['finance.accountant','finance.payroll'].includes(x))&&await this.employeeScope(tx,a,d.employeeId)));}if(external){if(d.uploadedBy===a.userId)return await this.customerSite(tx,a,d.siteId);if(d.state!=='APPROVED_FOR_CLIENT'||d.visibility!=='CLIENT_AFTER_APPROVAL'||!d.clientBlobKey)return false;return this.customerSite(tx,a,d.siteId);}return d.uploadedBy===a.userId||(!!sid&&allowed('media.read'));}
  if(k==='knowledge'){if(external)return d.visibility==='PUBLIC'&&d.status==='APPROVED';if(!p.includes('assistant.read')&&!p.includes('assistant.manage'))return false;if(d.visibility==='PERSONAL')return d.subjectUserId===a.userId;return all||!(d.siteIds??[]).length||d.siteIds.some((siteId:string)=>a.siteIds.includes(siteId));}
  if(k==='decision')return !external&&allowed('decision.manage')&&(!d.approvalDomain||d.approvalDomain!=='FINANCE'||p.includes('finance.payout.approve'));
+ if(leadAgentKinds.has(k))return leadAgentAccess(this.scope(a,'lead_agent.manage'),e);
  if(adminKinds.has(k))return !external&&p.some(x=>['bot.manage','assistant.manage','assistant.read','company.manage','location.policy.manage','automation.manage'].includes(x));
  return false;}
  async employeeScope(tx:PgTransaction,a:Actor,id?:string):Promise<boolean>{if(!id)return false;if(id===a.userId||a.permissions.includes('scope.company'))return true;try{const user=await tx.get('user',id);return (user.data.siteIds??[]).some((siteId:string)=>a.siteIds.includes(siteId));}catch{return false;}}

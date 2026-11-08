@@ -52,3 +52,6 @@ export const EXPLICIT_PRIVILEGED_PERMISSIONS=new Set(['location.policy.manage','
 
 // Privacy review is explicit governance authority; self access is identity.self.
 add('OWNER',['privacy.review','privacy.manage']);
+
+// Procurement discovery is separate from authority to issue quotes, contact clients or spend money.
+for(const role of ['OWNER','DIRECTOR','OPERATIONS_MANAGER'])add(role,['lead_agent.manage']);
