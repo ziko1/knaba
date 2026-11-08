@@ -68,6 +68,8 @@ VPS має `vps_site_identity_consents` і окремий checksum receipt `vps_
 
 ## Перевірки та межі приймання
 
+Перший exact-source run [42472337064](https://github.com/ziko1/knaba/actions/runs/42472337064) на `40e31acede2b3d9b55ecfb02fec33aa4cb0d5ab1`: root30, site732 Vitest +90 Node +268 VPS та ERP2782/120 files зі справжньою PostgreSQL — PASS. Bridge9 старих intake cases PASS; усі22 нові F2 cases зупинились до journey через відсутній обов’язковий `profiles.last_mutation` у synthetic fixture. Це FAIL, не F2 acceptance. Корекція заповнює поле у тесті без зміни production schema/runtime; exact INSERT перевірено на actual migrated VPS SQLite з обома email fixtures. Повторний hosted run потрібен для приймання F2.
+
 Локально Node24.22.1: TypeScript/build ERP; Astro/Vue/Svelte check і site build; 114 цільових ERP CPU cases; 38 consent SQLite + 8 protocol actual HTTP + 20 site-handler HTTP + 5 auth migration cases; повний root suite30, включно з2 distribution/neutral-page cases. Повний VPS прогін до останнього уточнення displayed authority expiry: 267/267; уточнений HTTP suite20/20 пройдено окремо, а final aggregate належить майбутньому exact-source CI. Повторювані/перекривні totals не підсумовуються як нові assertions.
 
 Початковий локальний site build verification мав невідповідність environment: official artifact перевірявся як staging. Повторний запуск із тим самим `KNABA_RELEASE_MODE=official`, що й build/CI, завершився з exit0; test guard не послаблено. `tsx` CLI IPC був заблокований середовищем; стандартний Node loader без окремого IPC виконав реальний Nest HTTP bootstrap. Це не заміна PostgreSQL journey.

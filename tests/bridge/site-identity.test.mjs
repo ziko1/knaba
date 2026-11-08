@@ -85,8 +85,8 @@ async function fixture(t,{siteEmail='user-b@example.test',siteId}={}){
  const siteUser=createCredentialsUser(site.db,siteEmail,'Synthetic-site-password-2026');
  if(siteId){site.db.prepare('UPDATE vps_users SET id=? WHERE id=?').run(siteId,siteUser.id);siteUser.id=siteId;}
  const now=new Date().toISOString();
- site.db.prepare('INSERT INTO profiles(id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version) VALUES(?,?,?,?,?,?,?,?,?,1)')
-  .run(siteUser.id,'Synthetic site account',siteEmail,'client','client','approved','synthetic-v1',now,now);
+ site.db.prepare('INSERT INTO profiles(id,name,email,requested_role,role,status,privacy_version,created_at,updated_at,version,last_mutation) VALUES(?,?,?,?,?,?,?,?,?,1,?)')
+  .run(siteUser.id,'Synthetic site account',siteEmail,'client','client','approved','synthetic-v1',now,now,'synthetic-f2-fixture');
  const siteSession=createSessionForUser(site.db,siteUser.id);let siteCookie='__Host-knaba-session='+siteSession.token,siteCsrf='';
  async function wire(origin,path,body,headers={}){const response=await fetch(origin+path,{method:body===undefined?'GET':'POST',headers:{Origin:origin,...(body===undefined?{}:{'content-type':'application/json'}),...headers},body:body===undefined?undefined:JSON.stringify(body),redirect:'manual',signal:AbortSignal.timeout(10000)});return {status:response.status,body:await response.json(),headers:response.headers};}
  async function login(id='user-a'){const result=await wire(erpOrigin,'/api/v1/auth/login',{email:id+'@example.test',password});const value=success(result,'ERP login');return {id,cookie:result.headers.get('set-cookie').split(';')[0],csrf:value.csrfToken};}

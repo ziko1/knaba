@@ -221,7 +221,60 @@
       }
     }
   },
-  "hosted": "PENDING_EXACT_SOURCE",
+  "hosted": {
+    "run": 42472337064,
+    "source": "40e31acede2b3d9b55ecfb02fec33aa4cb0d5ab1",
+    "tree": "33e65cfe4c3d2aad12fb35cf4d242e68854e8972",
+    "status": "FAIL_BRIDGE_FIXTURE",
+    "jobs": {
+      "root": {
+        "id": 128705834437,
+        "status": "PASS",
+        "tests": 30
+      },
+      "site": {
+        "id": 128705834510,
+        "status": "PASS",
+        "vitest": 732,
+        "node": 90,
+        "vps": 268
+      },
+      "erp": {
+        "id": 128705834418,
+        "status": "PASS",
+        "tests": 2782,
+        "files": 120,
+        "postgresql": "ACTUAL_17.6"
+      },
+      "bridge": {
+        "id": 128705834247,
+        "status": "FAIL",
+        "tests": 31,
+        "pass": 9,
+        "fail": 22,
+        "skip": 0,
+        "cause": "All22 F2 cases stopped at fixture preparation: missing mandatory profiles.last_mutation; no F2 journey acceptance."
+      }
+    },
+    "raw_logs": {
+      "identity-f2-42472337064-bridge.log": {
+        "bytes": 96040,
+        "sha256": "a796769280d97150115dbea59427d68255d9195a5e8baaf95f44ee7d21f338e2"
+      },
+      "identity-f2-42472337064-root.log": {
+        "bytes": 40922,
+        "sha256": "45ccfde0fa774c69465c5d7ca7e8ed8f42c92f5d64a4311eaf62ae07bf9bd2b0"
+      },
+      "identity-f2-42472337064-erp.log": {
+        "bytes": 105438,
+        "sha256": "00023ec959aa0cbdb1cf6e965fde2437129ceff0d80d858c1c3e3d01ae3aa600"
+      },
+      "identity-f2-42472337064-site.log": {
+        "bytes": 135621,
+        "sha256": "eb247b9f795b709ad1f14911c0f46f7e4bc3df4f6f52d8ec83ba0898198bde51"
+      }
+    }
+  },
   "review": {
     "independent_agent": "/root/knaba_prompt_review",
     "status": "SOURCE_ACCEPTED",
@@ -246,5 +299,17 @@
   },
   "cross_system_sso": "NOT_IMPLEMENTED",
   "product": "NOT_READY",
-  "original_criteria_promoted": false
+  "original_criteria_promoted": false,
+  "correction_candidate": {
+    "scope": "Only synthetic bridge profile INSERT supplies mandatory last_mutation; application runtime and schema unchanged.",
+    "file": "tests/bridge/site-identity.test.mjs",
+    "sha256": "2d6ea81e13121d02978cea9888d702bc77fa2dbd383e62bfec64a78ef87cef89",
+    "local_probe": {
+      "status": "PASS",
+      "scope": "Actual migrated VPS SQLite, exact source INSERT, regular and long-email profiles, session creation; no PostgreSQL acceptance.",
+      "log_sha256": "a80472fb73c5bab1903601c21d1ee9062442a80038cb17a3aba9c4f2f62caf6c"
+    },
+    "review": "SOURCE_ACCEPTED_BY_INDEPENDENT_REVIEWER",
+    "hosted": "PENDING_EXACT_SOURCE"
+  }
 }
