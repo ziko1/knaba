@@ -31,6 +31,7 @@ import { whatsAppPolicy, isQuietHour } from '../../packages/domain/communication
 import {ROLE_PERMISSIONS} from '../../packages/domain/permissions.ts';
 import {DEFAULT_QUIET_START,DEFAULT_QUIET_END,nextQuietWindowEnd,safeRetryDelayMs,projectDeliveryNotifications,deliveryDecision,type DeliveryFailureClass} from '../../packages/domain/notification-policy.ts';
 import { DeepSeekAdapter, WhatsAppCloudAdapter, type WhatsAppInbound, type WhatsAppOutput, type SupportedLanguage } from '../../packages/integrations/index.ts';
+import {parsePublicOrigin,type RuntimeMode} from '../runtime-config.mjs';
 
 export interface OutboxJob {id:string;company_id:string;type:string;data:Data;attempts:number;leased_until:string|Date;lease_token?:string;}
 export interface SqlRunner {query:(statement:string,params?:unknown[])=>Promise<{rows:any[]}>;}
@@ -199,14 +200,19 @@ export class WorkerRunner {
       if(delivery.data.channel==='WHATSAPP'){
         const error=!this.options.whatsapp?'PROVIDER_DISABLED':!phone?'RECIPIENT_UNVERIFIED':this.options.appMode!=='PRODUCTION'&&!this.options.testRecipients?.includes(phone)?'TEST_RECIPIENT_NOT_ALLOWED':undefined;
         if(error){const failed=await tx.save(delivery,{...delivery.data,status:'FAILED',error,failure_class:'DEFINITIVE'});await projectDeliveryNotifications(tx,failed,this.now().toISOString());await checkLease();return;}
+        let templateOrigin:string|undefined;
+        if(policy.kind==='TEMPLATE'){
+          try{const origin=parsePublicOrigin(this.options.appMode as RuntimeMode,this.options.publicOrigin,true);assert(origin,'PUBLIC_ORIGIN_REQUIRED_OR_INVALID');templateOrigin=origin.raw;}
+          catch{const failed=await tx.save(delivery,{...delivery.data,status:'FAILED',error:'PUBLIC_ORIGIN_REQUIRED_OR_INVALID',failure_class:'DEFINITIVE'});await projectDeliveryNotifications(tx,failed,this.now().toISOString());await checkLease();return;}
+        }
         // Claim in the same leased transaction as fresh source/recipient/window checks.
         const claimed:Entity=await tx.save(delivery,{...delivery.data,status:'SENDING',provider_account_id:this.options.whatsapp!.phoneNumberId,provider_recipient_phone:phone,attempts:(delivery.data.attempts??0)+1,sending_started_at:this.now().toISOString(),sending_job_id:job.id,sending_lease_hash:createHash('sha256').update(job.lease_token??'').digest('hex')});await projectDeliveryNotifications(tx,claimed,this.now().toISOString());await checkLease();
-        return {delivery:claimed,message,policy,phone,language:settings?.data.language??'DE'};
+        return {delivery:claimed,message,policy,phone,language:settings?.data.language??'DE',templateOrigin};
       }
       return {delivery,message,policy,phone,language:settings?.data.language??'DE'};
     });
     if(!snapshot)return;if('unknown' in snapshot)return this.command(job,'delivery.status',{delivery_id:snapshot.unknown,status:'UNKNOWN',error:'PROVIDER_OUTCOME_UNKNOWN',failure_class:'UNKNOWN'});if(snapshot.delivery.data.channel==='WEB')return this.command(job,'delivery.status',{delivery_id:entity.id,status:'DELIVERED'});
-    const output:WhatsAppOutput=snapshot.policy.kind==='TEMPLATE'?{kind:'TEMPLATE',name:snapshot.policy.template!,language:snapshot.language.toLowerCase()==='uk'?'uk':snapshot.language.toLowerCase(),approved:true,parameters:[this.options.publicOrigin??'https://knaba.example.invalid']}:{kind:'TEXT',text:`${job.data.notice==='CORRECTION'?'Korrektur · ':''}${snapshot.message.data.text}`.slice(0,4096)};
+    const output:WhatsAppOutput=snapshot.policy.kind==='TEMPLATE'?{kind:'TEMPLATE',name:snapshot.policy.template!,language:snapshot.language.toLowerCase()==='uk'?'uk':snapshot.language.toLowerCase(),approved:true,parameters:[snapshot.templateOrigin!]}:{kind:'TEXT',text:`${job.data.notice==='CORRECTION'?'Korrektur · ':''}${snapshot.message.data.text}`.slice(0,4096)};
     let providerStarted=false;
     try{await this.activeJob(job);providerStarted=true;const result=await this.options.whatsapp!.send(snapshot.phone!,output,{kind:snapshot.policy.kind as 'TEXT'|'TEMPLATE',template:snapshot.policy.template});await this.command(job,'delivery.status',{delivery_id:entity.id,...result});}
     catch(error){

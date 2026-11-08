@@ -1,0 +1,93 @@
+{
+  "status": "ACCEPT_PRODUCTION_CONFIGURATION_ACTUAL_CI",
+  "source_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
+  "tree_sha": "a5d250054194eb9ac70aa12c77c79942ed05de13",
+  "parent_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "pr": 134,
+  "run_id": 42489218942,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42489218942",
+  "duplicate_push_run": 42489215508,
+  "duplicate_push_status": "SUCCESS",
+  "all_required_jobs": "SUCCESS",
+  "conditional_failure_summary": "SKIPPED_AS_EXPECTED",
+  "logs": {
+    "erp": {
+      "job_id": 128757692185,
+      "status": "SUCCESS",
+      "file": "production-config-42489218942-erp.log",
+      "bytes": 109514,
+      "sha256": "786da3f4eaf44f1b1f89c6c162bbc549bbb39a571d6d11e99b615a04f533c205"
+    },
+    "bridge": {
+      "job_id": 128757692405,
+      "status": "SUCCESS",
+      "file": "production-config-42489218942-bridge.log",
+      "bytes": 105737,
+      "sha256": "e8ff3dc5242cf93abe2cb780008a7dd3afced5b1873ea161d9d4772e366403e8"
+    },
+    "site": {
+      "job_id": 128757692350,
+      "status": "SUCCESS",
+      "file": "production-config-42489218942-site.log",
+      "bytes": 141963,
+      "sha256": "5c83859d6c77c3010cc4cf0bc3f8ffb59af94ea96e0a988659611bbcec16d465"
+    },
+    "root": {
+      "job_id": 128757692421,
+      "status": "SUCCESS",
+      "file": "production-config-42489218942-root.log",
+      "bytes": 41415,
+      "sha256": "e464f9ed82bc267dc9698e6364a01a1b375f9710b1be7ef521c4a6a20bf0d650"
+    }
+  },
+  "results": {
+    "erp": {
+      "tests": 3118,
+      "files": 125,
+      "configuration_cases": 244,
+      "configuration_breakdown": {
+        "worker": 70,
+        "compiled_entrypoints": 60,
+        "preflight": 39,
+        "telegram_config": 28,
+        "shared_contract": 47
+      }
+    },
+    "bridge": {
+      "tests": 82
+    },
+    "site": {
+      "vitest": 732,
+      "node_other": [
+        37,
+        35,
+        10,
+        8
+      ],
+      "vps": 297
+    },
+    "root": {
+      "tests": 30
+    }
+  },
+  "acceptance_skips": 0,
+  "source_inputs": 23,
+  "inherited_subtrees": 6,
+  "manifest_sha256": "8ab450d32c241e13c1bb3556cefbace58af67e9f70a1f680b468ab6e76b4482d",
+  "source_audit": {
+    "file": "production-config-source-audit.log",
+    "bytes": 409,
+    "sha256": "5623f58dd3fb3ecc282e9daf129cbb3c0392152f8694eb60450f9798159cbc8d"
+  },
+  "independent_review": "ACCEPT",
+  "independent_reviewer": "/root/knaba_prompt_review",
+  "scope": "Explicit production company, strict canonical API origin, optional raw worker origin, BOT/preflight consistency and runtime module packaging",
+  "excluded": [
+    "Whole-product V4/V3 acceptance",
+    "Template-origin consumer fallback",
+    "F3 issuance and remaining F4 policy/privacy",
+    "Native rebuild: artifacts remain source-bound to bb223af",
+    "Physical/signing/store/company/provider/legal/load/restore acceptance",
+    "Merge, production or live data changes"
+  ]
+}

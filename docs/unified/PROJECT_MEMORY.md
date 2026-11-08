@@ -1,5 +1,13 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — KN-C08-B прийнято; template delivery consumer
+
+KN-C08-B прийнято на `d76bb939c83103fcbf4ed4374a48f4ea85b920d2` / [PR134](https://github.com/ziko1/knaba/pull/134), [CI42489218942](https://github.com/ziko1/knaba/actions/runs/42489218942): ERP3118/125 файлів, зокрема всі244 configuration cases; bridge82, site732+90+297, root30. Усі4 required jobs SUCCESS, acceptance skips0; independent source/raw-log ACCEPT. [Receipt](evidence/production-config-20261108/accepted-d76bb9.json). Native artifacts лишаються на окремому accepted bb223af.
+
+KN-C08-C продовжує підтверджений template-origin consumer gap. TEMPLATE без явної валідної адреси має завершуватися FAILED/DEFINITIVE до SENDING/provider call, зі збереженням TEXT/WEB без origin та validated raw URL у claim snapshot. Початковий actual-consumer RED відтворив SENDING/attempts1; після fix237 focused CPU PASS, включно з19 новими cases. Ці SQL/actor/provider doubles не є PostgreSQL або live Meta acceptance. Незалежний runtime/CPU review ACCEPT; root окремо прийняв7 нових actual leased PostgreSQL cases на рівні source. Фінальні TypeScript і root30 PASS. Actual SQL та exact-source CI нового commit ще NOT_RUN. [Контракт](TEMPLATE_ORIGIN_GUARD_2026-11-08_UK.md).
+
+F3 issuance, решта F4 policy/privacy, template catalog і specialist journeys, GIT_SHA adjacent audit та physical/company/provider/load/restore gates лишаються OPEN. Whole product NOT_READY; original72 V4/475 V3 не перепозначено.
+
 ## 08.11.2026 — зведений native/backend кандидат прийнято; KN-C08-B
 
 Спільний source `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2` / [PR133](https://github.com/ziko1/knaba/pull/133) прийнято незалежно: [repository CI42486326925](https://github.com/ziko1/knaba/actions/runs/42486326925) — ERP 2969/124 файли, bridge 82, site 732+90+297, root 30; [native CI42486326902](https://github.com/ziko1/knaba/actions/runs/42486326902) — Android 32 JUnit, lint 0 errors/20 warnings, APK/AAB; iOS 67 XCTest на iPhone 16/iOS 18.5 Simulator. Усі required jobs SUCCESS, acceptance skips 0. [Source-bound receipt](../mobile/evidence/native-consolidation-20261108/accepted-bb223af.json). Це debug Android і unsigned iOS simulator; owner signing/device/store gates відкриті.
