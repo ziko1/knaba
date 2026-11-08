@@ -375,9 +375,35 @@ export class WorkerRunner {
       await this.record(job,'conversation_input',route.id,row=>({...row.data,status:'MANUAL_REVIEW',reason:input.type==='callback'?'TELEGRAM_CALLBACK_UNBOUND':'TELEGRAM_MEDIA_REQUIRES_APPROVED_QUARANTINE',completed_at:this.now().toISOString()}));
       return;
     }
+    // Explicit private /consent records only the currently configured, versioned
+    // Telegram service-message consent. It never authenticates a KNABA account
+    // or grants employee/customer/owner roles. Without an approved version the
+    // request is retained for manual review and outbound remains disabled.
+    const telegramCommand=input.text.trim().toLowerCase();
+    if(telegramCommand==='/consent'){
+      const approved=this.options.telegramApprovedConsentVersion;
+      await this.db.transaction(job.company_id,serviceId,async tx=>{
+        const record=await tx.get('conversation_input',route.id);
+        if(record.data.status!=='PENDING')return;
+        const now=this.now().toISOString();
+        const settings=(await tx.list('notification_setting')).filter(s=>s.data.user_id===record.data.user_id);
+        assert(settings.length<=1,'ACCESS_DENIED');
+        if(!approved){
+          if(settings[0])await tx.save(settings[0],{...settings[0].data,telegram_consent:false,telegram_opted_out:true});
+          else await tx.add('notification_setting',{user_id:record.data.user_id,language:record.data.language??'DE',telegram_consent:false,telegram_opted_out:true});
+          await tx.save(record,{...record.data,status:'MANUAL_REVIEW',router_state:'TELEGRAM_OPT_IN_BLOCKED',reason:'TELEGRAM_CONSENT_VERSION_REQUIRED',completed_at:now});
+          return;
+        }
+        const data={...settings[0]?.data,user_id:record.data.user_id,language:settings[0]?.data.language??record.data.language??'DE',
+          telegram_consent:true,telegram_opted_out:false,telegram_consent_version:approved,telegram_consented_at:now,telegram_consent_source:'USER_COMMAND'};
+        if(settings[0])await tx.save(settings[0],data); else await tx.add('notification_setting',data);
+        await tx.save(record,{...record.data,status:'PROCESSED',router_state:'TELEGRAM_OPT_IN',completed_at:now});
+      });
+      return;
+    }
+
     // An exact private STOP is an unsubscribe, never a privileged ERP command.
     // Apply the preference and mark the inbound event in one durable transaction.
-    const telegramCommand=input.text.trim().toLowerCase();
     if(telegramCommand==='/stop'||telegramCommand==='stop'){
       await this.db.transaction(job.company_id,serviceId,async tx=>{
         const record=await tx.get('conversation_input',route.id);
