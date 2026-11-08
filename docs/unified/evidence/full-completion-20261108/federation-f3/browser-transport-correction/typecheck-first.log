@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 typecheck
+> tsc --noEmit
+
+tests/fixtures/federation-https-return.ts(37,60): error TS2339: Property 'code' does not exist on type 'Error'.
+tests/fixtures/federation-https-return.ts(65,47): error TS2345: Argument of type 'Duplex' is not assignable to parameter of type 'Socket'.
+  Type 'Duplex' is missing the following properties from type 'Socket': destroySoon, connect, resetAndDestroy, setTimeout, and 12 more.
+tests/fixtures/federation-https-return.ts(65,94): error TS2345: Argument of type 'Duplex' is not assignable to parameter of type 'Socket'.
+  Type 'Duplex' is missing the following properties from type 'Socket': destroySoon, connect, resetAndDestroy, setTimeout, and 12 more.

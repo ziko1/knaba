@@ -255,3 +255,8 @@ The first F3 source af6f84d has FAILED aggregate acceptance despite successful c
 ## 08.11.2026 — F3 runtime acceptance and pending browser correction
 
 a202ddc8 closes the actual18 F3 PostgreSQL and8 runtime-pair checks within3260/26 successful cases. The required rendered aggregate remains18/19 because of one fixture failure; full F3 dependency is not yet accepted. [Trace-grounded fixture correction and next gate](F3_BROWSER_ACCEPTANCE_CORRECTION_2026-11-08_UK.md). Native source, normative scope and compound AC unchanged; one bounded source checkpoint follows independent review.
+
+
+## 08.11.2026 — F3 actual redirect and pending HTTPS fixture correction
+
+77b64956 repeats actual18 F3 PostgreSQL and8 paired-runtime PASS inside3260/26 successful cases. Rendered F3 remains9/10 because the source303 redirects beyond the synthetic route handler into DNS. Correct input/cross-site cookie behavior is observed; account/MFA/new-session completion is pending. [Bounded HTTPS return fixture and exact evidence](F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md). Full F3 dependency remains unaccepted until required actual aggregate plus independent review. Native source and normative AC unchanged; the reviewed three-path fixture passed focused4 Node tests/typecheck/exact19-case collection and is ready for the single reserved source checkpoint.

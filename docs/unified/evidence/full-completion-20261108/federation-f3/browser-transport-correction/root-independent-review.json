@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-11-08T17:54:00.745576+00:00",
+  "reviewer": "root, independent of ERP fixture author",
+  "verdict": "ACCEPT_TEST_SOURCE_SCOPED",
+  "baseCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "sourceManifestSha256": "3e81ba032e6e7038f197a9aaccf3099d8ec03fa0d8c61a26b1139991267b69af",
+  "sourceDigest": "3735630d3767c2fe91e6a83945b93dd93b055e8bfaa2cf5f9566e994d083531e",
+  "files": [
+    {
+      "path": "erp/tests/federation-https-return.test.ts",
+      "bytes": 5311,
+      "sha256": "538c8d0b0cecf1ac9785ae19be49c64201917d2428da0d69b0bfe67aa39d599f",
+      "preimageSha256": null
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "bytes": 23003,
+      "sha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4",
+      "preimageSha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41"
+    },
+    {
+      "path": "erp/tests/fixtures/federation-https-return.ts",
+      "bytes": 4942,
+      "sha256": "99dc6f7dc1ef37e8b65364f18485439da2ecd5f8bb87bf6659b8458063bdf352",
+      "preimageSha256": null
+    }
+  ],
+  "independentExecution": {
+    "scope": "Actual local Node HTTPS/OpenSSL helper; not browser SameSite/MFA",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "overlapsAuthorTests": true,
+    "exitReceiptSha256": "287c19730c334bab50bb2f6f894012dc66e313fce9940db0cb4a61b8bad4f7e4",
+    "resultSha256": "bf22f4f185f16232a59345641e86cd08df8576dcd0fc47b55222d33fcfe0aed9"
+  },
+  "independentlyVerified": {
+    "changedPathsExactlyThree": true,
+    "allSourceAndLogHashesMatch": true,
+    "all19TitlesMatchBaseline": true,
+    "otherNineF3TestBodiesByteIdentical": true,
+    "noNewManualNavigation": true,
+    "source303Preserved": true,
+    "tlsExceptionOnlyOneSyntheticCase": true,
+    "exactLoopbackMethodHostTarget": true,
+    "onlyActuallyReceivedReturnCookieHeaders": true,
+    "boundedOwnSocketAndPrivatePemCleanup": true,
+    "applicationRuntimeWorkflowDependenciesUnchanged": true
+  },
+  "downstreamPeer": {
+    "receiptSha256": "66f3070b9d60cc2773ff3b8b635d5f0eb9fc061b225a2a10a3056fa72c1727f0",
+    "verdict": "ACCEPT_DOWNSTREAM_SOURCE_SCOPED_NO_FINDINGS"
+  },
+  "limitations": [
+    "Actual corrected browser NOT_RUN; required hosted aggregate still pending.",
+    "Self-signed loopback transport is not public TLS/DNS acceptance.",
+    "Four independent helper passes overlap author four; do not sum to eight.",
+    "Whole product remains NOT_READY."
+  ],
+  "blockingFindings": []
+}

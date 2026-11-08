@@ -313,3 +313,8 @@ af6f84d main42499230900 FAILED at the ledger dispatcher:18 F3 PG and8 F3 pair ca
 ## 08.11.2026 — remaining rendered F3 gate
 
 a202 actual ERP3260 and pair26 PASS include all18/8 required F3 cases. Rendered F3 is9/10, aggregate18/19; one fixture label mismatch and shared registrable synthetic domain require the reviewed one-file correction. [Exact evidence and correction](F3_BROWSER_ACCEPTANCE_CORRECTION_2026-11-08_UK.md). Actual corrected browser is pending; dependent native F3/privacy implementation and full compound AC remain unpromoted. Privacy plan now explicitly requires old idempotency-receipt compatibility, server ACCESS/PROFILE boundaries, atomic overflow/failure and saved-card version checks.
+
+
+## 08.11.2026 — F3 cross-site return delivery
+
+77b64956 actual ERP3260 and pair26 PASS include all18/8 F3 runtime cases. Required rendered aggregate18/19 still fails one F3 case after source303: browser-observed return has the correct Lax/Strict cookie boundary but cannot resolve the synthetic ERP host. Three-path loopback HTTPS fixture correction passed4 focused Node tests, typecheck, exact19-case collection and independent source/downstream review before the bounded next run. [Evidence and next gate](F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md). Actual corrected browser is NOT_RUN; native F3/privacy/push ordering and compound AC statuses remain unchanged.

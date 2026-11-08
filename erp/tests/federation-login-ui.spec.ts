@@ -2,6 +2,7 @@ import {test,expect,type Page,type BrowserContext} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {federationHttpsReturnReceiver} from './fixtures/federation-https-return.ts';
 
 // Worker-owned traffic bypasses page.route; this fixture covers HTTP flows,
 // while service-worker behavior belongs to a separate browser acceptance scope.
@@ -19,13 +20,14 @@ const password='Synthetic source password!',otp='123456',csrf='synthetic-flow-cs
 const blocked=new WeakMap<Page,string[]>();
 const defer=()=>{let resolve!:()=>void;const promise=new Promise<void>(done=>{resolve=done;});return {promise,resolve};};
 test.afterEach(async({page})=>{expect(blocked.get(page)??[],'Unexpected requests cannot leave the explicit synthetic fixture.').toEqual([]);});
-async function fixture(page:Page,context:BrowserContext,{native=false,approved=false,loginPage=false,corruptIssuer=false,dropConfirm=false,dropStart=false,dropWebBody=false,dropWebCookie=false}={}){
+async function fixture(page:Page,context:BrowserContext,{native=false,approved=false,loginPage=false,corruptIssuer=false,dropConfirm=false,dropStart=false,dropWebBody=false,dropWebCookie=false,erpOriginOverride=erpOrigin}={}){
+  const currentErpOrigin=erpOriginOverride;
   const failures:string[]=[],unexpected:string[]=[],calls:Array<{path:string;method:string;cookie:string;origin:string;body:any;csrf:string;key:string}>=[];
   blocked.set(page,unexpected);page.on('pageerror',error=>failures.push(error.message));
   const sourceUi=await import(pathToFileURL(resolve(process.cwd(),'../corporate-site/vps/federation-login-ui.mjs')).href);
   const client=native?{clientId:'knaba-android-v1',kind:'NATIVE',platform:'ANDROID',label:'KNABA Android',redirectUri:appOrigin+'/auth/knaba/android'}:
     {clientId:'knaba-web-v1',kind:'WEB',platform:'WEB',label:'KNABA Web'};
-  const config={enabled:true,authorizationIssuer:erpOrigin+'/auth/federation',authorities:[{authorityId:'site',label:'Synthetic Company',siteOrigin}],clients:[client]};
+  const config={enabled:true,authorizationIssuer:currentErpOrigin+'/auth/federation',authorities:[{authorityId:'site',label:'Synthetic Company',siteOrigin}],clients:[client]};
   const expiresAt=new Date(Date.now()+300000).toISOString();let phase=approved?'SOURCE_APPROVED':'CREATED',version=approved?3:1,authenticated=!loginPage;
   let held:{entered:ReturnType<typeof defer>;release:ReturnType<typeof defer>;finished:ReturnType<typeof defer>}|undefined;
   const actor={userId:'synthetic-erp-user',companyId:'synthetic-company',roles:['EMPLOYEE'],permissions:['identity.self'],siteIds:[],customerIds:[],warehouseIds:[]};
@@ -34,15 +36,15 @@ async function fixture(page:Page,context:BrowserContext,{native=false,approved=f
     csrfToken:csrf,sourceAuthorizationUrl:siteOrigin+'/account/erp-login/?authority_id=site&request_id='+id,
     ...(native?{callbackState:state}:{}),...(phase==='SOURCE_APPROVED'?{erpUserLabel:'Synthetic ERP account',siteLabel:'Synthetic website account',requiresErpMfa:true}:{})});
   await context.addCookies([
-    {name:'knaba_session',value:oldCookie,url:erpOrigin,httpOnly:true,secure:true,sameSite:'Strict'},
+    {name:'knaba_session',value:oldCookie,url:currentErpOrigin,httpOnly:true,secure:true,sameSite:'Strict'},
     {name:'__Host-knaba-session',value:'synthetic-source-cookie',url:siteOrigin,httpOnly:true,secure:true,sameSite:'Strict'},
-    ...(approved?[{name:'__Host-knaba-federation-flow',value:flow,url:erpOrigin,httpOnly:true,secure:true,sameSite:'Lax' as const}]:[])
+    ...(approved?[{name:'__Host-knaba-federation-flow',value:flow,url:currentErpOrigin,httpOnly:true,secure:true,sameSite:'Lax' as const}]:[])
   ]);
   await page.addInitScript(()=>{localStorage.setItem('knaba-language','EN');});
   await page.route('**/*',async route=>{
     const request=route.request(),address=new URL(request.url()),path=address.pathname,headers=await request.allHeaders();
     const call={path:address.origin+path,method:request.method(),cookie:headers.cookie??'',origin:headers.origin??'',body:request.postData(),csrf:headers['x-csrf-token']??'',key:headers['idempotency-key']??''};
-    if(path.startsWith('/api/')||address.origin!==erpOrigin||path.startsWith('/auth/'))calls.push(call);
+    if(path.startsWith('/api/')||address.origin!==currentErpOrigin||path.startsWith('/auth/'))calls.push(call);
     if(address.origin===appOrigin&&path==='/auth/knaba/android'&&request.method()==='GET'){
       await route.fulfill({contentType:'text/html',body:'<!doctype html><title>Synthetic app callback</title><p>Native callback reached</p>'});return;
     }
@@ -59,18 +61,18 @@ async function fixture(page:Page,context:BrowserContext,{native=false,approved=f
       if(path==='/account/erp-login/approve/'&&request.method()==='POST'){
         expect(call.origin).toBe(siteOrigin);expect(call.cookie).toContain('__Host-knaba-session=synthetic-source-cookie');
         expect(Object.fromEntries(new URLSearchParams(call.body??''))).toEqual({inspectionId,current:password,confirmed:'yes'});
-        phase='SOURCE_APPROVED';version=3;await route.fulfill({status:303,headers:{...privacy,Location:erpOrigin+'/auth/federation/return?request_id='+id},body:''});return;
+        phase='SOURCE_APPROVED';version=3;await route.fulfill({status:303,headers:{...privacy,Location:currentErpOrigin+'/auth/federation/return?request_id='+id},body:''});return;
       }
     }
-    if(address.origin===erpOrigin&&path.startsWith('/api/')){
-      const post=request.method()==='POST',get=request.method()==='GET';if(post){expect(call.origin).toBe(erpOrigin);call.body=request.postDataJSON();}
+    if(address.origin===currentErpOrigin&&path.startsWith('/api/')){
+      const post=request.method()==='POST',get=request.method()==='GET';if(post){expect(call.origin).toBe(currentErpOrigin);call.body=request.postDataJSON();}
       if(path==='/api/v1/public/config'&&get){await route.fulfill({json:{mode:'TEST',services:[],legal:{}}});return;}
       if(path==='/api/v1/me'&&get){await route.fulfill(authenticated?{json:{...session,csrfToken:call.cookie.includes('knaba_session='+newCookie)?session.csrfToken:'synthetic-old-erp-csrf'}}:{status:401,json:{code:'NEEDS_REAUTH'}});return;}
       if(path==='/api/v1/auth/federation/config'&&get){await route.fulfill({json:config});return;}
       if(path==='/api/v1/auth/federation/start'&&post){
         expect(call.body).toEqual({authorityId:'site',clientId:client.clientId});expect(call.key).toMatch(/^[!-~]{8,200}$/);
         if(dropStart){dropStart=false;await route.abort('failed');return;}
-        await route.fulfill({json:{requestId:id,authorizationUrl:erpOrigin+'/auth/federation/authorize?request_id='+id,expiresAt}});return;
+        await route.fulfill({json:{requestId:id,authorizationUrl:currentErpOrigin+'/auth/federation/authorize?request_id='+id,expiresAt}});return;
       }
       if(path==='/api/v1/auth/federation/requests/'+id+'/bind'&&post){
         expect(call.body).toEqual({});if(phase==='CREATED'){phase='BROWSER_BOUND';version=2;}
@@ -105,7 +107,7 @@ async function fixture(page:Page,context:BrowserContext,{native=false,approved=f
       if(path==='/api/v1/dashboard'&&get){await route.fulfill({json:{counts:{},integrationStatus:{}}});return;}
       if(path==='/api/v1/events'&&get){await route.fulfill({contentType:'text/event-stream',body:': synthetic\n\n'});return;}
     }
-    if(address.origin===erpOrigin&&request.method()==='GET'){
+    if(address.origin===currentErpOrigin&&request.method()==='GET'){
       const pagePath=['/login','/console','/auth/federation/authorize','/auth/federation/return'].includes(path);
       const asset=/^\/assets\/[A-Za-z0-9_.-]+$/.test(path)||['/icon.svg','/icon-maskable.svg','/manifest.webmanifest','/sw.js','/favicon.ico'].includes(path);
       if(pagePath||asset){
@@ -116,16 +118,22 @@ async function fixture(page:Page,context:BrowserContext,{native=false,approved=f
     }
     unexpected.push(request.method()+' '+address.origin+path);await route.abort('blockedbyclient');
   });
-  await page.goto(erpOrigin+(loginPage?'/login':approved?'/auth/federation/return?request_id='+id:'/auth/federation/authorize?request_id='+id));
-  return {calls,failures,setPhase:(next:string)=>{phase=next;version++;},holdStatus:()=>held={entered:defer(),release:defer(),finished:defer()}};
+  await page.goto(currentErpOrigin+(loginPage?'/login':approved?'/auth/federation/return?request_id='+id:'/auth/federation/authorize?request_id='+id));
+  return {erpOrigin:currentErpOrigin,calls,failures,setPhase:(next:string)=>{phase=next;version++;},holdStatus:()=>held={entered:defer(),release:defer(),finished:defer()}};
 }
 async function confirm(page:Page){
   const button=page.getByRole('button',{name:'Confirm sign-in',exact:true});await expect(button).toBeDisabled();
   await page.getByRole('checkbox',{name:'I have checked the accounts, company and application and want to sign in.',exact:true}).check();
   await page.getByLabel('Code from your ERP authenticator app',{exact:true}).fill(otp);await button.click();
 }
-test('F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation',async({page,context})=>{
-  await page.setViewportSize({width:390,height:844});const f=await fixture(page,context);
+// Only this synthetic loopback transport uses a temporary self-signed certificate.
+// The unnamed suite keeps the existing full case title and all other TLS settings.
+test.describe(()=>{
+ test.use({ignoreHTTPSErrors:true});
+ test('F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation',async({page,context})=>{
+  const receiver=await federationHttpsReturnReceiver({requestId:id,indexHtml:await readFile(resolve(process.cwd(),'dist/web/index.html'))});
+  try{
+  await page.setViewportSize({width:390,height:844});const f=await fixture(page,context,{erpOriginOverride:receiver.origin}),erpOrigin=f.erpOrigin;
   await page.getByRole('link',{name:'Continue to the website',exact:true}).click();
   const siteContinue=page.getByRole('button',{name:'Continue',exact:true});await expect(siteContinue).toBeVisible();
   const initial=f.calls.find(row=>row.path===siteOrigin+'/account/erp-login/'&&row.method==='GET')!;
@@ -141,10 +149,13 @@ test('F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WE
   await page.getByRole('checkbox',{name:'I have checked the account, company and application and want to use this account to sign in to ERP.',exact:true}).check();
   await page.getByRole('button',{name:'Confirm sign-in',exact:true}).click();
   await expect(page.getByText('Synthetic ERP account',{exact:true})).toBeVisible();await confirm(page);await expect(page).toHaveURL(erpOrigin+'/console');
-  const returning=f.calls.find(row=>row.path===erpOrigin+'/auth/federation/return')!;
+  expect(receiver.requests).toHaveLength(1);expect(receiver.unexpectedRequests).toEqual([]);
+  const returning=receiver.requests.find(row=>row.path===erpOrigin+'/auth/federation/return'&&row.method==='GET')!;expect(returning).toBeDefined();
   expect(returning.cookie).toContain('__Host-knaba-federation-flow='+flow);expect(returning.cookie).not.toContain('knaba_session=');
   expect((await context.cookies(erpOrigin)).find(c=>c.name==='knaba_session')?.value).toBe(newCookie);
   expect(await page.evaluate(()=>JSON.stringify({local:{...localStorage},session:{...sessionStorage}}))).not.toContain(password);expect(f.failures).toEqual([]);
+  }finally{await receiver.close();}
+ });
 });
 test('F3 HTTP fixture: native code returns only by top-level exact callback and does not replace the browser ERP account',async({page,context})=>{
   const f=await fixture(page,context,{native:true,approved:true});await confirm(page);await expect(page).toHaveURL(new RegExp('^https://app\\.browser\\.invalid/auth/knaba/android\\?'));

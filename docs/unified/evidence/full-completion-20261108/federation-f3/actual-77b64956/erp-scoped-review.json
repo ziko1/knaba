@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "runId": 42504597503,
+  "jobId": 128804404327,
+  "status": "PASS_ERP_JOB_SCOPE_ONLY",
+  "reportSha256": "7c9404b499221d97fe937a3b626f252e9df03be87c69f00384c1a04e1d6ac0be",
+  "logSha256": "5c23bce26b6e07cea0aedbab16531edb78f2b32b416068faca4bea06cb7e453a",
+  "caseTotals": {
+    "total": 3260,
+    "passed": 3260,
+    "failed": 0,
+    "skipped": 0
+  },
+  "fileResults": 147,
+  "reporterSuites": 387,
+  "requiredPostgresql": [
+    {
+      "path": "erp/tests/site-federation-ledger.integration.test.ts",
+      "sourceSha256": "b9c3e4f45d79273042aa8310cb91aed77cf6086ce8c07a79ad1cd369b7913d95",
+      "passed": 12,
+      "cases": [
+        {
+          "name": "requires complete snapshot reconciliation before activation and creates no ERP sessions or users",
+          "status": "passed",
+          "durationMs": 48.397491
+        },
+        {
+          "name": "persists an unknown-session fence before late register and across a new bootstrap",
+          "status": "passed",
+          "durationMs": 52.88162299999996
+        },
+        {
+          "name": "fences an authenticated snapshot and never activates the next epoch merely from FENCE",
+          "status": "passed",
+          "durationMs": 58.96940699999999
+        },
+        {
+          "name": "rejects nonce replay but resumes an uncertain operation using stable digest and fresh nonce",
+          "status": "passed",
+          "durationMs": 13.330300999999963
+        },
+        {
+          "name": "checks actual SQL time after waiting for the company lock, not just when the MAC was verified",
+          "status": "passed",
+          "durationMs": 73.10466099999996
+        },
+        {
+          "name": "returns historical receipts separately from a later generation and cannot replay an activation as authority",
+          "status": "passed",
+          "durationMs": 28.54623300000003
+        },
+        {
+          "name": "forces a stable 50-record snapshot restart if a fence changes the revision between pages",
+          "status": "passed",
+          "durationMs": 45.338832999999966
+        },
+        {
+          "name": "keeps lookup bounded/current and principal-null explicitly distinct from absent dependencies",
+          "status": "passed",
+          "durationMs": 16.302076
+        },
+        {
+          "name": "serializes concurrent register and revoke into a terminal denied result",
+          "status": "passed",
+          "durationMs": 25.91595699999999
+        },
+        {
+          "name": "preserves immutable revocation storage on migration rerun and rejects direct downgrade/retarget/delete",
+          "status": "passed",
+          "durationMs": 62.810996000000046
+        },
+        {
+          "name": "rejects a stale configuration after key rotation and retains terminal refs",
+          "status": "passed",
+          "durationMs": 41.412822000000006
+        },
+        {
+          "name": "isolates equal source subjects and refs by company, and rejects a mismatched transaction scope",
+          "status": "passed",
+          "durationMs": 22.721666000000027
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-identity-link.integration.test.ts",
+      "sourceSha256": "8dadaa387aa08a6143879b7bfa04862c58ccc88602ec6bbb426412765b26f999",
+      "passed": 12,
+      "cases": [
+        {
+          "name": "requires both current sessions and final ERP confirmation, stores only hashes and never grants sessions or roles",
+          "status": "passed",
+          "durationMs": 393.55351700000006
+        },
+        {
+          "name": "requires the original ERP cookie, not another current session for the same user",
+          "status": "passed",
+          "durationMs": 232.15082899999993
+        },
+        {
+          "name": "denies a source fence committed after fresh online introspection but before binding commit",
+          "status": "passed",
+          "durationMs": 224.59620100000006
+        },
+        {
+          "name": "denies original ERP logout committed during online source I/O without issuing private success",
+          "status": "passed",
+          "durationMs": 204.92407300000013
+        },
+        {
+          "name": "denies credential/profile changes or disabled trust after claim even when the session row stays valid",
+          "status": "passed",
+          "durationMs": 604.9473949999997
+        },
+        {
+          "name": "fails closed for source pending denial and never treats a claim as permission",
+          "status": "passed",
+          "durationMs": 210.79316400000016
+        },
+        {
+          "name": "consumes the one-use proof once under concurrent confirms and never creates duplicate audit effects",
+          "status": "passed",
+          "durationMs": 240.92747599999984
+        },
+        {
+          "name": "self-unlinks with fresh ERP proof while source/trust is unavailable and preserves F1 terminal unlink",
+          "status": "passed",
+          "durationMs": 531.6636119999998
+        },
+        {
+          "name": "bounds inspection attempts and challenge issuance without retaining raw code in durable receipts",
+          "status": "passed",
+          "durationMs": 570.1151669999999
+        },
+        {
+          "name": "does not resolve or claim another company challenge even with the same issuer, user labels and signed key",
+          "status": "passed",
+          "durationMs": 250.24322100000018
+        },
+        {
+          "name": "rolls back binding, proof consumption and audit if the real SQL deadline expires after the F1 write",
+          "status": "passed",
+          "durationMs": 2303.3081190000003
+        },
+        {
+          "name": "protects original challenge ownership and the claimed source principal against direct retarget or deletion",
+          "status": "passed",
+          "durationMs": 200.24578199999996
+        }
+      ]
+    },
+    {
+      "path": "erp/tests/site-federation-login.integration.test.ts",
+      "sourceSha256": "d66e0ec2ee38f6a2ec5db9a31779ef55023461c262d37f8f474443ab62a6c6b8",
+      "passed": 18,
+      "cases": [
+        {
+          "name": "creates one current company-scoped WEB child, stores hashes and grants no device or roles",
+          "status": "passed",
+          "durationMs": 385.0729500000001
+        },
+        {
+          "name": "uses S256, exact callback state/ERP issuer/client/platform and one concurrent native redemption",
+          "status": "passed",
+          "durationMs": 238.3583309999999
+        },
+        {
+          "name": "pins the WEB parent cookie while NATIVE ignores an unrelated system-browser ERP cookie",
+          "status": "passed",
+          "durationMs": 189.83529
+        },
+        {
+          "name": "requires the actual ERP TOTP and consumes its counter before code/session issuance",
+          "status": "passed",
+          "durationMs": 251.81458300000008
+        },
+        {
+          "name": "denies the production privileged branch when no ERP MFA factor is configured",
+          "status": "passed",
+          "durationMs": 124.93869899999981
+        },
+        {
+          "name": "serializes a real source FENCE after online proof and before the issuing transaction",
+          "status": "passed",
+          "durationMs": 118.44626900000003
+        },
+        {
+          "name": "suppresses a freshly committed cookie if source revocation wins before egress",
+          "status": "passed",
+          "durationMs": 344.28966700000024
+        },
+        {
+          "name": "rejects terminal F1 unlink committed between proof and mint",
+          "status": "passed",
+          "durationMs": 132.0078940000003
+        },
+        {
+          "name": "checks current ERP login policy again after asynchronous source I/O",
+          "status": "passed",
+          "durationMs": 112.09730099999979
+        },
+        {
+          "name": "uses the PostgreSQL clock after company-lock wait and rejects an expired witness",
+          "status": "passed",
+          "durationMs": 860.3929699999999
+        },
+        {
+          "name": "does not redeem a native code after the pinned ERP credential changes",
+          "status": "passed",
+          "durationMs": 127.130001
+        },
+        {
+          "name": "keeps local ERP logout available during a source/config outage",
+          "status": "passed",
+          "durationMs": 173.1286869999999
+        },
+        {
+          "name": "requires the mandatory child and the issuing company even with an ordinary session row",
+          "status": "passed",
+          "durationMs": 239.02393600000005
+        },
+        {
+          "name": "enforces immutable child/request identity and terminal session revocation in SQL",
+          "status": "passed",
+          "durationMs": 167.03538499999968
+        },
+        {
+          "name": "blocks self enrollment receipt replay while preserving independent ERP password enrollment",
+          "status": "passed",
+          "durationMs": 303.6131919999998
+        },
+        {
+          "name": "fences actual private blob bytes after asynchronous I/O and before file headers",
+          "status": "passed",
+          "durationMs": 332.5135700000001
+        },
+        {
+          "name": "closes an active SSE subscription after a genuine source-session fence within sixty seconds",
+          "status": "passed",
+          "durationMs": 221.96253800000068
+        },
+        {
+          "name": "separates stable approval receipts from owned fresh status and rejects read-operation replay",
+          "status": "passed",
+          "durationMs": 96.34457999999995
+        }
+      ]
+    }
+  ],
+  "postgresVersion": "17.6"
+}

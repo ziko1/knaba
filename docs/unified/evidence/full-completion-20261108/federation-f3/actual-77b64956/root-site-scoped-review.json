@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "runId": 42504597503,
+  "status": "PASS_ROOT_SITE_SCOPE_ONLY",
+  "root": {
+    "jobId": 128804404335,
+    "passed": 29,
+    "failures": 0,
+    "skipped": 0,
+    "logSha256": "edc96032c0f55fb02284bc21062433fea7f116753eca34e6469694ce7dd9cd70"
+  },
+  "site": {
+    "jobId": 128804404306,
+    "vitestPassed": 900,
+    "nodePassed": 92,
+    "nodeGroups": [
+      37,
+      37,
+      10,
+      8
+    ],
+    "vpsPassed": 354,
+    "failures": 0,
+    "skipped": 0,
+    "checkBuildVerify": "PASS_JOB_METADATA_AND_LOG",
+    "htmlPages": 161,
+    "cssGzipBytes": 40832,
+    "cssBudgetBytes": 40960,
+    "allEmittedJsGzipBytes": 222640,
+    "jsBudgetBytes": 225280,
+    "fieldWebVitals": "NOT_RUN",
+    "logSha256": "cdb4b270a964bb5a2d8f2d3ab320ed6edab1082ab1fefce2aed8b47f72f31857",
+    "buildReportSha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7"
+  },
+  "aggregate": "PENDING_ERP_PAIR_BROWSER"
+}

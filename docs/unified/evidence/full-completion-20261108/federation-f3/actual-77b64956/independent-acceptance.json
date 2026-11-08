@@ -1,0 +1,463 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "reviewedAt": "2026-11-08T17:33:55.156176+00:00",
+  "verdict": "F3_NOT_ACCEPTED_REQUIRED_BROWSER_FAILURE",
+  "evidenceReview": "ACCEPT_EVIDENCE_OF_FAILED_BROWSER_CORRECTION_AGGREGATE",
+  "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "sourceTree": "87a91a49fccdbbc9dfdb72f5e6bf1dd89575f3c1",
+  "runId": 42504597503,
+  "runAttempt": 1,
+  "runUrl": "https://github.com/ziko1/knaba/actions/runs/42504597503",
+  "aggregate": "FAILED",
+  "wholeProduct": "NOT_READY",
+  "requiredJobs": [
+    {
+      "id": 128804404065,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 128804404306,
+      "name": "Corporate site checks and production build",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 128804404327,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 128804404335,
+      "name": "Source integrity and policy tests",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "nonAcceptanceJob": {
+    "id": 128805874573,
+    "name": "Sanitized failure summary",
+    "conclusion": "success"
+  },
+  "archives": [
+    {
+      "path": "erp-77b64956.zip",
+      "sha256": "65e94df9c4c2ca024af904bdf81ccf270f2685c82885bdf28bb7e5afdb373e75",
+      "bytes": 156157,
+      "artifactId": 13626639789,
+      "githubArtifactName": "knaba-erp-tests-77b64956d94f68233dff80e35b5b0e73a2e9ef50-1",
+      "apiDigest": "sha256:65e94df9c4c2ca024af904bdf81ccf270f2685c82885bdf28bb7e5afdb373e75",
+      "apiSizeBytes": 156157,
+      "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+      "runId": 42504597503,
+      "createdAt": "2026-11-08T17:27:49Z",
+      "expiresAt": "2026-11-09T17:27:49Z",
+      "digestAndSizeMatch": true,
+      "zipCrcAndPathSafety": "PASS_AT_DOWNLOAD",
+      "entries": 1
+    },
+    {
+      "path": "browser-77b64956.zip",
+      "sha256": "60e6b89b47580c5f228dc40cc6a14be17f1cc626e50d6dc11225bd1079366c80",
+      "bytes": 7608994,
+      "artifactId": 13627092299,
+      "githubArtifactName": "knaba-browser-77b64956d94f68233dff80e35b5b0e73a2e9ef50-1",
+      "apiDigest": "sha256:60e6b89b47580c5f228dc40cc6a14be17f1cc626e50d6dc11225bd1079366c80",
+      "apiSizeBytes": 7608994,
+      "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+      "runId": 42504597503,
+      "createdAt": "2026-11-08T17:27:48Z",
+      "expiresAt": "2026-11-09T17:27:47Z",
+      "digestAndSizeMatch": true,
+      "zipCrcAndPathSafety": "PASS_AT_DOWNLOAD",
+      "entries": 22
+    },
+    {
+      "path": "failure-77b64956.zip",
+      "sha256": "92dabed2fda3463fed27c014b7c4d184c804aeceef5549b1e2ac0d0ebcce6aaf",
+      "bytes": 318,
+      "artifactId": 13626729375,
+      "githubArtifactName": "knaba-ci-failure-77b64956d94f68233dff80e35b5b0e73a2e9ef50-1",
+      "apiDigest": "sha256:92dabed2fda3463fed27c014b7c4d184c804aeceef5549b1e2ac0d0ebcce6aaf",
+      "apiSizeBytes": 318,
+      "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+      "runId": 42504597503,
+      "createdAt": "2026-11-08T17:27:58Z",
+      "expiresAt": "2026-11-09T17:27:57Z",
+      "digestAndSizeMatch": true,
+      "zipCrcAndPathSafety": "PASS_AT_DOWNLOAD",
+      "entries": 1
+    }
+  ],
+  "erp": {
+    "status": "PASS_JOB_SCOPE_ONLY",
+    "jobId": 128804404327,
+    "caseTotals": {
+      "total": 3260,
+      "passed": 3260,
+      "failed": 0,
+      "skipped": 0
+    },
+    "fileResults": 147,
+    "reporterSuites": 387,
+    "requiredF2Postgresql": 24,
+    "requiredF3Postgresql": 18,
+    "namedInventoriesExactlyMatched": true,
+    "postgresVersion": "17.6",
+    "detail": {
+      "path": "erp-scoped-review.json",
+      "sha256": "aeeab51f6784aa4005eef961ee44e520ab62cd041c3690d19db4b08e559e084a",
+      "bytes": 9688
+    }
+  },
+  "pair": {
+    "status": "PASS_SCOPED",
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0,
+    "f3Passed": 8,
+    "f2Passed": 7,
+    "otherExistingPassed": 11,
+    "namedInventoriesExactlyMatched": true,
+    "scope": "Actual SQLite VPS and built ERP HTTP/PostgreSQL with synthetic local accounts/configuration, not live provider/company acceptance."
+  },
+  "browser": {
+    "status": "FAILED",
+    "installedExecutable": "/usr/bin/google-chrome",
+    "chromeVersion": "Google Chrome 156.0.8078.79",
+    "playwrightVersion": "1.55.1",
+    "sandboxRequestedByPinnedConfig": true,
+    "configSha256": "6f87d289b8c1d7c41b46cd7ac7508d3f39d1fb9d3febc4b9f3b0a4c297b9b919",
+    "renderedFixtureInventory": 19,
+    "passed": 18,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0,
+    "namedInventoriesExactlyMatched": true,
+    "byFile": {
+      "conversation-transfer-ui.spec.ts": {
+        "passed": 4,
+        "failed": 0
+      },
+      "site-identity-link-ui.spec.ts": {
+        "passed": 5,
+        "failed": 0
+      },
+      "federation-login-ui.spec.ts": {
+        "passed": 9,
+        "failed": 1
+      }
+    },
+    "otherActualStages": [
+      {
+        "name": "site roles and display receipts",
+        "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+        "checks": 111,
+        "engine": "chromium",
+        "browserVersion": "156.0.8078.79",
+        "status": "PASS"
+      },
+      {
+        "name": "site six-language navigation",
+        "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+        "checks": 32,
+        "engine": "chromium",
+        "browserVersion": "156.0.8078.79",
+        "status": "PASS"
+      },
+      {
+        "name": "six public locales by four viewports",
+        "kind": "ACTUAL_RENDERED_STATIC_BROWSER",
+        "cases": 24,
+        "engine": "chromium",
+        "status": "PASS"
+      }
+    ],
+    "scope": "Rendered ERP and source-account HTML with intercepted synthetic HTTP fixture routes; Chromium exercises real DOM and cookie behavior. Separate from signed real HTTP/PG pair. The redirect fixture does not currently deliver its return page."
+  },
+  "failure": {
+    "test": "F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation",
+    "stage": "After source Confirm sign-in, exact Synthetic ERP account visibility assertion at fixture line143 failed after12000ms.",
+    "observedScreenshot": "Chrome This site cannot be reached / DNS_PROBE_FINISHED_NXDOMAIN for synthetic erp.browser.invalid.",
+    "sanitizedActualNetwork": [
+      {
+        "method": "GET",
+        "origin": "https://site.source.invalid",
+        "path": "/account/erp-login/",
+        "sourceSessionCookiePresent": false,
+        "erpSessionCookiePresent": false,
+        "erpFlowCookiePresent": false,
+        "httpStatus": 200,
+        "failure": null,
+        "redirectOriginPath": null
+      },
+      {
+        "method": "POST",
+        "origin": "https://site.source.invalid",
+        "path": "/account/erp-login/continue/",
+        "sourceSessionCookiePresent": true,
+        "erpSessionCookiePresent": false,
+        "erpFlowCookiePresent": false,
+        "httpStatus": 200,
+        "failure": null,
+        "redirectOriginPath": null
+      },
+      {
+        "method": "POST",
+        "origin": "https://site.source.invalid",
+        "path": "/account/erp-login/approve/",
+        "sourceSessionCookiePresent": true,
+        "erpSessionCookiePresent": false,
+        "erpFlowCookiePresent": false,
+        "httpStatus": 303,
+        "failure": null,
+        "redirectOriginPath": "https://erp.browser.invalid/auth/federation/return"
+      },
+      {
+        "method": "GET",
+        "origin": "https://erp.browser.invalid",
+        "path": "/auth/federation/return",
+        "sourceSessionCookiePresent": false,
+        "erpSessionCookiePresent": false,
+        "erpFlowCookiePresent": true,
+        "httpStatus": -1,
+        "failure": "net::ERR_NAME_NOT_RESOLVED",
+        "redirectOriginPath": null
+      }
+    ],
+    "previousCorrections": "Initial cross-site Strict-cookie absence, exact password input/name/required/autocomplete, password fill and explicit consent steps were reached and passed before source approve303.",
+    "cause": "Page.route fixture fulfills source approval with303; redirected ERP return GET is not intercepted and reaches DNS for reserved synthetic host. Pinned Playwright1.55.1 page.route API documentation states handler is called only for the first URL when response is a redirect.",
+    "requiredNextScope": "Correct fixture transport so the existing303 and returned Strict/Lax/MFA/new-session assertions can execute against a controlled endpoint; retain existing security expectations. No production DNS or runtime guard change inferred."
+  },
+  "artifactBinding": {
+    "manifestSha256": "12a764776abcf927a10caa94e4ad197079f908f15372f905ef2751ca63697c6b",
+    "schemaVersion": 2,
+    "sourceCleanAtBuild": true,
+    "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+    "inputsUnchangedBeforeAfterBrowser": true,
+    "manifestCopiesByteIdentical": true,
+    "artifactGroups": {
+      "siteClient": {
+        "path": "corporate-site/dist/client",
+        "files": 310,
+        "bytes": 6893044,
+        "sha256": "62d5f4cf0f5cafdf898c36ae1b706e3bd034ff72a1ef4845b1c16eb7de1cecf6"
+      },
+      "siteWorker": {
+        "path": "corporate-site/dist/server",
+        "files": 3,
+        "bytes": 551955,
+        "sha256": "400a16653b06db0aee53278f58d9964f8b17554f6525b8d38a127c23749bd655"
+      },
+      "siteVps": {
+        "path": "corporate-site/dist/vps",
+        "files": 4,
+        "bytes": 288696,
+        "sha256": "7834ce3a5bbf41d126f921fa8311eb279a0fe9d878e91732c5ca33fac0396943"
+      },
+      "erpDist": {
+        "path": "erp/dist",
+        "files": 12,
+        "bytes": 11193076,
+        "sha256": "085a8c05e1c6ef8d50fdeae46be69e5dfc8eb3615b1e5c1e621d4d2226137808"
+      }
+    },
+    "sourceInputsExactGitBlobs": {
+      "federationProtocol": {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14764,
+        "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e"
+      },
+      "federationLoginProtocol": {
+        "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+        "bytes": 10977,
+        "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+      },
+      "federationEntry": {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 1136,
+        "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc"
+      }
+    },
+    "limit": "Four artifact group digests are CI before/after records; distribution bytes are not in archive for independent rehash. Three explicit source input hashes/lengths and all declared inventories were independently matched to exact Git blobs."
+  },
+  "rootAndSite": {
+    "rootTests": 29,
+    "siteVitest": 900,
+    "siteNode": 92,
+    "siteNodeGroups": [
+      37,
+      37,
+      10,
+      8
+    ],
+    "vps": 354,
+    "failures": 0,
+    "skips": 0,
+    "checkBuildVerify": "PASS",
+    "htmlPages": 161,
+    "cssGzipBytes": 40832,
+    "cssBudgetBytes": 40960,
+    "allEmittedJsGzipBytes": 222640,
+    "jsBudgetBytes": 225280,
+    "fieldWebVitals": "NOT_RUN"
+  },
+  "native": {
+    "androidRun42504597544": "SUCCESS_METADATA_ONLY",
+    "iosPr42504597458": "SKIPPED_BY_POLICY",
+    "priorAcceptedArtifactSource": "af6f84d0b511d186fbbc4c039a082e21e61c788e",
+    "androidArtifactInputs": 68,
+    "iosArtifactInputs": 54,
+    "uniqueTrackedInputPaths": 121,
+    "gitDiffAgainstPriorArtifactSource": {
+      "exitCode": 0,
+      "changes": []
+    },
+    "nativeArchivesDownloadedThisReview": false,
+    "newArtifactSigningDeviceOrUpgradeAcceptance": "NOT_CLAIMED"
+  },
+  "evidence": [
+    {
+      "path": "source-inventory.json",
+      "sha256": "f66347c9c26ebd8faaca8f83f113aa2d965e26bfb84b3c547643c8119d002861",
+      "bytes": 11000
+    },
+    {
+      "path": "jobs-initial.json",
+      "sha256": "1afbf77e07d07b03f33c8539dcbcd3751e0ea78a7f36fbb2b526180c161bfd44",
+      "bytes": 10630
+    },
+    {
+      "path": "jobs-final.json",
+      "sha256": "43473e1a6a285bacb1d582f389912adcd27f553078ff359cf2686203a1ca7404",
+      "bytes": 11918
+    },
+    {
+      "path": "pr-runs-final.json",
+      "sha256": "502d0b9277a4b5cf07b3d679e3d618b8d95b549bc1d6edeb6a61b995b02326eb",
+      "bytes": 1348
+    },
+    {
+      "path": "artifacts-final.json",
+      "sha256": "481fbdcf691a2309591d42756d9a397a0539423a89f0c8641c5481f07d33e379",
+      "bytes": 2728
+    },
+    {
+      "path": "native-input-equivalence.json",
+      "sha256": "287fbb1d906448f361fd049c5b2715f93decc52e0f073a10f0a00af4725914a3",
+      "bytes": 344
+    },
+    {
+      "path": "root-site-scoped-review.json",
+      "sha256": "9acc2f191a8964e125a53577f12c018511162877cc92431c8243126a094f1903",
+      "bytes": 1000
+    },
+    {
+      "path": "erp-scoped-review.json",
+      "sha256": "aeeab51f6784aa4005eef961ee44e520ab62cd041c3690d19db4b08e559e084a",
+      "bytes": 9688
+    },
+    {
+      "path": "browser-pair-scoped-review.json",
+      "sha256": "582110078d3d5080abc57c6e7dc7350f20f632f3c74d951fb843424e927afb1f",
+      "bytes": 18970
+    },
+    {
+      "path": "root-job.log",
+      "sha256": "edc96032c0f55fb02284bc21062433fea7f116753eca34e6469694ce7dd9cd70",
+      "bytes": 42394
+    },
+    {
+      "path": "site-job.log",
+      "sha256": "cdb4b270a964bb5a2d8f2d3ab320ed6edab1082ab1fefce2aed8b47f72f31857",
+      "bytes": 138038
+    },
+    {
+      "path": "erp-job.log",
+      "sha256": "5c23bce26b6e07cea0aedbab16531edb78f2b32b416068faca4bea06cb7e453a",
+      "bytes": 118761
+    },
+    {
+      "path": "bridge-job.log",
+      "sha256": "4e68feef5ea006341ccacca3f8ad8679746d7ade53946f46f7855f3344d3755e",
+      "bytes": 192597
+    },
+    {
+      "path": "site-build-report.json",
+      "sha256": "31fb69a27a26fdc284ed5dccde52db8f6faf16a06cead85aa441577ee1fc1dd7",
+      "bytes": 7232
+    },
+    {
+      "path": "erp-artifact/erp-vitest.json",
+      "sha256": "7c9404b499221d97fe937a3b626f252e9df03be87c69f00384c1a04e1d6ac0be",
+      "bytes": 1421421
+    },
+    {
+      "path": "browser-artifact/bridge-tap.txt",
+      "sha256": "d446ee86215a6e8342a8bd8a4415831c1933971391605ba50ac58b49db0e1497",
+      "bytes": 7086
+    },
+    {
+      "path": "browser-artifact/knaba-build-artifacts.json",
+      "sha256": "12a764776abcf927a10caa94e4ad197079f908f15372f905ef2751ca63697c6b",
+      "bytes": 1735
+    },
+    {
+      "path": "browser-artifact/knaba-browser/build-manifest.json",
+      "sha256": "12a764776abcf927a10caa94e4ad197079f908f15372f905ef2751ca63697c6b",
+      "bytes": 1735
+    },
+    {
+      "path": "browser-artifact/knaba-browser/integration-receipt.json",
+      "sha256": "6a3724c3b551c13e1b9386c333f97e2753e8ec8eadb56c38b0eacb328b44815c",
+      "bytes": 2763
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/result.json",
+      "sha256": "5c16a4cfad27c1974ee7057ffbaa2ded2bf7367bca0eb9f87be0afd06b5dd774",
+      "bytes": 33843
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/error-context.md",
+      "sha256": "d9a9f6d470d6dd1a642e405de2f1435313a6d039ed0de0f2e60fc9f81a03b487",
+      "bytes": 421
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/test-failed-1.png",
+      "sha256": "12325aac37c79589627b783b4b7f2bd59045b1c286e519c30a775f7d3a175e00",
+      "bytes": 15978
+    },
+    {
+      "path": "browser-artifact/knaba-browser/erp-fixtures/artifacts/federation-login-ui-F3-HTT-cc48e-count-plus-MFA-confirmation/trace.zip",
+      "sha256": "de7b29838a7df2fe74d6ec24f44721fd43d80ee85f9aab2d1ada90a2d8fa5de8",
+      "bytes": 1107952
+    }
+  ],
+  "reviewActions": [
+    "Acquired completed job logs and exact-candidate artifact metadata only; status polling spaced at least60seconds. No running-job log requests.",
+    "Verified GitHub artifact digests/sizes/source/run binding, CRC, bounded entries/size and safe extraction.",
+    "Independently counted actual3260 ERP results, exact18+24 PG,26 pair including8+7 required cases and19 rendered cases against Git-source inventories.",
+    "Read actual failure screenshot/error-context; inspected sanitized network status and cookie-presence booleans, without publishing raw cookies or query identifiers.",
+    "Compared current artifact input manifests and source-clean/before-after records to the exact source; checked native input equivalence by Git diff without re-downloading native packages."
+  ],
+  "futureTextBundlePolicy": "TEXT_EVIDENCE_SUBSET only: original browser archive/screenshots/trace/HTML must remain excluded from a future Library text bundle; retain hashes/provenance references. No delivery archive or upload was created by this review.",
+  "newTestsBuildsBrowsersCiOrManualReruns": false,
+  "sourceEditedByReviewer": false,
+  "remainingGates": [
+    "Correct the diagnosed fixture redirect transport while preserving303, Strict/Lax, explicit consent, MFA and new-session assertions.",
+    "Actual corrected required browser/aggregate execution and independent review before accepting F3 dependency.",
+    "Native federation adapters and identity privacy implementation remain gated; no compound AC or full-product promotion."
+  ],
+  "limitations": [
+    "No local browser rerun. Diagnosis uses actual screenshot/error-context/network trace and pinned Playwright primary API declaration.",
+    "Cookie values, signed payloads and query identifiers are omitted from this diagnostic summary.",
+    "Cross-site return/MFA/new-session assertions after the DNS failure remain NOT_REACHED in this case.",
+    "Actual HTTP-fixture browser evidence is separate from signed real HTTP/PostgreSQL/runtime-pair tests; no provider/live TLS/native device proof.",
+    "Artifact groups are CI before/after digest records; distribution bytes are not present for independent rehash. Explicit source inputs and manifest identity matched exact Git blobs."
+  ]
+}

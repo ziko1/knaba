@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_FROZEN_FOR_INDEPENDENT_REVIEW",
+  "createdAt": "2026-11-08T17:52:29.898197+00:00",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-f3-browser-transport",
+  "branch": "fix/knaba-f3-browser-transport-20261108",
+  "baseCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "scope": "Three test-only paths: actual loopback HTTPS receiver for the existing first WEB cross-site rendered case; other nine F3 cases retain virtual origins.",
+  "sourceDigest": "3735630d3767c2fe91e6a83945b93dd93b055e8bfaa2cf5f9566e994d083531e",
+  "files": [
+    {
+      "path": "erp/tests/federation-https-return.test.ts",
+      "bytes": 5311,
+      "sha256": "538c8d0b0cecf1ac9785ae19be49c64201917d2428da0d69b0bfe67aa39d599f",
+      "preimageSha256": null
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "bytes": 23003,
+      "sha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4",
+      "preimageSha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41"
+    },
+    {
+      "path": "erp/tests/fixtures/federation-https-return.ts",
+      "bytes": 4942,
+      "sha256": "99dc6f7dc1ef37e8b65364f18485439da2ecd5f8bb87bf6659b8458063bdf352",
+      "preimageSha256": null
+    }
+  ],
+  "priorActualFailure": {
+    "sourceCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+    "status": "FAILED",
+    "receipt": "/workspace/scratch/c56161c95e04/verification/federation-f3/browser-corrected-actual/independent-acceptance.json",
+    "sha256": "6f2a8c795900a08eca4beb6ba5f6c752503aa5a772f58e09bd0126bf3c7674f7",
+    "target": "Real source POST303 redirected GET bypasses Playwright page.route and reaches DNS for the virtual ERP hostname. Existing Strict/Lax, locator, password and consent steps passed before that transport failure."
+  },
+  "changes": [
+    "Ephemeral Node HTTPS listener bound only to127.0.0.1 with exact method/Host/return target and bounded generation/request/shutdown timeouts.",
+    "Installed OpenSSL generates a private temporary self-signed certificate; private PEM files are removed before the receiver is returned and buffers are cleared after TLS context creation.",
+    "Only the first WEB case overrides the ERP origin and ignores certificate errors inside an unnamed Playwright describe; the real source303 and all existing browser assertions remain.",
+    "Return-cookie assertions inspect immutable snapshots of headers actually received by the HTTPS listener; no browser Cookie forwarding or manual navigation is introduced.",
+    "Four Node HTTPS helper cases validate transport/target/cleanup and do not claim browser cookie or MFA acceptance."
+  ],
+  "checks": [
+    {
+      "name": "HTTPS receiver transport tests",
+      "command": "npm test -- --maxWorkers=1 tests/federation-https-return.test.ts",
+      "exitCode": 0,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Actual Node HTTPS/OpenSSL with a synthetic Node client; no browser, PostgreSQL or production TLS acceptance.",
+      "log": "https-helper.log",
+      "sha256": "185ba44a4688f455eaedb6cd8f551b08277f5cab3cc2995c69281313ce9369c8"
+    },
+    {
+      "name": "TypeScript no emit",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "log": "typecheck.log",
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+    },
+    {
+      "name": "Required rendered case collection",
+      "command": "node node_modules/@playwright/test/cli.js test tests/conversation-transfer-ui.spec.ts tests/site-identity-link-ui.spec.ts tests/federation-login-ui.spec.ts --list",
+      "exitCode": 0,
+      "total": 19,
+      "files": 3,
+      "byFile": {
+        "conversation-transfer-ui.spec.ts": 4,
+        "site-identity-link-ui.spec.ts": 5,
+        "federation-login-ui.spec.ts": 10
+      },
+      "log": "browser-collection.log",
+      "sha256": "d3b7bdcdf1fb66f7e85e71d5e020231d84d7d0213caea678a5e1bd439c847ccd",
+      "browserExecution": false
+    },
+    {
+      "name": "Exact title/source invariants",
+      "exitCode": 0,
+      "receipt": "collection-invariants.json",
+      "sha256": "b99409fed3c836f4419a0058d0ae1aeb110da2420d90e5080f7a95fe164c02db",
+      "all19FullTitlesEqualBaseline": true,
+      "otherNineF3BodiesByteIdentical": true,
+      "newManualNavigations": 0
+    },
+    {
+      "name": "Diff whitespace check",
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "retainedInitialChecks": [
+    {
+      "name": "Initial helper transport",
+      "exitCode": 0,
+      "passed": 4,
+      "log": "https-helper-first.log",
+      "sha256": "584b4e26a842787eb8bd87ede4d0e7747f409c3b17a47e15a55a9bc8f77f6a45"
+    },
+    {
+      "name": "Initial TypeScript draft",
+      "exitCode": 2,
+      "errors": 3,
+      "reason": "Type-only Error.code narrowing and connection-event Duplex type; fixed before the final transport/typecheck run.",
+      "log": "typecheck-first.log",
+      "sha256": "176785841577a902acf159093b792e969911b2632270bb4cb149c99fc0b709a7"
+    }
+  ],
+  "generatedReportHandling": "The default Playwright list reporter wrote a tracked browser-result.json. Its list-only output was copied to verification/browser-collection.json, and the tracked file was restored to exact HEAD bytes. Final repository changes are exactly the three owned test paths. Future collection can use --reporter=list to avoid this report side effect.",
+  "limitations": [
+    "Corrected actual browser execution NOT_RUN locally; no installed Chrome or new browser download.",
+    "Actual77 aggregate remains FAILED. Previous ERP/pair passes are scoped evidence only; the new exact source needs the reserved hosted browser/aggregate checkpoint.",
+    "The Node helper client uses a per-request self-signed-certificate exception only in its own tests. No global TLS/environment disable or production TLS trust claim.",
+    "No runtime, SQL, native, provider, CI-policy/workflow or canonical documentation edits.",
+    "No commit, push, CI dispatch, production operation or new dependencies."
+  ]
+}

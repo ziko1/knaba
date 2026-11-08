@@ -1,0 +1,17 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run --maxWorkers=1 tests/federation-https-return.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba-f3-browser-transport/erp
+
+ ✓ tests/federation-https-return.test.ts (4 tests) 2323ms
+     ✓ serves the exact current HTML and records only incoming cookies while removing its PEM files before use  974ms
+     ✓ rejects different methods, paths, query aliases, extra parameters, request IDs and Host  1125ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  18:47:55
+   Duration  3.17s (transform 244ms, setup 0ms, import 316ms, tests 2.32s, environment 0ms)
+

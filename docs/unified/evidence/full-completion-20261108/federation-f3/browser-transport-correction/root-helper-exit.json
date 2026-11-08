@@ -1,0 +1,17 @@
+{
+  "startedAtUtc": "2026-11-08T17:52:58.757358+00:00",
+  "finishedAtUtc": "2026-11-08T17:53:00.677273+00:00",
+  "command": [
+    "node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "tests/federation-https-return.test.ts",
+    "--reporter=json",
+    "--outputFile=/workspace/scratch/c56161c95e04/verification/federation-f3/browser-transport-correction/root-helper-result.json"
+  ],
+  "cwd": "/workspace/scratch/c56161c95e04/knaba-f3-browser-transport/erp",
+  "exitCode": 0,
+  "logSha256": "c8d0ca448446382e3c35f7f802f20b39e4b31651a8a0ee0e57f5d9ff04381038",
+  "log": "/workspace/scratch/c56161c95e04/verification/federation-f3/browser-transport-correction/root-helper.log",
+  "nodeVersion": "v24.22.1"
+}

@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/coverage_matrix",
+  "reviewedAt": "2026-11-08T17:56:50.102073+00:00",
+  "verdict": "ACCEPT_REPORT_PUBLICATION_SCOPED",
+  "scope": "Publication-copy and frozen integration verification only; root/mobile independent implementation reviews and root four-case execution are referenced, not repeated.",
+  "baseCommit": "77b64956d94f68233dff80e35b5b0e73a2e9ef50",
+  "baseTree": "87a91a49fccdbbc9dfdb72f5e6bf1dd89575f3c1",
+  "reviewedDocuments": [
+    {
+      "path": "docs/unified/F3_BROWSER_RETURN_TRANSPORT_2026-11-08_UK.md",
+      "sha256": "0417f24b9815c091a06b3d94544b2af54ecac6c054a906d265fe2be9be4563fc",
+      "bytes": 8007
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "ae96078c824f7b5d63c232e83d51a373c37acc49f2d8ccb6657e28ad546ddefb",
+      "bytes": 93768,
+      "appendOnly": true,
+      "appendedBytes": 972
+    },
+    {
+      "path": "docs/unified/BACKLOG.md",
+      "sha256": "bf20a79f41593986d465dd767dbc30376b857320daa363e814afbce886430359",
+      "bytes": 48510,
+      "appendOnly": true,
+      "appendedBytes": 671
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "sha256": "8cb5bce23047c08be1c064eae30effce646697995b592fd8c71501643e7e2a56",
+      "bytes": 39053,
+      "appendOnly": true,
+      "appendedBytes": 759
+    },
+    {
+      "path": "docs/unified/BUDGET.md",
+      "sha256": "3e50ca704706ce6d682b643e2ccfc113126169f449497d744b0ba51a81c1d7f6",
+      "bytes": 22152,
+      "appendOnly": true,
+      "appendedBytes": 1591
+    }
+  ],
+  "sourceIntegration": {
+    "fileCount": 3,
+    "onlyNonDocumentationChanges": [
+      "erp/tests/federation-https-return.test.ts",
+      "erp/tests/federation-login-ui.spec.ts",
+      "erp/tests/fixtures/federation-https-return.ts"
+    ],
+    "allExactManifestHashesMatched": true,
+    "sourceDigest": "3735630d3767c2fe91e6a83945b93dd93b055e8bfaa2cf5f9566e994d083531e",
+    "files": [
+      {
+        "path": "erp/tests/federation-https-return.test.ts",
+        "bytes": 5311,
+        "sha256": "538c8d0b0cecf1ac9785ae19be49c64201917d2428da0d69b0bfe67aa39d599f",
+        "preimageSha256": null
+      },
+      {
+        "path": "erp/tests/federation-login-ui.spec.ts",
+        "bytes": 23003,
+        "sha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4",
+        "preimageSha256": "9a27f0ef8f5605803bbd5a3a3f2c7bbe2c6ef9015e41df813a7734e3eff36b41"
+      },
+      {
+        "path": "erp/tests/fixtures/federation-https-return.ts",
+        "bytes": 4942,
+        "sha256": "99dc6f7dc1ef37e8b65364f18485439da2ecd5f8bb87bf6659b8458063bdf352",
+        "preimageSha256": null
+      }
+    ],
+    "implementationReviewRepeated": false
+  },
+  "claimChecks": {
+    "actual77": "ERP3260 includes18 F3/24 F2 PG; pair26 includes8 F3/7 F2/11 prior cases. Rendered19 executed18PASS/1FAIL, F3nine/ten; other browser111/32/24 and root/site passed. Enclosing aggregate remainsFAILED.",
+    "failureBoundary": "Observed browser source303/return request and cookie presence are distinguished from receipt at an ERP server. DNS failure precedes account/MFA/new-session completion. No public DNS/TLS runtime defect or acceptance is claimed.",
+    "localSourceEvidence": "Author4 helper cases and root repeat4 are explicitly overlapping, not eight unique tests. Final typecheck and collection19/3 passed; initial three type errors remain historical evidence. Exact19 fulltitles and other9 F3 bodies unchanged.",
+    "testOnlyTransport": "Three test-only paths, actual bounded loopback HTTPS receiver, current built HTML, exact host/method/target, unchanged303/security assertions and scoped self-signed test TLS are consistent with frozen manifest plus independent root/downstream receipts.",
+    "futureExecution": "Corrected browser NOT_RUN; Node/OpenSSL synthetic client transport and collection are not browser SameSite/MFA or actual PG acceptance. Native F3/privacy implementation remains gated.",
+    "nativeScope": "Current Android workflow success and iOS policy skip are metadata; full artifact review remains tied to af6. Previously verified121 unique tracked inputs remain the referenced equivalence proof; no new device/upgrade/signing/store claim. Native binaries were not rescanned.",
+    "budget": "Prior one-file reservation reconciled to actual77 failure; one bounded test-source checkpoint is reserved with existing workflows/timeouts/retention. No unlimited retry/new job/new paid activation or fabricated account balance.",
+    "deliveryScope": "306503 bytes/28 entries/hash864d94af... and owner Library pointer match prior builder, validator and delivery receipts. Explicit TEXT_EVIDENCE_SUBSET excludes browser archive/image/trace/HTML and native bytes; metadata references do not claim embedded payloads."
+  },
+  "evidenceCopies": [
+    {
+      "section": "actual-77b64956",
+      "indexedHashesAndSizesMatched": 15,
+      "originalBytesMatchedWhenPresent": 15,
+      "indexSha256": "dad5bad7fb599c65bb225a7429e56823066f54786e9fb40027e92d1929be52af"
+    },
+    {
+      "section": "browser-transport-correction",
+      "indexedHashesAndSizesMatched": 13,
+      "originalBytesMatchedWhenPresent": 12,
+      "indexSha256": "0153dd296fb662e6ff4000dc6af177d7f68fa82a4d3bd6bf1553b4deccfd23b8"
+    }
+  ],
+  "reviewEvidence": [
+    {
+      "path": "verification/federation-f3/browser-corrected-actual/independent-acceptance.json",
+      "sha256": "6f2a8c795900a08eca4beb6ba5f6c752503aa5a772f58e09bd0126bf3c7674f7",
+      "bytes": 18059
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-correction/source-manifest.json",
+      "sha256": "3e81ba032e6e7038f197a9aaccf3099d8ec03fa0d8c61a26b1139991267b69af",
+      "bytes": 6052
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-correction/root-independent-review.json",
+      "sha256": "b08debb7680c87933523c70490efe8fffc1713e823f52293aca125c11adc6e7d",
+      "bytes": 2512
+    },
+    {
+      "path": "verification/federation-f3/browser-transport-correction/collection-invariants.json",
+      "sha256": "b99409fed3c836f4419a0058d0ae1aeb110da2420d90e5080f7a95fe164c02db",
+      "bytes": 3965
+    },
+    {
+      "path": "verification/federation-f3/browser-return-delivery-prep/bundle-build-receipt.json",
+      "sha256": "20a9d11120db4b4a1f068f01f085ed47aab51933b587d3091a57539c69e24f6a",
+      "bytes": 5467
+    },
+    {
+      "path": "verification/federation-f3/browser-return-delivery-prep/validation.json",
+      "sha256": "0c9dcb09d71097209e16d6719be9597742f51afe3e01ca6f961d60b89db3d29e",
+      "bytes": 1941
+    },
+    {
+      "path": "verification/federation-f3/browser-return-delivery-prep/bundle-library.json",
+      "sha256": "cc6f7c08a110b7c4d6ab1848c102e2ad0fd252ffe896f0ee0665353d9cc5fa96",
+      "bytes": 564
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-f3/browser-transport-correction/independent-downstream-review.json",
+      "sha256": "66f3070b9d60cc2773ff3b8b635d5f0eb9fc061b225a2a10a3056fa72c1727f0",
+      "bytes": 6889
+    }
+  ],
+  "protectedInputs": {
+    "paths": [
+      "KNABA_DE_MASTER_SPEC.md",
+      "erp/KNABA_DE_TARGET_SPEC.md",
+      "erp/KNABA_DE_MASTER_SPEC.md",
+      "erp/docs/requirements/requirements.json",
+      "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+      ".github/workflows",
+      "erp/package.json",
+      "erp/package-lock.json"
+    ],
+    "gitDiffAgainstBaseExit": 0,
+    "changedPaths": []
+  },
+  "traceability": {
+    "rows": 114,
+    "uniqueIds": 114,
+    "statuses": {
+      "IN_PROGRESS": 42,
+      "NOT_RUN": 72
+    }
+  },
+  "wholeF3Gate": "NOT_ACCEPTED_REQUIRED_BROWSER_FAILURE",
+  "correctedBrowser": "NOT_RUN",
+  "wholeProduct": "NOT_READY",
+  "blockingFindings": [],
+  "sourceOrCanonicalDocsEditedByReviewer": false,
+  "ciDownloadsNetworkTestsOrBrowserRunsByReviewer": false,
+  "limitations": [
+    "This is publication accuracy and integration-hash acceptance, not future browser/aggregate or product readiness.",
+    "No duplicate implementation audit, helper execution, archive/native scan or CI/network operation was performed during final review.",
+    "Library availability/packaging is supported by existing delivery receipts; no new upload or retrieval was performed.",
+    "Final candidate must preserve these three source files and frozen document hashes. Normative requirements and compound AC statuses are unchanged."
+  ]
+}
