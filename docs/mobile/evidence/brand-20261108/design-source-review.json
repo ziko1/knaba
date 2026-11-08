@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/brand_design_audit",
+  "observedAt": "2026-11-08T14:33:35Z",
+  "observedAtEuropeBerlin": "2026-11-08T15:33:35+01:00",
+  "timestampSource": "clock.curr_time tool, queried immediately before the file hash recheck and this record",
+  "verdict": "ACCEPT_SCOPED_SOURCE_RENDERING_PENDING",
+  "project": "KNABA DE",
+  "candidateVersion": "0.6.0",
+  "source": {
+    "baseCommit": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "identityMode": "UNCOMMITTED_FILE_MANIFEST",
+    "workingTreeDirty": true,
+    "files": [
+      {
+        "path": "docs/mobile/BRAND_ASSETS.json",
+        "sha256": "091e10e20b4719b387421e57d26d5a62b39453f7557e38ee77f980265a25231f"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+        "sha256": "216011e0bfbc84c38e76b52f9b443493a40c594ee4dd88849cc7d432b97acb8a"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/KnabaTheme.kt",
+        "sha256": "c651e4330caa925b07ea3a64adff16b13e0e13c15f0483ec6628fab477e2c2a7"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_back.xml",
+        "sha256": "e7e0edb008d5d49324a1fd3c5e6b2d102f2126c1718e72ad1125631565c08428"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_building.xml",
+        "sha256": "4cc16d2c67c487ff845b0360e7baa051a7ccc6008bf027a52ed588ff7b2dce04"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_chat.xml",
+        "sha256": "bea92c08f22b0aed86edd141a67daa45535de8e1f8018be5b86e425f961e5238"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_clock.xml",
+        "sha256": "b07ef84d098091d601ed5aa21f1995cb69806c397e89f81030c8185f5f9aeccb"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_grid.xml",
+        "sha256": "449a4d49a678adcd793059f37584bbfeda6e5508b4c55b535009238bc11bf658"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_refresh.xml",
+        "sha256": "c7164329f871806c666950c9c727eb690ecca1c8b451a294595e878b52183a27"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_tasks.xml",
+        "sha256": "b929c120cd40424c81372f1f277abb12afcb7c20dfe0ca5a0823270b02d843fc"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-en/strings.xml",
+        "sha256": "e5813f9e7c77288ec1c7403ac3504fe56eab4028ebe776ab7c1481abd5dbc533"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-lt/strings.xml",
+        "sha256": "849862d5823290239f4c319ff38955d1b428290a1a6120c4bc32026fddbcc688"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-pl/strings.xml",
+        "sha256": "c8d73ea14c2e449ebfcac4700977a5ecc020413c1af8ba6239a160e034a95234"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-ru/strings.xml",
+        "sha256": "ac40f3a0a03ef4dc795c5e9707ddd8e2a9611e23e0387d6ab2d8ffc70d5bdc8c"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values-uk/strings.xml",
+        "sha256": "58e1399046433f8cd8fb7a6c797a99d9120e4c9879dc4d3d97c7f5f33ef191af"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values/strings.xml",
+        "sha256": "d9461682f82daf084fb1fad9062a6926533c471d0bbd078943edadc2a8e9c8be"
+      },
+      {
+        "path": "erp/apps/mobile-android/app/src/main/res/values/styles.xml",
+        "sha256": "124dc7d69852107d17a920e3ad7198e21728921155bf28d8540ce918add07dbc"
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+        "sha256": "3615416d344e6aafa10b3c044ed5edbec201c181c4cf0305f2fecaa02f9fdaf0"
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+        "sha256": "377ab7ca2315f8980e50508245b0b71af18bf24e5f111726263f9a1e056ed1bb"
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+        "sha256": "d71bb78bd35d68a86e8cfdd24f62f29332d8b4af3e1c64f926a9893e5029401f"
+      },
+      {
+        "path": "erp/apps/mobile-ios/Sources/KNABADesign.swift",
+        "sha256": "73bad86fd09aaf647d9584bc3e52cc97f8cac9bb048bc8a49eedb748c4acf149"
+      },
+      {
+        "path": "scripts/mobile/generate-brand-assets.mjs",
+        "sha256": "294743f648f21990f8f2fe1b7cfcea5cb1921931a0777d213b2e0af58673aefc"
+      }
+    ],
+    "manifestSha256": "44f5f9ce67d2e322edd1f0d92e37312240990b48ee108135f310c1fc0564456f",
+    "manifestDigestRule": "SHA-256 of UTF-8 JSON of files sorted by path; JSON keys sorted; separators comma and colon without spaces",
+    "note": "The base commit is not claimed as the commit that contains these changes. A later source/artifact binding must verify these hashes without rewriting this observation."
+  },
+  "scope": [
+    "Independent review of Android ERP console presentation, shared theme, seven native navigation icons and six-locale label additions",
+    "Independent review of iOS theme/components, console presentation and companion presentation",
+    "Brand source fidelity, deterministic asset generator changes and current artifact hashes",
+    "Source-level regression review of existing permissions, session/model boundaries and action bindings",
+    "Read-only inspection of new Android and iOS UI test source; not execution"
+  ],
+  "exclusions": [
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/MainActivity.kt",
+      "reason": "This reviewer implemented that file and does not independently accept its own work. Root or another reviewer must accept it."
+    },
+    {
+      "path": ".github/workflows/native.yml",
+      "reason": "Release pipeline review belongs to the separately assigned release reviewer."
+    },
+    {
+      "scope": "Signed packages, physical devices, live ERP, owner/customer acceptance and entire-product readiness",
+      "reason": "No such evidence was observed or accepted by this source review."
+    }
+  ],
+  "findings": [
+    {
+      "id": "BRAND-SRC-01",
+      "severity": "P2",
+      "status": "RESOLVED_SOURCE",
+      "file": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "finding": "The records module and messages channel menu pickers moved from Form/List into custom cards without a minimum touch height, losing the native row target guarantee.",
+      "resolution": "The iOS author added minHeight 44 and contentShape(Rectangle()) to both pickers. Re-read verified the fix and preserved bindings/onChange.",
+      "resolvedFileSha256": "3615416d344e6aafa10b3c044ed5edbec201c181c4cf0305f2fecaa02f9fdaf0",
+      "renderedOrDeviceConfirmation": "NOT_RUN"
+    }
+  ],
+  "reviewNotes": [
+    {
+      "id": "BRAND-RISK-01",
+      "type": "RENDERING_RISK_NOT_PROVEN_FAILURE",
+      "note": "Horizontal tab viewport height required explicit review in the integrated console. Author added fixedSize(horizontal:false,vertical:true), a native height assertion and integrated overview rendering tests. Actual execution is pending."
+    },
+    {
+      "id": "BRAND-A11Y-01",
+      "note": "Selected iOS tabs now have a two-point dark outline and the selected accessibility trait, in addition to the lime fill."
+    },
+    {
+      "id": "BRAND-THEME-01",
+      "note": "Android intentionally uses a fixed light theme with forceDarkAllowed=false. iOS has adaptive light/dark semantic colors. This review makes no Android dark-mode support claim."
+    }
+  ],
+  "checks": [
+    {
+      "id": "MODEL-BYTES",
+      "status": "PASS",
+      "kind": "executed source comparison",
+      "evidence": {
+        "erpConsoleModelPrefixByteIdenticalToBase": true,
+        "sha256": "54ec63d39bb4038ea941aac64d8b778541d688195d138cd1a69473f755cdeea5"
+      }
+    },
+    {
+      "id": "COMPANION-ACTIONS",
+      "status": "PASS",
+      "kind": "executed source inventory and manual diff",
+      "evidence": "All 10 original model-action Task calls remain with identical names/counts; the existing action and location permission methods are retained."
+    },
+    {
+      "id": "ANDROID-PERMISSION-SEARCH",
+      "status": "PASS",
+      "kind": "manual source/diff review",
+      "evidence": "Visible modules filter existing permission predicates before search. Search does not introduce role grants; controls registration and nested clearList handling remain intact."
+    },
+    {
+      "id": "ANDROID-LOCALES",
+      "status": "PASS",
+      "kind": "executed XML inspection",
+      "evidence": {
+        "newKeys": [
+          "erp_brand_workspace",
+          "erp_sections",
+          "erp_metric_sites",
+          "erp_metric_decisions"
+        ],
+        "locales": [
+          "de",
+          "en",
+          "pl",
+          "lt",
+          "ru",
+          "uk"
+        ],
+        "allPresent": true
+      }
+    },
+    {
+      "id": "BRAND-ASSETS",
+      "status": "PASS",
+      "kind": "executed hashes plus visual inspection of current PNG and original app glyphs",
+      "evidence": {
+        "manifest": "docs/mobile/BRAND_ASSETS.json",
+        "fileCount": 11,
+        "allManifestHashesMatch": true,
+        "files": [
+          {
+            "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+            "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad"
+          },
+          {
+            "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_launcher_foreground.png",
+            "sha256": "61323c3fe5a4bb7585a3ebd56d7686831d1815e6de766fed63218bc8a741be92"
+          },
+          {
+            "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_foreground.xml",
+            "sha256": "f62135a469e7727cc9cd5539fb7537d2ba6c75016cb0c1f936a42145f6ed52a0"
+          },
+          {
+            "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_monochrome.xml",
+            "sha256": "064e64d7c19cd5b2802902be56f927c3a4299a239dda36cbb883ee91c4d7f426"
+          },
+          {
+            "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+            "sha256": "059ae2955b709eeb1044a37f6d8c00ba57dd51ea2b8d95578f7a5d1cd89d52d1"
+          },
+          {
+            "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml",
+            "sha256": "74fed8ab56ea6012cf40e5c72ae1042f7a594647f3c33d24d394bd1e6778e926"
+          },
+          {
+            "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_wordmark.png",
+            "sha256": "8602009147e219088d6ee8f7f3a174d9d9a98084e384f5a88888ac0932411c1d"
+          },
+          {
+            "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/BrandWordmark.imageset/BrandWordmark.png",
+            "sha256": "8602009147e219088d6ee8f7f3a174d9d9a98084e384f5a88888ac0932411c1d"
+          },
+          {
+            "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/BrandWordmark.imageset/Contents.json",
+            "sha256": "4164eb1cf1625714c3f3f73f121cf18d715313cb9177ed7a0e42b1dcdc1d323c"
+          },
+          {
+            "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+            "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb"
+          },
+          {
+            "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+            "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PALETTE-CONTRAST",
+      "status": "PASS",
+      "kind": "calculated opaque sRGB relative luminance; not rendered/device audit",
+      "evidence": {
+        "androidInputBorderOnWhite": 3.75,
+        "iosFieldLineOnPaperLight": 3.57,
+        "iosFieldLineOnPaperDark": 5.26,
+        "iosMutedOnSurfaceDark": 8.18,
+        "iosMetricTextGreenDark": 9.79,
+        "iosMetricTextLilacDark": 10.87,
+        "iosMetricTextPeachDark": 10.08,
+        "androidMutedOnMetricGreen": 4.76,
+        "androidErrorOnCoral": 6.52
+      }
+    },
+    {
+      "id": "DIFF-WHITESPACE",
+      "status": "PASS",
+      "kind": "executed command",
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "testSourceInspected": [
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "sha256": "2579bd6e26cabed4d192b830cebef834ed0bb8ee8a676e659c0c327799b31651"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/BrandPresentationTests.swift",
+      "sha256": "163fdf5b3d1fec80307c71dd03e70f540c9f5d535be5abc074aa4957f8593c96"
+    }
+  ],
+  "pending": [
+    {
+      "criterion": "Final-source Android compilation, JUnit/Robolectric and lint",
+      "status": "NOT_RUN_BY_THIS_REVIEWER"
+    },
+    {
+      "criterion": "Final-source Xcode compilation and XCTest, including presentation tests",
+      "status": "NOT_RUN_BY_THIS_REVIEWER"
+    },
+    {
+      "criterion": "Independent inspection of actual final-source native screenshots",
+      "status": "NOT_RUN"
+    },
+    {
+      "criterion": "Keyboard insets, full-screen reflow and accessibility interaction on final installed app",
+      "status": "NOT_RUN"
+    },
+    {
+      "criterion": "Physical Android/iPhone installation and update; live ERP/customer UAT",
+      "status": "NOT_RUN"
+    },
+    {
+      "criterion": "Customer-installable signed IPA",
+      "status": "NOT_VERIFIED_BY_THIS_REVIEW"
+    }
+  ],
+  "designContract": {
+    "path": "docs/mobile/BRAND_DESIGN_0.6.0.md",
+    "sha256": "4f310102256711b9a3b8dc15a5ef102466cc7c3c4fac58202154ed97c40bbdab",
+    "copiedVerbatim": true
+  },
+  "skillsRead": [
+    "ecc-frontend-mobile/SKILL.md",
+    "ecc-frontend-mobile/references/ecc/design-system/GUIDE.md",
+    "ecc-frontend-mobile/references/ecc/accessibility/GUIDE.md",
+    "ecc-frontend-mobile/references/ecc/kotlin-patterns/GUIDE.md",
+    "android-coding-skills/SKILL.md",
+    "kotlin-platform-engineering/SKILL.md"
+  ],
+  "limitations": "Acceptance is limited to the source bytes listed above. Build, screenshot, simulator, device, signed distribution and live acceptance each require their own evidence. No merge, deployment, signing, remote message or provider activation was performed by this review."
+}

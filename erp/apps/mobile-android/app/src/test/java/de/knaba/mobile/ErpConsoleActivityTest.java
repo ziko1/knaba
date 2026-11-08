@@ -73,6 +73,7 @@ public class ErpConsoleActivityTest {
     }
     @After public void finish() {
         if (controller != null) controller.pause().stop().destroy();
+        RuntimeEnvironment.setFontScale(1f);
     }
     private void launch() {
         controller = Robolectric.buildActivity(ErpConsoleActivity.class).setup();
@@ -566,8 +567,81 @@ public class ErpConsoleActivityTest {
         for (View view : views(root())) if (view instanceof EditText edit) assertTrue(edit.getWidth() > 0 && edit.getWidth() <= 800);
     }
 
+    @Test public void workspaceSearchFiltersAndRestoresOnlyAuthorizedModules() throws Exception {
+        launch(); RoleTransport transport = new RoleTransport("CLIENT", "customer.portal", "quote.read", "chat.read");
+        signInFixture(transport);
+        edit(R.string.erp_search).setText(activity.getString(R.string.erp_orders));
+        assertTrue(hasButton(R.string.erp_orders));
+        assertFalse(hasButton(R.string.erp_quotes));
+        edit(R.string.erp_search).setText(activity.getString(R.string.erp_payroll));
+        assertFalse(hasButton(R.string.erp_payroll));
+        assertTrue(text().contains(activity.getString(R.string.erp_empty)));
+        edit(R.string.erp_search).setText("");
+        assertTrue(hasButton(R.string.erp_orders));
+        assertTrue(hasButton(R.string.erp_quotes));
+        assertFalse(hasButton(R.string.erp_payroll));
+    }
+
+    @Test @Config(qualifiers = "w320dp-h720dp-mdpi") public void narrowUkrainianAndDoubleSizeTextRemainReachable() throws Exception {
+        RuntimeEnvironment.setFontScale(2f);
+        NativeLocale.INSTANCE.choose(RuntimeEnvironment.getApplication(), "uk");
+        launch(); screenshot("narrow-login-uk-font2.png", 320, 720);
+        assertControlBounds(root(), 320);
+        demo(); screenshot("narrow-dashboard-uk-font2.png", 320, 720);
+        assertControlBounds(root(), 320);
+        openTasks(); screenshot("narrow-tasks-uk-font2.png", 320, 720);
+        assertControlBounds(root(), 320);
+        pressBack(); settled(); openChat();
+        screenshot("narrow-chat-uk-font2.png", 320, 720);
+        assertControlBounds(root(), 320);
+    }
+
+    @Test public void workerScreenStartsWithGpsOffAndLabelsEveryInput() throws Exception {
+        ActivityController<MainActivity> worker = Robolectric.buildActivity(MainActivity.class);
+        try {
+            worker.setup(); MainActivity screen = worker.get();
+            ViewGroup content = screen.findViewById(android.R.id.content);
+            screenshot(content, "phone-shift.png", 411, 891);
+            assertControlBounds(content, 411);
+            assertNull("Opening time tools must never start GPS", Shadows.shadowOf(RuntimeEnvironment.getApplication()).getNextStartedService());
+            assertTrue(views(content).stream().anyMatch(v -> v instanceof TextView t && t.getText().toString().equals(screen.getString(R.string.status_off))));
+            for (View v : views(content)) if (v instanceof EditText edit) {
+                assertTrue("Every worker input has a visible label", views(content).stream().anyMatch(label -> label instanceof TextView && label.getLabelFor() == edit.getId()));
+                assertFalse("Enrollment credentials must not enter view state", edit.isSaveEnabled());
+            }
+        } finally { worker.pause().stop().destroy(); }
+    }
+
+    @Test @Config(qualifiers = "w320dp-h720dp-mdpi") public void workerScreenSupportsDoubleSizeText() throws Exception {
+        RuntimeEnvironment.setFontScale(2f);
+        NativeLocale.INSTANCE.choose(RuntimeEnvironment.getApplication(), "uk");
+        ActivityController<MainActivity> worker = Robolectric.buildActivity(MainActivity.class);
+        try {
+            worker.setup(); View content = worker.get().findViewById(android.R.id.content);
+            screenshot(content, "narrow-shift-uk-font2.png", 320, 720);
+            assertControlBounds(content, 320);
+        } finally { worker.pause().stop().destroy(); }
+    }
+
+    private void assertControlBounds(View container, int width) {
+        for (View view : views(container)) {
+            if (view.getVisibility() != View.VISIBLE || !(view instanceof Button || view instanceof EditText)) continue;
+            assertTrue("Control extends beyond screen width", view.getWidth() > 0 && view.getWidth() <= width);
+            assertTrue("Touch target shorter than48dp", view.getHeight() >= 48);
+            if (view instanceof Button button && button.getLayout() != null) {
+                int available = button.getWidth() - button.getCompoundPaddingLeft() - button.getCompoundPaddingRight();
+                for (int line = 0; line < button.getLayout().getLineCount(); line++) {
+                    assertEquals("Button label is ellipsized: " + button.getText(), 0, button.getLayout().getEllipsisCount(line));
+                    assertTrue("Button label exceeds its readable width: " + button.getText(), button.getLayout().getLineWidth(line) <= available + 1);
+                }
+            }
+        }
+    }
+
     private void screenshot(String name, int width, int height) throws Exception {
-        View view = root();
+        screenshot(root(), name, width, height);
+    }
+    private void screenshot(View view, String name, int width, int height) throws Exception {
         view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
         view.layout(0,0,width,height); Shadows.shadowOf(Looper.getMainLooper()).idle();
         Bitmap image = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888); view.draw(new Canvas(image));

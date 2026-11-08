@@ -18,7 +18,7 @@ mobile = root / 'erp/apps/mobile-ios'
 for name in ['Sources', 'Resources', 'Tests', 'scripts']:
     paths.extend(p for p in (mobile / name).rglob('*') if p.is_file() and not p.is_symlink())
 paths.extend(mobile / name for name in ['project.yml', 'Info.plist', 'PrivacyInfo.xcprivacy', 'README.md', 'README_RECOVERY_UK.md'])
-paths += [root / 'erp/tests/native-vectors.json', root / 'erp/scripts/native-ios-simulator.py', root / 'docs/mobile/DISTRIBUTION_2026-10-28_UK.md', root / 'docs/mobile/TEST_CANDIDATE_0.5.0_UK.md', root / 'docs/mobile/IOS_CONTEXT_ACTIONS_0.5.1_UK.md', root / 'docs/mobile/BRAND_ASSETS.json']
+paths += [root / 'erp/tests/native-vectors.json', root / 'erp/scripts/native-ios-simulator.py', root / 'docs/mobile/DISTRIBUTION_2026-10-28_UK.md', root / 'docs/mobile/TEST_CANDIDATE_0.5.0_UK.md', root / 'docs/mobile/IOS_CONTEXT_ACTIONS_0.5.1_UK.md', root / 'docs/mobile/BRAND_ASSETS.json', root / 'docs/mobile/MOBILE_BRAND_0.6.0_UK.md']
 assert all(p.is_file() for p in paths)
 snapshots = {p: p.read_bytes() for p in sorted(paths)}
 sha = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()

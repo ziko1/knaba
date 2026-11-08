@@ -47,9 +47,9 @@ class ErpConsoleActivity : Activity() {
     private data class RetainedSession(val transport: ErpConsoleTransport, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
     private var pendingRecovery: PendingMutation? = null
     private val controls = mutableListOf<View>()
-    private val ink = Color.rgb(24, 52, 52)
-    private val teal = Color.rgb(0, 105, 94)
-    private val muted = Color.rgb(86, 109, 107)
+    private val ink = KnabaTheme.ink
+    private val teal = KnabaTheme.teal
+    private val muted = KnabaTheme.muted
     // Discovery only: the ERP freshly authorizes and projects every returned entity.
     // A role name never grants finance, location or customer access here.
     private val modules = ConsoleModules.items
@@ -58,12 +58,13 @@ class ErpConsoleActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         api = newTransport()
-        content = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(22), dp(20), dp(28))
-            setBackgroundColor(Color.rgb(244, 248, 247))
+        KnabaTheme.configureWindow(this)
+        content = KnabaTheme.content(this)
+        scroller = ScrollView(this).apply {
+            isFillViewport = true
+            setBackgroundColor(KnabaTheme.paper)
+            addView(content, FrameLayout.LayoutParams(-1, -2, Gravity.CENTER_HORIZONTAL))
         }
-        scroller = ScrollView(this).apply { isFillViewport = true; addView(content) }
         scroller.setOnApplyWindowInsetsListener { view, insets ->
             val safe = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout() or WindowInsets.Type.ime())
             view.setPadding(safe.left, safe.top, safe.right, safe.bottom)
@@ -93,21 +94,37 @@ class ErpConsoleActivity : Activity() {
     }
     private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
     private fun shape(color: Int, border: Int? = null): GradientDrawable = GradientDrawable().apply {
-        setColor(color); cornerRadius = dp(16).toFloat(); if (border != null) setStroke(dp(1), border)
+        setColor(color); cornerRadius = dp(18).toFloat(); if (border != null) setStroke(dp(1), border)
     }
     private fun heading(title: String, subtitle: String = "", back: (() -> Unit)? = null, showPending: Boolean = true) {
         screen++
         busy = false; mutation = false; uncertain = false; controls.clear(); backAction = back
         content.removeAllViews()
-        if (demoMode) label(getString(R.string.erp_demo_banner), color = Color.rgb(104, 62, 0)).apply {
-            background = shape(Color.rgb(255, 239, 197)); setPadding(dp(12), dp(10), dp(12), dp(10))
+        content.addView(KnabaTheme.wordmark(this))
+        if (demoMode) label(getString(R.string.erp_demo_banner), size = 13f, color = Color.rgb(104, 62, 0)).apply {
+            background = shape(Color.rgb(255, 239, 197)); setPadding(dp(14), dp(12), dp(14), dp(12))
         }
-        if (back != null) button(getString(R.string.erp_back), navigation = true) { goBack() }
-        label("KNABA DE", 12f, teal).apply { letterSpacing = .14f; setTypeface(null, Typeface.BOLD) }
-        label(title, 28f).apply { setTypeface(null, Typeface.BOLD); setPadding(0, dp(4), 0, dp(8)) }
-        if (subtitle.isNotEmpty()) label(subtitle, 14f, muted)
+        if (back != null) button(getString(R.string.erp_back), navigation = true) { goBack() }.apply {
+            gravity = Gravity.START or Gravity.CENTER_VERTICAL
+            setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_knaba_back, 0, 0, 0)
+            compoundDrawablePadding = dp(10)
+        }
+        val hero = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = KnabaTheme.hero(this@ErpConsoleActivity)
+            setPadding(dp(22), dp(20), dp(22), dp(22))
+            content.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8); bottomMargin = dp(12) })
+        }
+        label(getString(R.string.erp_brand_workspace), 12f, KnabaTheme.lime, hero).apply {
+            letterSpacing = .12f; setTypeface(null, Typeface.BOLD)
+        }
+        label(title, if (back == null) 30f else 26f, Color.WHITE, hero).apply {
+            setTypeface(null, Typeface.BOLD); setPadding(0, dp(4), 0, dp(8)); isAccessibilityHeading = true
+        }
+        if (subtitle.isNotEmpty()) label(subtitle, 15f, Color.rgb(222, 236, 230), hero)
         progress = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
             isIndeterminate = true; visibility = View.GONE
+            indeterminateTintList = android.content.res.ColorStateList.valueOf(teal)
         }
         content.addView(progress, LinearLayout.LayoutParams(-1, dp(4)))
         notice = label("", 14f, Color.rgb(142, 48, 35)).apply {
@@ -121,17 +138,22 @@ class ErpConsoleActivity : Activity() {
     }
     private fun status(text: String, success: Boolean = false) {
         notice.text = text; notice.visibility = if (text.isBlank()) View.GONE else View.VISIBLE
-        notice.setTextColor(if (success) teal else Color.rgb(142, 48, 35))
+        notice.setTextColor(if (success) teal else KnabaTheme.error)
+        notice.background = shape(if (success) KnabaTheme.soft else KnabaTheme.coral)
+        notice.setPadding(dp(14), dp(12), dp(14), dp(12))
     }
     private fun label(text: String, size: Float = 15f, color: Int = ink, parent: LinearLayout = content): TextView = TextView(this).apply {
         this.text = text; textSize = size; setTextColor(color); setPadding(0, dp(7), 0, dp(7))
+        setLineSpacing(dp(2).toFloat(), 1f)
         parent.addView(this, LinearLayout.LayoutParams(-1, -2))
     }
     private fun button(text: String, primary: Boolean = false, navigation: Boolean = false, parent: LinearLayout = content, action: () -> Unit): Button = Button(this).apply {
-        this.text = text; isAllCaps = false; textSize = 15f; minHeight = dp(50)
-        setTextColor(if (primary) Color.WHITE else teal)
-        background = shape(if (primary) teal else Color.WHITE, if (primary) null else Color.rgb(213, 228, 223))
-        setPadding(dp(14), dp(8), dp(14), dp(8))
+        this.text = text
+        KnabaTheme.applyButton(this, primary)
+        if (text == getString(R.string.erp_refresh)) {
+            setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_knaba_refresh, 0, 0, 0)
+            compoundDrawablePadding = dp(10)
+        }
         parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(9); bottomMargin = dp(3) })
         if (!navigation) { controls.add(this); isEnabled = !busy }
         setOnClickListener { if (!busy || navigation) action() }
@@ -141,9 +163,7 @@ class ErpConsoleActivity : Activity() {
         return EditText(this).apply {
             id = View.generateViewId(); caption.labelFor = id; hint = title; inputType = input
             setSingleLine(!multiline); if (multiline) { minLines = 3; maxLines = 7; gravity = Gravity.TOP }
-            textSize = 16f; setTextColor(ink); setHintTextColor(muted)
-            background = shape(Color.WHITE, Color.rgb(198, 219, 210))
-            setPadding(dp(12), dp(12), dp(12), dp(12)); minHeight = dp(52)
+            KnabaTheme.applyInput(this)
             isSaveEnabled = false
             if (input and InputType.TYPE_TEXT_VARIATION_PASSWORD != 0) importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(5) })
@@ -159,8 +179,8 @@ class ErpConsoleActivity : Activity() {
         parent.removeAllViews()
     }
     private fun panel(parent: LinearLayout = content): LinearLayout = LinearLayout(this).apply {
-        orientation = LinearLayout.VERTICAL; background = shape(Color.WHITE)
-        setPadding(dp(16), dp(10), dp(16), dp(12))
+        orientation = LinearLayout.VERTICAL; background = shape(Color.WHITE, KnabaTheme.line)
+        setPadding(dp(18), dp(14), dp(18), dp(16))
         parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10); bottomMargin = dp(2) })
     }
     private fun loading(value: Boolean) {
@@ -213,17 +233,14 @@ class ErpConsoleActivity : Activity() {
     private fun showLogin() {
         actor = null; pendingRecovery = null
         heading(getString(R.string.erp_title), getString(R.string.erp_login_intro))
-        if (BuildConfig.DEBUG) {
-            button(getString(R.string.erp_try_demo), primary = true) { enterDemo() }
-            label(getString(R.string.erp_demo_intro), 13f, muted)
-        }
-        button(getString(R.string.language_label)) { chooseLanguage() }
-        val server = field(getString(R.string.erp_server), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
+        button(getString(R.string.language_label) + " · " + resources.configuration.locales[0].getDisplayLanguage(resources.configuration.locales[0])) { chooseLanguage() }
+        val account = panel()
+        val server = field(getString(R.string.erp_server), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI, parent = account)
         server.setText(getPreferences(Context.MODE_PRIVATE).getString("erp-origin", ""))
-        val email = field(getString(R.string.erp_email), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-        val password = field(getString(R.string.erp_password), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        val code = field(getString(R.string.erp_otp), InputType.TYPE_CLASS_NUMBER).apply { filters = arrayOf(InputFilter.LengthFilter(6)) }
-        button(getString(R.string.erp_sign_in), primary = true) {
+        val email = field(getString(R.string.erp_email), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, parent = account)
+        val password = field(getString(R.string.erp_password), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD, parent = account)
+        val code = field(getString(R.string.erp_otp), InputType.TYPE_CLASS_NUMBER, parent = account).apply { filters = arrayOf(InputFilter.LengthFilter(6)) }
+        button(getString(R.string.erp_sign_in), primary = true, parent = account) {
             val url = server.text.toString().trim(); val address = email.text.toString().trim()
             val secret = password.text.toString(); val otp = code.text.toString()
             if (url.isBlank() || address.isBlank() || secret.isBlank()) { status(getString(R.string.erp_fields_required)); return@button }
@@ -236,6 +253,11 @@ class ErpConsoleActivity : Activity() {
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
+        if (BuildConfig.DEBUG) {
+            val demo = panel().apply { background = shape(KnabaTheme.soft) }
+            button(getString(R.string.erp_try_demo), parent = demo) { enterDemo() }
+            label(getString(R.string.erp_demo_intro), 13f, muted, demo)
+        }
     }
     private fun enterDemo() {
         if (!BuildConfig.DEBUG) return
@@ -261,32 +283,82 @@ class ErpConsoleActivity : Activity() {
         heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
         val roles = actor?.optJSONArray("roles") ?: JSONArray()
         label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { human(roles.optString(it)) }, 13f, muted)
-        val summary = panel()
+        val summary = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
         label(getString(R.string.erp_loading), 15f, muted, summary)
         button(getString(R.string.erp_refresh)) { showDashboard() }
-        val destinations = panel()
-        renderModules(destinations, null)
-        button(getString(R.string.erp_actions)) { showActions() }
-        if (!demoMode) button(getString(R.string.erp_time_tools)) { startActivity(Intent(this, MainActivity::class.java)) }
-        button(getString(if (demoMode) R.string.erp_exit_demo else R.string.erp_logout)) { signOut() }
+        label(getString(R.string.erp_sections), 20f).apply { setTypeface(null, Typeface.BOLD); isAccessibilityHeading = true; setPadding(0, dp(24), 0, dp(8)) }
+        val search = field(getString(R.string.erp_search))
+        val destinations = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        var counts: JSONObject? = null
+        fun renderDestinations() { clearList(destinations); renderModules(destinations, counts, search.text.toString()) }
+        renderDestinations()
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { renderDestinations() }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        val tools = panel()
+        button(getString(R.string.erp_actions), parent = tools) { showActions() }
+        if (!demoMode) button(getString(R.string.erp_time_tools), parent = tools) { startActivity(Intent(this, MainActivity::class.java)) }
+        button(getString(if (demoMode) R.string.erp_exit_demo else R.string.erp_logout), parent = tools) { signOut() }
         label(getString(if (demoMode) R.string.erp_demo_intro else R.string.erp_presence_notice), 13f, muted)
         val transport = api
         run({ val who = transport.me(); transport.dashboard().put("_actor", who.getJSONObject("actor")) }) { result ->
             actor = result.getJSONObject("_actor")
             summary.removeAllViews()
-            label(getString(R.string.erp_active_sites, result.optInt("activeSites")), 18f, ink, summary)
-            label(getString(R.string.erp_active_shifts) + ": " + result.optInt("activeShifts"), 16f, muted, summary)
-            label(getString(R.string.erp_open_decisions, result.optInt("openDecisions")), 16f, muted, summary)
-            clearList(destinations); renderModules(destinations, result.optJSONObject("counts"))
+            renderMetrics(summary, result)
+            counts = result.optJSONObject("counts")
+            renderDestinations()
         }
     }
-    private fun renderModules(parent: LinearLayout, counts: JSONObject?) {
-        for ((kind, name, permissions) in modules) {
-            if (permissions.any(::permitted)) {
-                val count = if (counts?.has(kind) == true) " · " + counts.optInt(kind) else ""
-                button(getString(name) + count, parent = parent) { if (kind == "channel") showChannels() else showRecords(kind, getString(name)) }
+    private fun renderMetrics(parent: LinearLayout, result: JSONObject) {
+        val horizontal = resources.configuration.screenWidthDp >= 380 && resources.configuration.fontScale <= 1.2f
+        parent.orientation = if (horizontal) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
+        val metrics = listOf(
+            Triple("activeSites", R.string.erp_metric_sites, KnabaTheme.green),
+            Triple("activeShifts", R.string.erp_active_shifts, KnabaTheme.lilac),
+            Triple("openDecisions", R.string.erp_metric_decisions, KnabaTheme.coral)
+        )
+        metrics.forEachIndexed { index, (key, title, color) ->
+            val card = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL; background = shape(color)
+                setPadding(dp(14), dp(12), dp(14), dp(14))
+                parent.addView(this, LinearLayout.LayoutParams(if (horizontal) 0 else -1, -2, if (horizontal) 1f else 0f).apply {
+                    topMargin = dp(10); if (horizontal && index > 0) marginStart = dp(8)
+                })
             }
+            // Missing data is unknown, never a fabricated zero.
+            label(if (result.has(key) && !result.isNull(key)) result.optInt(key).toString() else "—", 30f, ink, card).setTypeface(null, Typeface.BOLD)
+            label(getString(title), 13f, ink, card)
         }
+    }
+    private fun renderModules(parent: LinearLayout, counts: JSONObject?, query: String = "") {
+        val visible = modules.filter { it.permissions.any(::permitted) && getString(it.title).contains(query.trim(), ignoreCase = true) }
+        if (visible.isEmpty()) { label(getString(R.string.erp_empty), color = muted, parent = parent); return }
+        val columns = if (resources.configuration.screenWidthDp >= 390 && resources.configuration.fontScale <= 1.2f) 2 else 1
+        visible.chunked(columns).forEach { group ->
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; parent.addView(this) }
+            group.forEachIndexed { index, module ->
+                val count = if (counts?.has(module.kind) == true) " · " + counts.optInt(module.kind) else ""
+                button(getString(module.title) + count, parent = row) {
+                    if (module.kind == "channel") showChannels() else showRecords(module.kind, getString(module.title))
+                }.apply {
+                    layoutParams = LinearLayout.LayoutParams(0, -2, 1f).apply { topMargin = dp(10); if (index > 0) marginStart = dp(10) }
+                    minHeight = dp(if (columns == 2) 96 else 64)
+                    gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                    setCompoundDrawablesRelativeWithIntrinsicBounds(moduleIcon(module.kind), 0, 0, 0)
+                    compoundDrawablePadding = dp(12)
+                }
+            }
+            if (group.size < columns) row.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f).apply { marginStart = dp(10) })
+        }
+    }
+    private fun moduleIcon(kind: String) = when (kind) {
+        "channel", "notification" -> R.drawable.ic_knaba_chat
+        "task", "decision", "worklog", "defect", "timesheet" -> R.drawable.ic_knaba_tasks
+        "shift", "trip", "presence" -> R.drawable.ic_knaba_clock
+        "site", "stock_location", "material", "material_request", "stock_reservation", "stock_movement" -> R.drawable.ic_knaba_building
+        else -> R.drawable.ic_knaba_grid
     }
     private fun showRecords(kind: String, title: String) {
         heading(title, getString(R.string.erp_server_scope), ::showDashboard)
@@ -307,7 +379,12 @@ class ErpConsoleActivity : Activity() {
                 selected.take(limit).forEach { item ->
                     val card = panel(list)
                     label(recordTitle(item), 18f, ink, card).setTypeface(null, Typeface.BOLD)
-                    recordState(item).takeIf { it.isNotBlank() }?.let { label(human(it), 13f, teal, card) }
+                    recordState(item).takeIf { it.isNotBlank() }?.let { value ->
+                        label(human(value), 13f, teal, card).apply {
+                            background = shape(KnabaTheme.soft)
+                            setPadding(dp(12), dp(8), dp(12), dp(8))
+                        }
+                    }
                     button(getString(R.string.erp_view_details), parent = card) { showDetail(item, title) { showRecords(kind, title) } }
                 }
                 if (selected.size > limit) button(getString(R.string.erp_more), parent = list) { limit += 40; render() }
@@ -430,7 +507,7 @@ class ErpConsoleActivity : Activity() {
             for (i in 0 until list.length()) {
                 val item = list.optJSONObject(i) ?: continue; val data = item.optJSONObject("data") ?: continue
                 val own = data.optString("author_id") == actor?.optString("userId")
-                val card = panel(messages).apply { background = shape(if (own) Color.rgb(218, 240, 229) else Color.WHITE) }
+                val card = panel(messages).apply { background = shape(if (own) KnabaTheme.green else Color.WHITE, if (own) null else KnabaTheme.line) }
                 label(getString(if (own) R.string.erp_you else R.string.erp_conversation), 12f, muted, card)
                 label(data.optString("text"), 16f, ink, card).setTextIsSelectable(true)
                 item.optString("createdAt").takeIf { it.isNotBlank() }?.let { label(displayTime(it), 12f, muted, card) }

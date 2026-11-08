@@ -1,5 +1,9 @@
 # KNABA Mobile — roadmap
 
+## 08.11.2026 — Native0.6.0 website style and customer-test artifacts
+
+MOBILE-BRAND-20261108 adds a consistent native visual system on PR133 without resetting prior requirements. [Acceptance](MOBILE_BRAND_0.6.0_UK.md): source/visual/functional gates → exact build/signature → Android emulator installation → persistent files; customer iPhone installation requires owner signing/profile/channel, currently BLOCKED_EXTERNAL. Full device/live/SSO/specialist product acceptance remains open. Neither simulator nor source archive closes the two-installable-file requirement.
+
 ## 08.11.2026 — native completion execution
 
 MOBILE-004/011/012 now have active implementation: 39 permission-based modules, Android contextual record actions, iOS durable recovery/session fencing, canonical icons and verified packaging. Current candidate 0.5.0 / build6 is awaiting exact-source native CI and owner/device gates. M1 shared identity, all specialist M2/M3 lifecycle journeys, partner integration and M4 signing/handover are still open; this increment does not replace the full system scope.

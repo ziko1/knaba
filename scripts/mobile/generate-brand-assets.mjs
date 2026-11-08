@@ -48,11 +48,19 @@ for(const version of [26,33])files.set(android+`mipmap-anydpi-v${version}/ic_lau
     <foreground android:drawable="@drawable/ic_knaba_foreground" />
 ${version===33?'    <monochrome android:drawable="@drawable/ic_knaba_monochrome" />\n':''}</adaptive-icon>
 `);
+const wordmarkSourcePath='corporate-site/public/images/knaba-3d-mobile-header.svg';
+const wordmarkSource=readFileSync(new URL(wordmarkSourcePath,root),'utf8');
+assert.match(wordmarkSource,/viewBox="0 0 1140 280"/,'Review changed canonical compact wordmark geometry');
+assert.ok(!/<(?:image|script|foreignObject)\b|\b(?:href|onload)=/i.test(wordmarkSource),'Wordmark export must remain self-contained');
+const wordmark=await sharp(Buffer.from(wordmarkSource),{density:144}).resize(1140,280).png({compressionLevel:9}).toBuffer();
+files.set(android+'drawable-nodpi/knaba_wordmark.png',wordmark);
+files.set(ios+'BrandWordmark.imageset/BrandWordmark.png',wordmark);
 const info={author:'KNABA',version:1};
+files.set(ios+'BrandWordmark.imageset/Contents.json',JSON.stringify({images:[{filename:'BrandWordmark.png',idiom:'universal'}],info},null,2)+'\n');
 files.set(ios+'Contents.json',JSON.stringify({info},null,2)+'\n');
 files.set(ios+'AppIcon.appiconset/Contents.json',JSON.stringify({images:[{filename:'AppIcon.png',idiom:'universal',platform:'ios',size:'1024x1024'}],info},null,2)+'\n');
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
-const manifest={canonicalSource:sourcePath,canonicalSha256:sha256(source),renderer:{sharp:sharp.versions.sharp,librsvg:sharp.versions.rsvg},androidSafeArea:{canvas:1080,sourceSquare:660,inset:210},files:[...files].map(([path,bytes])=>({path,sha256:sha256(bytes)}))};
+const manifest={canonicalSource:sourcePath,canonicalSha256:sha256(source),wordmarkSource:wordmarkSourcePath,wordmarkSourceSha256:sha256(wordmarkSource),renderer:{sharp:sharp.versions.sharp,librsvg:sharp.versions.rsvg},androidSafeArea:{canvas:1080,sourceSquare:660,inset:210},files:[...files].map(([path,bytes])=>({path,sha256:sha256(bytes)}))};
 files.set('docs/mobile/BRAND_ASSETS.json',JSON.stringify(manifest,null,2)+'\n');
 const check=process.argv.includes('--check');
 for(const [path,bytes] of files){

@@ -1,5 +1,13 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — Native0.6.0 brand continuation, candidate source
+
+User requested beautiful iOS/Android matching the KNABA website and two already-built customer-installable test files. Base is accepted PR133 `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2`; the current authenticated website teal/lime palette and exact compact wordmark are used. Android ERP/worker UI and SwiftUI login/overview/forms/shift are adapted without changing backend, auth/recovery/domain contracts or existing six-language scope. Both versions0.6.0/build8. [Acceptance and constraints](MOBILE_BRAND_0.6.0_UK.md).
+
+Capability audit confirms existing public nativeCI, local Linux withoutXcode/AndroidSDK and KNABA Linux build tools; no authorized Mac/Apple signing identity/profile/channel available. Android APK build/install and iOS real Simulator/XCTest/visual acceptance remain pending for this changed source. Installable iPhone IPA and two-phone-file handoff remain BLOCKED_EXTERNAL; source/Simulator files never substitute. No production/main/store/provider/paid activation.
+
+Skills selected by actual scope: ai-team-orchestrator, app-release, ecc-frontend-mobile SwiftUI/Kotlin/design/a11y, kotlin-platform-engineering existingGradle; Android Views retained. Source discovery/contract review precedes build; final independent review must bind exact artifacts. Existing whole-product/SSO/specialist/device/live criteria stay open.
+
 ## 08.11.2026 — iOS 0.5.1 accepted; consolidation with current backend pending
 
 Accepted iOS source `65f341e76749a03fc62997da5a77e17b84caf8ba`: CI42467913707, iOS job128691606881, 67/67 actual XCTest, iPhone 16 / iOS 18.5 Simulator / Xcode 16.4. Parallel Android dependency HTTP504 occurred before compilation; Android retains its separate accepted fb4be719 artifact proof. Native receipt and actual XCTest summary are preserved under `evidence/ios-context-actions-20261108/`.

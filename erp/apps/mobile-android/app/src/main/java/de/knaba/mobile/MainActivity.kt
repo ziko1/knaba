@@ -7,7 +7,13 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.*
+import android.text.InputType
+import android.view.Gravity
+import android.view.View
+import android.view.WindowInsets
 import android.widget.*
 import org.json.JSONObject
 import java.time.Instant
@@ -38,33 +44,104 @@ class MainActivity : Activity() {
     override fun attachBaseContext(newBase: Context) { super.attachBaseContext(NativeLocale.wrap(newBase)) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState); store = SecureStore(this)
-        val padding = (16 * resources.displayMetrics.density).toInt()
-        val layout = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(padding, padding, padding, padding) }
-        setContentView(ScrollView(this).apply { addView(layout) })
-        layout.addView(TextView(this).apply { setText(R.string.title); textSize = 24f })
-        button(layout, R.string.language_label) { chooseLanguage() }
-        layout.addView(TextView(this).apply { setText(R.string.privacy_notice) })
-        status = TextView(this).apply { setText(R.string.status_off) }; layout.addView(status)
-        layout.addView(TextView(this).apply { setText(R.string.my_shift); textSize = 20f })
-        shiftView = TextView(this).apply { setText(R.string.shift_none) }; layout.addView(shiftView)
-        layout.addView(TextView(this).apply { setText(R.string.shift_manual_notice) })
-        queueView = TextView(this); layout.addView(queueView)
-        layout.addView(TextView(this).apply { setText(R.string.queue_notice) })
-        origin = EditText(this).apply { setHint(R.string.origin_hint); setText(store.read().optString("origin")); inputType = 17 }; layout.addView(origin)
-        code = EditText(this).apply { setHint(R.string.code_hint); inputType = 129 }; layout.addView(code)
-        button(layout, R.string.action_enroll) {
+        KnabaTheme.configureWindow(this)
+        val layout = KnabaTheme.content(this)
+        val scroller = ScrollView(this).apply {
+            isFillViewport = true
+            setBackgroundColor(KnabaTheme.paper)
+            addView(layout, FrameLayout.LayoutParams(-1, -2, Gravity.TOP or Gravity.CENTER_HORIZONTAL))
+            setOnApplyWindowInsetsListener { view, insets ->
+                val safe = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout() or WindowInsets.Type.ime())
+                view.setPadding(safe.left, safe.top, safe.right, safe.bottom)
+                insets
+            }
+        }
+        setContentView(scroller)
+        scroller.requestApplyInsets()
+        layout.addView(KnabaTheme.wordmark(this))
+        val navigation = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        layout.addView(navigation, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(16) })
+        button(navigation, R.string.erp_back) { finish() }.layoutParams = LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(8) }
+        button(navigation, R.string.language_label) { chooseLanguage() }.layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+
+        val shift = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = KnabaTheme.hero(this@MainActivity)
+            setPadding(dp(22), dp(22), dp(22), dp(24))
+        }
+        layout.addView(shift, LinearLayout.LayoutParams(-1, -2))
+        text(shift, R.string.erp_time_tools, 13f, KnabaTheme.lime).apply {
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+        }
+        text(shift, R.string.my_shift, 28f, Color.WHITE).apply {
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            isAccessibilityHeading = true
+        }
+        shiftView = text(shift, R.string.shift_none, 18f, Color.WHITE).apply {
+            setLineSpacing(dp(6).toFloat(), 1f)
+            fontFeatureSettings = "tnum"
+        }
+        text(shift, R.string.shift_manual_notice, 14f, Color.rgb(216, 234, 231))
+
+        val synchronization = panel(layout)
+        status = text(synchronization, R.string.status_off, 16f, KnabaTheme.ink).apply {
+            accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+        }
+        queueView = text(synchronization, R.string.queue_notice, 15f, KnabaTheme.text)
+        text(synchronization, R.string.queue_notice, 14f)
+        button(synchronization, R.string.action_sync, primary = true) { refresh() }
+
+        val enrollment = panel(layout, R.string.action_enroll)
+        origin = field(enrollment, R.string.origin_hint, InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI).apply {
+            setText(store.read().optString("origin"))
+        }
+        code = field(enrollment, R.string.code_hint, InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        button(enrollment, R.string.action_enroll, primary = true) {
             val address = origin.text.toString(); val enrollmentCode = code.text.toString()
             currentSession = null; viewEpoch++; renderShift()
             work(enrollment = true) { epoch, generation -> val api = ApiClient(store, generation); api.configure(address); api.enroll(enrollmentCode); runOnUiThread { if(epoch == viewEpoch && !isDestroyed) code.setText("") }; getString(R.string.enrolled) }
         }
-        button(layout, R.string.action_sync) { refresh() }
-        site = EditText(this).apply { setHint(R.string.site_hint) }; layout.addView(site)
-        button(layout, R.string.action_shift_start) {
+
+        val work = panel(layout, R.string.activity_working)
+        site = field(work, R.string.site_hint)
+        button(work, R.string.action_shift_start, primary = true) {
             val deviceId = store.read().optString("deviceId")
             if (deviceId.isBlank()) throw NativeActionFailure(R.string.error_device_first)
             queueCommand("shift.start", JSONObject().put("siteId", site.text.toString()).put("deviceId", deviceId).put("occurredAt", Instant.now().toString()))
         }
-        button(layout, R.string.action_gps_activate) {
+        button(work, R.string.action_pause) {
+            val at = Instant.now().toString(); stopGPS(); store.purgeLocationSince(at)
+            val tripId = tripId()
+            if (tripId.isNotBlank()) queueCommand("trip.stop", JSONObject().put("tripId", tripId).put("kind", "PRIVATE_BREAK").put("reason", "Private Pause ausdrücklich bestätigt").put("occurredAt", at))
+            else queueCommand("shift.activity", JSONObject().put("shiftId", shiftId()).put("activity", "ON_BREAK").put("occurredAt", at))
+        }
+        button(work, R.string.action_return) {
+            stopGPS()
+            val tripId = tripId()
+            if (tripId.isNotBlank()) queueCommand("trip.resume", JSONObject().put("tripId", tripId).put("occurredAt", Instant.now().toString()))
+            else queueCommand("shift.activity", JSONObject().put("shiftId", shiftId()).put("activity", "WORKING").put("siteId", site.text.toString()).put("occurredAt", Instant.now().toString()))
+        }
+        button(work, R.string.action_shift_end) {
+            val at = Instant.now().toString(); stopGPS(); store.purgeLocationSince(at)
+            queueCommand("shift.end", JSONObject().put("shiftId", shiftId()).put("occurredAt", at))
+        }.setTextColor(KnabaTheme.error)
+
+        val travel = panel(layout, R.string.mode_travel)
+        destination = field(travel, R.string.destination_hint)
+        button(travel, R.string.action_trip_start, primary = true) {
+            stopGPS()
+            queueCommand("trip.start", JSONObject().put("shiftId", shiftId()).put("destination", JSONObject().put("kind", "SITE").put("id", destination.text.toString())).put("purpose", "Dienstfahrt zum zugewiesenen Objekt").put("occurredAt", Instant.now().toString()))
+        }
+        button(travel, R.string.action_arrive) {
+            stopGPS()
+            val tripId = tripId(); if (tripId.isBlank()) throw NativeActionFailure(R.string.error_trip_required)
+            queueCommand("trip.arrive", JSONObject().put("tripId", tripId).put("startWork", true).put("occurredAt", Instant.now().toString()))
+        }
+
+        val location = panel(layout, R.string.erp_presence, KnabaTheme.green)
+        text(location, R.string.privacy_notice, 15f, KnabaTheme.text)
+        button(location, R.string.action_gps_activate) {
             if (!hasTrackingPermissions()) {
                 val permissions = mutableListOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
                 if (Build.VERSION.SDK_INT >= 33) permissions.add(Manifest.permission.POST_NOTIFICATIONS)
@@ -72,37 +149,13 @@ class MainActivity : Activity() {
                 requestPermissions(permissions.toTypedArray(), 101)
             } else activateGPS()
         }
-        button(layout, R.string.action_pause) {
-            val at = Instant.now().toString(); stopGPS(); store.purgeLocationSince(at)
-            val tripId = tripId()
-            if (tripId.isNotBlank()) queueCommand("trip.stop", JSONObject().put("tripId", tripId).put("kind", "PRIVATE_BREAK").put("reason", "Private Pause ausdrücklich bestätigt").put("occurredAt", at))
-            else queueCommand("shift.activity", JSONObject().put("shiftId", shiftId()).put("activity", "ON_BREAK").put("occurredAt", at))
-        }
-        button(layout, R.string.action_return) {
-            stopGPS()
-            val tripId = tripId()
-            if (tripId.isNotBlank()) queueCommand("trip.resume", JSONObject().put("tripId", tripId).put("occurredAt", Instant.now().toString()))
-            else queueCommand("shift.activity", JSONObject().put("shiftId", shiftId()).put("activity", "WORKING").put("siteId", site.text.toString()).put("occurredAt", Instant.now().toString()))
-        }
-        destination = EditText(this).apply { setHint(R.string.destination_hint) }; layout.addView(destination)
-        button(layout, R.string.action_trip_start) {
-            stopGPS()
-            queueCommand("trip.start", JSONObject().put("shiftId", shiftId()).put("destination", JSONObject().put("kind", "SITE").put("id", destination.text.toString())).put("purpose", "Dienstfahrt zum zugewiesenen Objekt").put("occurredAt", Instant.now().toString()))
-        }
-        button(layout, R.string.action_arrive) {
-            stopGPS()
-            val tripId = tripId(); if (tripId.isBlank()) throw NativeActionFailure(R.string.error_trip_required)
-            queueCommand("trip.arrive", JSONObject().put("tripId", tripId).put("startWork", true).put("occurredAt", Instant.now().toString()))
-        }
-        button(layout, R.string.action_shift_end) {
-            val at = Instant.now().toString(); stopGPS(); store.purgeLocationSince(at)
-            queueCommand("shift.end", JSONObject().put("shiftId", shiftId()).put("occurredAt", at))
-        }
-        button(layout, R.string.action_gps_off) { stopGPS(); status.setText(R.string.status_off) }
-        button(layout, R.string.action_sign_out) {
+        button(location, R.string.action_gps_off) { stopGPS(); status.setText(R.string.status_off) }.setTextColor(KnabaTheme.error)
+
+        val account = panel(layout, R.string.mobile_open_account)
+        button(account, R.string.action_sign_out) {
             viewEpoch++; stopGPS(); store.clear(); currentSession = null; origin.setText(""); code.setText(""); site.setText(""); destination.setText("")
             status.setText(R.string.signed_out); renderShift()
-        }
+        }.setTextColor(KnabaTheme.error)
         renderShift()
         if (store.read().has("deviceToken")) refresh()
     }
@@ -114,8 +167,37 @@ class MainActivity : Activity() {
             NativeLocale.choose(this, tags[index]); sendBroadcast(Intent(NativeLocale.CHANGED).setPackage(packageName)); dialog.dismiss(); recreate()
         }.show()
     }
-    private fun button(parent: LinearLayout, label: Int, action: () -> Unit) {
-        parent.addView(Button(this).apply { setText(label); setOnClickListener { try { action() } catch (error: Exception) { status.text = NativeText.error(this@MainActivity, error) } } })
+    private fun dp(value: Int) = KnabaTheme.dp(this, value)
+    private fun panel(parent: LinearLayout, title: Int? = null, color: Int = Color.WHITE): LinearLayout = LinearLayout(this).apply {
+        orientation = LinearLayout.VERTICAL
+        background = KnabaTheme.surface(this@MainActivity, color, border = KnabaTheme.line)
+        setPadding(dp(18), dp(14), dp(18), dp(20))
+        parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(16) })
+        if (title != null) text(this, title, 20f, KnabaTheme.ink).apply {
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            isAccessibilityHeading = true
+        }
+    }
+    private fun text(parent: LinearLayout, label: Int, size: Float = 15f, color: Int = KnabaTheme.muted): TextView =
+        KnabaTheme.label(this, getString(label), size, color).apply {
+            parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8); bottomMargin = dp(4) })
+        }
+    private fun field(parent: LinearLayout, label: Int, input: Int = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS): EditText {
+        val caption = text(parent, label, 14f, KnabaTheme.ink)
+        return EditText(this).apply {
+            id = View.generateViewId(); caption.labelFor = id
+            setHint(label); inputType = input; setSingleLine(true)
+            isSaveEnabled = false
+            if (input and InputType.TYPE_TEXT_VARIATION_PASSWORD != 0) importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+            KnabaTheme.applyInput(this)
+            parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4); bottomMargin = dp(8) })
+        }
+    }
+    private fun button(parent: LinearLayout, label: Int, primary: Boolean = false, action: () -> Unit): Button = Button(this).apply {
+        setText(label)
+        KnabaTheme.applyButton(this, primary)
+        parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
+        setOnClickListener { try { action() } catch (error: Exception) { status.text = NativeText.error(this@MainActivity, error) } }
     }
     private fun work(enrollment: Boolean = false, block: (Long, Long) -> String) {
         val epoch = viewEpoch; val generation = store.generation(); status.setText(R.string.syncing)

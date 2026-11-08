@@ -148,7 +148,7 @@ enum ERPStrings {
         .saved: ["Gespeichert", "Saved", "Zapisano", "Išsaugota", "Сохранено", "Збережено"],
         .loading: ["Laden…", "Loading…", "Ładowanie…", "Įkeliama…", "Загрузка…", "Завантаження…"],
         .loginIntro: ["Melden Sie sich mit Ihrem freigegebenen KNABA-Konto an. Ihre Berechtigungen werden vom Server geprüft.", "Sign in with your approved KNABA account. The server verifies your permissions.", "Zaloguj się na zatwierdzone konto KNABA. Serwer sprawdza Twoje uprawnienia.", "Prisijunkite prie patvirtintos KNABA paskyros. Serveris tikrina jūsų teises.", "Войдите в подтверждённую учётную запись KNABA. Права доступа проверяет сервер.", "Увійдіть у підтверджений обліковий запис KNABA. Права доступу перевіряє сервер."],
-        .roleHeading: ["Inhaber · Team · Kunde · Partner", "Owner · Team · Client · Partner", "Właściciel · Zespół · Klient · Partner", "Savininkas · Komanda · Klientas · Partneris", "Владелец · Команда · Клиент · Партнёр", "Власник · Команда · Клієнт · Партнер"],
+        .roleHeading: ["Ihr KNABA-Arbeitsbereich", "Your KNABA workspace", "Twoje centrum KNABA", "Jūsų KNABA darbo vieta", "Ваше рабочее пространство KNABA", "Ваш робочий простір KNABA"],
         .account: ["Ihr Konto", "Your account", "Twoje konto", "Jūsų paskyra", "Ваша учётная запись", "Ваш обліковий запис"],
         .connected: ["Mit Ihrem KNABA-Konto verbunden", "Connected to your KNABA account", "Połączono z kontem KNABA", "Prisijungta prie jūsų KNABA paskyros", "Подключено к вашей учётной записи KNABA", "Підключено до вашого облікового запису KNABA"],
         .sent: ["Nachricht gesendet", "Message sent", "Wiadomość wysłana", "Žinutė išsiųsta", "Сообщение отправлено", "Повідомлення надіслано"],

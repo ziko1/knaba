@@ -267,4 +267,8 @@
     <string name="erp_action_resume">Продовжити поїздку</string>
     <string name="erp_action_arrive">Підтвердити прибуття</string>
     <string name="erp_action_end">Завершити поїздку</string>
+    <string name="erp_brand_workspace">РОБОЧИЙ КАБІНЕТ</string>
+    <string name="erp_sections">Розділи системи</string>
+    <string name="erp_metric_sites">Активні об’єкти</string>
+    <string name="erp_metric_decisions">Очікують рішення</string>
 </resources>
