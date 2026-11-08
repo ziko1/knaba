@@ -1,7 +1,7 @@
 {
   "project": "KNABA_MOBILE",
   "moduleOf": "KNABA_DE",
-  "branch": "feat/knaba-completion-audit-20261108",
+  "branch": "feat/knaba-mobile-completion-20261108",
   "items": [
     {
       "id": "MOBILE-001",
@@ -25,7 +25,8 @@
       "id": "MOBILE-004",
       "description": "Customer orders and verified owner-client conversations",
       "acceptance": "End-to-end persistence, consent, receipts, no cross-customer reads",
-      "status": "PENDING"
+      "status": "IN_PROGRESS",
+      "scope": "Native discovery of ERP-scoped orders, quotes, reports, issues and original-message channels; full lifecycle and shared site/ERP identity still pending."
     },
     {
       "id": "MOBILE-005",
@@ -125,7 +126,14 @@
       "id": "MOBILE-011",
       "description": "iOS unknown-write retries preserve idempotency and logout fences stale session responses",
       "acceptance": "Native XCTest and actual iPhone interrupted write/relogin/retry create one effect only",
-      "status": "PENDING"
+      "status": "IN_PROGRESS",
+      "scope": "Encrypted immutable pending write; same-origin/company/user recovery; explicit same-key retry; logout and response generation fences; six-language UI. Native XCTest and device acceptance remain separate."
+    },
+    {
+      "id": "MOBILE-012",
+      "description": "Native ERP role navigation and verified APK/AAB packaging",
+      "acceptance": "Server-scoped native records for customer, employee, operations, warehouse, procurement and accounting; permission-revocation navigation tests; APK and AAB hashes and matching signer; independent review and device journeys",
+      "status": "IN_PROGRESS"
     }
   ]
 }

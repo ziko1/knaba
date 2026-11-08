@@ -1,3 +1,11 @@
+## Current iOS candidate — 0.5.0 / build 6
+
+The ERP console now has a separate device-encrypted unresolved-command journal, explicit same-key recovery, fresh same-actor `/me` validation, logout/session fences and 39 permission-based modules. See [recovery contract and test boundaries](README_RECOVERY_UK.md) and the [current delivery guide](../../../docs/mobile/TEST_CANDIDATE_0.5.0_UK.md).
+
+The asset catalogue uses the canonical KNABA three-building mark. `project.yml` is the version source. The root native workflow builds and executes XCTest on a real Simulator; check the candidate's recorded run for actual results. Simulator output and a source archive are not signed iPhone applications. The owner archive recipe verifies the exported app signature, provisioning team/App ID/expiry, immutable input hashes and exact source provenance. It supports both a Git checkout and an unmodified portable source archive with a verified manifest; portable Git SHA is explicitly manifest-declared.
+
+The notes below describe earlier checkpoints. Their historical 0.3.0 artifact names and results do not describe this candidate.
+
 # KNABA DE iOS companion
 
 SwiftUI / Core Location, iOS 17+ (per project.yml), Xcode 16+, Swift 5 language mode. `Sources/` is an executable native application, with Keychain device bearer/encryption keys, CryptoKit AES-GCM atomic offline persistence, strict HTTPS origin and no redirects, exact event-ID receipts, explicit tracking activation and bounded renewable server leases. Background permission is a separate user action, and the app visibly reports tracking. GPS stops locally before enqueueing a private break or END. Missing GPS remains UNKNOWN; manual time commands work without GPS.

@@ -1,4 +1,12 @@
-## Current Android test candidate — 0.4.1
+## Current Android candidate — 0.5.0 / build 6
+
+Native discovery now covers 39 ERP entity kinds, including customer quotes/reports, warehouse, purchasing, time and finance. Fifteen record types expose schema-checked contextual actions with the opened record ID/version; quote and personal crew revisions stay bound to the displayed snapshot. Visibility follows permissions, never the role name. Every request is still authorized and scoped by ERP.
+
+The canonical three-building KNABA mark replaces the stale launcher artwork and supports adaptive/themed icons. `scripts/package.sh prototype` verifies debug APK **and AAB**, matching signer, complete signed payloads and tamper rejection. `release` requires the owner's stable key. Version metadata comes from Gradle; a failed build cannot retain a stale final receipt, and source hashes are rechecked before the receipt is committed.
+
+[Current Ukrainian guide](../../../docs/mobile/TEST_CANDIDATE_0.5.0_UK.md). This is a source/test candidate. Shared site/ERP SSO, full specialist mobile forms, signed owner distribution, physical device and company acceptance remain separate gates. Historical receipts below keep their original source.
+
+## Historical Android test candidate — 0.4.1
 
 This candidate keeps the isolated **KNABA Test** package (`de.knaba.mobile.test`, versionCode 5) and the same verified debug certificate as 0.4.0. Uncertain ERP writes now retain their original input, version and idempotency key in a separate encrypted device journal. Reauthentication to the same server/company/user restores an explicit recovery screen; retry is never automatic. Different identities cannot see or replay the record. `/me` identity drift and interrupted AtomicFile backup restoration fail safely.
 

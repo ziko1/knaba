@@ -1,32 +1,5 @@
 import SwiftUI
 
-struct ERPModule: Identifiable {
-    let id: String
-    let icon: String
-    let title: ERPText
-    let permission: String
-    var kind: String { id }
-}
-
-/// All navigation is native SwiftUI. These are server-visible entities, not simulated records.
-private let erpModules: [ERPModule] = [
-    .init(id: "decision", icon: "checkmark.seal", title: .decisions, permission: "decisions.read"),
-    .init(id: "site", icon: "building.2", title: .sites, permission: "site.read"),
-    .init(id: "order", icon: "doc.plaintext", title: .orders, permission: "order.manage"),
-    .init(id: "lead", icon: "person.crop.square", title: .requests, permission: "lead.read"),
-    .init(id: "task", icon: "checklist", title: .tasks, permission: "task.read"),
-    .init(id: "crew_assignment", icon: "person.3.sequence", title: .crew, permission: "crew.assign"),
-    .init(id: "employee", icon: "person.2", title: .employees, permission: "operations.read"),
-    .init(id: "shift", icon: "clock", title: .shifts, permission: "shift.manage"),
-    .init(id: "presence", icon: "location.circle", title: .presence, permission: "location.presence.read"),
-    .init(id: "customer", icon: "person.2.crop.square.stack", title: .customers, permission: "customer.manage"),
-    .init(id: "channel", icon: "bubble.left.and.bubble.right", title: .messages, permission: "chat.read"),
-    .init(id: "report", icon: "doc.text.image", title: .reports, permission: "report.read"),
-    .init(id: "notification", icon: "bell", title: .notifications, permission: "notifications.manage"),
-    .init(id: "user", icon: "person.crop.circle.badge.checkmark", title: .users, permission: "identity.manage"),
-    .init(id: "bot_config", icon: "gearshape.2", title: .automation, permission: "bot.manage")
-]
-
 @MainActor final class ERPConsoleModel: ObservableObject {
     @Published var language: NativeLanguage = .de
     func text(_ key: ERPText) -> String { ERPStrings.text(key, language) }
@@ -47,21 +20,20 @@ private let erpModules: [ERPModule] = [
     @Published var busy = false
     @Published var problem = ""
     @Published var notice = ""
-    private let client = ERPConsoleClient()
+    @Published var pendingCommandName: String?
+    @Published var recoveryBlocked = false
+    private let client: ERPConsoleClient
     private var epoch = 0
     private var storedOrigin = ""
+    init(client: ERPConsoleClient = ERPConsoleClient()) { self.client = client }
+    var hasPending: Bool { pendingCommandName != nil || recoveryBlocked }
     var modules: [ERPModule] {
         guard let actor = identity?.actor else { return [] }
         // A visible tab is not an authorization grant: ERP always performs its own scope validation.
-        return erpModules.filter { module in
-            actor.roles.contains("OWNER") || actor.permissions.contains("*") || actor.permissions.contains(module.permission) ||
-            actor.permissions.contains(module.permission.split(separator: ".").first.map { String($0) + ".*" } ?? "") ||
-            (module.id == "task" && actor.permissions.contains("task.assign")) ||
-            (module.id == "shift" && actor.permissions.contains("shift.read"))
-        }
+        return ERPModuleCatalog.visible(to: actor)
     }
     var isOperator: Bool {
-        identity?.actor.roles.contains(where: { ["OWNER", "DIRECTOR", "OPERATIONS_MANAGER", "DISPATCHER"].contains($0) }) == true
+        ERPModuleCatalog.permits(identity?.actor.permissions ?? [], anyOf: ["decision.manage", "dispatch.manage", "crew.assign", "operations.read"])
     }
     var roleLabel: String { identity?.actor.roles.joined(separator: " · ") ?? "" }
     func signIn() async {
@@ -70,9 +42,10 @@ private let erpModules: [ERPModule] = [
         let ticket = epoch
         do {
             try await client.configure(origin)
-            storedOrigin = origin.trimmingCharacters(in: .whitespacesAndNewlines)
+            storedOrigin = ERPOrigin.validate(origin)?.absoluteString ?? ""
             let result = try await client.login(email: email, password: password, otp: otp)
             guard epoch == ticket else { return }
+            guard ERPOrigin.validate(origin)?.absoluteString == storedOrigin else { await signOut(ERPFailure.accessChanged); return }
             identity = result
             password = ""; otp = ""
             UserDefaults.standard.set(storedOrigin, forKey: "knaba-erp-origin")
@@ -86,18 +59,74 @@ private let erpModules: [ERPModule] = [
     }
     func reloadSession() async {
         guard identity != nil, !busy else { return }
+        let ticket = epoch
         do {
             let next = try await client.refresh()
-            guard storedOrigin == origin.trimmingCharacters(in: .whitespacesAndNewlines) else { await signOut(); return }
+            guard ticket == epoch, identity != nil else { return }
+            guard storedOrigin == ERPOrigin.validate(origin)?.absoluteString else { await signOut(ERPFailure.accessChanged); return }
             identity = next
-        } catch { await signOut(); problem = describe(error) }
+            await reloadPendingState()
+        } catch { if ticket == epoch { await signOut(error) } }
     }
-    func signOut() async {
+    func signOut(_ error: Error? = nil) async {
         epoch += 1
-        await client.logout()
         identity = nil; items = []; commands = []; channels = []; messages = []; dashboard = nil
         selectedChannel = ""; messageText = ""; password = ""; otp = ""
-        notice = ""; busy = false
+        pendingCommandName = nil; recoveryBlocked = false
+        notice = ""; problem = error.map(describe) ?? ""; busy = false
+        await client.logout()
+    }
+    private func failed(_ error: Error, ticket: Int) async {
+        guard ticket == epoch else { return }
+        if let failure = error as? ERPFailure {
+            switch failure {
+            case .expired, .accessChanged:
+                await signOut(error); return
+            case .http(let status, _) where status == 401:
+                await signOut(error); return
+            default: break
+            }
+        }
+        problem = describe(error)
+    }
+    private func reloadPendingState() async {
+        guard identity != nil else { return }
+        let ticket = epoch
+        do {
+            let pending = try await client.pendingCommand()
+            guard ticket == epoch else { return }
+            pendingCommandName = pending?.command; recoveryBlocked = false
+        } catch {
+            guard ticket == epoch else { return }
+            pendingCommandName = nil; recoveryBlocked = true
+            problem = describe(error)
+        }
+    }
+    func retryPending() async {
+        guard identity != nil, !busy, pendingCommandName != nil else { return }
+        let ticket = epoch
+        busy = true; problem = ""; notice = ""
+        do {
+            let pending = try await client.pendingCommand()
+            _ = try await client.retryPendingCommand()
+            guard ticket == epoch else { return }
+            let refreshed = await client.identity
+            guard ticket == epoch else { return }
+            identity = refreshed
+            // Recovering an older message must not erase a different draft composed meanwhile.
+            if let pending, pending.command == "message.send",
+               let envelope = try? JSONSerialization.jsonObject(with: pending.body) as? [String: Any],
+               let input = envelope["input"] as? [String: Any],
+               input["channel_id"] as? String == selectedChannel,
+               input["text"] as? String == messageText.trimmingCharacters(in: .whitespacesAndNewlines) {
+                messageText = ""
+            }
+            pendingCommandName = nil; recoveryBlocked = false; notice = text(.recoveryResolved)
+        } catch { await failed(error, ticket: ticket) }
+        guard ticket == epoch else { return }
+        busy = false
+        await reloadPendingState()
+        if !hasPending { await loadOverview() }
     }
     func loadOverview() async {
         guard identity != nil else { return }
@@ -110,9 +139,10 @@ private let erpModules: [ERPModule] = [
             dashboard = value; commands = catalog
         } catch {
             guard epoch == ticket else { return }
-            problem = describe(error)
+            await failed(error, ticket: ticket)
         }
         if epoch == ticket { busy = false }
+        if epoch == ticket { await reloadPendingState() }
     }
     func loadKind(_ kind: String) async {
         guard identity != nil, !busy else { return }
@@ -124,7 +154,7 @@ private let erpModules: [ERPModule] = [
             items = value
         } catch {
             guard epoch == ticket else { return }
-            items = []; problem = describe(error)
+            items = []; await failed(error, ticket: ticket)
         }
         if epoch == ticket { busy = false }
     }
@@ -137,7 +167,7 @@ private let erpModules: [ERPModule] = [
             guard epoch == ticket else { return }
             channels = list
             if !list.contains(where: { $0.id == selectedChannel }) { selectedChannel = list.first?.id ?? "" }
-        } catch { if epoch == ticket { channels = []; messages = []; problem = describe(error) } }
+        } catch { if epoch == ticket { channels = []; messages = []; await failed(error, ticket: ticket) } }
         if epoch == ticket { busy = false; if !selectedChannel.isEmpty { await loadMessages() } }
     }
     func loadMessages() async {
@@ -146,7 +176,7 @@ private let erpModules: [ERPModule] = [
         do {
             let rows = try await client.messages(channel)
             if ticket == epoch && selectedChannel == channel { messages = rows }
-        } catch { if ticket == epoch { problem = describe(error) } }
+        } catch { await failed(error, ticket: ticket) }
     }
     func sendMessage() async {
         guard !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
@@ -155,8 +185,9 @@ private let erpModules: [ERPModule] = [
             try await client.sendMessage(channelId: selectedChannel, text: messageText, language: language.rawValue.uppercased())
             if ticket == epoch { messageText = ""; notice = text(.sent) }
             if ticket == epoch { await loadMessages() }
-        } catch { if ticket == epoch { problem = describe(error) } }
+        } catch { await failed(error, ticket: ticket) }
         if ticket == epoch { busy = false }
+        if ticket == epoch { await reloadPendingState() }
     }
     func submit(_ command: ERPCommand, fields: [String: String], version: Int?) async {
         guard !busy else { return }
@@ -185,8 +216,9 @@ private let erpModules: [ERPModule] = [
             let data = try JSONSerialization.data(withJSONObject: payload)
             _ = try await client.execute(command, input: data, expectedVersion: version)
             if epoch == ticket { notice = text(.saved); await loadOverview() }
-        } catch { if epoch == ticket { problem = describe(error) } }
+        } catch { await failed(error, ticket: ticket) }
         if epoch == ticket { busy = false }
+        if epoch == ticket { await reloadPendingState() }
     }
 }
 
@@ -258,6 +290,17 @@ struct ERPConsoleView: View {
         VStack(spacing: 0) {
             if !model.problem.isEmpty { Text(model.problem).font(.callout).foregroundStyle(.red).padding(10) }
             if !model.notice.isEmpty { Text(model.notice).font(.caption).foregroundStyle(.secondary).padding(.horizontal, 10) }
+            if let command = model.pendingCommandName {
+                VStack(alignment: .leading, spacing: 6) {
+                    Label(model.text(.recoveryTitle), systemImage: "arrow.clockwise.circle").font(.headline)
+                    Text(model.text(.recoveryNotice)).font(.footnote)
+                    Text(command).font(.caption).foregroundStyle(.secondary)
+                    Button(model.text(.recoveryRetry)) { Task { await model.retryPending() } }
+                        .buttonStyle(.borderedProminent).disabled(model.busy)
+                        .accessibilityIdentifier("erpRetryPendingCommand")
+                }
+                .frame(maxWidth: .infinity, alignment: .leading).padding(12)
+            }
             Picker(model.text(.module), selection: $selectedTab) {
                 Label(model.text(.overview), systemImage: "square.grid.2x2").tag(0)
                 Label(model.text(.records), systemImage: "list.bullet.rectangle").tag(1)
@@ -360,7 +403,7 @@ struct ERPConsoleView: View {
             Section(model.text(.reply)) {
                 TextField(model.text(.message), text: $model.messageText, axis: .vertical).lineLimit(2...5)
                 Button(model.text(.send)) { Task { await model.sendMessage() } }
-                    .disabled(model.busy || model.selectedChannel.isEmpty || model.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(model.busy || model.hasPending || model.selectedChannel.isEmpty || model.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
         }
         .task { if model.channels.isEmpty { await model.loadChannels() } }
@@ -423,11 +466,19 @@ private struct ERPCommandForm: View {
                 TextField(model.text(.expectedVersion), text: $expectedVersion).keyboardType(.numberPad)
             }
             Section {
+                if model.hasPending {
+                    Text(model.text(.recoveryNotice)).font(.footnote)
+                    if model.pendingCommandName != nil {
+                        Button(model.text(.recoveryRetry)) { Task { await model.retryPending() } }
+                            .disabled(model.busy)
+                    }
+                }
+                if !model.problem.isEmpty { Text(model.problem).foregroundStyle(.red) }
                 Button(model.text(.submit)) {
                     if command.highRisk == true { confirmation = true }
                     else { Task { await model.submit(command, fields: draft, version: Int(expectedVersion)) } }
                 }
-                .buttonStyle(.borderedProminent).disabled(model.busy)
+                .buttonStyle(.borderedProminent).disabled(model.busy || model.hasPending)
             }
         }
         .navigationTitle(model.text(.actionTitle))

@@ -1,0 +1,47 @@
+{
+  "canonicalSource": "corporate-site/public/favicon.svg",
+  "canonicalSha256": "82ee65781ea7835747a4eb3613fa2415c459097aa3e7ce1d91b7d081a9afd0b8",
+  "renderer": {
+    "sharp": "0.35.5",
+    "librsvg": "2.63.2"
+  },
+  "androidSafeArea": {
+    "canvas": 1080,
+    "sourceSquare": 660,
+    "inset": 210
+  },
+  "files": [
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+      "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable-nodpi/knaba_launcher_foreground.png",
+      "sha256": "61323c3fe5a4bb7585a3ebd56d7686831d1815e6de766fed63218bc8a741be92"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_foreground.xml",
+      "sha256": "f62135a469e7727cc9cd5539fb7537d2ba6c75016cb0c1f936a42145f6ed52a0"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/drawable/ic_knaba_monochrome.xml",
+      "sha256": "064e64d7c19cd5b2802902be56f927c3a4299a239dda36cbb883ee91c4d7f426"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "sha256": "059ae2955b709eeb1044a37f6d8c00ba57dd51ea2b8d95578f7a5d1cd89d52d1"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml",
+      "sha256": "74fed8ab56ea6012cf40e5c72ae1042f7a594647f3c33d24d394bd1e6778e926"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+      "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53"
+    }
+  ]
+}

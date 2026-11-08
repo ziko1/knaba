@@ -1,5 +1,9 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — native completion candidate 0.5.0
+
+Existing KNABA project; isolated branch `feat/knaba-mobile-completion-20261108`, based on `9ff77d7b0161a4dde84314f2df327e4594e0eb0c`. Android/iOS have 39 permission-based discovery modules. Android adds 61 contextual record actions across 15 entity types, immutable ID/version binding and native confirmation; iOS adds durable unknown-write recovery, fresh identity/pagination/logout fences and 26 new XCTest methods (execution pending macOS CI at this checkpoint). Both use the current canonical logo. APK/AAB verification and owner IPA/source packaging now bind receipts to immutable inputs. Fresh local Android clean build/lint: 32 Robolectric tests, zero failures/skips; lint 0 errors / 17 warnings. ERP native API contract: 62 tests; TypeScript and root 28 tests pass. These are source/host evidence, not full mobile parity or production acceptance. Current instructions: `TEST_CANDIDATE_0.5.0_UK.md`; final exact-source and CI receipts will be recorded separately. The two failed intermediate Android attempts were cache-lock contention and duplicate generated R dex after cache relocation; a clean isolated build passed without dependency or application-contract changes.
+
 ## 08.11.2026 — Android0.4.1 recovery candidate
 
 Encrypted actor-scoped ERP pending-command journal, persisted before request; process/activity recreation recovers original version/payload/idempotency key. Reauthentication must resolve the same origin/company/user; no automatic replay and no GPS namespace collision. AtomicFile backup recovery, bounded storage and delayed/malformed /me session checks covered by targeted regressions. Exact artifact/build/tests: `evidence/android-recovery-20261108/verification.json`; instructions `TEST_ANDROID_0.4.1_UK.md`. Separate package `de.knaba.mobile.test`, versionCode5, same debug certificate as0.4.0; not owner-signed production.
