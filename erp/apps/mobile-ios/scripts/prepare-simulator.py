@@ -6,8 +6,15 @@ import os
 from pathlib import Path
 import platform
 import re
+import shutil
 import subprocess
+import time
 import uuid
+
+
+# Leave one minute inside the workflow's eight-minute step for failure handling.
+PREPARATION_DEADLINE_SECONDS = 7 * 60
+READY_INVENTORY_TIMEOUTS = (60, 120)
 
 
 def select_runtime(inventory, version):
@@ -50,16 +57,64 @@ def prepare(evidence, sha, xcode_version, os_version, device_name, runner=run):
     if not re.fullmatch(r"[0-9]+(?:\.[0-9]+){1,2}", xcode_version) or not re.fullmatch(r"[0-9]+(?:\.[0-9]+){1,2}", os_version):
         raise ValueError("Explicit numeric Xcode/iOS versions required")
     evidence.mkdir(parents=True, exist_ok=True)
+    started = time.monotonic()
+    deadline = started + PREPARATION_DEADLINE_SECONDS
     receipt = {"sourceGitSha": sha, "requestedXcode": xcode_version, "requestedOS": os_version,
                "requestedDevice": device_name, "hostArchitecture": platform.machine(), "status": "PREPARING",
-               "runtimeDownload": "NOT_REQUESTED", "xctestExecution": "NOT_RUN", "physicalDeviceVerification": "NOT_RUN"}
+               "runtimeDownload": "NOT_REQUESTED", "xctestExecution": "NOT_RUN", "physicalDeviceVerification": "NOT_RUN",
+               "preparationDeadlineSeconds": PREPARATION_DEADLINE_SECONDS, "commands": []}
+
+    def checkpoint():
+        receipt["elapsedSeconds"] = round(time.monotonic() - started, 3)
+        # Keep the previous valid receipt if the job is interrupted during a write.
+        temporary = evidence / "simulator-preparation.json.tmp"
+        temporary.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+        temporary.replace(evidence / "simulator-preparation.json")
+
     def execute(arguments, name, timeout=60):
-        return runner(arguments, evidence / name, timeout)
-    def inventory(kind, name):
-        value = json.loads(execute(["xcrun", "simctl", "list", kind, "--json"], name))
-        if not isinstance(value, dict):
-            raise ValueError("Invalid simulator inventory")
-        return value
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise RuntimeError("Simulator preparation deadline exceeded")
+        timeout = min(timeout, remaining)
+        command_started = time.monotonic()
+        command = {"arguments": arguments, "output": name, "timeoutSeconds": timeout, "status": "RUNNING"}
+        receipt["phase"] = name
+        receipt["commands"].append(command)
+        checkpoint()
+        try:
+            result = runner(arguments, evidence / name, timeout)
+            if time.monotonic() >= deadline:
+                raise RuntimeError("Simulator preparation deadline exceeded")
+            command["status"] = "COMPLETED"
+            return result
+        except subprocess.TimeoutExpired as error:
+            command.update(status="TIMED_OUT", error=str(error)[:400])
+            raise
+        except Exception as error:
+            command.update(status="FAILED", error=type(error).__name__ + ": " + str(error)[:400])
+            raise
+        finally:
+            command["elapsedSeconds"] = round(time.monotonic() - command_started, 3)
+            checkpoint()
+
+    def inventory(kind, name, timeouts=(60,)):
+        for attempt, timeout in enumerate(timeouts, 1):
+            output = name if len(timeouts) == 1 else f"{Path(name).stem}-attempt-{attempt}{Path(name).suffix}"
+            try:
+                raw = execute(["xcrun", "simctl", "list", kind, "--json"], output, timeout)
+            except subprocess.TimeoutExpired:
+                if attempt == len(timeouts):
+                    raise
+                # Only this read may be repeated. Preserve its partial output;
+                # create/boot/bootstatus and invalid inventories are never retried.
+                continue
+            value = json.loads(raw)
+            if not isinstance(value, dict):
+                raise ValueError("Invalid simulator inventory")
+            if output != name:
+                shutil.copyfile(evidence / output, evidence / name)
+            return value
+
     try:
         version = execute(["xcodebuild", "-version"], "xcode-version.txt")
         if version.splitlines()[0] != "Xcode " + xcode_version:
@@ -68,21 +123,23 @@ def prepare(evidence, sha, xcode_version, os_version, device_name, runner=run):
         if sdk != os_version:
             raise ValueError("Selected iOS SDK differs from requested version")
         runtime = select_runtime(inventory("runtimes", "simulator-runtimes.json"), os_version)
+        receipt.update(runtimeIdentifier=runtime["identifier"], runtimeBuildVersion=runtime.get("buildversion"))
         device_type = select_device_type(inventory("devicetypes", "simulator-device-types.json"), device_name)
+        receipt["deviceTypeIdentifier"] = device_type["identifier"]
         identifier = execute(["xcrun", "simctl", "create", "KNABA-" + sha[:12], device_type["identifier"], runtime["identifier"]], "simulator-created-udid.txt")
         uuid.UUID(identifier)
         receipt["deviceUdid"] = identifier
         execute(["xcrun", "simctl", "boot", identifier], "simulator-boot.log", 120)
         execute(["xcrun", "simctl", "bootstatus", identifier, "-b"], "simulator-boot-status.log", 300)
-        device = verify_device(inventory("devices", "simulator-devices-ready.json"), runtime["identifier"], device_type["identifier"], identifier)
-        receipt.update(status="SIMULATOR_READY_XCTEST_NOT_RUN", runtimeIdentifier=runtime["identifier"],
-                       runtimeBuildVersion=runtime.get("buildversion"), deviceTypeIdentifier=device_type["identifier"], deviceState=device["state"])
+        device = verify_device(inventory("devices", "simulator-devices-ready.json", READY_INVENTORY_TIMEOUTS),
+                               runtime["identifier"], device_type["identifier"], identifier)
+        receipt.update(status="SIMULATOR_READY_XCTEST_NOT_RUN", deviceState=device["state"])
         return receipt
     except (RuntimeError, ValueError, OSError, subprocess.SubprocessError, KeyError, IndexError) as error:
         receipt.update(status="FAILED_XCTEST_NOT_RUN", error=type(error).__name__ + ": " + str(error)[:400])
         raise
     finally:
-        (evidence / "simulator-preparation.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+        checkpoint()
 
 
 def main():

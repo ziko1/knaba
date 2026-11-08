@@ -1,5 +1,98 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-08 — поточний інтегрований кандидат PR129; фактичні межі CI
+
+Опублікований source: **`5d6eeae0862e52cc693c1766f0c6fba964b12aa5`**, [PR129](https://github.com/ziko1/knaba/pull/129).
+Його Git tree **`7de0c8019ae5ab6959930225996a0c978859deba`** точно збігається з
+локально перевіреним `4b1e3538e3b2c39b7bfdd0ed028cf598e6f9cb26`. Checkout
+прийняв опублікований `5d6eeae`; подальший local fixture-only commit —
+`b1951236f06d32cfd687460e3826c8453265bc63`. Попередню локальну історію збережено в
+`review/knaba-full-completion-local-20261108`. `4b1e353` не заявляється як
+опублікований remote commit. Рівність tree дозволяє точно пов'язати source
+перевірки, але не створює результат CI чи новий native artifact.
+
+[Application CI 42472254239](https://github.com/ziko1/knaba/actions/runs/42472254239)
+на опублікованому `5d6eeae`: root job **SUCCESS**; site job **FAILED** —
+7/834 Vitest cases, `ReferenceError: receipts is not defined` у handler-only
+VM fixture. Окремий local fixture-only commit
+`b1951236f06d32cfd687460e3826c8453265bc63` підключає справжній receipt
+controller; product runtime та всі 16 cases/assertions незмінні.
+Independent source review ACCEPT; локально **834 Vitest + 92 Node PASS**.
+Це не переписує failure `5d6eeae`; потрібен новий exact-source CI.
+
+ERP job **FAILED: 3016 PASS / 8 FAIL із 3024 tests**, failures у трьох
+файлах. У job `128705591810`, який загалом FAILED, крок bridge виконав
+actual SQLite→HTTP→PostgreSQL **9/9 PASS / 0 SKIP**; потім actual Chrome 156 / Playwright 1.55.1 role run
+виконав 98 checks і завершився locator timeout на прихованій request card
+у `completedCabinetCases`. Display receipt, languages, public viewport та
+ERP rendered cases не досягнуті. Browser receipt `errors:[]`, `engines:[]`:
+це locator FAIL, не sandbox/policy BLOCKED. `inputsUnchanged:true`; manifest
+`6978647c6ec28b3cea682af4af9669b408fd9f293d032c83ad6d8c915cb4043f`
+прив'язує client/worker/VPS/ERP-dist до exact source.
+
+[Android 42472254246](https://github.com/ziko1/knaba/actions/runs/42472254246)
+**SUCCESS**. [iOS 42472234257](https://github.com/ziko1/knaba/actions/runs/42472234257)
+**FAILED**: 60-second `simctl list devices` timeout до Swift compile;
+цей run не доводить компіляцію застосунку чи виконання XCTest. Native artifact readback,
+physical acceptance та повний bridge/product criterion залишаються окремими.
+Докази, raw log excerpts, job IDs та artifact hashes:
+[initial-aggregate-ci.json](evidence/full-completion-20261108/initial-aggregate-ci.json).
+Поточний CI Android APK має інший runner debug signer; він не підміняє
+попередній локальний APK у ланцюжку встановлення/оновлення.
+
+Окремі scoped PASS з exact `5d6eeae` ERP raw log: request-authority
+36 CPU + 7 PostgreSQL; conversation-transfer 10 PostgreSQL + 39 security +
+17 consent + 16 HTTP + 2 core; F1 site-identity-bindings 16 PostgreSQL +
+site-identity-trust 27 CPU. Вони не додаються до overlapping local/root/author
+runs, не закривають повні AC та не приховують 8 failures загального ERP run.
+
+Root suite на локальному `4b1e353`:
+29 PASS / 0 FAIL / 0 SKIP; clean source audit на `5d6eeae` PASS і прямо
+залишає combined runtime acceptance NOT_RUN. Локальні журнали:
+`verification/integration/root-tests-4b1e353.log` та
+`verification/integration/root-source-audit-5d6eeae.log` у verification workspace.
+
+Інтегровано capability expiry/revoke (0015), keyset inbox pagination,
+шість мов, SSR-selected locale packs та guest display receipt (0016).
+Receipt означає перший технічний показ відповіді власника у видимому чаті,
+не людське прочитання або прийняття пропозиції. Збережені історія, current
+capability/owner fences і захист від пізніх UI відповідей. Partners/footer,
+VPS account settings, ERP session/device authority та shared vehicle trip
+також є source цього кандидата. [Детальне зіставлення](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md).
+
+ERP AC-07 тепер має issue → signed WhatsApp claim → exact-sender confirm
+у початковій guest session, одноразовий hash-only secret з TTL 10 хв і
+згоду лише на конкретну розмову. Current consent/STOP/identity/lease
+перевіряються перед provider dispatch; маркетингова згода й ролі не
+видаються. Незалежний root прогін: **74 PASS, 10 PostgreSQL SKIP, 0 FAIL**;
+це CPU/domain та справжній локальний Nest/Express HTTP з явними persistence
+doubles, не actual PostgreSQL. [Receipt](evidence/full-completion-20261108/erp-transfer-review.json).
+Ці числа не додаються до авторських overlapping прогонів і не закривають
+повний AC-07. D1 assistant history→ERP conversion залишається OPEN.
+
+F1 storage має окремий upstream proof: `0fede54f80895a425e72df1d921a643b40a4eaf0`,
+[run 42464719363 / job 128681448826](https://github.com/ziko1/knaba/actions/runs/42464719363/job/128681448826),
+16 справжніх PostgreSQL F1 cases і 27 CPU; [точний excerpt](evidence/full-completion-20261108/identity-foundation-ci-excerpt.json).
+Це upstream evidence, збережений окремо від названих вище scoped current CI
+результатів; загальний ERP run `5d6eeae` FAILED. F2 dual-session
+link/unlink, F3 session exchange і F4 federation revocation/erasure не
+реалізовані; спільний site↔ERP login залишається NOT_IMPLEMENTED.
+
+Android 0.5.0-test/code 8 APK/AAB реально побудовані на `83327e5fe1b966ee8244f89988c6713264cef1be`;
+59 native build inputs збігаються з інтегрованим source. [Artifact review](evidence/full-completion-20261108/android-artifact-review.json)
+обмежений debug evaluation, без physical install/live ERP/GPS/Play приймання.
+iOS selective source `07bf` інтегровано з сильнішим чинним recovery/nullable
+контрактом; 128 ERP executable-contract tests PASS, independent source
+review ACCEPT, [Xcode/XCTest proof ще потрібний](evidence/full-completion-20261108/ios-record-actions-review.json).
+
+Канонічний обсяг незмінний: **114 unique rows = 24 KNB + 72 AC + 18 TPL**;
+42 `IN_PROGRESS`, усі 72 повні AC `NOT_RUN`. V3: 432 requirements / 475
+acceptance / 34 модулі; її історичні 4 requirement та 10 test `PASSED`
+залишаються exact-3c85 SOURCE_ONLY. Provider/device/restore/load/owner UAT,
+нові identity/transfer retention правила та handover відкриті.
+**NOT_READY_FOR_CLIENT_DELIVERY; main merge і production deploy не виконано.**
+Нижчі датовані checkpoints збережено як історію їхніх source та середовищ.
+
 ## 2026-11-08 — поточний повний scope після Assistant lifecycle
 
 Checkpoint `422c292b426ff8f4bf8c249e643d9bdb5b11871e`, зі збереженням

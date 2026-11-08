@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-11-08T10:45:39.348843+00:00",
+  "status": "SOURCE_FIX_REVIEWED_CI_RERUN_REQUIRED",
+  "author": "root",
+  "independentReviewer": "coverage_matrix",
+  "failedCandidate": "5d6eeae0862e52cc693c1766f0c6fba964b12aa5",
+  "runId": 42472254239,
+  "siteJobId": 128705591764,
+  "observedFailure": {
+    "failed": 7,
+    "passed": 827,
+    "suiteTotal": 834,
+    "file": "corporate-site/tests/assistant-request-state.test.ts",
+    "error": "ReferenceError: receipts is not defined",
+    "cause": "Extracted TSX reset handlers referenced the newly introduced display receipt controller, which the old VM fixture did not provide."
+  },
+  "change": "Instantiate the real createAssistantDisplayReceipts controller in the handler-only fixture and provide it to the VM. No painted DOM is claimed; unexpected frame/send/error paths throw. All original test definitions and assertions are byte-identical.",
+  "files": {
+    "corporate-site/tests/assistant-request-state.test.ts": "877c83afdd2f41f5e071fe090b803b039267ae50d28dbf183fbbb26baec1b909"
+  },
+  "localVerification": {
+    "command": "npm test",
+    "cwd": "corporate-site",
+    "vitestPassed": 834,
+    "nodePassed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "e139eeea7b732da8c2151e3c8f30e57ee1f0dbddb55a1a28865ebdd7caecbbe4"
+  },
+  "limits": [
+    "No product runtime change",
+    "The original hosted failure remains a failure",
+    "No new hosted build/browser/PostgreSQL result is asserted for this correction"
+  ]
+}

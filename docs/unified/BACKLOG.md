@@ -1,5 +1,58 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## Поточний кандидат — 08.11.2026, PR129
+
+Опублікований remote: `5d6eeae0862e52cc693c1766f0c6fba964b12aa5`,
+[PR129](https://github.com/ziko1/knaba/pull/129). Exact tree
+`7de0c8019ae5ab6959930225996a0c978859deba` збігається з локальним
+`4b1e3538e3b2c39b7bfdd0ed028cf598e6f9cb26`, який не заявляється як remote.
+[Application CI 42472254239](https://github.com/ziko1/knaba/actions/runs/42472254239)
+на опублікованому `5d6eeae`: root job **SUCCESS**; site job **FAILED** —
+7/834 Vitest cases, `ReferenceError: receipts is not defined` у handler-only
+VM fixture. Окремий local fixture-only commit
+`b1951236f06d32cfd687460e3826c8453265bc63` підключає справжній receipt
+controller; product runtime та всі 16 cases/assertions незмінні.
+Independent source review ACCEPT; локально **834 Vitest + 92 Node PASS**.
+Це не переписує failure `5d6eeae`; потрібен новий exact-source CI.
+
+ERP job **FAILED: 3016 PASS / 8 FAIL із 3024 tests**, failures у трьох
+файлах. У job `128705591810`, який загалом FAILED, крок bridge виконав
+actual SQLite→HTTP→PostgreSQL **9/9 PASS / 0 SKIP**; потім actual Chrome 156 / Playwright 1.55.1 role run
+виконав 98 checks і завершився locator timeout на прихованій request card
+у `completedCabinetCases`. Display receipt, languages, public viewport та
+ERP rendered cases не досягнуті. Browser receipt `errors:[]`, `engines:[]`:
+це locator FAIL, не sandbox/policy BLOCKED. `inputsUnchanged:true`; manifest
+`6978647c6ec28b3cea682af4af9669b408fd9f293d032c83ad6d8c915cb4043f`
+прив'язує client/worker/VPS/ERP-dist до exact source.
+
+[Android 42472254246](https://github.com/ziko1/knaba/actions/runs/42472254246)
+**SUCCESS**. [iOS 42472234257](https://github.com/ziko1/knaba/actions/runs/42472234257)
+**FAILED**: 60-second `simctl list devices` timeout до Swift compile;
+цей run не доводить компіляцію застосунку чи виконання XCTest. Native artifact readback,
+physical acceptance та повний bridge/product criterion залишаються окремими.
+Докази, raw log excerpts, job IDs та artifact hashes:
+[initial-aggregate-ci.json](evidence/full-completion-20261108/initial-aggregate-ci.json).
+Поточний CI Android APK має інший runner debug signer; він не підміняє
+попередній локальний APK у ланцюжку встановлення/оновлення.
+
+Окремі scoped PASS з exact `5d6eeae` ERP raw log: request-authority
+36 CPU + 7 PostgreSQL; conversation-transfer 10 PostgreSQL + 39 security +
+17 consent + 16 HTTP + 2 core; F1 site-identity-bindings 16 PostgreSQL +
+site-identity-trust 27 CPU. Вони не додаються до overlapping local/root/author
+runs, не закривають повні AC та не приховують 8 failures загального ERP run.
+
+Root local 29 PASS та transfer root 74 PASS / 10 PostgreSQL SKIP лишаються
+окремими попередніми локальними доказами.
+
+Реалізовані нижче source slices не треба повторно ставити в чергу як
+відсутні. Наступні роботи — current CI/артефакти, D1 conversation→ERP,
+F2–F4 federation, повні сценарії та environment gates. Усі 72 AC `NOT_RUN`;
+114 рядків матриці й історичні V3 статуси збережено. Докладні межі та
+receipts: [поточне зіставлення](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md).
+Наступний F1 абзац є історичним source checkpoint: його колишній PG NOT_RUN
+не скасовує окремий upstream 16 PG / 27 CPU proof на `0fede54`; цей proof
+також не є current aggregate CI PASS.
+
 ## 08.11.2026 — F1 identity storage source candidate
 
 Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.
@@ -23,16 +76,16 @@ deployment NOT_RUN. KN-C04/KN-U09 shared identity та live mail gates збер�
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
 | KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox 0014→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | Підтверджені local identity/revocation gaps виправлено в PR123; [контракт та F1–F5](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [evidence](evidence/identity-20261108/verification.json). Stable cross-system binding/SSO і спільне revocation ще OPEN |
-| KN-C05 | P0 | Capability expiry/revoke реалізовано й reviewed у 422c292; наступний slice: keyset inbox pagination + усі 6 мов. Conversation→ERP source-preserving mapping і visitor receipt ще OPEN; [поточний scope](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md) |
-| KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
+| KN-C04 / KN-U09 | P0 | ERP request/session/device fences і F1 storage інтегровані. Exact 5d6 raw log: authority 36 CPU/7 PG і F1 16 PG/27 CPU PASS; full ERP FAILED. [Upstream proof](evidence/full-completion-20261108/identity-foundation-ci-excerpt.json) збережено окремо. F2–F4 не реалізовані; SSO NOT_IMPLEMENTED |
+| KN-C05 | P0 | Expiry/revoke 0015, keyset pagination, усі 6 мов та display receipt 0016 реалізовано й незалежно reviewed. Receipt не доводить human-read/offer acceptance. Далі actual browser/owner UAT, retention та source-preserving D1 conversation→ERP mapping; останній лишається OPEN |
+| KN-C06 | P0 | Android 0.5.0-test/code 8 debug APK/AAB побудовано на 83327e, 59 native inputs збігаються; iOS selective 07bf3b0 source/recovery/actions інтегровано, 128 contract PASS. Android CI SUCCESS; iOS simctl timeout до compile потребує fix/rerun. Artifact/device/live ERP/GPS та recovery reconciliation OPEN |
 | KN-C07 / TPL01–18 | P1 | v1 source наявний: 3 довірені themes, declarative import/quarantine, preview, activation/rollback, 6 locales. Матрицю виправлено на IN_PROGRESS; full browser/operator, performance/restore, retention/quota acceptance OPEN |
 | KN-C08 | P1 | API/worker APP_MODE тепер явний, implicit DEMO default прибрано; runtime-mode regressions є. Clean production-like bootstrap/full AC-01/71 ще OPEN |
 | KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
 | KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
 | KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |
-| KN-C12 / AC-07 | P0 | Web→WhatsApp transfer issue/dual-confirm/consume workflow не знайдено: one-use hash token TTL 10 хв, чинний membership, stolen/expired negatives; поточний transfer_token ACL не є реалізацією сценарію |
-| KN-C13 / AC-43 | P0 | Shared vehicle-trip commands/summary та web UI додано до поточного кандидата; незалежний review і весь критерій 3×30 хв / 20 vehicle-km, UNKNOWN/scopes/кінцевий journey ще OPEN |
+| KN-C12 / AC-07 | P0 | ERP transfer issue/signed claim/exact-sender confirm реалізовано: hash-only TTL 10 хв, original-session fence, conversation-only consent і current worker egress. Local root 74 PASS / 10 PG SKIP збережено; exact 5d6 CI 10 PG / 39 security / 17 consent / 16 HTTP / 2 core PASS окремо. Full ERP FAILED, rendered cases не досягнуті; live WhatsApp/whole AC-07 OPEN. Це не D1 conversion |
+| KN-C13 / AC-43 | P0 | Shared vehicle-trip commands/summary/web UI та authority regressions інтегровані й reviewed. Повний критерій 3×30 хв = 1,5 людино-год і 20 vehicle-km, UNKNOWN/scopes/current UI/API/device journey ще NOT_RUN |
 
 Власники, dependencies та докази в [плані](COMPLETION_PLAN_2026-11-08_UK.md), [матриці](REQUIREMENTS_TRACEABILITY.csv) і [поточному зіставленні](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md). Пункти нижче залишають історію. Known implementation не дорівнює прийнятому acceptance. V3 historical statuses збережено; нових full-criterion PASS цим checkpoint не додано.
 

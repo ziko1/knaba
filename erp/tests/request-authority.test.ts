@@ -44,8 +44,8 @@ class Memory implements DatabaseLike,SqlTransaction {
 }
 
 const token='original_session_token_12345678901234567890',replacement='replacement_session_token_12345678901234567';
-function fixture(device=false){
- const db=new Memory();
+function fixture(device=false,companyId='request-authority-company'){
+ const db=new Memory();db.companyId=companyId;
  db.put('user','employee',{active:true,roles:['EMPLOYEE'],permissions:['identity.self','scope.company','media.read','device.manage'],siteIds:[]});
  const session={user_id:'employee',company_id:db.companyId,revoked_at:null,created_at:new Date().toISOString(),expires_at:new Date(Date.now()+3600000).toISOString(),mfa_verified:false};
  db.sessions.set(hashToken(token),session);
@@ -197,6 +197,21 @@ describe('original authenticated authority at ERP transaction boundaries',()=>{
   const f=fixture();await f.auth.authenticate(f.req);const {actor}=await f.auth.authenticate(f.req);
   const result=await f.engine.readEntities(actor,'user');f.db.rows.get('user:employee')!.data.siteIds=['changed-scope'];
   await expect(assertResponseAuthority(f.req,result)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+ });
+
+ it.each([false,true])('does not replace the original proof when one request changes a valid credential (device: %s)',async device=>{
+  const f=fixture(device);await f.auth.authenticate(f.req);
+  if(device){f.db.rows.get('device:original-device')!.data.tokenHash=hashToken(replacement);f.headers.authorization=`Bearer ${replacement}`;}
+  else{f.db.sessions.set(hashToken(replacement),{...f.session});f.headers.cookie=`knaba_session=${replacement}`;}
+  await expect(f.auth.authenticate(f.req)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  // The same current credential is valid for a distinct HTTP request.
+  expect((await f.auth.authenticate({...f.req} as Request)).actor).toMatchObject({companyId:f.db.companyId,userId:'employee'});
+ });
+
+ it('keeps an HTTP request bound to its original company even when another company has the same valid credential and user ID',async()=>{
+  const first=fixture(),foreign=fixture(false,'request-authority-foreign');await first.auth.authenticate(first.req);
+  await expect(foreign.auth.authenticate(first.req)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  expect((await foreign.auth.authenticate(foreign.req)).actor).toMatchObject({companyId:foreign.db.companyId,userId:'employee'});
  });
 
  it('rejects a private read when membership expires during asynchronous projection',async()=>{

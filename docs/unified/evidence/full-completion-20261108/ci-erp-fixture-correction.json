@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "reviewer": "root independent review of erp_session_fence changes",
+  "sourceHeadBeforeCommit": "b1951236f06d32cfd687460e3826c8453265bc63",
+  "sourceManifestSha256": "290fbef34179a765a6b8fb3bf93512b5f9f9461bb14f2ef7487426f479848b07",
+  "files": [
+    {
+      "path": "erp/tests/accounting-export.integration.test.ts",
+      "sha256": "7413fc942848645617d191d93fb037bd5e70d0653f2c6b07d0505f5ae1f75b16"
+    },
+    {
+      "path": "erp/tests/mobile-shift-summary.integration.test.ts",
+      "sha256": "7644727fde1348af594df8556f06794d9cfa573b7fb289085bb3abbef63a0e97"
+    },
+    {
+      "path": "erp/tests/vehicle-trips.integration.test.ts",
+      "sha256": "44ca0cf9e60308a012a01d969177e918c223bdcec9f17112bb6310c934914b90"
+    },
+    {
+      "path": "erp/tests/request-authority.test.ts",
+      "sha256": "3d09736f367422b07f0424467b47fc63a582de65f02d025478b7169c1fd99f96"
+    },
+    {
+      "path": "erp/tests/vehicle-trip-engine-authority.test.ts",
+      "sha256": "08c3bb97216724fdd829cf526872fbbf5c970fd7dddfca57d6f317b95b997b09"
+    }
+  ],
+  "decision": "ACCEPT_TEST_CONTRACT_CORRECTION_PENDING_POSTGRES_CI",
+  "findings": [
+    "Original request proof is preserved: fresh request fixtures prevent cross-company reuse; new CPU regressions reject replacing cookie, device credential or company on the same transport object.",
+    "Accounting disabled-user expectation matches the active principal fence. Tests prove prior successful authentication, committed disable, exact still-active session and zero private bytes/headers/artifacts. Permission/site errors remain precise.",
+    "Vehicle fixtures use the actual least-scope OPERATIONS_MANAGER contract, preserve all business/receipt/race assertions and add explicit OWNER no-wildcard denial.",
+    "All five changed paths are tests. ERP runtime, permissions and SQL schema are unchanged."
+  ],
+  "authorChecks": {
+    "focused": {
+      "status": "CPU_PASS_POSTGRES_NOT_RUN",
+      "passed": 92,
+      "skipped": 28,
+      "failed": 0,
+      "test_files": 7,
+      "new_cpu_contract_checks": 5,
+      "log": "focused.log"
+    },
+    "typecheck": {
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "typecheck.log"
+    },
+    "diff_check": {
+      "status": "PASS",
+      "exit_code": 0
+    },
+    "postgres": {
+      "status": "NOT_RUN",
+      "reason": "No local PostgreSQL. All 28 cases in the three changed integration files were skipped; the eight original hosted failures require a fresh exact-candidate hosted run."
+    }
+  },
+  "independentChecks": {
+    "selectedNewCpuContracts": {
+      "pass": 5,
+      "fail": 0,
+      "filteredOut": 42,
+      "logSha256": "644a050b7e3b2458b78d7e28d91335542db3c48156c0038e915033043e085770"
+    },
+    "manifestMatches": true
+  },
+  "notRun": [
+    "PostgreSQL rerun on corrective candidate",
+    "Full acceptance of AC-43",
+    "Device/live acceptance"
+  ],
+  "baselineFailuresRetainedIn": "initial-aggregate-ci.json"
+}

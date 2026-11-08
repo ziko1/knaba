@@ -29,6 +29,21 @@ function engineFixture(base=actor){
 }
 
 describe('shared vehicle Engine read authority',()=>{
+ it('does not treat an OWNER role as implicit vehicle dispatch or distance approval',async()=>{
+  const owner={...actor,userId:'owner',roles:['OWNER'],permissions:[]},f=engineFixture(owner),current=await f.engine.getActor(owner.userId,companyId);
+  expect(current.permissions).not.toContain('dispatch.manage');expect(current.permissions).not.toContain('trip.approve');
+  await expect(f.engine.execute(current,'vehicle_trip.create',{input:{originSiteId:'origin',destination:{kind:'SITE',id:'destination'},driverId:'driver',passengerIds:[],purpose:'Synthetic owner permission regression'},idempotency_key:'vehicle-owner-no-wildcard'})).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(f.receiptWrites()).toBe(0);
+ });
+
+ it('creates a shared vehicle through actual OPERATIONS_MANAGER grants and exact route scope',async()=>{
+  const manager={...actor,userId:'manager',roles:['OPERATIONS_MANAGER'],permissions:[]},f=engineFixture(manager);
+  f.put('user','driver',{active:true,roles:['EMPLOYEE'],permissions:[],siteIds:['origin','destination']});
+  const current=await f.engine.getActor(manager.userId,companyId);expect(current.permissions).toEqual(expect.arrayContaining(['dispatch.manage','trip.approve']));expect(current.permissions).not.toContain('scope.company');
+  const result=await f.engine.execute(current,'vehicle_trip.create',{input:{originSiteId:'origin',destination:{kind:'SITE',id:'destination'},driverId:'driver',passengerIds:[],purpose:'Synthetic scoped manager journey'},idempotency_key:'vehicle-manager-route-grant'});
+  expect(result).toMatchObject({kind:'vehicle_trip',data:{createdBy:'manager',originSiteId:'origin',destinationSiteId:'destination',driverId:'driver'}});expect(f.receiptWrites()).toBe(1);
+ });
+
  it('requires one complete permission-specific route scope, without combining unrelated delegated sites',async()=>{
   const engine=new Engine({} as any,'TEST'),scopes:Record<string,Actor>={
    'trip.read':{...actor,siteIds:['origin']},

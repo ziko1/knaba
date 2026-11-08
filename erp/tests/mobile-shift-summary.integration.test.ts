@@ -16,7 +16,9 @@ postgres('genuine PostgreSQL current-device mobile chronological summary',()=>{
   const token='SYNTHETIC_MOBILE_QA_TOKEN_01234567890123456789', ids={employee:'mobile-summary-employee',device:'mobile-summary-device',A:'mobile-summary-a',B:'mobile-summary-b'};
   const at=(seconds:number)=>new Date(now-8*3600000+seconds*1000).toISOString();
   const call=(name:string,input:Data)=>engine.execute(employee,name,{input,idempotency_key:randomUUID()});
-  const request={get:(name:string)=>name.toLowerCase()==='authorization'?`Bearer ${token}`:undefined,headers:{},ip:'192.0.2.31'} as unknown as Request;
+  // One transport object represents one HTTP request. Its original proof must
+  // never carry over to another request or the next fixture's company.
+  const request=()=>({get:(name:string)=>name.toLowerCase()==='authorization'?`Bearer ${token}`:undefined,headers:{},ip:'192.0.2.31'} as unknown as Request);
   beforeAll(async()=>{db=new Database();await db.migrate();engine=new Engine(db,'TEST');});
   beforeEach(async()=>{
     company='mobile-summary-qa-'+randomUUID();now=Date.now();
@@ -50,7 +52,7 @@ postgres('genuine PostgreSQL current-device mobile chronological summary',()=>{
     expect((await db.transaction(company,ids.employee,tx=>tx.list('tracking_policy'))).length).toBe(0);
   });
   it('actual bearer-authenticated controller includes shiftSummary while mode OFF and GPS legal gate closed',async()=>{
-    const shift=await activeDay(),response:Data=await api.mobileSession(request);
+    const shift=await activeDay(),response:Data=await api.mobileSession(request());
     expect(response).toMatchObject({mode:'OFF',shiftId:shift.id,reason:'GPS_LEGAL_GATE_CLOSED',shiftSummary:{shiftId:shift.id,siteId:ids.B,activity:'WORKING',travelSeconds:1800,breakSeconds:1800}});
     expect(response.shiftSummary!.siteSeconds).toBeGreaterThanOrEqual(25200);
     expect(JSON.stringify(response.shiftSummary)).not.toMatch(/tokenHash|payable|latitude|salary|reason/);
@@ -60,7 +62,7 @@ postgres('genuine PostgreSQL current-device mobile chronological summary',()=>{
     await db.transaction(company,'SYNTHETIC_MOBILE_SCOPE_REVOKE',async tx=>{const user=await tx.get('user',ids.employee);await tx.save(user,{...user.data,siteIds:[ids.A]});});
     await expect(db.transaction(company,ids.employee,async tx=>mobileShiftSummary(tx,engine.scope(await engine.actorIn(tx,ids.employee),'shift.read'),device,new Date(now).toISOString()))).rejects.toMatchObject({code:'ACCESS_DENIED'});
     await db.transaction(company,'SYNTHETIC_MOBILE_DEVICE_REVOKE',async tx=>{const d=await tx.get('device',ids.device);await tx.save(d,{...d.data,active:false,revokedAt:new Date().toISOString()});});
-    await expect(api.mobileSession(request)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+    await expect(api.mobileSession(request())).rejects.toMatchObject({code:'NEEDS_REAUTH'});
   });
   it('completed own shift disappears from the actual mobile session and cannot be confused with a peer shift',async()=>{
     const shift=await activeDay();await call('shift.end',{shiftId:shift.id,occurredAt:new Date(now).toISOString()});
@@ -70,7 +72,7 @@ postgres('genuine PostgreSQL current-device mobile chronological summary',()=>{
     });
     const peer=await engine.getActor('mobile-peer',company);
     await engine.execute(peer,'shift.start',{input:{siteId:ids.A,deviceId:'mobile-peer-device',occurredAt:new Date(now-3600000).toISOString()},idempotency_key:randomUUID()});
-    const response:Data=await api.mobileSession(request);expect(response).toMatchObject({mode:'OFF',reason:'NO_ACTIVE_SHIFT'});expect(response.shiftSummary).toBeUndefined();
+    const response:Data=await api.mobileSession(request());expect(response).toMatchObject({mode:'OFF',reason:'NO_ACTIVE_SHIFT'});expect(response.shiftSummary).toBeUndefined();
   });
   it.each(['site','role','bearer'] as const)('actual travelling endpoint closes after %s authority changes between genuine authentication and the serving transaction',async(change)=>{
     const shift=await call('shift.start',{siteId:ids.A,deviceId:ids.device,occurredAt:at(0)});
@@ -80,12 +82,15 @@ postgres('genuine PostgreSQL current-device mobile chronological summary',()=>{
     // commits a real administrative change before the actual controller serves.
     vi.spyOn(AuthService.prototype,'authenticate').mockImplementation(async function(this:AuthService,req:Request,guest?:boolean){
       const auth=await original.call(this,req,guest);
-      if(!changed){changed=true;await db.transaction(company,'SYNTHETIC_MOBILE_INFLIGHT_REVOCATION',async tx=>{
+      expect(auth.actor).toMatchObject({companyId:company,userId:ids.employee});expect(auth.device?.id).toBe(ids.device);
+      if(!changed){await db.transaction(company,'SYNTHETIC_MOBILE_INFLIGHT_REVOCATION',async tx=>{
         if(change==='bearer'){const d=await tx.get('device',ids.device);await tx.save(d,{...d.data,tokenHash:hashToken('SYNTHETIC_REPLACEMENT_MOBILE_TOKEN_0123456789')});}
         else{const user=await tx.get('user',ids.employee);await tx.save(user,{...user.data,...(change==='site'?{siteIds:[]}:{roles:['EMPLOYEE','CLIENT'],permissions:['shift.read','location.self']})});}
-      });}
+      });changed=true;}
       return auth;
     });
-    await expect(api.mobileSession(request)).rejects.toMatchObject({code:change==='bearer'?'NEEDS_REAUTH':'ACCESS_DENIED'});expect(changed).toBe(true);
+    await expect(api.mobileSession(request())).rejects.toMatchObject({code:change==='bearer'?'NEEDS_REAUTH':'ACCESS_DENIED'});expect(changed).toBe(true);
+    const committed=await db.transaction(company,'SYNTHETIC_MOBILE_REVOCATION_ASSERT',tx=>tx.get(change==='bearer'?'device':'user',change==='bearer'?ids.device:ids.employee));
+    expect(committed.data).toMatchObject(change==='bearer'?{tokenHash:hashToken('SYNTHETIC_REPLACEMENT_MOBILE_TOKEN_0123456789')}:change==='site'?{siteIds:[]}:{roles:['EMPLOYEE','CLIENT'],permissions:['shift.read','location.self']});
   });
 });

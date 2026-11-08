@@ -1,5 +1,66 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## Поточний checkpoint — 08.11.2026, PR129 / початкові CI failures
+
+[PR129](https://github.com/ziko1/knaba/pull/129) опублікував source
+`5d6eeae0862e52cc693c1766f0c6fba964b12aa5`. Його tree
+`7de0c8019ae5ab6959930225996a0c978859deba` дорівнює tree локально
+перевіреного `4b1e3538e3b2c39b7bfdd0ed028cf598e6f9cb26`; саме `5d6eeae`
+є опублікованим candidate. Подальший local fixture-only commit —
+`b1951236f06d32cfd687460e3826c8453265bc63`; local commits не позначати remote.
+[Application CI 42472254239](https://github.com/ziko1/knaba/actions/runs/42472254239)
+на опублікованому `5d6eeae`: root job **SUCCESS**; site job **FAILED** —
+7/834 Vitest cases, `ReferenceError: receipts is not defined` у handler-only
+VM fixture. Окремий local fixture-only commit
+`b1951236f06d32cfd687460e3826c8453265bc63` підключає справжній receipt
+controller; product runtime та всі 16 cases/assertions незмінні.
+Independent source review ACCEPT; локально **834 Vitest + 92 Node PASS**.
+Це не переписує failure `5d6eeae`; потрібен новий exact-source CI.
+
+ERP job **FAILED: 3016 PASS / 8 FAIL із 3024 tests**, failures у трьох
+файлах. У job `128705591810`, який загалом FAILED, крок bridge виконав
+actual SQLite→HTTP→PostgreSQL **9/9 PASS / 0 SKIP**; потім actual Chrome 156 / Playwright 1.55.1 role run
+виконав 98 checks і завершився locator timeout на прихованій request card
+у `completedCabinetCases`. Display receipt, languages, public viewport та
+ERP rendered cases не досягнуті. Browser receipt `errors:[]`, `engines:[]`:
+це locator FAIL, не sandbox/policy BLOCKED. `inputsUnchanged:true`; manifest
+`6978647c6ec28b3cea682af4af9669b408fd9f293d032c83ad6d8c915cb4043f`
+прив'язує client/worker/VPS/ERP-dist до exact source.
+
+[Android 42472254246](https://github.com/ziko1/knaba/actions/runs/42472254246)
+**SUCCESS**. [iOS 42472234257](https://github.com/ziko1/knaba/actions/runs/42472234257)
+**FAILED**: 60-second `simctl list devices` timeout до Swift compile;
+цей run не доводить компіляцію застосунку чи виконання XCTest. Native artifact readback,
+physical acceptance та повний bridge/product criterion залишаються окремими.
+Докази, raw log excerpts, job IDs та artifact hashes:
+[initial-aggregate-ci.json](evidence/full-completion-20261108/initial-aggregate-ci.json).
+Поточний CI Android APK має інший runner debug signer; він не підміняє
+попередній локальний APK у ланцюжку встановлення/оновлення.
+
+| Напрям | Реалізований поточний source | Наступний критерій виходу |
+|---|---|---|
+| Сайт / KN-C05 | 7-day capability expiry/revoke, keyset inbox, шість мов, технічний guest display receipt; 0015/0016 та current-authority fences | Actual rendered receipt/role/locale acceptance на точному artifact; owner UAT; retention/erasure |
+| ERP AC-07 | ERP guest → WhatsApp dual-channel transfer, hash-only TTL 10 хв, canonical conversation-only consent і перевірка перед dispatch | 10 current PostgreSQL transfer cases PASS; далі rendered fixture CI та окремий real-provider acceptance; повний AC-07 NOT_RUN |
+| Identity / KN-C04, KN-U09 | Current session/device authority; F1 storage/resolver. Scoped 5d6 CI: authority 36 CPU/7 PG, F1 16 PG/27 CPU PASS, весь ERP run FAILED | Усунути current CI failures; F2 dual-session UI/proof → F3 scoped session → F4 revocation/privacy → F5 acceptance. SSO NOT_IMPLEMENTED |
+| Assistant→ERP | Form-lead outbox існує; D1 conversation і ERP conversation залишаються окремими | Source-preserving conversion з явною згодою та належним identity/tenant contract; історія не копіюється через AC-07 |
+| Native | Android 0.5.0-test/code 8 debug APK/AAB на `83327e5`, 59 unchanged native inputs; selective iOS actions/recovery source, 128 contract tests | Exact-source native CI, Xcode/XCTest, signing та actual device/role/GPS journeys; старі artifacts не перевидаються під новим SHA |
+| ERP domain / templates | Shared vehicle-trip summary/UI, 18 TPL v1 source, account settings, partners/footer та locale payload correction інтегровані | Повні V4/V3 бізнес-сценарії, template operator/restore/quota, current budgets/load та production-like restore |
+
+Поточна послідовність: отримати й перевірити artifact/source-bound CI;
+закрити виявлені регресії; виконати залежні identity/assistant conversion
+інкременти; пройти повні критерії у потрібних середовищах; лише після цього
+погоджений handover. Локальні root 29 PASS, transfer root 74 PASS / 10 PG SKIP
+та upstream F1 proof мають різні межі й не утворюють сумарного acceptance.
+Посилання на докази: [актуальний scope](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md),
+[transfer review](evidence/full-completion-20261108/erp-transfer-review.json),
+[F1 upstream excerpt](evidence/full-completion-20261108/identity-foundation-ci-excerpt.json).
+
+Матриця залишається **114 unique rows / 42 IN_PROGRESS / 72 AC NOT_RUN**;
+збережені V3 432 requirements / 475 acceptance / 34 модулі. Загальний статус
+**NOT_READY_FOR_CLIENT_DELIVERY**. Цей checkpoint не виконує merge,
+production activation чи paid provider operation. Нижчі датовані записи
+описують попередні source і не підвищують поточний кандидат до PASS.
+
 ## 08.11.2026 — F1 identity storage source candidate
 
 Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.

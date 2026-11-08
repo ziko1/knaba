@@ -3,6 +3,7 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 import ts from 'typescript';
 import {createAssistantRequestState,sameAssistantTicket} from '../src/lib/assistant-request-state';
+import {createAssistantDisplayReceipts} from '../src/lib/assistant-display-receipts';
 import {formatRecoveryCode,parseRecoveryCode,type AssistantTicket} from '../src/lib/assistant-recovery';
 
 function deferred<T>() {
@@ -53,12 +54,19 @@ function fixture(initialTicket:AssistantTicket|null=ticket){
     const result=deferred<unknown>();calls.push({path,method,data,token,signal,result});return result.promise;
   });
   const requests=createAssistantRequestState();
+  // These extracted handlers share the real receipt controller with the mounted
+  // component. This fixture has no painted DOM and must never emit a receipt.
+  const receipts=createAssistantDisplayReceipts({ticket:()=>state.ticket,displayedIds:()=>[],
+    send:async()=>{throw new Error('Unexpected display receipt in handler-only fixture');},
+    error:()=>{throw new Error('Unexpected display error in handler-only fixture');},
+    frame:()=>{throw new Error('Unexpected animation frame in handler-only fixture');},cancelFrame:()=>{},
+  });
   const storage={setItem:vi.fn(),removeItem:vi.fn()};
   const stopSpeech=vi.fn(),confirm=vi.fn(()=>true),prompt=vi.fn();
   const clipboard=deferred<void>();
   const exports={} as {handlers:Handlers};
   let nextKey=0;
-  runInNewContext(output,{...bindings,exports,http,requests,sameAssistantTicket,parseRecoveryCode,formatRecoveryCode,sessionStorage:storage,STORAGE:'ticket-test',locale:'en',t:{privacy:'privacy',captcha:'captcha',no:'connection',invalidCode:'invalid',fresh:'reset',manualCopy:'copy'},crypto:{randomUUID:()=>`request-${++nextKey}`},stopSpeech,window:{confirm,prompt},navigator:{clipboard:{writeText:()=>clipboard.promise}},Error});
+  runInNewContext(output,{...bindings,exports,http,requests,receipts,sameAssistantTicket,parseRecoveryCode,formatRecoveryCode,sessionStorage:storage,STORAGE:'ticket-test',locale:'en',t:{privacy:'privacy',captcha:'captcha',no:'connection',invalidCode:'invalid',fresh:'reset',manualCopy:'copy'},crypto:{randomUUID:()=>`request-${++nextKey}`},stopSpeech,window:{confirm,prompt},navigator:{clipboard:{writeText:()=>clipboard.promise}},Error});
   return {state,calls,requests,storage,stopSpeech,confirm,prompt,clipboard,...exports.handlers};
 }
 
