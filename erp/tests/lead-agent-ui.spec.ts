@@ -65,7 +65,7 @@ test('HTTP fixture: source cards never ask for passwords or pretend MyHammer is 
 });
 test('HTTP fixture: edited drafts must be saved before internal review and have no send control',async({page})=>{
   const f=await fixture(page,{seedProfile:true,seedDraft:true});await page.getByRole('tab',{name:'Чернетки',exact:true}).click();
-  await page.getByLabel('Текст відповіді',{exact:true}).fill('Edited synthetic non-binding reply');await expect(page.getByRole('button',{name:'Позначити перевіреною',exact:true})).toBeDisabled();
+  await page.getByRole('textbox',{name:'Текст відповіді',exact:true}).fill('Edited synthetic non-binding reply');await expect(page.getByRole('button',{name:'Позначити перевіреною',exact:true})).toBeDisabled();
   await page.getByRole('button',{name:'Зберегти текст',exact:true}).click();await page.getByRole('button',{name:'Позначити перевіреною',exact:true}).click();
   await expect(page.getByText('Перевірено всередині KNABA',{exact:true})).toBeVisible();
   const actions=f.calls.filter(c=>!['lead_agent.catalog','lead_agent.list','lead_agent.run.read'].includes(c.name));expect(actions.map(c=>[c.name,c.body.expected_version])).toEqual([['lead_agent.draft.save',1],['lead_agent.draft.review',2]]);

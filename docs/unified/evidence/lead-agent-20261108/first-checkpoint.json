@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "scope": "First exact candidate failure; not a release or deployment acceptance",
+  "source_sha": "6d76404fd0610c89ae124433c3536ae3efb9388d",
+  "tree_sha": "a2c98c52c14f4dc97dcf57d42c76fe9a75c6f672",
+  "tree_identical_local_reviewed_commit": "e2024646fd3aabb225902aa677e404d6029d173d",
+  "run_id": 42493923787,
+  "run_url": "https://github.com/ziko1/knaba/actions/runs/42493923787",
+  "conclusion": "FAILURE",
+  "jobs": [
+    {
+      "id": 128771976475,
+      "name": "Source integrity and policy tests",
+      "status": "SUCCESS"
+    },
+    {
+      "id": 128771976177,
+      "name": "Corporate site checks and production build",
+      "status": "SUCCESS"
+    },
+    {
+      "id": 128771976416,
+      "name": "ERP checks, build and PostgreSQL tests",
+      "status": "FAILURE",
+      "tests": 3196,
+      "passed": 3195,
+      "failed": 1,
+      "new_lead_agent_postgresql_passed": 13,
+      "failure": "worker-retention CPU boundary double classified every scheduler query, including a read, as a write"
+    },
+    {
+      "id": 128771976414,
+      "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+      "status": "FAILURE",
+      "erp_rendered_fixture_passed": 12,
+      "erp_rendered_fixture_failed": 1,
+      "site_browser_stages": {
+        "roles": 111,
+        "languages": 32,
+        "public_viewports": 24
+      },
+      "failure": "getByLabel exact did not match implicit label text containing initial textarea content; actual accessible textbox name was present"
+    }
+  ],
+  "browser_artifact": {
+    "id": 13623251030,
+    "sha256": "9fcc5244fe48cccacaebd4bf04ddc75485a1056e942ce54ace95f635ca664048",
+    "bytes": 7217980,
+    "download_checksum_verified": true
+  },
+  "server_build": {
+    "status": "BUILT_NOT_DEPLOYED",
+    "source_archive_sha256": "85f19c7f449d597a5b28283863eaa3cf998bfa98d1cfb52ee64902f9e2a474b9",
+    "image_id": "sha256:d43505244412cacc58900da17e6d240ab5c26a07d3c3ff88956166c3cc1e83d5",
+    "postgres_image": "postgres@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "disposition": "Diagnose and correct; rerun exact-source acceptance before any service/DNS publication. Preserve original failure."
+}

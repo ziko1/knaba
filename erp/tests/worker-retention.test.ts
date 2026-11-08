@@ -37,7 +37,12 @@ function workerBoundary() {
       users.push(entity);
       return entity;
     },
-    query: async (_sql: string, params: unknown[]) => {
+    query: async (sql: string, params: unknown[]) => {
+      if (/^\s*SELECT\b/.test(sql)) {
+        trace.push({ operation: 'scheduled-read', companyId: String(params[0]), params });
+        return { rows: [] };
+      }
+      if (!sql.startsWith('INSERT INTO outbox(')) throw new Error('UNEXPECTED_SCHEDULER_WRITE_IN_BOUNDARY_DOUBLE');
       trace.push({ operation: 'scheduled-business-event', companyId: String(params[1]), params });
       return { rows: [] };
     },
@@ -121,6 +126,8 @@ describe('worker privacy gate orchestration (CPU boundary doubles)', () => {
     expect(boundary.points.map(p => p.id)).toContain('foreign-point');
     const operations = boundary.trace.map(t => t.operation);
     expect(operations.indexOf('scheduled-business-event')).toBeGreaterThan(operations.indexOf('purge'));
+    expect(operations.indexOf('scheduled-read')).toBeGreaterThan(operations.indexOf('purge'));
+    expect(operations.indexOf('claim-outbox')).toBeGreaterThan(operations.indexOf('scheduled-read'));
     expect(operations.indexOf('claim-outbox')).toBeGreaterThan(operations.indexOf('scheduled-business-event'));
     expect(boundary.trace.find(t => t.operation === 'finish-outbox')!.params?.[0]).toBe('SUCCEEDED');
   });
