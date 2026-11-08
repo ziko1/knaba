@@ -266,3 +266,23 @@ The first1988090 run had six stale14-migration fixture failures; correction veri
 Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
 
 Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.
+
+
+## 08.11.2026 — доповнення налаштувань користувача KN-US01–US08
+
+Додано self-service web/VPS профіль, контактні дані, мову/часовий пояс, зміну
+пароля, одноразове відновлення, підтверджену зміну email і керування власними
+сесіями. Runtime/test commit `a6e1d582a5a22219625257a354f6abc66921d40e`,
+Git tree `1bbca25631132e1a241a1b277f77efd828f505a0` точно збігається з локальним
+перевіреним source. Окремий candidate від PR123 зберігає паралельні задачі.
+
+Фактичні локальні результати: 261 VPS, 732 Vitest + 90 Node; check 0 errors /
+0 warnings / 6 hints; official build/verify/i18n PASS. Незалежний web/VPS review
+ACCEPT, 20 цільових повторів входять до suite totals. JS225252B/CSS40930B gzip
+в межах незмінених бюджетів; запас лише28B/30B. Нові auth таблиці потребують
+явного migrate після backup; Drizzle історія, ERP SQL, залежності та CI незмінні.
+
+Пошта opt-in і вимкнена за замовчуванням. Browser BLOCKED (немає engines),
+actual provider delivery/target restore/deploy NOT_RUN. Цей модуль не створює
+shared site/ERP/native SSO та не закриває весь продукт. Production/DNS/live data,
+main merge й платні сервіси не змінювались. [Вимоги, докази й межі](USER_SETTINGS_2026-11-08_UK.md).
