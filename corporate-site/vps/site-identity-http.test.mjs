@@ -8,11 +8,13 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {Script} from 'node:vm';
 import {createSiteIdentityHandler} from './site-identity-http.mjs';
+import {createSiteConsentAuthority} from './site-identity-consent.mjs';
 import {openLocalDatabase} from './database.mjs';
 import {createSessionForUser,destroySession,readSession} from './auth.mjs';
-import {FederationError,digest,opaque,parsePeerConfig,peerRequest,proofHeaders,readProof,signRequest,verifyRequest,signResponse,trustFingerprint} from './site-identity-protocol.mjs';
+import {FederationError,digest,opaque,parsePeerConfig,peerRequest,proofHeaders,readProof,signRequest,verifyRequest,signResponse,trustFingerprint,transportFingerprint} from './site-identity-protocol.mjs';
 
 const erpPath='/api/v1/auth/site-links/inspect-challenge';
+const sessionPath='/auth/site-identity/introspect-session';
 // Real Node HTTP + the production VPS identity handler, session reader and SQLite.
 // ERP is deliberately a signed HTTP fixture. The small request/body adapter below
 // is a test harness, not the compiled Worker or the full VPS deployment wrapper.
@@ -21,7 +23,7 @@ const basePeer={companyId:'synthetic-company',issuer:'https://synthetic-site.exa
 const deferred=()=>{let resolve;const promise=new Promise(yes=>{resolve=yes;});return {promise,resolve};};
 async function fixture(t,{production=false}={}){
   const directory=mkdtempSync(join(tmpdir(),'knaba-site-identity-http-')),dbPath=join(directory,'site.sqlite');
-  const state={peer:null,calls:0,previews:new Map(),override:null,onInspect:null,badSignature:false};
+  const state={peer:null,calls:0,previews:new Map(),override:null,onInspect:null,badSignature:false,sessionsEnabled:false,onBodyRead:null};
   const erp=createServer((req,res)=>{void(async()=>{
     const chunks=[];for await(const part of req)chunks.push(part);const bytes=Buffer.concat(chunks);
     const peer=state.peer,proof=verifyRequest(peer,req.url,bytes,readProof(req.headers));
@@ -37,7 +39,7 @@ async function fixture(t,{production=false}={}){
   erp.listen(0,'127.0.0.1');await once(erp,'listening');
   const {db}=openLocalDatabase(dbPath);
   const handle=createSiteIdentityHandler(db,{config:()=>state.peer,developerEmail:'developer@example.test',
-    origin:production?'https://site.example':'http://127.0.0.1',localTest:!production});
+    origin:production?'https://site.example':'http://127.0.0.1',localTest:!production,sessionsEnabled:()=>state.sessionsEnabled});
   const site=createServer((req,res)=>{void(async()=>{
     const accountUser=readSession(db,req.headers.cookie);
     const sameAccountSession=()=>{
@@ -48,6 +50,7 @@ async function fixture(t,{production=false}={}){
       const chunks=[];let count=0;
       for await(const chunk of req){count+=chunk.length;if(count<=limit)chunks.push(chunk);}
       if(count>limit)throw new FederationError('VALIDATION_ERROR');
+      if(state.onBodyRead)await state.onBodyRead(req.url);
       if(accountUser&&!sameAccountSession()){const error=new Error('Session revoked');error.code='session_revoked';throw error;}
       return Buffer.concat(chunks);
     };
@@ -99,6 +102,16 @@ async function fixture(t,{production=false}={}){
     challengeToken:challenge.token,previewProof:shown.body.previewProof,confirmed:true},user,shown.csrf);
   state.count=()=>db.prepare('SELECT count(*) AS n FROM vps_site_identity_consents').get().n;
   state.audit=action=>db.prepare('SELECT count(*) AS n FROM portal_audit WHERE action=?').get(action).n;
+  state.sessionProof=user=>{
+    const current=createSiteConsentAuthority(db,{config:()=>state.peer,developerEmail:'developer@example.test'}).current(user.cookie);
+    return {companyId:state.peer.companyId,issuer:state.peer.issuer,audience:state.peer.audience,subject:current.subject,
+      sessionDigest:current.sessionDigest,profileVersion:current.profileVersion,profileFingerprint:current.profileFingerprint,
+      trustFingerprint:trustFingerprint(state.peer),transportFingerprint:transportFingerprint(state.peer)};
+  };
+  state.signedSession=(input,{path=sessionPath,signedPath=path,now=Date.now(),headers={},bytes=Buffer.from(JSON.stringify(input))}={})=>{
+    const signed=signRequest(state.peer,signedPath,bytes,now);
+    return state.call(path,{method:'POST',headers:{'content-type':'application/json',...proofHeaders(signed),...headers},body:bytes});
+  };
   return state;
 }
 async function grant(f){
@@ -109,6 +122,71 @@ async function grant(f){
     nonceDigest:challenge.preview.nonceDigest,companyId:f.peer.companyId,targetUserId:challenge.preview.targetUserId,trustFingerprint:challenge.preview.trustFingerprint};
   return {user,challenge,shown,body,input};
 }
+
+test('signed introspection is independently disabled by default while normal F2 remains available',async t=>{
+  const f=await fixture(t),user=f.user(),input=f.sessionProof(user);
+  const disabled=await f.signedSession(input);assert.equal(disabled.status,503);
+  assert.deepEqual(await disabled.json(),{code:'MISSING_CONFIGURATION'});assert.equal(disabled.headers.get('x-knaba-federation-response'),null);
+  const linked=await grant(f);assert.ok(linked.input.grantToken);
+  f.sessionsEnabled=true;
+  const result=await peerRequest(f.peer,'site',sessionPath,input);
+  assert.deepEqual(Object.keys(result).sort(),[...Object.keys(input),'active','expiresAt','checkedAt'].sort());
+  assert.equal(result.active,true);for(const key of Object.keys(input))assert.equal(result[key],input[key]);
+  for(const value of [user.email,user.token,'Synthetic site user'])assert.equal(JSON.stringify(result).includes(value),false);
+  assert.equal(f.count(),1);assert.equal(f.audit('site_identity.consented'),1);
+});
+
+test('introspection HTTP rejects unsigned, wrong-purpose, stale, malformed and substituted requests',async t=>{
+  const f=await fixture(t);f.sessionsEnabled=true;const user=f.user(),input=f.sessionProof(user);
+  const unsigned=await f.call(sessionPath,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(input)});
+  assert.equal(unsigned.status,403);await unsigned.text();
+  for(const options of [{signedPath:'/auth/site-identity/inspect'},
+    {now:Date.now()-60_000},{now:Date.now()+60_000},{headers:{'x-knaba-federation-signature':'A'.repeat(43)}}]){
+    const response=await f.signedSession(input,options);assert.equal(response.status,403);await response.text();
+  }
+  for(const [body,status]of [[{...input,companyId:'foreign-company'},403],[{...input,subject:f.user().id},403],
+    [{...input,profileVersion:2},403],[{...input,grantToken:randomUUID()+'.'+opaque()},400],
+    [{...input,sessionDigest:user.token},400]]){
+    const response=await f.signedSession(body);assert.equal(response.status,status);assert.equal(response.headers.get('x-knaba-federation-response'),null);await response.text();
+  }
+  const malformed=await f.signedSession(input,{bytes:Buffer.from('{')});assert.equal(malformed.status,400);await malformed.text();
+  assert.equal(f.count(),0);
+});
+
+test('replayed signed introspection rereads current SQLite and cannot retain an allow after logout',async t=>{
+  const f=await fixture(t);f.sessionsEnabled=true;const user=f.user(),input=f.sessionProof(user),bytes=Buffer.from(JSON.stringify(input));
+  const proof=signRequest(f.peer,sessionPath,bytes),headers={'content-type':'application/json',...proofHeaders(proof)};
+  const send=()=>f.call(sessionPath,{method:'POST',headers,body:bytes});
+  for(let attempt=0;attempt<2;attempt++){const response=await send();assert.equal(response.status,200);const returned=Buffer.from(await response.arrayBuffer());
+    assert.equal(response.headers.get('x-knaba-federation-response'),signResponse(f.peer,sessionPath,returned,proof));assert.equal(JSON.parse(returned).active,true);}
+  destroySession(f.db,user.cookie);f.session(user);
+  const denied=await send();assert.equal(denied.status,403);assert.equal(denied.headers.get('x-knaba-federation-response'),null);await denied.text();
+});
+
+for(const [name,change,status]of [
+  ['flag disabled',f=>{f.sessionsEnabled=false;},503],
+  ['peer key changed',f=>{f.peer=parsePeerConfig({...f.peer,secret:Buffer.alloc(32,99).toString('base64url')},{localTest:true});},403],
+  ['original profile changed',(f,user)=>{f.db.prepare('UPDATE profiles SET version=version+1 WHERE id=?').run(user.id);},403],
+  ['original session logged out',(f,user)=>{destroySession(f.db,user.cookie);},403]
+])test('introspection denies '+name+' during the actual HTTP body await',async t=>{
+  const f=await fixture(t);f.sessionsEnabled=true;const user=f.user(),input=f.sessionProof(user),entered=deferred(),release=deferred();f.release=release.resolve;
+  f.onBodyRead=async path=>{if(path===sessionPath){entered.resolve();await release.promise;}};
+  const pending=f.signedSession(input);
+  await Promise.race([entered.promise,pending.then(()=>{throw Error('Expected introspection body-read barrier');})]);
+  change(f,user);release.resolve();
+  const response=await pending;assert.equal(response.status,status);assert.equal(response.headers.get('x-knaba-federation-response'),null);await response.text();
+});
+
+test('authenticated introspection bursts use a separate bounded per-session bucket without consuming F2 quota',{timeout:25000},async t=>{
+  const f=await fixture(t);f.sessionsEnabled=true;const user=f.user(),input=f.sessionProof(user);
+  for(let request=0;request<600;request++)assert.equal((await peerRequest(f.peer,'site',sessionPath,input)).active,true);
+  const limited=await f.signedSession(input);assert.equal(limited.status,429);assert.deepEqual(await limited.json(),{code:'RATE_LIMITED'});
+  const another=f.user();assert.equal((await peerRequest(f.peer,'site',sessionPath,f.sessionProof(another))).active,true);
+  const linked=await grant(f);
+  for(let request=0;request<40;request++)assert.ok(await peerRequest(f.peer,'site','/auth/site-identity/inspect',linked.input));
+  await assert.rejects(peerRequest(f.peer,'site','/auth/site-identity/inspect',linked.input),FederationError);
+  assert.equal((await peerRequest(f.peer,'site',sessionPath,f.sessionProof(another))).active,true);
+});
 
 test('neutral GET and the client asset expose no identity, mutation or referrer-bearing transfer URL',async t=>{
   const f=await fixture(t),user=f.user(),challenge=f.challenge();

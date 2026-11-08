@@ -100,7 +100,65 @@
     "integration_test_correction": "Express JSON errors may have a weak ETag: assert it differs from the positive-control raw file ETag, no Content-Disposition, exact 404/NOT_FOUND_SAFE JSON, and subsequent 200 client-copy bytes. Runtime unchanged.",
     "native_unknown_outcome_contract": "Independent source review confirmed Android/iOS durable unknown-write journals are retained on post-commit 401; this is not live/device acceptance."
   },
-  "hosted": "PENDING_EXACT_SOURCE",
+  "hosted": {
+    "version": 1,
+    "stage": "F4-A_LOCAL_ERP_SESSION_AND_DEVICE_AUTHORITY",
+    "status": "ACCEPT_ACTUAL_HTTP_POSTGRESQL_LOCAL_ERP_AUTHORITY",
+    "source": "5133519984b6b50676393a7c4c4e541677d2cefa",
+    "tree": "4f0115028e6677a788b1579a18507f045e2c0070",
+    "pr": 130,
+    "run": 42475824054,
+    "required_jobs": "ALL_FOUR_SUCCESS",
+    "erp": {
+      "tests": 2820,
+      "files": 122,
+      "new_actual_postgresql_http_cases": 22,
+      "new_cpu_guard_cases": 16,
+      "fail": 0,
+      "skip": 0,
+      "postgresql": "17.6_ACTUAL"
+    },
+    "bridge": {
+      "tests": 31,
+      "fail": 0,
+      "skip": 0
+    },
+    "site": {
+      "vitest": 732,
+      "node": 90,
+      "vps": 268
+    },
+    "root": {
+      "tests": 30
+    },
+    "input_hashes_verified": 10,
+    "logs": {
+      "root": {
+        "file": "session-authority-42475824054-root.log",
+        "bytes": 40810,
+        "sha256": "fb96580ba6eee44b350de831ad6158dadd72358601286ff3b07951046e66babc"
+      },
+      "site": {
+        "file": "session-authority-42475824054-site.log",
+        "bytes": 135768,
+        "sha256": "d041496ad553b05c215cb6602989cb044c1995b832e889337be0130dd7d93fa7"
+      },
+      "bridge": {
+        "file": "session-authority-42475824054-bridge.log",
+        "bytes": 79994,
+        "sha256": "69f9a089b813448475e26545c6f37bf5f9218d43f2f61300d191002f9d7dd0b5"
+      },
+      "erp": {
+        "file": "session-authority-42475824054-erp.log",
+        "bytes": 105799,
+        "sha256": "22ca13dde6f569d3f71dc19c461065c22a6024d9a62e30cacf9823457ec92793"
+      }
+    },
+    "whole_product": "NOT_READY",
+    "federated_sessions": "NOT_IMPLEMENTED",
+    "production_changed": false,
+    "independent_review": "ACCEPT_SOURCE_TREE_COUNTS_10_INPUT_HASHES_4_LOG_HASHES"
+  },
   "performance": "PRODUCTION_P95_NOT_MEASURED",
   "federated_session_issuance": "NOT_IMPLEMENTED",
   "product": "NOT_READY",

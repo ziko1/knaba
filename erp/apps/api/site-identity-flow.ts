@@ -51,7 +51,7 @@ export class SiteIdentityFlow {
     // satisfy a human account-link proof. Credentials are checked again in SQL.
     assert(!req.get('authorization'),'NEEDS_REAUTH');
     const auth=mutation?await this.auth.mutation(req):await this.auth.authenticate(req);
-    assert(!auth.device&&!auth.guest&&auth.actor.companyId===this.options.companyId&&!auth.actor.roles.some(r=>deniedRoles.has(r)),'NEEDS_REAUTH');
+    assert(!auth.device&&!auth.guest&&!('siteSession' in auth)&&auth.actor.companyId===this.options.companyId&&!auth.actor.roles.some(r=>deniedRoles.has(r)),'NEEDS_REAUTH');
     return {userId:auth.actor.userId,sessionHash:hashToken(auth.token)};
   }
   private async current(tx:PgTransaction,session:Session):Promise<Current>{

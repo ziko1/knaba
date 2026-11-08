@@ -147,7 +147,13 @@ export class SiteIdentityBindings {
   /** Identity lookup only. The result is not an Actor, session or cached grant. */
   async resolve(identity: SitePrincipal): Promise<SiteIdentityBinding> {
     const p = principal(identity);
-    return this.db.transaction(this.companyId,'SITE_IDENTITY_LOOKUP',async tx => {
+    return this.db.transaction(this.companyId,'SITE_IDENTITY_LOOKUP',tx => this.resolveIn(tx,p),10000,true);
+  }
+
+  /** Reuse the caller's company transaction; never open a nested authority lock. */
+  async resolveIn(tx: PgTransaction, identity: SitePrincipal,
+    expected?: Pick<SiteIdentityBinding,'id'|'userId'|'version'|'generation'>): Promise<SiteIdentityBinding> {
+      this.scope(tx); const p=principal(identity);
       const now = await this.clock(tx), trust = this.trustedAuthorities().require(this.companyId,p,now);
       const result = await tx.query(`SELECT * FROM site_identity_bindings WHERE company_id=$1 AND issuer=$2 AND subject=$3
         AND audience=$4 AND status='ACTIVE' AND (expires_at IS NULL OR expires_at>clock_timestamp())`,[this.companyId,p.issuer,p.subject,p.audience]);
@@ -157,8 +163,9 @@ export class SiteIdentityBindings {
       const finishedAt = await this.clock(tx);
       if (this.trustedAuthorities().require(this.companyId,p,finishedAt).fingerprint !== trust.fingerprint ||
           row.expires_at && new Date(row.expires_at).getTime() <= finishedAt.getTime()) return deny();
-      return binding(row);
-    },10000,true);
+      const found=binding(row);
+      if(expected&&(found.id!==expected.id||found.userId!==expected.userId||found.version!==expected.version||found.generation!==expected.generation))return deny();
+      return found;
   }
 
   /** Internal unlink storage step. Revocation is terminal in F1. Even expired or
@@ -175,6 +182,7 @@ export class SiteIdentityBindings {
       revoked_at=clock_timestamp(),revoked_by=$3 WHERE company_id=$1 AND id=$2 AND user_id=$3 AND version=$4 AND status='ACTIVE' RETURNING *`,
       [this.companyId,id,tx.actorId,expectedVersion]);
     if (!result.rows[0]) throw new DomainError('VERSION_CONFLICT');
+    await tx.query('UPDATE site_auth_sessions SET revoked_at=clock_timestamp() WHERE company_id=$1 AND binding_id=$2 AND revoked_at IS NULL',[this.companyId,id]);
     await tx.query(`INSERT INTO audit_log(company_id,actor_id,action,aggregate_kind,aggregate_id,detail)
       VALUES($1,$2,'SITE_IDENTITY_LINK_REVOKED','site_identity_binding',$3,$4)`,
       [this.companyId,tx.actorId,id,JSON.stringify({ version: expectedVersion + 1 })]);

@@ -1,7 +1,7 @@
 import {afterEach,describe,it,expect,vi} from 'vitest';
 import {DomainError} from '../packages/domain/core.ts';
 import type {DatabaseLike,SqlTransaction} from '../apps/api/auth.ts';
-import {runRequestAuthority,duringAuthentication,registerRequestAuthority,beginRequestAuthority,finishRequestAuthority,committedRequestAuthority,recordOwnSessionRevocation,recordOwnDeviceRetirement,verifyResponseAuthority,type RequestAuthorityProof} from '../apps/api/request-authority.ts';
+import {runRequestAuthority,duringAuthentication,registerRequestAuthority,beginRequestAuthority,finishRequestAuthority,committedRequestAuthority,recordOwnSessionRevocation,recordOwnDeviceRetirement,verifyResponseAuthority,prepareSelfDispatchScopeExpansion,authoritySnapshotHash,type RequestAuthorityProof,type SelfDispatchCompletion,type SelfDispatchChange} from '../apps/api/request-authority.ts';
 
 // Explicit in-memory SQL/transaction doubles test async context and capabilities.
 // Actual HTTP/PostgreSQL races live in request-authority.integration.test.ts.
@@ -20,6 +20,129 @@ function fixture(companyId='a',userId='user'){
  return {proof,db,tx,session,user,device};
 }
 afterEach(()=>vi.useRealTimers());
+describe('exact self-dispatch response capability (explicit CPU doubles)',()=>{
+ const setup=()=>{
+  const f=fixture(),proof:RequestAuthorityProof={kind:'FEDERATED',companyId:'a',userId:'user',tokenHash:'b'.repeat(64),expiresAt:f.proof.expiresAt,siteDescriptorHash:'c'.repeat(64)};
+  const result={order:{id:'order'},assignment:{id:'assignment'}},input={siteId:'site',orderId:'order',reservationId:'reservation',idempotencyKey:'self-dispatch-key',inputHash:'d'.repeat(64)};
+  let revoked=false,online=true,privateChecks=0,captured:SelfDispatchChange|undefined;
+  const completion:SelfDispatchCompletion={kind:'SELF_DISPATCH_SCOPE_EXPANSION',...input,beforeVersion:1,afterUserHash:'e'.repeat(64),
+   resultHash:authoritySnapshotHash(result),assignmentId:'assignment',revokedAt:Date.now()};
+  const validator={
+   verifyIn:async(_tx:SqlTransaction,_proof:RequestAuthorityProof,allowRevoked:boolean)=>{
+    // Private response authority must never use the outage-safe minimal ACK path.
+    if(allowRevoked)throw Error('UNEXPECTED_MINIMAL_REDUCTION_PATH');if(revoked)throw new DomainError('NEEDS_REAUTH');
+   },
+   completeSelfDispatchIn:async(_tx:SqlTransaction,_proof:RequestAuthorityProof,change:SelfDispatchChange)=>{captured=change;revoked=true;return completion;},
+   verifySelfDispatchIn:async()=>{privateChecks++;if(!online)throw new DomainError('DEPENDENCY_UNAVAILABLE');}
+  };
+  return {...f,proof,result,input,validator,privateChecks:()=>privateChecks,captured:()=>captured,offline:()=>{online=false;}};
+ };
+ it('captures a detached pre-user and permits only committed exact response with fresh private checks',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   const result=await f.db.transaction('a','user',async tx=>{
+    const complete=(await prepareSelfDispatchScopeExpansion(tx,f.input))!;
+    f.user.version=2;await complete(f.result);return f.result;
+   });
+   expect(f.captured()?.before.version).toBe(1);expect(f.privateChecks()).toBe(1);
+   await verifyResponseAuthority(result);expect(f.privateChecks()).toBe(3);
+   await expect(verifyResponseAuthority({...result,extra:'private'})).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   let called=false;
+   await expect(f.db.transaction('a','user',async()=>{called=true;return result;})).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   expect(called).toBe(false);
+  });
+ });
+ it('an expanded transaction result never becomes a committed response capability',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   await expect(f.db.transaction('a','user',async tx=>{
+    const complete=(await prepareSelfDispatchScopeExpansion(tx,f.input))!;await complete(f.result);return {...f.result,extra:'private'};
+   })).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   await expect(verifyResponseAuthority(f.result)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+ it('neither an uncommitted transition nor a reused completion closure grants a response',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority(f.proof,f.db,f.validator);const lease=await beginRequestAuthority(f.tx,'user');
+   const complete=(await prepareSelfDispatchScopeExpansion(f.tx,f.input))!;await complete(f.result);
+   await expect(complete(f.result)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   await finishRequestAuthority(lease,f.result);
+   await expect(verifyResponseAuthority(f.result)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+ it('loss of site authority after commit blocks private response and restores the ordinary frame',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   await f.db.transaction('a','user',async tx=>{const complete=(await prepareSelfDispatchScopeExpansion(tx,f.input))!;await complete(f.result);return f.result;});
+   f.offline();await expect(verifyResponseAuthority(f.result)).rejects.toMatchObject({code:'DEPENDENCY_UNAVAILABLE'});
+   await expect(f.db.transaction('a','user',async()=>f.result)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+ it('disconnect during the last private authority await prevents commit capability',async()=>{
+  const f=setup();await runRequestAuthority(true,async close=>{
+   f.validator.verifySelfDispatchIn=async()=>{await Promise.resolve();close();};
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   await expect(f.db.transaction('a','user',async tx=>{const complete=(await prepareSelfDispatchScopeExpansion(tx,f.input))!;await complete(f.result);return f.result;})).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   await expect(verifyResponseAuthority(f.result)).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+});
+describe('federated request context capabilities (explicit CPU doubles)',()=>{
+ const setup=()=>{
+  const f=fixture(),proof:RequestAuthorityProof={kind:'FEDERATED',companyId:'a',userId:'user',tokenHash:'b'.repeat(64),expiresAt:f.proof.expiresAt,siteDescriptorHash:'c'.repeat(64)};
+  let revoked=false,calls=0;
+  const validator={verifyIn:async(_tx:SqlTransaction,p:RequestAuthorityProof,allowRevoked:boolean)=>{
+   calls++;if(p.siteDescriptorHash!==proof.siteDescriptorHash||allowRevoked!==revoked)throw new DomainError('NEEDS_REAUTH');
+  }};
+  return {...f,proof,validator,revoke:()=>{revoked=true;},calls:()=>calls};
+ };
+ it('requires a server verifier and immutable descriptor, never a browser kind string alone',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   expect(()=>registerRequestAuthority(f.proof,f.db)).toThrowError(expect.objectContaining({code:'NEEDS_REAUTH'}));
+   expect(()=>registerRequestAuthority({...f.proof,siteDescriptorHash:''},f.db,f.validator)).toThrowError(expect.objectContaining({code:'NEEDS_REAUTH'}));
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   for(const patch of [{kind:'SESSION'},{siteDescriptorHash:'d'.repeat(64)},{reductionOnly:true}]as const)
+    expect(()=>registerRequestAuthority({...f.proof,...patch},f.db,f.validator)).toThrowError(expect.objectContaining({code:'NEEDS_REAUTH'}));
+   expect(()=>registerRequestAuthority(f.proof,f.db,{verifyIn:f.validator.verifyIn})).toThrowError(expect.objectContaining({code:'NEEDS_REAUTH'}));
+  });
+ });
+ it('checks the verifier again after async work and before the response',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   await f.db.transaction('a','user',async()=>({safe:true}));expect(f.calls()).toBe(2);
+   await verifyResponseAuthority({safe:true});expect(f.calls()).toBe(4);
+   f.revoke();await expect(verifyResponseAuthority()).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+ it.each([1,2])('disconnect during ordinary authority check %i stops transaction progress',async closeDuring=>{
+  const f=setup();let calls=0,handlerCalled=false;
+  await runRequestAuthority(true,async close=>{
+   f.validator.verifyIn=async()=>{calls++;await Promise.resolve();if(calls===closeDuring)close();};
+   registerRequestAuthority(f.proof,f.db,f.validator);
+   await expect(f.db.transaction('a','user',async()=>{handlerCalled=true;return {safe:true};})).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   expect(handlerCalled).toBe(closeDuring===2);
+  });
+ });
+ it('denies a reduction-only request that tries to finish ordinary work',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority({...f.proof,reductionOnly:true},f.db,f.validator);
+   await expect(f.db.transaction('a','user',async()=>({ok:true}))).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   await expect(verifyResponseAuthority({ok:true})).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+ it('allows only committed exact logout acknowledgement from the outage reduction path',async()=>{
+  const f=setup();await runRequestAuthority(true,async()=>{
+   registerRequestAuthority({...f.proof,reductionOnly:true},f.db,f.validator);
+   const result=await f.db.transaction('a','user',async tx=>{f.revoke();
+    await expect(recordOwnSessionRevocation(tx,'PASSWORD_ROTATED')).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+    await recordOwnSessionRevocation(tx,'LOGOUT');return {ok:true};
+   });
+   await verifyResponseAuthority(result);
+   await expect(verifyResponseAuthority({...result,private:'hidden'})).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+   await expect(f.db.transaction('a','user',async()=>({ok:true}))).rejects.toMatchObject({code:'NEEDS_REAUTH'});
+  });
+ });
+});
 describe('request authority context and reduction capabilities (CPU doubles)',()=>{
  it('a protected HTTP scope cannot reach a transaction before authentication',async()=>{
   const f=fixture();let called=false;

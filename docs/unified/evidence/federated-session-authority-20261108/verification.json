@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "F4-B separate federated session reader/current authority/revocation; no browser issuer",
+  "status": "SOURCE_REVIEW_ACCEPTED_HOSTED_ACCEPTANCE_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-federated-session-guards-20261108",
+  "base_source_sha": "5133519984b6b50676393a7c4c4e541677d2cefa",
+  "base_tree_sha": "4f0115028e6677a788b1579a18507f045e2c0070",
+  "commit_binding": "The candidate commit containing this manifest is not self-referenced. Hosted acceptance must independently pin its exact head/tree and these inputs.",
+  "inputs": {
+    "corporate-site/vps/server.mjs": {
+      "sha256": "db0c5b51c053c92fbd62dbf4da464e18e51536633718daafb8dad3f3492da31e",
+      "bytes": 70439
+    },
+    "corporate-site/vps/site-identity-consent.mjs": {
+      "sha256": "8454566a82ef0687b048c6a4c6b11497382bd97256742fe486eaeef161e3137f",
+      "bytes": 15204
+    },
+    "corporate-site/vps/site-identity-consent.test.mjs": {
+      "sha256": "22d9420005bf0c0943fb13049e7e1b49649606e8d43b3eac663e50febbe3e957",
+      "bytes": 29980
+    },
+    "corporate-site/vps/site-identity-http.mjs": {
+      "sha256": "7e19ce08e87be4c0e1304e199392cb8546a8d9cd95ff2ae6203f04736e48b472",
+      "bytes": 8560
+    },
+    "corporate-site/vps/site-identity-http.test.mjs": {
+      "sha256": "92948f4d8a2ec0a0530d5530690ae169ded5f220e3334b4c8571d20710ea7b57",
+      "bytes": 27637
+    },
+    "corporate-site/vps/site-identity-protocol.d.mts": {
+      "sha256": "df8f030f101bdfc8aff382c8ae4b2797a682ad4d7e37bdfef1876ceeb49e88eb",
+      "bytes": 2063
+    },
+    "corporate-site/vps/site-identity-protocol.mjs": {
+      "sha256": "15ce563492dd2a3d4a372b50f7b56c7f4a7e15e5fef0171af30154013edc3d5b",
+      "bytes": 7790
+    },
+    "corporate-site/vps/site-identity-protocol.test.mjs": {
+      "sha256": "eccb6758f15375e356e69adfa72751b51d0b3869159054b33003cff8de6d243d",
+      "bytes": 9321
+    },
+    "corporate-site/vps/site-identity-sessions-server.test.mjs": {
+      "sha256": "f7d20225e8ecd0e6977a92ddc64ea0a0b8d54a28d52f8e2b92c2ce911d925dc1",
+      "bytes": 2915
+    },
+    "erp/apps/api/auth.ts": {
+      "sha256": "401369d52363e0e71cae964b0588065e439c5de99dc21834bcebda402cf28b0c",
+      "bytes": 19330
+    },
+    "erp/apps/api/engine.ts": {
+      "sha256": "b90a849ae4b909c565378a7d3fb5ccf05d622baad3804571a1db12980892719b",
+      "bytes": 52754
+    },
+    "erp/apps/api/http.ts": {
+      "sha256": "a532d7338df89c6a0d8196d7037d3113a511751d56d718f15a1c20a669cedca6",
+      "bytes": 46874
+    },
+    "erp/apps/api/main.ts": {
+      "sha256": "23077c5068713282c6a95404bd2d2b74768d2104f6a53457d5cd679ad3cd980a",
+      "bytes": 9666
+    },
+    "erp/apps/api/request-authority.ts": {
+      "sha256": "a46fdc6eccfa3427de5edaade0603edab7817b9c0a29ad01e747ac485b9c8189",
+      "bytes": 14384
+    },
+    "erp/apps/api/site-identity-bindings.ts": {
+      "sha256": "a8fe76ee7400c950825c68cfb002349025f006fc78f7df85a854322e5d8d7457",
+      "bytes": 12659
+    },
+    "erp/apps/api/site-identity-flow.ts": {
+      "sha256": "6a20ca05a60b4cbb3af3551480822ddb339abab744c81f4d1a57899f9062c2e8",
+      "bytes": 19721
+    },
+    "erp/apps/api/site-session-authority.ts": {
+      "sha256": "79a00d8377fbb3947b5c2c7c58ac65f5efd88deda3c5c43deb874865e8b01d45",
+      "bytes": 13976
+    },
+    "erp/infra/001_init.sql": {
+      "sha256": "b2f73af9a40672a2f756af013a57992aeb8ab0895fea0821bc1f65d0f8d2c7f5",
+      "bytes": 37293
+    },
+    "erp/packages/domain/identity.ts": {
+      "sha256": "d7542fd7e9a3f20df4f9b81173d70622d0e2d8a18d9a92b1716d3a21e04c5e78",
+      "bytes": 16255
+    },
+    "erp/packages/integrations/site-identity-protocol.d.mts": {
+      "sha256": "df8f030f101bdfc8aff382c8ae4b2797a682ad4d7e37bdfef1876ceeb49e88eb",
+      "bytes": 2063
+    },
+    "erp/packages/integrations/site-identity-protocol.mjs": {
+      "sha256": "15ce563492dd2a3d4a372b50f7b56c7f4a7e15e5fef0171af30154013edc3d5b",
+      "bytes": 7790
+    },
+    "erp/tests/fixtures/auth-pre-site-sessions.ts.txt": {
+      "sha256": "37e71f16003b937478dd12db0893fde3a9774f7042a4fb7e1c7a924a4796b987",
+      "bytes": 17266
+    },
+    "erp/tests/fixtures/site-session-pre-f4b.sql": {
+      "sha256": "0bef6ffb4afc43ca35d20dfecba174ffd3da626b715fb3026587c72d6b94852f",
+      "bytes": 33798
+    },
+    "erp/tests/identity.test.ts": {
+      "sha256": "7b4a267772434a9461cc9035bff28d77fd5701cf9d7bd96396e0b3afa96f1e2a",
+      "bytes": 25488
+    },
+    "erp/tests/request-authority.test.ts": {
+      "sha256": "3287471cc376509c6b3ea6baa88932a1c3ccb5b54fa370b16157141a0724bbd1",
+      "bytes": 18305
+    },
+    "tests/bridge/site-sessions.test.mjs": {
+      "sha256": "39f61a9d20568e026a0472ec40aa87feb899401ba60d142bce00432abba83da6",
+      "bytes": 52198
+    }
+  },
+  "review": {
+    "runtime": "ACCEPT by independent knaba_prompt_review after async-close and parsed order/reservation corrections",
+    "site_and_bridge_tests": "ACCEPT by root independent read of frozen site protocol and all 51 bridge cases",
+    "source_acceptance_is_not_runtime_acceptance": true
+  },
+  "local": {
+    "f4b-focused-final.log": {
+      "status": "PASS",
+      "scope": "128 focused CPU tests before the last parsed order/reservation binding amendment; 27 guard + 30 identity + 71 commerce; overlaps the next guard run",
+      "sha256": "cce056b980a7e9c305e8b70fde5d082341d83a617b833738bc47122e2c0059f5",
+      "bytes": 1247
+    },
+    "f4b-guard-final.log": {
+      "status": "PASS",
+      "scope": "27 request-authority CPU tests after final runtime amendment; explicit doubles",
+      "sha256": "18001070e77a4fea427750c15caa179fda80598c2cef283258a40aa29de62486",
+      "bytes": 467
+    },
+    "f4b-site-focused-final.log": {
+      "status": "PASS",
+      "scope": "95 Node SQLite/signed HTTP/server-preflight tests in four site files",
+      "sha256": "dfdd878e5c84946387bb549279e9a6de2244151c7dd2f2404367bcf232e3f2c5",
+      "bytes": 9176
+    },
+    "f4b-root-tests.log": {
+      "status": "PASS",
+      "scope": "30 repository source/policy tests, including two protocol distribution/landing cases",
+      "sha256": "9b7c1a07630a8377ad4c3f4cfd312e783800b3b49b06b58dc1ee4209e97ab64c",
+      "bytes": 2749
+    },
+    "f4b-erp-build.log": {
+      "status": "PASS",
+      "scope": "Local uncommitted candidate tsc/Vite/server-worker build; not committed-source or PostgreSQL acceptance",
+      "sha256": "9a5b34eaf3c00b595ae0f32345367d9f69818a755a2437cb9332c5cc155b8aab",
+      "bytes": 1001
+    },
+    "f4b-dispatch-fixture-probe-final.log": {
+      "status": "PASS",
+      "scope": "Exact extracted seed with canonical reserve/assign handlers using explicit memory transaction; not SQL acceptance",
+      "sha256": "543c585b1d5c8426863b93af5ff268e3a0e0b678d637bfe9a9fe7aac79f55bc6",
+      "bytes": 234
+    }
+  },
+  "hosted": {
+    "status": "CORRECTIVE_CHECKPOINT_PENDING",
+    "new_actual_bridge_cases": 51,
+    "required_jobs": [
+      "Source integrity and policy tests",
+      "Corporate site checks and production build",
+      "ERP checks, build and PostgreSQL tests",
+      "Site SQLite to ERP PostgreSQL HTTP acceptance"
+    ],
+    "acceptance_skips_allowed": 0
+  },
+  "coverage": [
+    "Default-off configuration with enabled peer startup preflight; additive separate token namespace and exact frozen old-reader denial",
+    "Signed fresh site session/profile/account authority with immutable original descriptor and no role transfer or success cache",
+    "Company/user/binding/generation/password/TOTP/user-version proof; current checks before work, commit, private files, SSE and response",
+    "Atomic dual-namespace role/disable/password/MFA revocation; unlink/relink generations and exact outage-safe own logout",
+    "Idempotent write recovery after a lost response through fresh same-user local login, with foreign authority denied",
+    "Exact self-dispatch +1/siteIds-only scope expansion with input order/reservation/persisted receipt/result binding, revocation and fresh private response checks",
+    "Self-dispatch pre/post commit authority changes and actual HTTP disconnect; complete effect/history/credential/binding/session rollback",
+    "Old-schema upgrade preservation in isolated PostgreSQL schema; old migration replay; immutable provenance and terminal revocation"
+  ],
+  "historical_f4a": {
+    "source_sha": "5133519984b6b50676393a7c4c4e541677d2cefa",
+    "accepted_run": 42475824054,
+    "duplicate_push_run": 42475797237,
+    "duplicate_push_status": "CANCELLED; ERP cancelled, three other mandatory jobs success; missing raw cancelled-job log returned 404; no cause inferred"
+  },
+  "open": [
+    "F3 browser-bound session issuance/exchange and local MFA UX",
+    "F4 privacy/retention/background-policy integration before actual issuance",
+    "F5 actual browser/Strict-cookie/device/provider/company acceptance",
+    "Production load/backup/restore/UAT and entire 72 V4 / 475 preserved V3 criteria",
+    "Native latest iOS source is separate PR127/65f341e and is not included in this stacked source"
+  ],
+  "activation": {
+    "sessions_enabled_by_default": false,
+    "production_configuration_changed": false,
+    "paid_services_activated": false,
+    "merged": false,
+    "deployed": false
+  },
+  "first_attempt": {
+    "source_sha": "ef1242d1426e592f0d7fc2fc703cb9cf6f8a60cb",
+    "tree_sha": "a37ed068f3e5523fb068a8a96088a2e95cacb2e5",
+    "pr": 131,
+    "pr_run": 42480841055,
+    "push_run": 42480802391,
+    "status": "FAILED_TEST_FIXTURE",
+    "results": {
+      "erp": {
+        "status": "PASS",
+        "tests": 2832,
+        "files": 122,
+        "postgresql": "17.6"
+      },
+      "site": {
+        "status": "PASS",
+        "vitest": 732,
+        "node_other": 90,
+        "vps": 297
+      },
+      "root": {
+        "status": "PASS",
+        "tests": 30
+      },
+      "bridge": {
+        "status": "FAIL",
+        "total": 82,
+        "pass": 81,
+        "fail": 1,
+        "skipped": 0,
+        "existing_pass": 31,
+        "new_f4b_pass": 50,
+        "new_f4b_total": 51,
+        "self_dispatch_pass": 17
+      }
+    },
+    "failure": "Upgrade case65 stopped at current_schemas(false) name[] driver decoding: raw PostgreSQL array string was compared to JavaScript array; actual upgrade not reached in that attempt.",
+    "raw_logs": {
+      "erp": {
+        "path": "f4b-42480841055-erp.log",
+        "sha256": "4fa55ba9ec37f5ddd73f42c4654dea1648685bc7845430dd80bd2de2264efd8b",
+        "bytes": 104984
+      },
+      "site": {
+        "path": "f4b-42480841055-site.log",
+        "sha256": "3c3e441923a4fb33990e26eab2f2cb6886880ba32b24837f6db2dea5406031b3",
+        "bytes": 141955
+      },
+      "root": {
+        "path": "f4b-42480841055-root.log",
+        "sha256": "69cc1c27b92d06fcfd03d0f28f125ed85f21ff38c9e0b7098d41bed9b35f9855",
+        "bytes": 40952
+      },
+      "bridge": {
+        "path": "f4b-42480841055-bridge-failed.log",
+        "sha256": "6f0cd8f7ccc54285a33904ac4a4665653e04a63f08307e64c9c7c3265acc4360",
+        "bytes": 105319
+      }
+    },
+    "original_bridge_input": {
+      "sha256": "21fc3d44ced06cbf053ad7fe97ac9f211bf85245c3f50252726b760ed62f8ba2",
+      "bytes": 52190
+    }
+  },
+  "correction": {
+    "parent_sha": "ef1242d1426e592f0d7fc2fc703cb9cf6f8a60cb",
+    "scope": "One test SQL expression casts current_schemas(false) to text[]; exact own-schema/pg_catalog assertion retained. No runtime/schema change.",
+    "source_review": "ACCEPT by independent reviewer and root; exact pg 8.16.3 name[]/text[] parsers reproduced",
+    "actual_corrected_upgrade": "NOT_RUN until corrected exact-source CI"
+  }
+}

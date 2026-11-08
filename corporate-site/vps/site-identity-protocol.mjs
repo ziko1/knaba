@@ -1,7 +1,7 @@
 import {createHash,createHmac,randomBytes,timingSafeEqual} from 'node:crypto';
 
 export const MAX_PROOF_AGE_MS=5*60_000;
-const paths={erp:new Set(['/api/v1/auth/site-links/inspect-challenge']),site:new Set(['/auth/site-identity/inspect','/auth/site-identity/redeem'])};
+const paths={erp:new Set(['/api/v1/auth/site-links/inspect-challenge']),site:new Set(['/auth/site-identity/inspect','/auth/site-identity/redeem','/auth/site-identity/introspect-session'])};
 export const digest=value=>createHash('sha256').update(value).digest('hex');
 export const opaque=()=>randomBytes(32).toString('base64url');
 export const proofHash=/^[a-f0-9]{64}$/;
@@ -11,6 +11,12 @@ export function requireValue(condition,code='ACCESS_DENIED'){if(!condition)throw
 export function exactObject(value,keys){requireValue(value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(key=>keys.includes(key)),'VALIDATION_ERROR');return value;}
 const bounded=(value,max)=>typeof value==='string'&&Buffer.byteLength(value)>0&&Buffer.byteLength(value)<=max&&!/[\u0000-\u0020\u007f]/.test(value);
 export function secureEqual(a,b){if(typeof a!=='string'||typeof b!=='string')return false;const left=Buffer.from(a),right=Buffer.from(b);return left.length===right.length&&timingSafeEqual(left,right);}
+/** Independent operator opt-in; F2 peer.active never enables session authority. */
+export function parseSessionAuthorityEnabled(value){
+ if(value===undefined||value===null||value===''||value==='false')return false;
+ if(value==='true')return true;
+ throw new FederationError('MISSING_CONFIGURATION');
+}
 function origin(value,localTest){try{const url=new URL(value);return value===url.origin&&!url.username&&!url.password&&!url.search&&!url.hash&&(url.protocol==='https:'||(localTest===true&&url.protocol==='http:'&&url.hostname==='127.0.0.1'));}catch{return false;}}
 export function trustFingerprint(config){return digest(JSON.stringify([config.companyId,config.issuer,config.audience,'site-user-id-v1',config.version,config.active,config.expiresAt??null]));}
 export function transportFingerprint(config){return digest(JSON.stringify([trustFingerprint(config),config.erpOrigin,config.siteOrigin,config.keyId,digest(config.secret),config.ownerUserId??null]));}

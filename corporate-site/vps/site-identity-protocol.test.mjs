@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {once} from 'node:events';
 import {
-  FederationError,parsePeerConfig,peerRequest,proofHeaders,readProof,signRequest,verifyRequest,signResponse
+  FederationError,parsePeerConfig,parseSessionAuthorityEnabled,peerRequest,proofHeaders,readProof,signRequest,verifyRequest,signResponse
 } from './site-identity-protocol.mjs';
 
 const erpPath='/api/v1/auth/site-links/inspect-challenge',sitePath='/auth/site-identity/inspect';
+const introspectionPath='/auth/site-identity/introspect-session';
 const settings={companyId:'synthetic-company',issuer:'https://synthetic-site.example/identity',audience:'synthetic-erp',
   version:1,active:true,keyId:'knaba-federation-http-test',secret:Buffer.alloc(32,37).toString('base64url')};
 const rejected=promise=>assert.rejects(promise,error=>error instanceof FederationError);
@@ -50,6 +51,29 @@ test('actual loopback request/response binds exact bytes and issues a fresh requ
   assert.deepEqual(await peerRequest(f.peer,'erp',erpPath,body),{ok:true,input:body});
   assert.equal(f.requests.length,2);assert.notEqual(f.requests[0].proof.nonce,f.requests[1].proof.nonce);
   assert.equal(f.requests[0].bytes.toString(),JSON.stringify(body));assert.equal(f.requests[0].path,erpPath);
+});
+
+test('session authority requires its own exact explicit operator flag',()=>{
+  for(const value of [undefined,null,'','false'])assert.equal(parseSessionAuthorityEnabled(value),false);
+  assert.equal(parseSessionAuthorityEnabled('true'),true);
+  for(const value of [true,false,0,1,'TRUE','False',' true','false ','1','0',{},[]]){
+    assert.throws(()=>parseSessionAuthorityEnabled(value),error=>error instanceof FederationError&&error.code==='MISSING_CONFIGURATION');
+  }
+});
+
+test('introspection uses a distinct signed path and a fresh response nonce on actual loopback HTTP',async t=>{
+  const f=await fixture(t),body={sessionDigest:'a'.repeat(64)};
+  f.peer=parsePeerConfig({...f.peer,siteOrigin:f.origin,erpOrigin:'http://127.0.0.1:1'},{localTest:true});
+  assert.deepEqual(await peerRequest(f.peer,'site',introspectionPath,body),{ok:true,input:body});
+  f.mode='replayed-response';await rejected(peerRequest(f.peer,'site',introspectionPath,body));
+  assert.notEqual(f.requests[0].proof.nonce,f.requests[1].proof.nonce);
+  const bytes=Buffer.from(JSON.stringify(body));
+  const wrongPathProof=signRequest(f.peer,sitePath,bytes);
+  const wrongPath=await fetch(f.origin+introspectionPath,{method:'POST',headers:{'content-type':'application/json',...proofHeaders(wrongPathProof)},body:bytes});
+  assert.equal(wrongPath.status,403);await wrongPath.text();
+  const old=signRequest(f.peer,introspectionPath,bytes,Date.now()-60_000);
+  const stale=await fetch(f.origin+introspectionPath,{method:'POST',headers:{'content-type':'application/json',...proofHeaders(old)},body:bytes});
+  assert.equal(stale.status,403);await stale.text();
 });
 
 test('actual HTTP peer rejects wrong body/path/MAC/config and expired signed requests',async t=>{

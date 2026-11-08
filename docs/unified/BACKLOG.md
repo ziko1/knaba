@@ -1,5 +1,13 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — F4-B source reviewed; actual acceptance pending
+
+Незалежно прийнято separate federated store/reader та current signed site authority, exact outage-safe logout і вузьке завершення self-dispatch із terminal session revocation. Додано51 actual bridge case; SQL/HTTP acceptance ще NOT_RUN. Локально128 focused CPU (останній guard delta повторно27),95 site checks,30 root, candidate ERP build; ці overlapping proofs не додаються й не замінюють exact-commit CI. [Input hashes, review, local logs і межі](evidence/federated-session-authority-20261108/verification.json). Новий flag defaultoff; F3 issuance, рештаF4 policy/privacy, F5 і весь продукт NOT_READY.
+
+## 08.11.2026 — F4-A SQL accepted, F4-B in progress
+
+F4-A local ERP session/device authority accepted at513351 / CI42475824054, включно з22 actual HTTP/PostgreSQL races і всіма4 required jobs. Наступний F4-B candidate: separate federated namespace, current site introspection, dual-namespace revoke writers, old-reader denial; [контракт](FEDERATED_SESSION_AUTHORITY_2026-11-08_UK.md). Незалежний site review і local focused checks є, нові actual cross-system cases ще NOT_RUN. F3 issuer/UI, privacy/retention/background інтеграція і весь F5 залишаються OPEN.
+
 ## 08.11.2026 — F4-A local authority candidate
 
 Реалізовано local ERP cookie/device transaction/response fences та збережено own-revocation/receipt contracts. Source review і локальні перевірки описано в [evidence](evidence/request-authority-20261108/verification.json);22 нові actual PostgreSQL/HTTP cases очікують hosted exact-source acceptance. Це prerequisite до F3, не закриття всього F4/KN-C04/KN-U09. F3 і cross-system policy/retention/background лишаються кодовими задачами; зовнішні browser/device/signing/provider/UAT gates окремі.
@@ -33,7 +41,7 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
 | KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | PR123 authority fixes, F1 storage та F2 dual-consent actual SQL/HTTP verified; F4-A local session/device fence candidate, PostgreSQL acceptance pending; [контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). F3–F5 session exchange, shared revocation і acceptance OPEN |
+| KN-C04 / KN-U09 | P0 | PR123 authority fixes, F1 storage та F2 dual-consent actual SQL/HTTP verified; F4-A local session/device fence actual HTTP/PostgreSQL accepted; F4-B federated authority candidate, combined SQL acceptance pending; [контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). F3–F5 session exchange, shared revocation і acceptance OPEN |
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |

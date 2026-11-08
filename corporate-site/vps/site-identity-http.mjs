@@ -5,7 +5,8 @@ import {challengeTokenPattern,exactObject,requireValue,requireActive,transportFi
  peerRequest,readProof,verifyRequest,signResponse,FederationError,digest,trustFingerprint,proofHash} from './site-identity-protocol.mjs';
 
 const browserPaths=new Set(['/auth/site-identity/session','/auth/site-identity/preview','/auth/site-identity/consent']);
-const backPaths=new Set(['/auth/site-identity/inspect','/auth/site-identity/redeem']);
+const sessionPath='/auth/site-identity/introspect-session';
+const backPaths=new Set(['/auth/site-identity/inspect','/auth/site-identity/redeem',sessionPath]);
 const csrf=token=>createHmac('sha256',token).update('KNABA-SITE-IDENTITY-CSRF-V1').digest('base64url');
 const previewProof=(token,challenge,user)=>createHmac('sha256',token).update(JSON.stringify(['KNABA-SITE-IDENTITY-PREVIEW-V1',
  ...['id','challengeDigest','nonceDigest','companyId','issuer','audience','targetUserId','targetDisplayName','targetEmail','companyName','trustFingerprint','expiresAt'].map(key=>challenge[key]),
@@ -18,10 +19,11 @@ const fullChallenge=(value,peer,token)=>{const row=exactObject(value,['id','chal
   text(row.targetUserId,200)&&row.targetUserId.length>0&&!/\s/.test(row.targetUserId)&&text(row.targetDisplayName,1024)&&text(row.targetEmail,320)&&text(row.companyName,1024)&&
   Number.isSafeInteger(row.expiresAt)&&row.expiresAt>now&&row.expiresAt<=now+300_000,'ACCESS_DENIED');return row;};
 
-export function createSiteIdentityHandler(db,{config,developerEmail='',origin,localTest=false,transport=peerRequest}={}){
- const authority=createSiteConsentAuthority(db,{config,developerEmail}),buckets=new Map();
- function rate(key){const now=Date.now();if(buckets.size>5000){for(const [id,row]of buckets)if(row.until<=now)buckets.delete(id);requireValue(buckets.size<5000,'RATE_LIMITED');}
-  const old=buckets.get(key),row=!old||old.until<=now?{count:0,until:now+60_000}:old;row.count++;buckets.set(key,row);requireValue(row.count<=40,'RATE_LIMITED');}
+export function createSiteIdentityHandler(db,{config,developerEmail='',origin,localTest=false,transport=peerRequest,sessionsEnabled=()=>false}={}){
+ const authority=createSiteConsentAuthority(db,{config,developerEmail,sessionsEnabled}),buckets=new Map();
+ const requireSessions=()=>requireValue(sessionsEnabled()===true,'MISSING_CONFIGURATION');
+ function rate(key,limit=40){const now=Date.now();if(!buckets.has(key)&&buckets.size>=5000){for(const [id,row]of buckets)if(row.until<=now)buckets.delete(id);requireValue(buckets.size<5000,'RATE_LIMITED');}
+  const old=buckets.get(key),row=!old||old.until<=now?{count:0,until:now+60_000}:old;row.count++;buckets.set(key,row);requireValue(row.count<=limit,'RATE_LIMITED');}
  function peer(){const current=requireActive(config());requireValue(localTest||current.siteOrigin===origin,'MISSING_CONFIGURATION');return current;}
  function unchanged(original){requireValue(transportFingerprint(peer())===transportFingerprint(original));}
  return async function handle({req,res,url,accountUser,readBody,sameAccountSession,developerWorkspace=false,clientIp=''}){
@@ -35,13 +37,22 @@ export function createSiteIdentityHandler(db,{config,developerEmail='',origin,lo
    return reply(200,path.endsWith('.js')?siteIdentityClient:renderSiteIdentityPage('site'),{'Content-Type':path.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8'});
   }
   try{
-   requireValue(!url.search,'VALIDATION_ERROR');const currentPeer=peer();
+   requireValue(!url.search,'VALIDATION_ERROR');if(path===sessionPath)requireSessions();const currentPeer=peer();
    if(backPaths.has(path)){
     requireValue(req.method==='POST'&&String(req.headers['content-type']||'').split(';')[0]==='application/json','VALIDATION_ERROR');
-    const bytes=await readBody(8192),signed=verifyRequest(currentPeer,path,bytes,readProof(req.headers));unchanged(currentPeer);rate(currentPeer.keyId);
-    const input=JSON.parse(bytes.toString('utf8')),result=path.endsWith('/inspect')?authority.inspect(input):authority.redeem(input);
+    const bytes=await readBody(8192);if(path===sessionPath)requireSessions();
+    const signed=verifyRequest(currentPeer,path,bytes,readProof(req.headers));unchanged(currentPeer);
+    const input=JSON.parse(bytes.toString('utf8'));
+    // A per-session transport limiter is not an authority cache. F2 keeps its
+    // existing peer bucket; each accepted introspection still reads live SQLite.
+    if(path===sessionPath){
+     requireValue(typeof input?.sessionDigest==='string'&&input.sessionDigest.length===64&&proofHash.test(input.sessionDigest),'VALIDATION_ERROR');
+     rate('session:'+digest(JSON.stringify([currentPeer.keyId,input.sessionDigest])),600);
+    }else rate(currentPeer.keyId);
+    const result=path===sessionPath?authority.introspectSession(input):path.endsWith('/inspect')?authority.inspect(input):authority.redeem(input);
     unchanged(currentPeer);const returned=Buffer.from(JSON.stringify(result));
-    return reply(200,returned,{'x-knaba-federation-response':signResponse(currentPeer,path,returned,signed)});
+    const signature=signResponse(currentPeer,path,returned,signed);if(path===sessionPath)requireSessions();
+    return reply(200,returned,{'x-knaba-federation-response':signature});
    }
    requireValue(!developerWorkspace&&accountUser&&sameAccountSession(),'NEEDS_REAUTH');
    rate(digest(clientIp+':'+accountUser.id));

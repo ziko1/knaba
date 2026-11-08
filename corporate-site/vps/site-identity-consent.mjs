@@ -10,6 +10,7 @@ const ordinaryRoles=new Set(['client','worker','partner','bauleiter','admin']);
 const previewKeys=['id','challengeDigest','nonceDigest','companyId','issuer','audience','targetUserId',
   'targetDisplayName','targetEmail','companyName','trustFingerprint','expiresAt'];
 const proofKeys=['grantToken','challengeId','challengeDigest','nonceDigest','companyId','targetUserId','trustFingerprint'];
+const sessionKeys=['companyId','issuer','audience','subject','sessionDigest','profileVersion','profileFingerprint','trustFingerprint','transportFingerprint'];
 const hasText=(value,max,empty=false)=>typeof value==='string'&&(empty||value.length>0)&&
   Buffer.byteLength(value)<=max&&!/[\u0000-\u001f\u007f]/.test(value);
 const identifier=(value,max)=>hasText(value,max)&&!/[\s]/u.test(value);
@@ -40,8 +41,9 @@ function requestFingerprint(peer,input){
 /** VPS authority only. The route owns CSRF and authenticated peer transport; a challenge
  * is the ERP's verified preview, never a set of browser-supplied identity claims.
  * Every database operation is synchronous; no network call occurs under SQLite locks. */
-export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Date.now}={}){
-  requireValue(typeof config==='function'&&typeof clock==='function','MISSING_CONFIGURATION');
+export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Date.now,sessionsEnabled=()=>false}={}){
+  requireValue(typeof config==='function'&&typeof clock==='function'&&typeof sessionsEnabled==='function','MISSING_CONFIGURATION');
+  const requireSessions=()=>requireValue(sessionsEnabled()===true,'MISSING_CONFIGURATION');
   let developer='';
   try{if(developerEmail)developer=normalizeEmail(developerEmail);}
   catch{throw new FederationError('MISSING_CONFIGURATION');}
@@ -50,7 +52,8 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
     requireValue(Number.isSafeInteger(value)&&value>=0&&value<=8_640_000_000_000_000);
     return value;
   };
-  function transaction(operation){
+  function transaction(operation,guard=()=>{}){
+    guard();
     db.exec('BEGIN IMMEDIATE');
     try{
       const now=stamp(),peer=Object.freeze({...requireActive(config(),now)});
@@ -60,6 +63,7 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
       requireValue(checkedAt>=now&&secureEqual(trust,trustFingerprint(latest))&&
         secureEqual(transport,transportFingerprint(latest)));
       const result=finish(checkedAt);
+      guard();
       db.exec('COMMIT');
       return result;
     }catch(error){db.exec('ROLLBACK');throw error;}
@@ -114,6 +118,15 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
     requireValue(value.companyId===peer.companyId&&secureEqual(value.trustFingerprint,trustFingerprint(peer)));
     return value;
   }
+  function sessionProof(input,peer){
+    const value=exact(input,sessionKeys);
+    requireValue(identifier(value.subject,200)&&Number.isSafeInteger(value.profileVersion)&&value.profileVersion>=0&&
+      ['sessionDigest','profileFingerprint','trustFingerprint','transportFingerprint'].every(key=>
+        typeof value[key]==='string'&&value[key].length===64&&proofHash.test(value[key])),'VALIDATION_ERROR');
+    requireValue(value.companyId===peer.companyId&&value.issuer===peer.issuer&&value.audience===peer.audience&&
+      secureEqual(value.trustFingerprint,trustFingerprint(peer))&&secureEqual(value.transportFingerprint,transportFingerprint(peer)));
+    return Object.freeze(Object.fromEntries(sessionKeys.map(key=>[key,value[key]])));
+  }
   function resolve(peer,input,now){
     const row=db.prepare('SELECT * FROM vps_site_identity_consents WHERE id=?').get(input.grantToken.slice(0,36));
     requireValue(row&&row.company_id===peer.companyId&&row.issuer===peer.issuer&&row.audience===peer.audience&&
@@ -146,6 +159,19 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
       expiresAt:row.expires_at,checkedAt};
   }
   return Object.freeze({
+    /** Signed ERP-only current-session check. No consent grant is accepted or
+     * consumed, and no profile/session snapshot is refreshed for the caller. */
+    introspectSession(input){
+      return transaction((peer,now)=>{
+        const checked=sessionProof(input,peer),first=actorFor(checked.sessionDigest,peer,now);sameActor(checked,first);
+        return checkedAt=>{
+          const current=actorFor(checked.sessionDigest,peer,checkedAt);sameActor(checked,current);
+          const expiresAt=Math.min(first.expiresAt,current.expiresAt,peer.expiresAt?Date.parse(peer.expiresAt):Infinity);
+          requireValue(expiresAt>checkedAt);
+          return {active:true,...checked,expiresAt,checkedAt};
+        };
+      },requireSessions);
+    },
     current(cookieHeader){
       return transaction((peer,now)=>{
         const hash=sessionDigest(cookieHeader),actor=actorFor(hash,peer,now);

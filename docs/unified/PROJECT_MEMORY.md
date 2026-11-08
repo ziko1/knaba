@@ -1,5 +1,15 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — F4-B source reviewed; actual acceptance pending
+
+Незалежно прийнято separate federated store/reader та current signed site authority, exact outage-safe logout і вузьке завершення self-dispatch із terminal session revocation. Додано51 actual bridge case; SQL/HTTP acceptance ще NOT_RUN. Локально128 focused CPU (останній guard delta повторно27),95 site checks,30 root, candidate ERP build; ці overlapping proofs не додаються й не замінюють exact-commit CI. [Input hashes, review, local logs і межі](evidence/federated-session-authority-20261108/verification.json). Новий flag defaultoff; F3 issuance, рештаF4 policy/privacy, F5 і весь продукт NOT_READY.
+
+## 08.11.2026 — F4-A accepted; F4-B source continuation
+
+F4-A accepted на exact source `5133519984b6b50676393a7c4c4e541677d2cefa`, tree `4f0115028e6677a788b1579a18507f045e2c0070`, [PR130](https://github.com/ziko1/knaba/pull/130), [CI42475824054](https://github.com/ziko1/knaba/actions/runs/42475824054): ERP2820/122 files (22 actual request-authority HTTP/PG +16 CPU), bridge31, site732+90+268, root30, усі4 required jobs SUCCESS без acceptance skips. Незалежно звірено10input hashes і4raw logs. Це приймання local cookie/device fences, не всього F4.
+
+Наступний isolated candidate `feat/knaba-federated-session-guards-20261108` від513351 додає окремий federated session store/reader, current signed site introspection, terminal revocation і outage-safe exact logout. Browser issuer/login exchange не створено; новий flag defaultoff. [Контракт і межі](FEDERATED_SESSION_AUTHORITY_2026-11-08_UK.md). Actual combined PostgreSQL/SQLite acceptance F4-B ще NOT_RUN; F3, повний F4 privacy/background policy, F5 і whole product NOT_READY.
+
 ## 08.11.2026 — F4-A local session/device authority candidate
 
 Ізольована гілка `feat/knaba-session-authority-20261108` від accepted F2 `1a6e837de7a351a67bf4bef3bda00961aed19d83`: обов’язковий HTTP request context, перевірки original cookie/device до та після business transaction і перед відповіддю; logout під company lock; exact committed ACK для власного logout/password/MFA/device retirement. Виправлено final media-copy selection і SSE slot cleanup. Поведінка idempotent recovery зі свіжим входом того самого користувача збережена. [Контракт](REQUEST_AUTHORITY_2026-11-08_UK.md), [input/test evidence](evidence/request-authority-20261108/verification.json).
