@@ -411,33 +411,34 @@ class ErpConsoleActivity : Activity() {
         }
     }
     private fun routeWorkspace() {
-        if (demoMode) { showDashboard(); return }
-        val current = actor ?: run { showLogin(); return }
-        fun values(key: String): List<String> {
-            val list = current.optJSONArray(key) ?: return emptyList()
-            return (0 until list.length()).map { list.optString(it) }
-        }
-        when (val destination = RoleWorkspaceRouting.route(values("roles"), values("permissions"))) {
-            is RoleWorkspaceRouting.Destination.NoAccess -> {
-                heading(getString(R.string.erp_access_denied), getString(R.string.erp_server_scope))
-                button(getString(R.string.erp_logout)) { signOut() }
-            }
-            is RoleWorkspaceRouting.Destination.Open -> showDashboard()
-            is RoleWorkspaceRouting.Destination.Choose -> {
-                heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
-                destination.workspaces.forEach { workspace ->
-                    button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }) {
-                        showDashboard()
-                    }
-                }
-                button(getString(R.string.erp_logout)) { signOut() }
-            }
-        }
+        // Keep the existing permission-scoped ERP navigation for specialist roles.
+        // Role-based workspace selection is an optional presentation layer.
+        showDashboard()
     }
     private fun showDashboard() {
         heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
         val roles = actor?.optJSONArray("roles") ?: JSONArray()
         label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { roleLabel(roles.optString(it)) }, 13f, muted)
+        if (!demoMode) {
+            val current = actor
+            val rolesList = current?.optJSONArray("roles") ?: JSONArray()
+            val permissionsList = current?.optJSONArray("permissions") ?: JSONArray()
+            val roles = (0 until rolesList.length()).map { rolesList.optString(it) }
+            val grants = (0 until permissionsList.length()).map { permissionsList.optString(it) }
+            when (val route = RoleWorkspaceRouting.route(roles, grants)) {
+                is RoleWorkspaceRouting.Destination.Choose -> {
+                    val chooser = panel()
+                    label(getString(R.string.erp_role), 17f, ink, chooser)
+                    route.workspaces.forEach { workspace ->
+                        button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }, parent = chooser) {
+                            // Current ERP dashboard remains permission-filtered on every selection.
+                            showDashboard()
+                        }
+                    }
+                }
+                else -> Unit
+            }
+        }
         val summary = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
         label(getString(R.string.erp_loading), 15f, muted, summary)
         button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
