@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root",
+  "author": "/root/release_capabilities",
+  "reviewedAt": "2026-11-08T15:38:53.945672+00:00",
+  "baseSourceGitSha": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+  "status": "SOURCE_FIX_ACCEPTED_NATIVE_RERUN_REQUIRED",
+  "file": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+  "beforeSha256": "2da6cb5add3392e71fe9a79e1541e74358babaf582f86729b6d85c12b3e4bfe5",
+  "afterSha256": "1600e3adf7e60d4e96ca6d023035741a0d2cd0e210d63445b6cf74f92dddb6da",
+  "checks": {
+    "exactScopedIdentifierSubstitution": true,
+    "productionFilesUnchanged": true,
+    "assertionsAndTimingUnchanged": true,
+    "originalJUnitSuites": [
+      {
+        "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "a569afcb5ed6df0df7b3e1c9516c0bafe6d0a176b8d5cc97f3927377e75b2cf7"
+      },
+      {
+        "name": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 54,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "e0bb29e2e42fb9958d8cbcb11cc0d92da4cb27de86f3fe33d5d34bcf5353897e"
+      },
+      {
+        "name": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "b06ef9dba04cffc219bc361f23973a34ee17e356ec96153e97eaae1f960e8495"
+      }
+    ],
+    "javaLookupProbe": {
+      "path": "AndroidBusyLatchShadowProbe.java",
+      "sha256": "0736ab1f2489cd625a2375355998c799e47932d0e98e147da1006440c757d401",
+      "command": "/workspace/scratch/4686fcc1b388/toolchain/jdk-17.0.21+9/bin/java /workspace/scratch/a3c43ba31037/AndroidBusyLatchShadowProbe.java",
+      "exitCode": 0,
+      "actualOutput": "PASS: inherited entered hides outer entered; distinct loginEntered captures the intended outer latch.\n"
+    },
+    "correctedTargetedNativeTest": {
+      "status": "PASS",
+      "xmlSha256": "4288c147f1ebb9be65ed30985bbc4bb2fdfe75fefc5665394766d4de0d9e5e16",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sourceMatchesReviewedFile": true,
+      "fullSuiteStillRequiresNewCI": true
+    }
+  },
+  "limitations": [
+    "No new native PASS until corrected fixture executes on the final source.",
+    "Historical a632 failure retained; no source/artifact retagging."
+  ]
+}

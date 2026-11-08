@@ -1,5 +1,9 @@
 # KNABA Mobile — module memory
 
+## 2026-11-08 — a632 repository acceptance and Android fixture correction
+
+Repository run42494461119 at a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6 passed all four required jobs: root30/30, site1119/1119, ERP with genuine PostgreSQL3000/3000, signed HTTP bridge82/82; no failed/skipped test cases. Android native run42494461120 executed60 framework tests,59 passed/1 failed. The new discovery-overlapping-login regression accidentally referenced inherited CountDownLatch fields instead of its outer locals. Independent XML/source review and a local Java probe confirmed the issue. Rename only its two captured locals; production, timeouts, assertions and test inventory remain unchanged. The a632 iOS job128773630570 subsequently compiled and executed91 XCTest with0 failures, exported13 attachments and passed clean simulator install/launch; those results retain sourcea632. A fresh source build is required before handing over an APK. Public erpOrigin:null, Apple owner signing, physical and full-product acceptance remain open.
+
 ## 2026-11-08 — branded native reconciliation checkpoint
 
 First brand source0234895: Android36/36 Robolectric and APK/AAB build succeeded; iOS74/74 XCTest and Simulator launch succeeded, with independently viewed native PNGs. Android emulator failed before install on missing libpulse.so.0; inherited Telegram exact-replay fixture failed in ERP CI (2968/2969). Both concrete corrections are prepared without weakening production equality.

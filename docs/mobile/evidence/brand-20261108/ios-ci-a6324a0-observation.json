@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "sourceGitSha": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+  "sourceTree": "3a913cdd996c211ba7dce3529687bbdd8066eead",
+  "runId": 42494461120,
+  "jobId": 128773630570,
+  "logUrl": "https://github.com/ziko1/knaba/actions/runs/42494461120/job/128773630570",
+  "retrieval": "GitHub fetch_workflow_job_logs read-only connector; decoded raw log",
+  "logCharacterCount": 329354,
+  "nativeObserved": {
+    "executed": 91,
+    "failures": 0,
+    "unexpectedFailures": 0,
+    "result": "TEST_SUCCEEDED",
+    "compile": "SUCCESS",
+    "presentationAttachments": 13,
+    "simulatorResetInstallLaunch": "PASS"
+  },
+  "artifactObserved": {
+    "id": 13622379511,
+    "name": "knaba-ios-simulator-a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+    "archiveBytes": 11092640,
+    "archiveSha256": "606308dfdda00cbad26eb46e13454257bf87a76b57c5b4bd699880a24c62c78b"
+  },
+  "rawLogExcerpts": [
+    "2026-11-08T15:28:25.3483490Z {\"sourceGitSha\": \"a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6\", \"requestedOS\": \"18.5\", \"requestedDevice\": \"iPhone 16\", \"hostArchitecture\": \"arm64\", \"runtimeDownload\": \"NOT_NEEDED\", \"status\": \"SIMULATOR_READY_XCTEST_NOT_RUN\", \"xctestExecution\": \"NOT_RUN\", \"physicalDeviceVerification\": \"NOT_RUN\", \"inventoryAttempts\": [{\"kind\": \"runtimes\", \"canonicalLog\": \"simulator-runtimes-before.json\", \"attempt\": 1, \"log\": \"simulator-runtimes-before.attempt-1.json\", \"timeoutSeconds\": 60, \"outcome\": \"TIMED_OUT\", \"error\": \"Command exceeded 60s; see simulator-runtimes-before.attempt-1.json\"}, {\"kind\": \"runtimes\", \"canonicalLog\": \"simulator-runtimes-before.json\", \"attempt\": 2, \"log\": \"simulator-runtimes-before.attempt-2.json\", \"timeoutSeconds\": 60, \"outcome\": \"SUCCEEDED\"}, {\"kind\": \"devices\", \"canonicalLog\": \"simulator-devices-before.json\", \"attempt\": 1, \"log\": \"simulator-devices-before.attempt-1.json\", \"timeoutSeconds\": 60, \"outcome\": \"SUCCEEDED\"}, {\"kind\": \"devicetypes\", \"canonicalLog\": \"simulator-device-types.json\", \"attempt\": 1, \"log\": \"simulator-device-types.attempt-1.json\", \"timeoutSeconds\": 60, \"outcome\": \"SUCCEEDED\"}, {\"kind\": \"devices\", \"canonicalLog\": \"simulator-devices-ready.json\", \"attempt\": 1, \"log\": \"simulator-devices-ready.attempt-1.json\", \"timeoutSeconds\": 60, \"outcome\": \"TIMED_OUT\", \"error\": \"Command exceeded 60s; see simulator-devices-ready.attempt-1.json\"}, {\"kind\": \"devices\", \"canonicalLog\": \"simulator-devices-ready.json\", \"attempt\": 2, \"log\": \"simulator-devices-ready.attempt-2.json\", \"timeoutSeconds\": 60, \"outcome\": \"SUCCEEDED\"}], \"runtimeIdentifier\": \"com.apple.CoreSimulator.SimRuntime.iOS-18-5\", \"runtimeBuildVersion\": \"22F77\", \"deviceUdid\": \"C3B4A311-D0D4-43F8-A302-EEF03F414804\", \"deviceState\": \"Booted\"}",
+    "2026-11-08T15:32:24.8587940Z Test Suite 'BrandPresentationTests' passed at 2026-11-08 15:32:24.683.",
+    "2026-11-08T15:32:24.8910250Z \t Executed 7 tests, with 0 failures (0 unexpected) in 3.905 (3.907) seconds",
+    "2026-11-08T15:32:26.0271040Z Test Suite 'ERPCommandRecoveryTests' passed at 2026-11-08 15:32:25.242.",
+    "2026-11-08T15:32:26.0406940Z \t Executed 28 tests, with 0 failures (0 unexpected) in 0.371 (0.558) seconds",
+    "2026-11-08T15:32:26.5908850Z Test Suite 'ERPCredentialPolicyTests' passed at 2026-11-08 15:32:25.326.",
+    "2026-11-08T15:32:26.5916620Z \t Executed 5 tests, with 0 failures (0 unexpected) in 0.038 (0.040) seconds",
+    "2026-11-08T15:32:26.5933330Z Test Suite 'ERPCredentialPresentationTests' passed at 2026-11-08 15:32:25.494.",
+    "2026-11-08T15:32:26.5934670Z \t Executed 1 test, with 0 failures (0 unexpected) in 0.167 (0.168) seconds",
+    "2026-11-08T15:32:26.6177400Z Test Suite 'ERPModuleCatalogTests' passed at 2026-11-08 15:32:25.507.",
+    "2026-11-08T15:32:26.6178570Z \t Executed 9 tests, with 0 failures (0 unexpected) in 0.006 (0.012) seconds",
+    "2026-11-08T15:32:26.6196890Z Test Suite 'ERPPendingStorageTests' passed at 2026-11-08 15:32:25.660.",
+    "2026-11-08T15:32:26.6197870Z \t Executed 7 tests, with 0 failures (0 unexpected) in 0.027 (0.153) seconds",
+    "2026-11-08T15:32:26.6656050Z \t Executed 91 tests, with 0 failures (0 unexpected) in 4.720 (5.156) seconds",
+    "2026-11-08T15:32:26.6656820Z \t Executed 91 tests, with 0 failures (0 unexpected) in 4.720 (5.158) seconds",
+    "2026-11-08T15:32:28.2283680Z ** TEST SUCCEEDED **",
+    "2026-11-08T15:32:35.4042530Z Exported 13 XCTest presentation images for review",
+    "2026-11-08T15:33:22.2961080Z   \"sourceGitSha\": \"a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6\",",
+    "2026-11-08T15:33:22.2966170Z   \"scope\": \"SIMULATOR_RESET_SANDBOX_INSTALL_LAUNCH_AND_SCREENSHOT_CAPTURE_ONLY\",",
+    "2026-11-08T15:33:22.2967320Z   \"installAndLaunch\": \"PASS\",",
+    "2026-11-08T15:33:22.3620660Z   \"physicalDevice\": \"NOT_RUN\"",
+    "2026-11-08T15:33:28.8281350Z SHA256 digest of uploaded artifact zip is 606308dfdda00cbad26eb46e13454257bf87a76b57c5b4bd699880a24c62c78b",
+    "2026-11-08T15:33:29.2517730Z Artifact knaba-ios-simulator-a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6.zip successfully finalized. Artifact ID 13622379511",
+    "2026-11-08T15:33:29.2527140Z Artifact knaba-ios-simulator-a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6 has been successfully uploaded! Final size is 11092640 bytes. Artifact ID is 13622379511"
+  ],
+  "remaining": [
+    "Inspect downloaded xcresult summary/manifest, exact application package and PNG files",
+    "Independent visual review is pending downloaded files",
+    "Physical iPhone, customer installation, backend credential operation and owner signing are not covered"
+  ]
+}

@@ -1,5 +1,11 @@
 # KNABA Mobile — budget fence
 
+## 2026-11-08 concrete Android fixture correction
+
+Source a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6 passed all four required repository jobs (30 root, 1119 site, 3000 ERP/PostgreSQL, 82 HTTP bridge checks). Its native Android run executed60 framework cases:59 passed and one new regression fixture failed because inherited latch fields shadowed same-named captured locals. The exact Java lookup was reproduced locally; only those fixture identifiers are corrected, with no production or assertion relaxation. Native iOS evidence remains separately bound to its actual source and completion.
+
+Reserve one additional corrective source checkpoint, at most one new native PR run (existing Android30 + iOS50 minute ceilings, 80 runner-minutes upper bound) plus automatically triggered existing repository checks. Website-style reservation total is now at most three native checkpoints /240 runner-minutes upper bound. Eligible standard public-runner compute remains EUR0 under the already verified public-repository policy; actual model/account balance is UNKNOWN. No larger runner, paid service, new provider, store upload, signing purchase or production action. Reuse available local pinned SDK/Gradle caches offline for the single failed fixture when possible. This is a concrete changed-fixture retry, not an unchanged speculative rerun.
+
 ## 2026-11-08 website-style mobile candidate reservation
 
 User-authorized iOS/Android design and installable test files use only the already verified public `ziko1/knaba` repository and standard Ubuntu/macOS runners. Reserve initial source023 plus one corrective/reconciliation source checkpoint (at most two native runs, 160 runner-minutes upper bound with existing30/50min job limits), including automatically triggered existing root/site/ERP/bridge checks. Eligible standard public-runner compute reservation EUR0; no claim about ChatGPT/account credit balance. No larger runner, paid service, store channel or production activation. Artifact retention14days supports test handoff; durable customer files are separate.

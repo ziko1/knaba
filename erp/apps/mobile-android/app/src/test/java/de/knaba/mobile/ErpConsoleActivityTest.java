@@ -348,11 +348,11 @@ public class ErpConsoleActivityTest {
             @Override String discover() { probes.incrementAndGet(); return "https://fixture.invalid"; }
         });
         await(() -> text().contains(activity.getString(R.string.erp_server_connected)));
-        CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
+        CountDownLatch loginEntered=new CountDownLatch(1),loginRelease=new CountDownLatch(1);
         ControlledTransport transport=new ControlledTransport() {
             @Override JSONObject login(String email,String password,String otp) throws Exception {
-                loginCalls.incrementAndGet(); entered.countDown();
-                if(!release.await(4,TimeUnit.SECONDS))throw new AssertionError("Unreleased failed login fixture");
+                loginCalls.incrementAndGet(); loginEntered.countDown();
+                if(!loginRelease.await(4,TimeUnit.SECONDS))throw new AssertionError("Unreleased failed login fixture");
                 throw new Failure(0,"NETWORK_ERROR",false);
             }
         };
@@ -360,17 +360,17 @@ public class ErpConsoleActivityTest {
         edit(R.string.erp_email).setText("synthetic@example.invalid");
         edit(R.string.erp_password).setText("synthetic-only");
         try {
-            click(R.string.erp_sign_in); assertTrue(entered.await(2,TimeUnit.SECONDS));
+            click(R.string.erp_sign_in); assertTrue(loginEntered.await(2,TimeUnit.SECONDS));
             advance(62);
             assertEquals("Busy login must not start overlapping discovery",1,probes.get());
-            release.countDown();
+            loginRelease.countDown();
             await(() -> !busy()&&text().contains(activity.getString(R.string.erp_connection_error)));
             advance(1);
             await(() -> probes.get()==2&&!ReflectionHelpers.<Boolean>getField(activity,"discoveryBusy"));
             assertEquals("Discovery must never replay login credentials",1,transport.loginCalls.get());
             assertEquals("",edit(R.string.erp_password).getText().toString());
             assertEquals(0,transport.dashboardReads.get());
-        } finally { release.countDown(); }
+        } finally { loginRelease.countDown(); }
     }
 
     @Test public void aSlowRefreshNeverOverlapsAnotherDataRequest() throws Exception {

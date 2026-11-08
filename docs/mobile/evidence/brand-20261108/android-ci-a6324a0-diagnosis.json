@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-08T15:27:35.493Z",
+  "sourceGitSha": "a6324a0e6dbc2e5c70757df7d9db6a5c97cae3e6",
+  "runId": 42494461120,
+  "jobId": 128773630786,
+  "result": "FAILED_NATIVE_TEST_FIXTURE_BEFORE_APK_PACKAGING",
+  "failedStep": "Test and package APK and App Bundle",
+  "failingTest": "de.knaba.mobile.ErpConsoleActivityTest.discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials",
+  "failure": "java.lang.AssertionError at ErpConsoleActivityTest.java:363",
+  "gradleReported": {
+    "completed": 60,
+    "failed": 1
+  },
+  "junitXmlAudit": {
+    "status": "COMPLETE_FAILED_SOURCE_AUDIT",
+    "totals": {
+      "tests": 60,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "actualTestcaseElements": 60
+    },
+    "passed": 59,
+    "suites": [
+      {
+        "file": "/workspace/scratch/a3c43ba31037/brand-ci-a6324a0/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+        "sha256": "a569afcb5ed6df0df7b3e1c9516c0bafe6d0a176b8d5cc97f3927377e75b2cf7",
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "actualTestcaseElements": 5,
+        "failedTestcases": []
+      },
+      {
+        "file": "/workspace/scratch/a3c43ba31037/brand-ci-a6324a0/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+        "sha256": "e0bb29e2e42fb9958d8cbcb11cc0d92da4cb27de86f3fe33d5d34bcf5353897e",
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 54,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "actualTestcaseElements": 54,
+        "failedTestcases": [
+          {
+            "name": "discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials",
+            "type": "java.lang.AssertionError",
+            "message": "java.lang.AssertionError",
+            "firstRelevantFrame": "at de.knaba.mobile.ErpConsoleActivityTest.discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials(ErpConsoleActivityTest.java:363)"
+          }
+        ]
+      },
+      {
+        "file": "/workspace/scratch/a3c43ba31037/brand-ci-a6324a0/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.LauncherIconTest.xml",
+        "sha256": "b06ef9dba04cffc219bc361f23973a34ee17e356ec96153e97eaae1f960e8495",
+        "suite": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "actualTestcaseElements": 1,
+        "failedTestcases": []
+      }
+    ],
+    "scope": "XML from a6324a0e, before the authorized fixture-only correction."
+  },
+  "emulator": {
+    "runtimePrerequisite": "SKIPPED",
+    "installAndLaunch": "SKIPPED"
+  },
+  "artifact": {
+    "id": 13623326195,
+    "bytes": 841707,
+    "sha256": "9ba257827a6c9af0079b060e591c9394baaf47f08394b3f227e0c7f76eade37f"
+  },
+  "cause": {
+    "confirmedBy": "Actual local Java source-launch experiment, exit 0",
+    "summary": "The anonymous ControlledTransport subclass inherits entered/release fields. Unqualified names in overridden login resolve to those inherited fields, while the new test awaits distinct outer locals with the same names.",
+    "reproducer": "/workspace/scratch/a3c43ba31037/AndroidBusyLatchShadowProbe.java",
+    "javaProbe": {
+      "path": "/workspace/scratch/a3c43ba31037/AndroidBusyLatchShadowProbe.java",
+      "sha256": "0736ab1f2489cd625a2375355998c799e47932d0e98e147da1006440c757d401",
+      "command": [
+        "java",
+        "/workspace/scratch/a3c43ba31037/AndroidBusyLatchShadowProbe.java"
+      ],
+      "exitCode": 0,
+      "stdout": "PASS: inherited entered hides outer entered; distinct loginEntered captures the intended outer latch.",
+      "scope": "Java name-resolution experiment; does not execute Android/Robolectric."
+    }
+  },
+  "proposedMinimumCorrection": "Rename only the two new test local latches and their references to loginEntered/loginRelease. Preserve Activity logic, assertions, virtual-time schedule and bounded waits.",
+  "repositoryEdits": "CORRECTED_NEW_TEST_LATCH_IDENTIFIERS_ONLY",
+  "ciRetry": "NOT_REQUESTED",
+  "scope": "Failure diagnosis of own regression fixture; not independent source acceptance of the busy polling delta or workflow.",
+  "notClaimed": [
+    "APK packaged from this source",
+    "Emulator installation or launch",
+    "Android native test pass",
+    "Physical device",
+    "Live ERP"
+  ],
+  "correction": {
+    "observedAt": "2026-11-08T15:32:17.651156+00:00",
+    "path": "/workspace/scratch/a3c43ba31037/knaba/erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+    "beforeSha256": "2da6cb5add3392e71fe9a79e1541e74358babaf582f86729b6d85c12b3e4bfe5",
+    "afterSha256": "1600e3adf7e60d4e96ca6d023035741a0d2cd0e210d63445b6cf74f92dddb6da",
+    "patch": "/workspace/scratch/a3c43ba31037/android-busy-latch-rename.patch",
+    "patchSha256": "eaa194935740ae9a63a2ff8428c981dd5cbe871bdb06ac6fa5316b694a6e8d09",
+    "changedLines": 6,
+    "onlyIdentifiersChanged": [
+      "entered -> loginEntered",
+      "release -> loginRelease"
+    ],
+    "exactScopedSubstitutionVerified": true,
+    "productionActivityUnchangedSha256": "9760017df7c4998bfecc2bf48df28a7cca4fadc1e272b289d87fb61be0d1ce52",
+    "assertionsAndTimingPreserved": true,
+    "gitDiffCheckExitCode": 0,
+    "independentReview": "PENDING_ROOT",
+    "expectedNativeCaseCount": 60,
+    "nativeExecutionAfterCorrection": "NOT_RUN"
+  }
+}
