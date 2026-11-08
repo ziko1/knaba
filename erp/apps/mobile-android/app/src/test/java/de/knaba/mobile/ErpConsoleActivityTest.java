@@ -313,6 +313,183 @@ public class ErpConsoleActivityTest {
         @Override Runnable detachSessionForLogout() { return demo.detachSessionForLogout(); }
     }
 
+    /** Explicit API fixture: these assertions cover native navigation, not SQL authorization. */
+    private static class RoleTransport extends ControlledTransport {
+        final JSONObject identity;
+        final List<String> requestedKinds = new ArrayList<>();
+        RoleTransport(String role, String... permissions) throws Exception {
+            identity = new JSONObject().put("actor", new JSONObject().put("userId", "synthetic-user")
+                    .put("companyId", "synthetic-company").put("roles", new JSONArray().put(role))
+                    .put("permissions", new JSONArray(List.of(permissions))));
+        }
+        @Override JSONObject login(String email, String password, String otp) throws Exception { return new JSONObject(identity.toString()); }
+        @Override JSONObject me() throws Exception { return new JSONObject(identity.toString()); }
+        @Override JSONObject dashboard() throws Exception { return new JSONObject().put("counts", new JSONObject()); }
+        @Override JSONArray entities(String kind) throws Exception {
+            requestedKinds.add(kind);
+            return new JSONArray().put(new JSONObject().put("id", "synthetic-" + kind).put("kind", kind).put("version", 7)
+                    .put("data", new JSONObject().put("name", "Fixture " + kind).put("status", "APPROVED")));
+        }
+        @Override JSONArray catalog() throws Exception { return new JSONArray(); }
+    }
+
+    private static class RecordCommandTransport extends RoleTransport {
+        final JSONObject definition;
+        final AtomicInteger calls = new AtomicInteger();
+        JSONObject submitted;
+        Integer submittedVersion;
+        String submittedName, submittedKey;
+        RecordCommandTransport(String role, String command, String permission, String primaryField, String... granted) throws Exception {
+            super(role, granted);
+            definition = new JSONObject().put("name", command).put("permission", permission).put("highRisk", false)
+                    .put("schema", new JSONObject().put("type", "object").put("properties", new JSONObject()
+                            .put(primaryField, new JSONObject().put("type", "string")))
+                            .put("required", new JSONArray().put(primaryField)));
+        }
+        @Override JSONArray catalog() { return new JSONArray().put(definition); }
+        @Override JSONArray entities(String kind) throws Exception {
+            JSONArray rows = super.entities(kind);
+            JSONObject data = rows.getJSONObject(0).getJSONObject("data");
+            if (kind.equals("quote")) data.put("quoteVersion", 12);
+            if (kind.equals("crew_assignment")) data.put("employeeId", "synthetic-employee-42").put("scheduleVersion", 3);
+            return rows;
+        }
+        @Override JSONObject command(String name, JSONObject input, Integer version, String key) throws Exception {
+            submittedName = name; submitted = new JSONObject(input.toString()); submittedVersion = version; submittedKey = key;
+            calls.incrementAndGet();
+            return new JSONObject().put("id", "synthetic-result");
+        }
+    }
+
+    private String actionTitle(int module, int action) { return activity.getString(module) + " · " + activity.getString(action); }
+
+    @Test public void materialRequestActionBindsOpenedRecordAndVersionWithoutManualIds() throws Exception {
+        launch(); RecordCommandTransport transport = new RecordCommandTransport("EMPLOYEE", "request.submit", "inventory.request", "requestId", "inventory.read", "inventory.request");
+        signInFixture(transport); click(R.string.erp_material_requests); settled(); click(R.string.erp_view_details); settled();
+        click(actionTitle(R.string.erp_material_requests, R.string.erp_action_submit)); settled();
+        assertTrue(views(root()).stream().noneMatch(v -> v instanceof EditText));
+        click(R.string.erp_submit); settled();
+        assertEquals(1, transport.calls.get()); assertEquals("request.submit", transport.submittedName);
+        assertEquals("synthetic-material_request", transport.submitted.getString("requestId"));
+        assertEquals(1, transport.submitted.length()); assertEquals(Integer.valueOf(7), transport.submittedVersion);
+        assertNotNull(java.util.UUID.fromString(transport.submittedKey));
+        assertTrue(text().contains("Fixture material_request"));
+        assertFalse(transport.requestedKinds.contains("task"));
+    }
+
+    @Test public void quoteAcceptancePinsPublishedVersionAndRequiresSensitiveConfirmation() throws Exception {
+        launch(); RecordCommandTransport transport = new RecordCommandTransport("CLIENT", "quote.accept", "quote.accept", "id", "quote.read", "quote.accept");
+        transport.definition.put("highRisk", true);
+        transport.definition.getJSONObject("schema").getJSONObject("properties").put("quoteVersion", new JSONObject().put("type", "integer"));
+        transport.definition.getJSONObject("schema").getJSONArray("required").put("quoteVersion");
+        signInFixture(transport); click(R.string.erp_quotes); settled(); click(R.string.erp_view_details); settled();
+        click(actionTitle(R.string.erp_quotes, R.string.erp_action_accept)); settled();
+        assertTrue(views(root()).stream().noneMatch(v -> v instanceof EditText));
+        click(R.string.erp_submit);
+        AlertDialog first = ShadowAlertDialog.getLatestAlertDialog(); assertNotNull(first);
+        first.getButton(AlertDialog.BUTTON_NEGATIVE).performClick(); settled(); assertEquals(0, transport.calls.get());
+        click(R.string.erp_submit);
+        ShadowAlertDialog.getLatestAlertDialog().getButton(AlertDialog.BUTTON_POSITIVE).performClick(); settled();
+        assertEquals(1, transport.calls.get()); assertEquals("synthetic-quote", transport.submitted.getString("id"));
+        assertEquals(12, transport.submitted.getInt("quoteVersion")); assertEquals(Integer.valueOf(7), transport.submittedVersion);
+    }
+
+    @Test public void readPermissionDoesNotExposeWriteEvenIfCatalogListsIt() throws Exception {
+        launch(); RecordCommandTransport transport = new RecordCommandTransport("EMPLOYEE", "request.approve", "inventory.approve", "requestId", "inventory.read");
+        signInFixture(transport); click(R.string.erp_material_requests); settled(); click(R.string.erp_view_details); settled();
+        String forbidden = actionTitle(R.string.erp_material_requests, R.string.erp_action_review);
+        assertFalse(text().contains(forbidden));
+        click(R.string.erp_actions); settled();
+        assertFalse(text().contains(forbidden)); assertTrue(text().contains(activity.getString(R.string.erp_empty)));
+        assertEquals(0, transport.calls.get());
+    }
+
+    @Test public void incompatibleCommandSchemaCannotBindAnotherEntityId() throws Exception {
+        launch(); RecordCommandTransport transport = new RecordCommandTransport("EMPLOYEE", "request.submit", "inventory.request", "payoutId", "inventory.read", "inventory.request");
+        signInFixture(transport); click(R.string.erp_material_requests); settled(); click(R.string.erp_view_details); settled();
+        assertFalse(text().contains(actionTitle(R.string.erp_material_requests, R.string.erp_action_submit)));
+        assertEquals(0, transport.calls.get());
+    }
+
+    @Test public void ownCrewResponseUsesProjectedEmployeeIdentityAndScheduleVersion() throws Exception {
+        launch(); RecordCommandTransport transport = new RecordCommandTransport("EMPLOYEE", "crew_assignment.acknowledge", "dispatch.acknowledge", "id", "dispatch.acknowledge");
+        JSONObject schema = transport.definition.getJSONObject("schema");
+        schema.getJSONObject("properties").put("employeeId", new JSONObject().put("type", "string")).put("scheduleVersion", new JSONObject().put("type", "integer"));
+        schema.getJSONArray("required").put("employeeId");
+        signInFixture(transport); click(R.string.erp_crew); settled(); click(R.string.erp_view_details); settled();
+        click(actionTitle(R.string.erp_crew, R.string.erp_action_accept)); settled();
+        assertTrue(views(root()).stream().noneMatch(v -> v instanceof EditText));
+        click(R.string.erp_submit); settled();
+        assertEquals("synthetic-crew_assignment", transport.submitted.getString("id"));
+        assertEquals("synthetic-employee-42", transport.submitted.getString("employeeId"));
+        assertEquals(3, transport.submitted.getInt("scheduleVersion")); assertEquals(Integer.valueOf(7), transport.submittedVersion);
+    }
+
+    @Test public void accountantCanReadPayrollAndReportsWithoutWarehouseOrLocationNavigation() throws Exception {
+        launch(); RoleTransport transport = new RoleTransport("ACCOUNTANT", "finance.accountant", "timesheet.read", "report.read", "identity.self");
+        signInFixture(transport);
+        assertTrue(hasButton(R.string.erp_payroll)); assertTrue(hasButton(R.string.erp_payouts));
+        assertTrue(hasButton(R.string.erp_reports)); assertTrue(hasButton(R.string.erp_timesheets));
+        assertFalse(hasButton(R.string.erp_materials)); assertFalse(hasButton(R.string.erp_presence)); assertFalse(hasButton(R.string.erp_users));
+        click(R.string.erp_payroll); settled(); click(R.string.erp_view_details); settled();
+        assertTrue(text().contains("synthetic-payroll_calculation"));
+        assertTrue(text().contains(activity.getString(R.string.erp_record_version, 7)));
+        assertEquals(List.of("payroll_calculation"), transport.requestedKinds);
+    }
+
+    @Test public void customerCanOpenPublishedCommerceAndReportsWithoutInternalModules() throws Exception {
+        launch(); RoleTransport transport = new RoleTransport("CLIENT", "customer.portal", "commerce.read", "quote.read", "report.read", "issue.read", "chat.read");
+        signInFixture(transport);
+        assertTrue(hasButton(R.string.erp_orders)); assertTrue(hasButton(R.string.erp_quotes));
+        assertTrue(hasButton(R.string.erp_report_versions)); assertTrue(hasButton(R.string.erp_issues));
+        assertFalse(hasButton(R.string.erp_people)); assertFalse(hasButton(R.string.erp_payroll)); assertFalse(hasButton(R.string.erp_crew));
+        click(R.string.erp_quotes); settled(); click(R.string.erp_view_details); settled();
+        assertTrue(text().contains("synthetic-quote"));
+        assertEquals(List.of("quote"), transport.requestedKinds);
+    }
+
+    @Test public void warehouseAndProcurementModulesUseGrantedCapabilitiesAndFreshRevocation() throws Exception {
+        launch(); RoleTransport transport = new RoleTransport("STOREKEEPER", "inventory.read", "procurement.read", "identity.self");
+        signInFixture(transport);
+        assertTrue(hasButton(R.string.erp_material_requests)); assertTrue(hasButton(R.string.erp_request_batches));
+        assertTrue(hasButton(R.string.erp_stock_locations)); assertTrue(hasButton(R.string.erp_purchase_orders));
+        assertFalse(hasButton(R.string.erp_payroll)); assertFalse(hasButton(R.string.erp_presence));
+        click(R.string.erp_material_requests); settled(); click(R.string.erp_view_details); settled();
+        assertTrue(text().contains("synthetic-material_request"));
+        pressBack(); settled(); pressBack(); settled();
+        transport.identity.getJSONObject("actor").put("permissions", new JSONArray().put("identity.self"));
+        click(R.string.erp_refresh); settled();
+        assertFalse(hasButton(R.string.erp_material_requests)); assertFalse(hasButton(R.string.erp_purchase_orders));
+        assertTrue(hasButton(R.string.erp_alerts));
+        assertEquals(List.of("material_request", "material_request"), transport.requestedKinds);
+    }
+
+    @Test public void roleNameAloneDoesNotExposeFinanceGpsOrIdentityModules() throws Exception {
+        launch(); signInFixture(new RoleTransport("OWNER", "site.read", "identity.self"));
+        assertTrue(hasButton(R.string.erp_sites)); assertTrue(hasButton(R.string.erp_alerts));
+        assertFalse(hasButton(R.string.erp_payroll)); assertFalse(hasButton(R.string.erp_payouts));
+        assertFalse(hasButton(R.string.erp_presence)); assertFalse(hasButton(R.string.erp_users));
+    }
+
+    @Test public void siteSupervisorCanDiscoverOrdersThroughExistingSiteReadAuthority() throws Exception {
+        launch(); RoleTransport transport = new RoleTransport("INTERNAL_BAULEITER", "site.read", "task.read", "operations.read", "identity.self");
+        signInFixture(transport);
+        assertTrue(hasButton(R.string.erp_orders)); assertFalse(hasButton(R.string.erp_payroll));
+        click(R.string.erp_orders); settled(); click(R.string.erp_view_details); settled();
+        assertEquals(List.of("order"), transport.requestedKinds);
+        assertTrue(text().contains("synthetic-order"));
+    }
+
+    @Test public void employeeCanFindOwnCrewAndPaymentRecordsWithoutManagerGrant() throws Exception {
+        launch(); RoleTransport transport = new RoleTransport("EMPLOYEE", "dispatch.acknowledge", "payroll.self", "finance.payout.ack", "inventory.read");
+        signInFixture(transport);
+        assertTrue(hasButton(R.string.erp_crew)); assertTrue(hasButton(R.string.erp_payouts));
+        assertTrue(hasButton(R.string.erp_receipts)); assertTrue(hasButton(R.string.erp_material_requests));
+        assertFalse(hasButton(R.string.erp_people)); assertFalse(hasButton(R.string.erp_presence));
+        click(R.string.erp_crew); settled();
+        assertEquals(List.of("crew_assignment"), transport.requestedKinds);
+    }
+
     @Test public void reauthenticationShowsRestoredCommandAndRetriesOriginalEnvelope() throws Exception {
         launch();
         ControlledTransport recovered = new ControlledTransport() {

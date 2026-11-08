@@ -2,6 +2,7 @@ import Foundation
 
 /// Six explicit translations in DE, EN, PL, LT, RU, UK order; server identifiers stay canonical.
 enum ERPText: String, CaseIterable {
+    case acceptedQuantity, actionAccept, actionApprove, actionArrive, actionCancel, actionClassify, actionClose, actionConfirm, actionCorrect, actionCorrectBulk, actionDecline, actionDelivery, actionDestination, actionEnd, actionExpire, actionLink, actionLock, actionOrder, actionPublish, actionReceipt, actionReceiptAmend, actionReceive, actionReconcile, actionRecordPayment, actionRefresh, actionReopen, actionReschedule, actionResolve, actionResume, actionReverse, actionReview, actionRevise, actionSend, actionStart, actionStatus, actionStop, actionSubmit, choose, fieldAddress, fieldDescription, fieldName, fieldPhone, fieldStatus, logWork, no, plannedQuantity, quantity, recordId, reportedQuantity, search, startTask, submitTask, taskId, yes
     case title, server, email, password, otp, signIn, refresh
     case roles, activeShifts, decisions, sites, requests, orders, tasks
     case crew, employees, shifts, presence, customers, messages, notifications
@@ -13,10 +14,102 @@ enum ERPText: String, CaseIterable {
     case list, conversation, channel, noMessages, reply, reports, jsonArray
     case jsonObject, booleanHint, actionTitle, confirmNotice, errorOrigin, errorPath, errorExpired
     case errorResponse, errorSize, errorAccess, errorInput, errorHTTP, errorNetwork
+    case quotes, changes, timesheets, trips, defects, worklogs
+    case materials, materialRequests, requestBatches, stockLocations, stockReservations, stockMovements
+    case suppliers, purchaseRequests, purchaseOrders, goodsReceipts, payroll, payslips
+    case payouts, receipts, reportVersions, issues, files, knowledge
+    case recoveryTitle, recoveryNotice, recoveryRetry, recoveryResolved
+    case errorPending, errorPendingActor, errorPendingStorage, errorPendingChanged
 }
 
 enum ERPStrings {
     static let rows: [ERPText: [String]] = [
+        .acceptedQuantity: ["Abgenommene Menge", "Accepted quantity", "Przyjęta ilość", "Priimtas kiekis", "Принятое количество", "Прийнята кількість"],
+        .actionAccept: ["Annehmen", "Accept", "Zaakceptuj", "Priimti", "Принять", "Прийняти"],
+        .actionApprove: ["Freigeben", "Approve", "Zatwierdź", "Patvirtinti", "Одобрить", "Схвалити"],
+        .actionArrive: ["Ankunft bestätigen", "Confirm arrival", "Potwierdź przybycie", "Patvirtinti atvykimą", "Подтвердить прибытие", "Підтвердити прибуття"],
+        .actionCancel: ["Stornieren", "Cancel", "Anuluj", "Atšaukti", "Отменить", "Скасувати"],
+        .actionClassify: ["Einordnen", "Classify", "Sklasyfikuj", "Klasifikuoti", "Классифицировать", "Класифікувати"],
+        .actionClose: ["Abschließen", "Close", "Zamknij", "Užbaigti", "Закрыть", "Закрити"],
+        .actionConfirm: ["Bestätigen", "Confirm", "Potwierdź", "Patvirtinti", "Подтвердить", "Підтвердити"],
+        .actionCorrect: ["Korrektur beantragen", "Request correction", "Zgłoś korektę", "Prašyti pataisos", "Запросить исправление", "Запросити виправлення"],
+        .actionCorrectBulk: ["Mehrere Einträge korrigieren", "Correct multiple entries", "Popraw wiele wpisów", "Pataisyti kelis įrašus", "Исправить несколько записей", "Виправити кілька записів"],
+        .actionDecline: ["Ablehnen", "Decline", "Odrzuć", "Atmesti", "Отклонить", "Відхилити"],
+        .actionDelivery: ["Lieferung bestätigen", "Confirm delivery", "Potwierdź dostarczenie", "Patvirtinti pristatymą", "Подтвердить доставку", "Підтвердити доставку"],
+        .actionDestination: ["Ziel ändern", "Change destination", "Zmień cel", "Pakeisti paskirties vietą", "Изменить пункт назначения", "Змінити пункт призначення"],
+        .actionEnd: ["Fahrt beenden", "End trip", "Zakończ przejazd", "Baigti kelionę", "Завершить поездку", "Завершити поїздку"],
+        .actionExpire: ["Ablauf bestätigen", "Confirm expiry", "Potwierdź wygaśnięcie", "Patvirtinti galiojimo pabaigą", "Подтвердить истечение срока", "Підтвердити завершення строку"],
+        .actionLink: ["Verknüpfen", "Link record", "Powiąż zapis", "Susieti įrašą", "Связать запись", "Пов’язати запис"],
+        .actionLock: ["Abschließen und sperren", "Finalize and lock", "Zatwierdź i zablokuj", "Užbaigti ir užrakinti", "Завершить и заблокировать", "Завершити й заблокувати"],
+        .actionOrder: ["Bestellung erstellen", "Create purchase order", "Utwórz zamówienie zakupu", "Sukurti pirkimo užsakymą", "Создать заказ поставщику", "Створити замовлення постачальнику"],
+        .actionPublish: ["Veröffentlichen", "Publish", "Opublikuj", "Paskelbti", "Опубликовать", "Опублікувати"],
+        .actionReceipt: ["Empfang oder Abweichung melden", "Report receipt or discrepancy", "Zgłoś odbiór lub rozbieżność", "Pranešti apie gavimą ar neatitikimą", "Сообщить о получении или расхождении", "Повідомити про отримання чи розбіжність"],
+        .actionReceiptAmend: ["Empfangsmeldung berichtigen", "Amend receipt statement", "Popraw potwierdzenie odbioru", "Pataisyti gavimo patvirtinimą", "Исправить подтверждение получения", "Виправити підтвердження отримання"],
+        .actionReceive: ["Wareneingang erfassen", "Record goods receipt", "Zarejestruj przyjęcie towaru", "Užregistruoti prekių priėmimą", "Зафиксировать приёмку", "Зафіксувати приймання"],
+        .actionReconcile: ["Abgleichen", "Reconcile", "Uzgodnij", "Suderinti", "Сверить", "Звірити"],
+        .actionRecordPayment: ["Ausgeführte Zahlung erfassen", "Record completed payment", "Zarejestruj wykonaną płatność", "Užregistruoti atliktą mokėjimą", "Зафиксировать выполненную оплату", "Зафіксувати виконану оплату"],
+        .actionRefresh: ["Inhalt aktualisieren", "Refresh contents", "Odśwież zawartość", "Atnaujinti turinį", "Обновить содержимое", "Оновити вміст"],
+        .actionReopen: ["Erneut öffnen", "Reopen", "Otwórz ponownie", "Atidaryti iš naujo", "Открыть повторно", "Відкрити повторно"],
+        .actionReschedule: ["Termin ändern", "Reschedule", "Zmień termin", "Pakeisti laiką", "Изменить расписание", "Змінити розклад"],
+        .actionResolve: ["Lösung dokumentieren", "Document resolution", "Udokumentuj rozwiązanie", "Dokumentuoti sprendimą", "Зафиксировать решение", "Зафіксувати вирішення"],
+        .actionResume: ["Fahrt fortsetzen", "Resume trip", "Wznów przejazd", "Tęsti kelionę", "Продолжить поездку", "Продовжити поїздку"],
+        .actionReverse: ["Rückbuchung erfassen", "Record reversal", "Zarejestruj storno", "Užregistruoti atšaukimą", "Зафиксировать сторно", "Зафіксувати сторно"],
+        .actionReview: ["Prüfen und entscheiden", "Review and decide", "Sprawdź i zdecyduj", "Peržiūrėti ir nuspręsti", "Проверить и решить", "Перевірити й ухвалити рішення"],
+        .actionRevise: ["Neue Version erstellen", "Create revision", "Utwórz nową wersję", "Sukurti naują versiją", "Создать новую версию", "Створити нову версію"],
+        .actionSend: ["Senden", "Send", "Wyślij", "Siųsti", "Отправить", "Надіслати"],
+        .actionStart: ["Arbeitsbeginn bestätigen", "Confirm work started", "Potwierdź rozpoczęcie pracy", "Patvirtinti darbo pradžią", "Подтвердить начало работы", "Підтвердити початок роботи"],
+        .actionStatus: ["Status ändern", "Change status", "Zmień status", "Pakeisti būseną", "Изменить статус", "Змінити статус"],
+        .actionStop: ["Halt erfassen", "Record a stop", "Zarejestruj postój", "Užregistruoti sustojimą", "Зафиксировать остановку", "Зафіксувати зупинку"],
+        .actionSubmit: ["Zur Prüfung senden", "Submit for review", "Przekaż do weryfikacji", "Pateikti peržiūrai", "Отправить на проверку", "Надіслати на перевірку"],
+        .choose: ["Bitte auswählen", "Please choose", "Wybierz", "Pasirinkite", "Выберите", "Оберіть"],
+        .fieldAddress: ["Adresse", "Address", "Adres", "Adresas", "Адрес", "Адреса"],
+        .fieldDescription: ["Beschreibung", "Description", "Opis", "Aprašymas", "Описание", "Опис"],
+        .fieldName: ["Name", "Name", "Nazwa", "Pavadinimas", "Название", "Назва"],
+        .fieldPhone: ["Telefon", "Phone", "Telefon", "Telefonas", "Телефон", "Телефон"],
+        .fieldStatus: ["Status", "Status", "Status", "Būsena", "Статус", "Статус"],
+        .logWork: ["Arbeit dokumentieren", "Record work", "Zapisz wykonaną pracę", "Užregistruoti darbą", "Записать выполненную работу", "Записати виконану роботу"],
+        .no: ["Nein", "No", "Nie", "Ne", "Нет", "Ні"],
+        .plannedQuantity: ["Geplante Menge", "Planned quantity", "Planowana ilość", "Planuotas kiekis", "Плановое количество", "Запланована кількість"],
+        .quantity: ["Menge", "Quantity", "Ilość", "Kiekis", "Количество", "Кількість"],
+        .recordId: ["Datensatz-ID", "Record ID", "ID rekordu", "Įrašo ID", "ID записи", "ID запису"],
+        .reportedQuantity: ["Gemeldete Menge", "Reported quantity", "Zgłoszona ilość", "Užregistruotas kiekis", "Выполненное количество", "Виконана кількість"],
+        .search: ["Suchen", "Search", "Szukaj", "Ieškoti", "Поиск", "Пошук"],
+        .startTask: ["Aufgabe beginnen", "Start task", "Rozpocznij zadanie", "Pradėti užduotį", "Начать задание", "Почати завдання"],
+        .submitTask: ["Zur Prüfung einreichen", "Submit for review", "Przekaż do sprawdzenia", "Pateikti peržiūrai", "Передать на проверку", "Передати на перевірку"],
+        .taskId: ["Aufgaben-ID", "Task ID", "ID zadania", "Užduoties ID", "ID задания", "ID завдання"],
+        .yes: ["Ja", "Yes", "Tak", "Taip", "Да", "Так"],
+        .quotes: ["Angebote", "Quotes", "Oferty", "Pasiūlymai", "Предложения", "Пропозиції"],
+        .changes: ["Nachträge", "Change orders", "Zlecenia dodatkowe", "Papildomi užsakymai", "Дополнительные заказы", "Додаткові замовлення"],
+        .timesheets: ["Stundenzettel", "Timesheets", "Ewidencja czasu", "Darbo laiko apskaita", "Табели", "Табелі"],
+        .trips: ["Dienstfahrten", "Business trips", "Przejazdy służbowe", "Darbo kelionės", "Рабочие поездки", "Робочі поїздки"],
+        .defects: ["Mängel und Nacharbeit", "Defects and rework", "Usterki i poprawki", "Defektai ir taisymas", "Дефекты и доработка", "Дефекти й доопрацювання"],
+        .worklogs: ["Arbeitsnachweise", "Work logs", "Wykonane prace", "Atlikti darbai", "Выполненные работы", "Виконані роботи"],
+        .materials: ["Materialien", "Materials", "Materiały", "Medžiagos", "Материалы", "Матеріали"],
+        .materialRequests: ["Materialanforderungen", "Material requests", "Zapotrzebowanie materiałowe", "Medžiagų užklausos", "Заявки на материалы", "Заявки на матеріали"],
+        .requestBatches: ["Sammelanforderungen", "Grouped requests", "Zbiorcze zapotrzebowania", "Jungtinės užklausos", "Групповые заявки", "Групові заявки"],
+        .stockLocations: ["Lagerorte", "Stock locations", "Lokalizacje magazynowe", "Sandėliavimo vietos", "Места хранения", "Місця зберігання"],
+        .stockReservations: ["Materialreservierungen", "Stock reservations", "Rezerwacje materiałów", "Medžiagų rezervacijos", "Резервы материалов", "Резерви матеріалів"],
+        .stockMovements: ["Lagerbewegungen", "Stock movements", "Ruchy magazynowe", "Atsargų judėjimas", "Движение материалов", "Рух матеріалів"],
+        .suppliers: ["Lieferanten", "Suppliers", "Dostawcy", "Tiekėjai", "Поставщики", "Постачальники"],
+        .purchaseRequests: ["Bestellanforderungen", "Purchase requests", "Wnioski zakupowe", "Pirkimo užklausos", "Заявки на закупку", "Заявки на закупівлю"],
+        .purchaseOrders: ["Bestellungen", "Purchase orders", "Zamówienia zakupu", "Pirkimo užsakymai", "Заказы поставщикам", "Замовлення постачальникам"],
+        .goodsReceipts: ["Wareneingänge", "Goods receipts", "Przyjęcia towaru", "Prekių priėmimas", "Приёмка товаров", "Приймання товарів"],
+        .payroll: ["Lohnberechnungen", "Pay calculations", "Naliczanie wynagrodzeń", "Atlygio skaičiavimai", "Расчёты оплаты", "Розрахунки оплати"],
+        .payslips: ["Lohnabrechnungen", "Payslips", "Paski wynagrodzeń", "Atlyginimo lapeliai", "Расчётные листки", "Розрахункові листки"],
+        .payouts: ["Auszahlungen", "Payouts", "Wypłaty", "Išmokos", "Выплаты", "Виплати"],
+        .receipts: ["Empfangsbestätigungen", "Payment receipts", "Potwierdzenia odbioru", "Gavimo patvirtinimai", "Подтверждения получения", "Підтвердження отримання"],
+        .reportVersions: ["Veröffentlichte Berichte", "Published reports", "Opublikowane raporty", "Paskelbtos ataskaitos", "Опубликованные отчёты", "Опубліковані звіти"],
+        .issues: ["Kundenmeldungen", "Customer issues", "Zgłoszenia klientów", "Klientų pranešimai", "Обращения клиентов", "Звернення клієнтів"],
+        .files: ["Fotos und Dateien", "Photos and files", "Zdjęcia i pliki", "Nuotraukos ir failai", "Фото и файлы", "Фото й файли"],
+        .knowledge: ["Wissensbasis", "Knowledge base", "Baza wiedzy", "Žinių bazė", "База знаний", "База знань"],
+        .recoveryTitle: ["Gespeicherte Anfrage prüfen", "Check the saved request", "Sprawdź zapisane żądanie", "Patikrinkite išsaugotą užklausą", "Проверить сохранённый запрос", "Перевірити збережений запит"],
+        .recoveryNotice: ["Der Server könnte diese Aktion bereits ausgeführt haben. Wiederholen Sie nur die gespeicherte Anfrage und erstellen Sie die Aktion nicht erneut.", "The server may already have applied this action. Retry only the saved request; do not create the action again.", "Serwer mógł już wykonać to działanie. Ponów tylko zapisane żądanie; nie twórz działania ponownie.", "Serveris galėjo jau atlikti šį veiksmą. Pakartokite tik išsaugotą užklausą; nekurkite veiksmo iš naujo.", "Сервер мог уже выполнить действие. Повторите только сохранённый запрос; не создавайте действие заново.", "Сервер міг уже виконати дію. Повторіть лише збережений запит; не створюйте дію заново."],
+        .recoveryRetry: ["Gespeicherte Anfrage erneut prüfen", "Retry the saved request", "Ponów zapisane żądanie", "Pakartoti išsaugotą užklausą", "Повторить сохранённый запрос", "Повторити збережений запит"],
+        .recoveryResolved: ["Der Server hat die gespeicherte Aktion bestätigt.", "The server confirmed the saved action.", "Serwer potwierdził zapisane działanie.", "Serveris patvirtino išsaugotą veiksmą.", "Сервер подтвердил сохранённое действие.", "Сервер підтвердив збережену дію."],
+        .errorPending: ["Prüfen Sie zuerst die gespeicherte Anfrage, bevor Sie eine weitere Änderung senden.", "Resolve the saved request before sending another change.", "Najpierw rozstrzygnij zapisane żądanie, zanim wyślesz kolejną zmianę.", "Prieš siųsdami kitą pakeitimą išspręskite išsaugotą užklausą.", "Сначала проверьте сохранённый запрос, прежде чем отправлять новое изменение.", "Спочатку перевірте збережений запит, перш ніж надсилати нову зміну."],
+        .errorPendingActor: ["Eine gespeicherte Anfrage gehört zu einem anderen Konto oder Server. Melden Sie sich mit dem ursprünglichen Konto am ursprünglichen Server an.", "A saved request belongs to another account or server. Sign in with the original account on the original server.", "Zapisane żądanie należy do innego konta lub serwera. Zaloguj się na pierwotne konto na pierwotnym serwerze.", "Išsaugota užklausa priklauso kitai paskyrai arba serveriui. Prisijunkite pradine paskyra prie pradinio serverio.", "Сохранённый запрос относится к другому аккаунту или серверу. Войдите в исходный аккаунт на исходном сервере.", "Збережений запит належить іншому обліковому запису або серверу. Увійдіть у початковий обліковий запис на початковому сервері."],
+        .errorPendingStorage: ["Die Anfrage konnte nicht sicher gespeichert oder gelesen werden. Erstellen Sie sie nicht erneut.", "The request could not be safely stored or read. Do not create it again.", "Nie udało się bezpiecznie zapisać lub odczytać żądania. Nie twórz go ponownie.", "Nepavyko saugiai išsaugoti arba perskaityti užklausos. Nekurkite jos iš naujo.", "Не удалось безопасно сохранить или прочитать запрос. Не создавайте его заново.", "Не вдалося безпечно зберегти або прочитати запит. Не створюйте його заново."],
+        .errorPendingChanged: ["Die gespeicherte Anfrage hat sich geändert. Aktualisieren Sie die Ansicht.", "The saved request changed. Refresh the current view.", "Zapisane żądanie uległo zmianie. Odśwież widok.", "Išsaugota užklausa pasikeitė. Atnaujinkite rodinį.", "Сохранённый запрос изменился. Обновите экран.", "Збережений запит змінився. Оновіть екран."],
         .title: ["KNABA · Control", "KNABA · Control", "KNABA · Zarządzanie", "KNABA · Valdymas", "KNABA · Управление", "KNABA · Керування"],
         .server: ["HTTPS-Adresse des ERP-Servers", "ERP server HTTPS address", "Adres HTTPS serwera ERP", "ERP serverio HTTPS adresas", "HTTPS-адрес сервера ERP", "HTTPS-адреса сервера ERP"],
         .email: ["E-Mail", "Email", "E-mail", "El. paštas", "Эл. почта", "Електронна пошта"],
@@ -108,7 +201,13 @@ enum ERPStrings {
         case .tooLarge: return text(.errorSize, language)
         case .accessChanged: return text(.errorAccess, language)
         case .invalidPayload: return text(.errorInput, language)
+        case .confirmationRequired: return text(.confirmNotice, language)
         case .http(let status, _): return text(.errorHTTP, language, String(status))
+        case .pendingExists: return text(.errorPending, language)
+        case .pendingUnknown: return text(.recoveryNotice, language)
+        case .pendingDifferentActor: return text(.errorPendingActor, language)
+        case .pendingStorage: return text(.errorPendingStorage, language)
+        case .pendingChanged: return text(.errorPendingChanged, language)
         }
     }
 }

@@ -1,0 +1,1 @@
+{"appBundleIntegrity": "PASS", "cases": ["original_signature", "wrong_signer_rejected", "tampered_dex_rejected", "unsigned_extra_rejected", "missing_manifest_rejected"], "count": 5}
