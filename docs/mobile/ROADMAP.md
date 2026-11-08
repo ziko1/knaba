@@ -1,5 +1,10 @@
 # KNABA Mobile — roadmap
 
+## 08.11.2026 — iOS candidate continuation
+
+MOBILE-011 source now includes encrypted original-command recovery and UI/session fencing; exact macOS/XCTest and physical acceptance remain required. MOBILE-012 tracks the current full iOS file request: scoped native portal/task/results, active CI, signing/export, whole-product gaps and actual handover. No full delivery accepted by a source ZIP or simulator build. See `TEST_IOS_0.4.0_UK.md`.
+
+
 ## 08.11.2026 — recovery continuation
 
 MOBILE-010 adds durable encrypted Android ERP command recovery and identity fences; source/JVM/Robolectric/build evidence is separate from real device acceptance. MOBILE-011 prioritizes iOS unknown-write retry + logout epoch, followed by Xcode/device verification. Unified site/ERP identity and customer role lifecycle remain prerequisites for complete product handover.

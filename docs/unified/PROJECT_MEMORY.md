@@ -1,5 +1,12 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — iOS0.4.0/build4 continuation (candidate; checks pending)
+
+User requested the iOS working file and all KNABA system functionality. Scope remains full client-handoff, not silently reduced to a simulator build. Base9ff77d7b0161a4dde84314f2df327e4594e0eb0c; isolated branch feat/knaba-ios-recovery-20261108. Native encrypted actor-bound command recovery, immediate local logout/fresh authority fencing, credential one-shot flow, correct scoped portal navigation and task/result UI, active root macOS workflow and fail-closed local IPA export are implemented as a candidate. Exact build/test/source/independent-review evidence will be recorded in docs/mobile/evidence/ios-20261108/verification.json after execution.
+
+Signed IPA, physical iPhone install/update/GPS, real ERP role UAT, site/ERP SSO, Partner parity and full canonical V3/V4 acceptance remain BLOCKED/open; no production, DNS, live data, merge, provider activation or TestFlight/App Store upload. Budget no_new_paid_spend; only public-repository standard GitHub CI. Skills: ai-team-orchestrator, app-release, coding-autopilot, ecc-frontend-mobile (SwiftUI/protocol DI), verify-repository-readiness; their rules supplement existing project contracts. Actual team: root integration/UI; ios_transport; ios_build_pipeline; ios_delivery_audit independent review. Next: exact-source macOS build/XCTest, then source/distribution artifacts with honest status; owner signing and device/backend acceptance remain external. Guide: docs/mobile/TEST_IOS_0.4.0_UK.md.
+
+
 ## Exact-source CI checkpoint — 08.11.2026
 
 Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d413410bc748085b60d679d42586ee86f4d1e8a`**: [run 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007) завершив усі чотири обов’язкові jobs успішно. ERP **2677/2677** у 117 файлах зі справжньою PostgreSQL17.6 (включно з 8 новими SQL cases), bridge **9/9**, site **732 Vitest + 90 Node + 197 VPS**, root **28/28**; 0 FAIL/SKIP. Typecheck, migrations, clean build identity та site build/budgets пройшли. Попередній локальний SQL NOT_RUN лишається історичним фактом; hosted CI є окремим виконанням.

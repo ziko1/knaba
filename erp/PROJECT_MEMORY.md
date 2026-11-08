@@ -1,5 +1,12 @@
 # KNABA DE project memory
 
+## 08.11.2026 — iOS0.4.0/build4 continuation (candidate; checks pending)
+
+User requested the iOS working file and all KNABA system functionality. Scope remains full client-handoff, not silently reduced to a simulator build. Base9ff77d7b0161a4dde84314f2df327e4594e0eb0c; isolated branch feat/knaba-ios-recovery-20261108. Native encrypted actor-bound command recovery, immediate local logout/fresh authority fencing, credential one-shot flow, correct scoped portal navigation and task/result UI, active root macOS workflow and fail-closed local IPA export are implemented as a candidate. Exact build/test/source/independent-review evidence will be recorded in docs/mobile/evidence/ios-20261108/verification.json after execution.
+
+Signed IPA, physical iPhone install/update/GPS, real ERP role UAT, site/ERP SSO, Partner parity and full canonical V3/V4 acceptance remain BLOCKED/open; no production, DNS, live data, merge, provider activation or TestFlight/App Store upload. Budget no_new_paid_spend; only public-repository standard GitHub CI. Skills: ai-team-orchestrator, app-release, coding-autopilot, ecc-frontend-mobile (SwiftUI/protocol DI), verify-repository-readiness; their rules supplement existing project contracts. Actual team: root integration/UI; ios_transport; ios_build_pipeline; ios_delivery_audit independent review. Next: exact-source macOS build/XCTest, then source/distribution artifacts with honest status; owner signing and device/backend acceptance remain external. Guide: docs/mobile/TEST_IOS_0.4.0_UK.md.
+
+
 ## 2026-11-08 — PR123 identity authority checkpoint
 
 Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.

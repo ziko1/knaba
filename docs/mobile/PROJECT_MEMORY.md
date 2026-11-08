@@ -1,5 +1,12 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — iOS0.4.0/build4 continuation (candidate; checks pending)
+
+User requested the iOS working file and all KNABA system functionality. Scope remains full client-handoff, not silently reduced to a simulator build. Base9ff77d7b0161a4dde84314f2df327e4594e0eb0c; isolated branch feat/knaba-ios-recovery-20261108. Native encrypted actor-bound command recovery, immediate local logout/fresh authority fencing, credential one-shot flow, correct scoped portal navigation and task/result UI, active root macOS workflow and fail-closed local IPA export are implemented as a candidate. Exact build/test/source/independent-review evidence will be recorded in docs/mobile/evidence/ios-20261108/verification.json after execution.
+
+Signed IPA, physical iPhone install/update/GPS, real ERP role UAT, site/ERP SSO, Partner parity and full canonical V3/V4 acceptance remain BLOCKED/open; no production, DNS, live data, merge, provider activation or TestFlight/App Store upload. Budget no_new_paid_spend; only public-repository standard GitHub CI. Skills: ai-team-orchestrator, app-release, coding-autopilot, ecc-frontend-mobile (SwiftUI/protocol DI), verify-repository-readiness; their rules supplement existing project contracts. Actual team: root integration/UI; ios_transport; ios_build_pipeline; ios_delivery_audit independent review. Next: exact-source macOS build/XCTest, then source/distribution artifacts with honest status; owner signing and device/backend acceptance remain external. Guide: docs/mobile/TEST_IOS_0.4.0_UK.md.
+
+
 ## 08.11.2026 — Android0.4.1 recovery candidate
 
 Encrypted actor-scoped ERP pending-command journal, persisted before request; process/activity recreation recovers original version/payload/idempotency key. Reauthentication must resolve the same origin/company/user; no automatic replay and no GPS namespace collision. AtomicFile backup recovery, bounded storage and delayed/malformed /me session checks covered by targeted regressions. Exact artifact/build/tests: `evidence/android-recovery-20261108/verification.json`; instructions `TEST_ANDROID_0.4.1_UK.md`. Separate package `de.knaba.mobile.test`, versionCode5, same debug certificate as0.4.0; not owner-signed production.

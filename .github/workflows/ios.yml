@@ -1,0 +1,124 @@
+name: KNABA iOS simulator verification
+
+on:
+  push:
+    branches: ['**']
+    paths:
+      - 'erp/apps/mobile-ios/**'
+      - 'erp/tests/native-vectors.json'
+      - 'scripts/mobile/package-ios-source.py'
+      - 'scripts/ios-distribution.test.mjs'
+      - 'tests/ios/**'
+      - '.github/workflows/ios.yml'
+  pull_request:
+    paths:
+      - 'erp/apps/mobile-ios/**'
+      - 'erp/tests/native-vectors.json'
+      - 'scripts/mobile/package-ios-source.py'
+      - 'scripts/ios-distribution.test.mjs'
+      - 'tests/ios/**'
+      - '.github/workflows/ios.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: knaba-ios-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  NATIVE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  simulator:
+    name: Xcode 26.6 build, XCTest and simulator artifact
+    # Public-repository standard runner only. Same-repository PRs reuse their push
+    # run; fork PRs still execute. No larger runner, signing secret or live deploy.
+    if: ${{ !github.event.repository.private && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) }}
+    runs-on: macos-26
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.NATIVE_SOURCE_SHA }}
+          persist-credentials: false
+      - name: Record exact source before tool generation
+        run: |
+          test "$(git rev-parse HEAD)" = "$NATIVE_SOURCE_SHA"
+          python3 erp/apps/mobile-ios/scripts/distribution.py snapshot erp/apps/mobile-ios/build/evidence/source.json --require-clean
+          python3 -m unittest discover -s tests/ios -p 'test_*.py' -v
+      - name: Check out pinned XcodeGen 2.43.0
+        uses: actions/checkout@v4
+        with:
+          repository: yonaskolb/XcodeGen
+          ref: 7193eb447a6f60061f069e07bc1efd32d73c0e19
+          path: .native-tools/xcodegen
+          persist-credentials: false
+      - name: Verify toolchain and build pinned generator
+        timeout-minutes: 12
+        run: |
+          test "$(git -C .native-tools/xcodegen rev-parse HEAD)" = '7193eb447a6f60061f069e07bc1efd32d73c0e19'
+          xcodebuild -version | tee erp/apps/mobile-ios/build/evidence/xcode-version.txt
+          grep -q '^Xcode 26\.6$' erp/apps/mobile-ios/build/evidence/xcode-version.txt
+          swift --version | tee erp/apps/mobile-ios/build/evidence/swift-version.txt
+          xcodebuild -showsdks > erp/apps/mobile-ios/build/evidence/available-sdks.txt
+          swift build --package-path .native-tools/xcodegen --configuration release --disable-automatic-resolution --product xcodegen
+          echo "$GITHUB_WORKSPACE/.native-tools/xcodegen/.build/release" >> "$GITHUB_PATH"
+          .native-tools/xcodegen/.build/release/xcodegen version | tee erp/apps/mobile-ios/build/evidence/xcodegen-version.txt
+          plutil -lint erp/apps/mobile-ios/Info.plist erp/apps/mobile-ios/PrivacyInfo.xcprivacy
+      - name: Boot exact installed iOS 26.5 iPhone 17
+        id: simulator
+        timeout-minutes: 8
+        run: |
+          python3 erp/apps/mobile-ios/scripts/prepare-simulator.py --evidence-dir erp/apps/mobile-ios/build/evidence --xcode-version 26.6 --os-version 26.5 --device-name 'iPhone 17'
+      - name: Compile and execute actual XCTest
+        working-directory: erp/apps/mobile-ios
+        timeout-minutes: 15
+        env:
+          KNABA_IOS_TEST_DESTINATION: platform=iOS Simulator,id=${{ steps.simulator.outputs.device_udid }}
+        run: |
+          bash scripts/build.sh | tee build/evidence/ios-build-tests.log
+          test -x build/Build/Products/Debug-iphonesimulator/KNABADE.app/KNABADE
+          xcrun xcresulttool get test-results summary --path build/NativeTests.xcresult > build/evidence/xctest-summary.json
+      - name: Install, launch and archive the simulator application
+        working-directory: erp/apps/mobile-ios
+        timeout-minutes: 3
+        env:
+          KNABA_SIMULATOR_UDID: ${{ steps.simulator.outputs.device_udid }}
+        run: |
+          xcrun simctl install "$KNABA_SIMULATOR_UDID" build/Build/Products/Debug-iphonesimulator/KNABADE.app
+          xcrun simctl launch --terminate-running-process "$KNABA_SIMULATOR_UDID" de.knaba.mobile > build/evidence/simulator-launch.txt
+          xcrun simctl io "$KNABA_SIMULATOR_UDID" screenshot build/evidence/simulator-launch.png
+          ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Debug-iphonesimulator/KNABADE.app build/KNABADE-simulator.app.zip
+          ditto -c -k --sequesterRsrc --keepParent build/NativeTests.xcresult build/NativeTests.xcresult.zip
+          python3 scripts/distribution.py simulator-receipt build
+      - name: Upload verified simulator package and results
+        uses: actions/upload-artifact@v4
+        with:
+          name: knaba-ios-simulator-${{ env.NATIVE_SOURCE_SHA }}
+          path: |
+            erp/apps/mobile-ios/build/KNABADE-simulator.app.zip
+            erp/apps/mobile-ios/build/NativeTests.xcresult.zip
+            erp/apps/mobile-ios/build/evidence/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Preserve failure evidence
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: knaba-ios-failure-${{ env.NATIVE_SOURCE_SHA }}
+          path: erp/apps/mobile-ios/build/evidence/
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Stop the created simulator
+        if: ${{ always() && steps.simulator.outputs.device_udid != '' }}
+        env:
+          KNABA_SIMULATOR_UDID: ${{ steps.simulator.outputs.device_udid }}
+        run: xcrun simctl shutdown "$KNABA_SIMULATOR_UDID"

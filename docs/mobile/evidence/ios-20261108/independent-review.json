@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA DE",
+  "candidate": "iOS 0.4.0 / build 4",
+  "reviewedAt": "2026-11-08T08:15:18Z",
+  "reviewer": "/root/ios_delivery_audit",
+  "status": "ACCEPTED_STATIC_REVIEW",
+  "scope": "Independent source review of ERP console session fencing, encrypted command recovery, credential one-shot flow, UI state, permissions, task actions and associated XCTest source. Build/signing scripts are outside this review scope.",
+  "source": {
+    "baseCommit": "9ff77d7b0161a4dde84314f2df327e4594e0eb0c",
+    "workingTree": true,
+    "binding": "Review applies to the exact file SHA-256 values below, not to an uncreated candidate commit or binary.",
+    "sha256": {
+      "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift": "04311f3ba905ab474b8f2c6b94bee0a0ad70ec61fa4ad749222bb36686738156",
+      "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift": "1844e15c1d440cf83bc26438fc2daff35497fcbf0d4eb1ad2131b9db5592465c",
+      "erp/apps/mobile-ios/Sources/ERPConsoleView.swift": "6d225e79d9de5f04db45f038ea9aace0fb02d8a4f7959f00bb389a5663429963",
+      "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift": "ab2f92e87d4c646a9a3bdd02a70c41eb90dd87654361aea1e63b7b4466e9345d",
+      "erp/apps/mobile-ios/Sources/ERPStrings.swift": "996385388cca3a9c725a9a204f36fc94ad954f62e7af2326b4fb90902200e4b2",
+      "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55",
+      "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift": "5de5e2ea48a3aa8fb0557d8a9964c94c214f7070893dfa1ce47f338ecdce0c2a",
+      "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662",
+      "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift": "388abaf63857c02a360ba73cd4a425aacecd1af44e5274c76af254fc37af5720",
+      "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift": "cfaa4a8ea97f026c6c26561a90e66c74ff586c366293a7049865e115fa9d3983"
+    }
+  },
+  "observedChecks": [
+    { "check": "git diff --check", "status": "PASS", "exitCode": 0, "meaning": "Whitespace check only; not Swift compilation." },
+    { "check": "Independent source review", "status": "ACCEPTED_STATIC_REVIEW", "unresolvedNewP0P1WithinReviewedDelta": 0 },
+    { "check": "Swift compile and XCTest execution", "status": "PENDING_NOT_RUN", "reason": "No Swift/Xcode toolchain in the local Linux environment; actual macOS CI required." },
+    { "check": "Signed IPA, physical iPhone and live ERP acceptance", "status": "NOT_VERIFIED", "reason": "No candidate signing, device-installation or live-role acceptance receipt was available to this reviewer." }
+  ],
+  "confirmedCorrections": [
+    "Session generation and origin fence late login, refresh, reads and mutations; logout clears local authorization before network I/O.",
+    "Authority fingerprint excludes only the login-versus-me reporting timestamp mfaVerifiedAt. Actual MFA status and all other server actor fields remain binding; UI observes the full authority revision.",
+    "Encrypted immutable recovery binds original payload, version and idempotency key to origin, company and user. Persistence precedes the first mutation; retries are explicit and preserve original request bytes.",
+    "Known first-attempt atomic 422 NEEDS_APPROVAL/MISSING_CONFIGURATION rejections resolve recovery. A later rejection after an unknown result or restart retains the original command.",
+    "Credential commands use a fixed RAM-only one-shot whitelist, preserve password whitespace and revoke local session after submission. Generic credential-shaped payloads are rejected before journal persistence.",
+    "AES-GCM journal uses a distinct ERP directory and Keychain service, device-only unlocked key access, atomic protected file, backup exclusion and bounded reads. Corruption or missing key/file fails closed.",
+    "Navigation uses exact permissions and current server projections; OWNER/wildcards confer no invented client authority. Client/external Bauleiter portal records and own notifications/crew offers are reachable.",
+    "Pending retry exposes bounded original input/date/version. Successful task actions refresh current records; details use current items and contextual forms dismiss. BLOCKED/REOPENED start follows the existing transition contract.",
+    "Both loading-marker cleanup guards now include the UI epoch, so an old session read cannot clear a new session's loading marker with a reused read counter.",
+    "Redirect refusal implements the actual URLSessionTaskDelegate optional selector; its regression test invokes that selector without starting a network task."
+  ],
+  "openFunctionalLimitations": [
+    {
+      "id": "IOS-NULLABLE-SCHEMA",
+      "status": "OPEN",
+      "finding": "Generic form input does not support null or union schema values. For example, site.geo_responsible.set can accept a non-null ID, but the form cannot encode JSON null to clear geoResponsibleUserId/onCallUserId. This is not full command-catalog parity.",
+      "references": ["erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift:ERPCommandInput.payload", "erp/packages/domain/operations.ts:site.geo_responsible.set"]
+    },
+    {
+      "id": "IOS-ONBOARDING-TOKEN-HANDOFF",
+      "status": "OPEN",
+      "finding": "user.invite and device.enroll return one-time token values that the generic result sanitizer hides. These generic forms do not establish a complete usable native invitation/enrollment handoff; a dedicated reviewed secret-display flow is still needed.",
+      "references": ["erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift:ERPWorkspacePolicy.sensitiveField", "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift:ERPDisplayRows.flatten", "erp/packages/domain/identity.ts:user.invite", "erp/packages/domain/operations.ts:device.enroll"]
+    },
+    {
+      "id": "IOS-MISSING-JOURNAL-RECOVERY",
+      "status": "OPEN",
+      "finding": "If the Keychain key exists while the recovery file is missing, load fails closed and login cannot complete its recovery read. This includes a partial first write or reinstall if the key survives but the file does not. No verified operator repair/reconciliation workflow exists; automatic key/file deletion would risk discarding an unknown operation.",
+      "references": ["erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift:ERPEncryptedCommandJournal.load", "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift:ERPConsoleClient.login"]
+    },
+    {
+      "id": "IOS-UNKNOWN-OUTCOME-RECONCILIATION",
+      "status": "OPEN",
+      "finding": "An unknown original result followed by revoked permissions or a definitive later rejection remains pending and blocks new writes. The reviewed backend exposes no safe manual command-reconciliation endpoint; replaying with a new key or silently discarding the record is not accepted.",
+      "references": ["erp/apps/mobile-ios/Sources/ERPConsoleCore.swift:ERPConsoleClient.perform", "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift:ERPConsoleClient.retryPending"]
+    }
+  ],
+  "acceptanceBoundary": "Static review accepts the bounded candidate delta for native validation. It does not certify compilation, XCTest PASS, full system parity, signing, real-device operation, production readiness, merge or publication."
+}

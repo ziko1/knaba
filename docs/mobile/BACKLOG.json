@@ -1,7 +1,7 @@
 {
   "project": "KNABA_MOBILE",
   "moduleOf": "KNABA_DE",
-  "branch": "feat/knaba-completion-audit-20261108",
+  "branch": "feat/knaba-ios-recovery-20261108",
   "items": [
     {
       "id": "MOBILE-001",
@@ -125,7 +125,15 @@
       "id": "MOBILE-011",
       "description": "iOS unknown-write retries preserve idempotency and logout fences stale session responses",
       "acceptance": "Native XCTest and actual iPhone interrupted write/relogin/retry create one effect only",
-      "status": "PENDING"
+      "status": "IMPLEMENTED_CANDIDATE_NATIVE_CHECKS_PENDING"
+    },
+    {
+      "id": "MOBILE-012",
+      "source": "Current user request 2026-11-08: continue KNABA iOS and deliver working file with all system functionality",
+      "acceptance": "Exact-source native build/tests, role/task/result/recovery journeys, signed phone-installable artifact and actual iPhone/backend/whole-product acceptance",
+      "status": "IN_PROGRESS_FULL_HANDOFF_BLOCKED",
+      "budget": "no_new_paid_spend",
+      "guide": "TEST_IOS_0.4.0_UK.md"
     }
   ]
 }

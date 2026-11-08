@@ -13,6 +13,13 @@ enum ERPText: String, CaseIterable {
     case list, conversation, channel, noMessages, reply, reports, jsonArray
     case jsonObject, booleanHint, actionTitle, confirmNotice, errorOrigin, errorPath, errorExpired
     case errorResponse, errorSize, errorAccess, errorInput, errorHTTP, errorNetwork
+    case pendingDetails
+    case quotes, issues, publishedReports, materials, startTask, logWork, submitTask
+    case checklist, reviewTask, changePassword, configureMFA, clientPortal, accessUpdated, reauthRequired
+    case pendingTitle, pendingNotice, errorRecovery, retryOriginal, recovered, errorPending, errorInFlight
+    case noPending, errorSensitive, serverNotice, search, choose, yes, no
+    case result, quantityHint, previewLimit, quantity, remainingQuantity, description, problems
+    case delayReason, currentPassword, newPassword, errorConflict
 }
 
 enum ERPStrings {
@@ -93,6 +100,46 @@ enum ERPStrings {
         .errorInput: ["Prüfen Sie die Eingabefelder.", "Check the input fields.", "Sprawdź wprowadzone dane.", "Patikrinkite įvestus duomenis.", "Проверьте введённые данные.", "Перевірте введені дані."],
         .errorHTTP: ["Der Server hat die Anfrage abgelehnt (HTTP %@).", "The server rejected the request (HTTP %@).", "Serwer odrzucił żądanie (HTTP %@).", "Serveris atmetė užklausą (HTTP %@).", "Сервер отклонил запрос (HTTP %@).", "Сервер відхилив запит (HTTP %@)."],
         .errorNetwork: ["Verbindung fehlgeschlagen. Prüfen Sie die Serveradresse und das Netzwerk.", "Connection failed. Check the server address and network.", "Połączenie nie powiodło się. Sprawdź adres serwera i sieć.", "Prisijungti nepavyko. Patikrinkite serverio adresą ir tinklą.", "Не удалось подключиться. Проверьте адрес сервера и сеть.", "Не вдалося підключитися. Перевірте адресу сервера та мережу."],
+        .quotes: ["Angebote", "Quotes", "Oferty", "Pasiūlymai", "Предложения", "Пропозиції"],
+        .issues: ["Reklamationen", "Issues", "Zgłoszenia", "Problemos", "Обращения", "Звернення"],
+        .publishedReports: ["Veröffentlichte Berichte", "Published reports", "Opublikowane raporty", "Paskelbtos ataskaitos", "Опубликованные отчёты", "Опубліковані звіти"],
+        .materials: ["Materialanfragen", "Material requests", "Zapotrzebowanie materiałowe", "Medžiagų užklausos", "Заявки на материалы", "Заявки на матеріали"],
+        .startTask: ["Arbeit beginnen", "Start task", "Rozpocznij zadanie", "Pradėti užduotį", "Начать задачу", "Почати завдання"],
+        .logWork: ["Ergebnis erfassen", "Record work", "Zapisz wynik pracy", "Įrašyti darbą", "Записать результат", "Записати результат"],
+        .submitTask: ["Zur Prüfung einreichen", "Submit for review", "Przekaż do kontroli", "Pateikti patikrai", "Передать на проверку", "Передати на перевірку"],
+        .checklist: ["Checkliste", "Checklist", "Lista kontrolna", "Kontrolinis sąrašas", "Чеклист", "Чекліст"],
+        .reviewTask: ["Arbeit prüfen", "Review work", "Sprawdź pracę", "Patikrinti darbą", "Проверить работу", "Перевірити роботу"],
+        .changePassword: ["Passwort ändern", "Change password", "Zmień hasło", "Keisti slaptažodį", "Изменить пароль", "Змінити пароль"],
+        .configureMFA: ["Zwei-Faktor-Schutz", "Two-factor security", "Zabezpieczenie dwuskładnikowe", "Dviejų veiksnių apsauga", "Двухфакторная защита", "Двофакторний захист"],
+        .clientPortal: ["Mein Kundenbereich", "My client workspace", "Mój panel klienta", "Mano kliento erdvė", "Мой кабинет клиента", "Мій кабінет клієнта"],
+        .accessUpdated: ["Ihre Zugriffsrechte wurden aktualisiert. Laden Sie den Bereich erneut.", "Your access changed. Reload the section.", "Uprawnienia zmieniono. Odśwież sekcję.", "Prieigos teisės pasikeitė. Atnaujinkite skiltį.", "Права изменились. Обновите раздел.", "Права змінилися. Оновіть розділ."],
+        .reauthRequired: ["Bitte erneut anmelden. Prüfen Sie bei einem Verbindungsabbruch, ob die Sicherheitsänderung bereits erfolgt ist.", "Sign in again. If the connection was interrupted, verify whether the security change was applied.", "Zaloguj się ponownie. Po utracie połączenia sprawdź, czy zmiana zabezpieczeń została zastosowana.", "Prisijunkite iš naujo. Nutrūkus ryšiui patikrinkite, ar saugos pakeitimas pritaikytas.", "Войдите заново. При обрыве связи проверьте, применилось ли изменение защиты.", "Увійдіть знову. Після обриву зв’язку перевірте, чи застосувалася зміна захисту."],
+        .pendingTitle: ["Bestätigung ausstehend", "Awaiting confirmation", "Oczekiwanie na potwierdzenie", "Laukiama patvirtinimo", "Ожидает подтверждения", "Очікує підтвердження"],
+        .pendingNotice: ["Eine Aktion ist noch unbestätigt. Wiederholen Sie ausdrücklich dieselbe gespeicherte Aktion; erstellen Sie sie nicht neu. Der Server prüft Ihre aktuellen Rechte.", "An action is unconfirmed. Explicitly retry the original saved action; do not create it again. The server checks your current access.", "Operacja jest niepotwierdzona. Ponów oryginalną zapisaną operację, nie twórz nowej. Serwer sprawdzi bieżące uprawnienia.", "Veiksmas nepatvirtintas. Pakartokite pradinį išsaugotą veiksmą, nekurkite naujo. Serveris tikrina dabartines teises.", "Действие не подтверждено. Повторите исходное сохранённое действие, не создавая новое. Сервер проверит текущие права.", "Дію не підтверджено. Повторіть початкову збережену дію, не створюючи нову. Сервер перевірить поточні права."],
+        .errorRecovery: ["Die gesicherte Aktion kann nicht gelesen werden. Neue Änderungen sind gesperrt. Melden Sie sich erneut an; löschen Sie keine App-Daten.", "The protected action could not be read. New changes are blocked. Sign in again; do not delete app data.", "Nie można odczytać zabezpieczonej operacji. Nowe zmiany są zablokowane. Zaloguj się ponownie; nie usuwaj danych aplikacji.", "Apsaugoto veiksmo nuskaityti nepavyko. Nauji pakeitimai užblokuoti. Prisijunkite iš naujo; netrinkite programėlės duomenų.", "Не удалось прочитать защищённое действие. Новые изменения заблокированы. Войдите заново; не удаляйте данные приложения.", "Не вдалося прочитати захищену дію. Нові зміни заблоковані. Увійдіть знову; не видаляйте дані застосунку."],
+        .retryOriginal: ["Gespeicherte Aktion wiederholen", "Retry saved action", "Ponów zapisaną operację", "Kartoti išsaugotą veiksmą", "Повторить сохранённое действие", "Повторити збережену дію"],
+        .recovered: ["Gespeicherte Aktion vom Server bestätigt", "Saved action confirmed by the server", "Serwer potwierdził zapisaną operację", "Serveris patvirtino išsaugotą veiksmą", "Сервер подтвердил сохранённое действие", "Сервер підтвердив збережену дію"],
+        .errorPending: ["Bestätigen Sie zuerst die noch offene Aktion.", "Resolve the pending action first.", "Najpierw rozstrzygnij oczekującą operację.", "Pirmiausia užbaikite laukiantį veiksmą.", "Сначала разрешите ожидающее действие.", "Спочатку з’ясуйте результат попередньої дії."],
+        .errorInFlight: ["Die Aktion wird bereits gesendet.", "This action is already being submitted.", "Operacja jest już wysyłana.", "Veiksmas jau siunčiamas.", "Действие уже отправляется.", "Дія вже надсилається."],
+        .noPending: ["Keine gespeicherte Aktion vorhanden.", "No saved action is pending.", "Brak oczekującej zapisanej operacji.", "Nėra laukiančio išsaugoto veiksmo.", "Нет ожидающего сохранённого действия.", "Немає збереженої дії для повтору."],
+        .errorSensitive: ["Für diesen Sicherheitsvorgang verwenden Sie den geschützten Web-Kontobereich.", "Use the protected web account area for this security operation.", "Wykonaj tę operację w chronionym panelu konta w przeglądarce.", "Šiam saugos veiksmui naudokite apsaugotą internetinę paskyrą.", "Выполните эту операцию в защищённом веб-кабинете.", "Виконайте цю дію в захищеному вебкабінеті."],
+        .serverNotice: ["Die freigegebene ERP-Adresse erhalten Sie von KNABA. Website und ERP können getrennte Anmeldungen verwenden.", "Use the ERP address approved by KNABA. Website and ERP may use separate sign-ins.", "Użyj adresu ERP zatwierdzonego przez KNABA. Strona i ERP mogą mieć oddzielne logowanie.", "Naudokite KNABA patvirtintą ERP adresą. Svetainės ir ERP prisijungimai gali skirtis.", "Используйте подтверждённый KNABA адрес ERP. Сайт и ERP могут иметь отдельный вход.", "Використовуйте підтверджену KNABA адресу ERP. Сайт і ERP можуть мати окремий вхід."],
+        .search: ["Einträge suchen", "Search records", "Szukaj wpisów", "Ieškoti įrašų", "Поиск записей", "Пошук записів"],
+        .choose: ["Auswählen", "Choose", "Wybierz", "Pasirinkti", "Выберите", "Виберіть"],
+        .yes: ["Ja", "Yes", "Tak", "Taip", "Да", "Так"],
+        .no: ["Nein", "No", "Nie", "Ne", "Нет", "Ні"],
+        .result: ["Serverergebnis", "Server result", "Wynik serwera", "Serverio rezultatas", "Результат сервера", "Результат сервера"],
+        .quantityHint: ["Bis zu 3 Nachkommastellen, z. B. 2,5.", "Up to 3 decimal places, for example 2.5.", "Do 3 miejsc po przecinku, np. 2,5.", "Iki 3 skaitmenų po kablelio, pvz., 2,5.", "До 3 знаков после запятой, например 2,5.", "До 3 знаків після коми, наприклад 2,5."],
+        .previewLimit: ["Vorschau begrenzt. Öffnen Sie den vollständigen Datensatz im ERP.", "Preview is limited. Open the full record in ERP.", "Podgląd jest ograniczony. Otwórz pełny wpis w ERP.", "Peržiūra ribota. Visą įrašą atidarykite ERP.", "Предпросмотр ограничен. Откройте полную запись в ERP.", "Перегляд обмежений. Відкрийте повний запис в ERP."],
+        .quantity: ["Erledigte Menge", "Completed quantity", "Wykonana ilość", "Atliktas kiekis", "Выполненный объём", "Виконаний обсяг"],
+        .remainingQuantity: ["Restmenge", "Remaining quantity", "Pozostała ilość", "Likęs kiekis", "Оставшийся объём", "Залишок обсягу"],
+        .description: ["Beschreibung", "Description", "Opis", "Aprašymas", "Описание", "Опис"],
+        .problems: ["Probleme", "Problems", "Problemy", "Problemos", "Проблемы", "Проблеми"],
+        .delayReason: ["Verzögerungsgrund", "Reason for delay", "Powód opóźnienia", "Vėlavimo priežastis", "Причина задержки", "Причина затримки"],
+        .currentPassword: ["Aktuelles Passwort", "Current password", "Obecne hasło", "Dabartinis slaptažodis", "Текущий пароль", "Поточний пароль"],
+        .newPassword: ["Neues Passwort", "New password", "Nowe hasło", "Naujas slaptažodis", "Новый пароль", "Новий пароль"],
+        .errorConflict: ["Der Datensatz wurde geändert. Aktualisieren Sie ihn vor einer neuen Aktion.", "The record changed. Refresh it before a new action.", "Wpis się zmienił. Odśwież go przed nową operacją.", "Įrašas pasikeitė. Prieš naują veiksmą jį atnaujinkite.", "Запись изменилась. Обновите её перед новым действием.", "Запис змінився. Оновіть його перед новою дією."],
+        .pendingDetails: ["Gespeicherte Aktion prüfen", "Review saved action", "Sprawdź zapisaną operację", "Peržiūrėti išsaugotą veiksmą", "Проверить сохранённое действие", "Переглянути збережену дію"],
     ]
     static func text(_ key: ERPText, _ language: NativeLanguage, _ arguments: String...) -> String {
         let format = rows[key]![NativeLanguage.allCases.firstIndex(of: language)!]
@@ -108,7 +155,15 @@ enum ERPStrings {
         case .tooLarge: return text(.errorSize, language)
         case .accessChanged: return text(.errorAccess, language)
         case .invalidPayload: return text(.errorInput, language)
-        case .http(let status, _): return text(.errorHTTP, language, String(status))
+        case .pendingCommand: return text(.errorPending, language)
+        case .commandInFlight: return text(.errorInFlight, language)
+        case .recoveryUnavailable, .recoveryInvalid: return text(.errorRecovery, language)
+        case .noPendingCommand: return text(.noPending, language)
+        case .sensitiveCommand: return text(.errorSensitive, language)
+        case .http(let status, let code):
+            if code == "VERSION_CONFLICT" { return text(.errorConflict, language) }
+            if code == "NEEDS_REAUTH" { return text(.reauthRequired, language) }
+            return text(.errorHTTP, language, String(status))
         }
     }
 }
