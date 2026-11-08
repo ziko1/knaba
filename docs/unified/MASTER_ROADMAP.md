@@ -1,5 +1,15 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 08.11.2026 — F4-B source reviewed; actual acceptance pending
+
+Незалежно прийнято separate federated store/reader та current signed site authority, exact outage-safe logout і вузьке завершення self-dispatch із terminal session revocation. Додано51 actual bridge case; SQL/HTTP acceptance ще NOT_RUN. Локально128 focused CPU (останній guard delta повторно27),95 site checks,30 root, candidate ERP build; ці overlapping proofs не додаються й не замінюють exact-commit CI. [Input hashes, review, local logs і межі](evidence/federated-session-authority-20261108/verification.json). Новий flag defaultoff; F3 issuance, рештаF4 policy/privacy, F5 і весь продукт NOT_READY.
+
+## 08.11.2026 — F2 і local F4-A accepted; F4-B prerequisites до F3
+
+F2 dual-consent binding/unlink accepted at`1a6e837de7a351a67bf4bef3bda00961aed19d83`, [CI42472941316](https://github.com/ziko1/knaba/actions/runs/42472941316). F4-A local ERP request fences accepted at`5133519984b6b50676393a7c4c4e541677d2cefa`, [CI42475824054](https://github.com/ziko1/knaba/actions/runs/42475824054): ERP2820/122 files, bridge31, site732+90+268, root30, independent source/log review ACCEPT. Кожний результат має власне точне джерело; це не приймання нового F4-B.
+
+Порядок реалізації уточнено без зміни вихідних критеріїв: перед видачею F3 потрібні local F4-A і F4-B перевірки current site authority та revocation. Інакше новий session issuer відкрив би доступ раніше, ніж його можна коректно відкликати. F4-B separate store/reader та signed introspection наразі IMPLEMENTED_CANDIDATE / ACTUAL_SQL_NOT_RUN; [контракт](FEDERATED_SESSION_AUTHORITY_2026-11-08_UK.md). Browser issuance, повні privacy/retention/background policy, F5 live/browser/device/company і canonical V3/V4 acceptance залишаються OPEN. Production/signing/store/provider activation не виконані.
+
 ## 08.11.2026 — F1 actual PostgreSQL acceptance
 
 Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 42464719363](https://github.com/ziko1/knaba/actions/runs/42464719363): all 4 mandatory jobs PASS; ERP 2782 tests in 120 files, including 16 new real PostgreSQL 17.6 cases and 27 CPU trust cases; bridge 9; no failed/skipped acceptance tests. Synthetic previous-schema upgrade, repeated migration and old-runtime rollback preserve users, bindings and audit. Independent source review accepted the exact inputs. [Evidence](evidence/site-identity-foundation-20261108/verification.json). F1 storage is verified; F2–F5 and shared SSO remain unimplemented/open, full product NOT_READY. No production migration or deployment.

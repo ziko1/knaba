@@ -12,6 +12,7 @@ export function opaque():string;
 export function requireValue(condition:unknown,code?:string):asserts condition;
 export function exactObject(value:unknown,keys:string[]):Record<string,unknown>;
 export function secureEqual(a:unknown,b:unknown):boolean;
+export function parseSessionAuthorityEnabled(value:unknown):boolean;
 export function trustFingerprint(config:FederationPeer):string;
 export function transportFingerprint(config:FederationPeer):string;
 export function parsePeerConfig(input:unknown,options?:{localTest?:boolean}):FederationPeer|null;

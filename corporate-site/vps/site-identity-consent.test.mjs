@@ -66,6 +66,90 @@ function consented(state,user=state.user()){
   const authority=state.authority(),challenge=state.challenge(),grant=authority.consent({cookieHeader:user.cookie,challenge});
   return {authority,user,challenge,grant,input:request(grant,challenge)};
 }
+function sessionProof(f,user,authority=f.authority()){
+  const current=authority.current(user.cookie);
+  return {companyId:f.peer.companyId,issuer:f.peer.issuer,audience:f.peer.audience,subject:current.subject,
+    sessionDigest:current.sessionDigest,profileVersion:current.profileVersion,profileFingerprint:current.profileFingerprint,
+    trustFingerprint:trustFingerprint(f.peer),transportFingerprint:transportFingerprint(f.peer)};
+}
+
+test('session introspection defaults off independently of active F2 and returns only exact authority fields when enabled',t=>{
+  const f=fixture(t),user=f.user(),input=sessionProof(f,user),disabled=f.authority();
+  assert.throws(()=>disabled.introspectSession(input),error=>error instanceof FederationError&&error.code==='MISSING_CONFIGURATION');
+  const granted=disabled.consent({cookieHeader:user.cookie,challenge:f.challenge()});assert.ok(granted.grantToken);
+  const authority=f.authority({sessionsEnabled:()=>true}),result=authority.introspectSession(input);
+  assert.deepEqual(Object.keys(result).sort(),[...Object.keys(input),'active','expiresAt','checkedAt'].sort());
+  assert.deepEqual(result,{active:true,...input,expiresAt:f.db.prepare('SELECT expires_at FROM vps_sessions WHERE token_hash=?').get(user.hash).expires_at*1000,checkedAt:f.now});
+  for(const privateValue of [user.email,user.token,'Synthetic site user',granted.grantToken])assert.equal(JSON.stringify(result).includes(privateValue),false);
+  assert.equal(f.rows(),1);assert.equal(f.audit('site_identity.consented'),1);
+  f.now++;assert.equal(authority.introspectSession(input).checkedAt,f.now);
+});
+
+test('introspection rejects missing/extra fields, raw credentials and malformed snapshot values',t=>{
+  const f=fixture(t),user=f.user(),input=sessionProof(f,user),authority=f.authority({sessionsEnabled:()=>true});
+  for(const key of Object.keys(input)){const changed={...input};delete changed[key];denied(()=>authority.introspectSession(changed));}
+  for(const patch of [{cookie:user.cookie},{grantToken:randomUUID()+'.'+user.token},{roles:['owner']},{active:true},
+    {sessionDigest:user.token},{sessionDigest:input.sessionDigest+'\n'},{profileFingerprint:'A'.repeat(64)},
+    {profileVersion:-1},{profileVersion:Number.MAX_SAFE_INTEGER+1},{profileVersion:'1'},{subject:''},
+    {companyId:'foreign-company'},{issuer:f.peer.issuer+'/'},{audience:'foreign-audience'},
+    {trustFingerprint:'f'.repeat(64)},{transportFingerprint:'f'.repeat(64)}])denied(()=>authority.introspectSession({...input,...patch}));
+  assert.equal(f.rows(),0);
+});
+
+test('introspection cannot substitute another user/session or rebind an old digest after logout and fresh login',t=>{
+  const f=fixture(t),user=f.user(),other=f.user(),input=sessionProof(f,user),authority=f.authority({sessionsEnabled:()=>true});
+  denied(()=>authority.introspectSession({...input,subject:other.id}));
+  denied(()=>authority.introspectSession({...input,sessionDigest:other.hash}));
+  destroySession(f.db,user.cookie);const fresh=f.session(user);
+  denied(()=>authority.introspectSession(input));assert.equal(authority.introspectSession(sessionProof(f,fresh)).active,true);
+});
+
+for(const [name,change]of [
+  ['account disabled',(f,u)=>f.db.prepare('UPDATE vps_users SET disabled=1 WHERE id=?').run(u.id)],
+  ['profile suspended',(f,u)=>f.db.prepare("UPDATE profiles SET status='suspended' WHERE id=?").run(u.id)],
+  ['profile pending',(f,u)=>f.db.prepare("UPDATE profiles SET status='pending' WHERE id=?").run(u.id)],
+  ['profile removed',(f,u)=>f.db.prepare('DELETE FROM profiles WHERE id=?').run(u.id)],
+  ['profile version changed',(f,u)=>f.db.prepare('UPDATE profiles SET version=version+1 WHERE id=?').run(u.id)],
+  ['profile fields changed',(f,u)=>f.db.prepare("UPDATE profiles SET name='Changed profile' WHERE id=?").run(u.id)],
+  ['developer grant retained',(f,u)=>f.db.prepare("INSERT INTO vps_staff_grants VALUES (?,?,'developer',0,?)").run(u.id,u.email,new Date(f.now).toISOString())],
+  ['session expired',(f,u)=>f.db.prepare('UPDATE vps_sessions SET expires_at=? WHERE token_hash=?').run(Math.floor(f.now/1000),u.hash)]
+])test('current session introspection denies '+name,t=>{
+  const f=fixture(t),user=f.user(),input=sessionProof(f,user),authority=f.authority({sessionsEnabled:()=>true});
+  assert.equal(authority.introspectSession(input).active,true);change(f,user);denied(()=>authority.introspectSession(input));
+});
+
+test('credential rotation revokes original introspection even when a replacement site session exists',t=>{
+  const f=fixture(t),user=f.user({credentials:true}),input=sessionProof(f,user),authority=f.authority({sessionsEnabled:()=>true});
+  assert.equal(rotateCredentials(f.db,{userId:user.id,currentPassword:'synthetic-original-passphrase',
+    newPassword:'synthetic-rotated-passphrase',confirmed:'synthetic-rotated-passphrase'}),true);const fresh=f.session(user);
+  denied(()=>authority.introspectSession(input));assert.equal(authority.introspectSession(sessionProof(f,fresh)).active,true);
+});
+
+test('introspection retains exact owner pin and developer-email exclusions, including profile version zero',t=>{
+  const f=fixture(t),owner=f.user({profile:false});f.setPeer({ownerUserId:owner.id});
+  const input=sessionProof(f,owner),authority=f.authority({sessionsEnabled:()=>true});
+  assert.equal(input.profileVersion,0);assert.equal(authority.introspectSession(input).active,true);
+  denied(()=>f.authority({sessionsEnabled:()=>true,developerEmail:owner.email}).introspectSession(input));
+  f.setPeer({ownerUserId:'another-owner'});denied(()=>authority.introspectSession(input));
+  const impostor=f.user({role:'owner'});denied(()=>sessionProof(f,impostor));
+});
+
+test('introspection caps expiry and rechecks independent flag/config/session before its synchronous transaction commits',t=>{
+  const f=fixture(t),user=f.user();f.setPeer({expiresAt:new Date(f.now+50_000).toISOString()});const input=sessionProof(f,user);
+  assert.equal(f.authority({sessionsEnabled:()=>true}).introspectSession(input).expiresAt,f.now+50_000);
+  let enabledCalls=0;
+  denied(()=>f.authority({sessionsEnabled:()=>++enabledCalls===1}).introspectSession(input));
+  let configCalls=0;
+  denied(()=>f.authority({sessionsEnabled:()=>true,config:()=>{
+    if(++configCalls===2)f.db.prepare('DELETE FROM vps_sessions WHERE token_hash=?').run(user.hash);
+    return f.peer;
+  }}).introspectSession(input));
+  assert.ok(f.db.prepare('SELECT 1 FROM vps_sessions WHERE token_hash=?').get(user.hash),'injected same-transaction deletion is rolled back');
+  configCalls=0;const changed=parsePeerConfig({...f.peer,secret:Buffer.alloc(32,91).toString('base64url')});
+  denied(()=>f.authority({sessionsEnabled:()=>true,config:()=>++configCalls===1?f.peer:changed}).introspectSession(input));
+  let ticks=0;denied(()=>f.authority({sessionsEnabled:()=>true,clock:()=>f.now+(++ticks===1?0:50_000)}).introspectSession(input));
+  assert.equal(f.rows(),0);
+});
 
 test('current and consent bind the actual approved site ID/session; inspect does not consume',t=>{
   const f=fixture(t),user=f.user(),authority=f.authority(),current=authority.current(user.cookie);

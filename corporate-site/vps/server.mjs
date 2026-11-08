@@ -3,7 +3,7 @@ import { readFile,stat,realpath } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import {createSiteIdentityHandler} from './site-identity-http.mjs';
-import {parsePeerConfig} from './site-identity-protocol.mjs';
+import {parsePeerConfig,parseSessionAuthorityEnabled,requireActive} from './site-identity-protocol.mjs';
 import {createClientIpResolver} from './client-ip.mjs';
 import {bindErpIntakeEnvironment,createErpIntakeScheduler} from './erp-intake-scheduler.mjs';
 import { createReadStream } from 'node:fs';
@@ -374,7 +374,7 @@ export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',ownerUserId,developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
   trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
-  erpIntakeSchedulerFactory=createErpIntakeScheduler,siteIdentityConfig,siteIdentityTransport
+  erpIntakeSchedulerFactory=createErpIntakeScheduler,siteIdentityConfig,siteIdentityTransport,siteIdentitySessionsEnabled
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(ownerUserId!==undefined&&(typeof ownerUserId!=='string'||ownerUserId.length>200||/[\u0000-\u001f\u007f]/.test(ownerUserId)))
@@ -385,11 +385,16 @@ export async function createKnabaVpsServer({
   const publicHost=base.host.toLowerCase();
   const resolveClientIp=createClientIpResolver(trustedProxyIps);
   const identityConfig=siteIdentityConfig??(()=>parsePeerConfig(process.env.SITE_IDENTITY_PEER_JSON));
+  const identitySessionsEnabled=siteIdentitySessionsEnabled??(()=>parseSessionAuthorityEnabled(process.env.SITE_IDENTITY_SESSIONS_ENABLED));
+  if(typeof identitySessionsEnabled!=='function')throw Error('MISSING_CONFIGURATION');
+  const sessionAuthorityEnabled=identitySessionsEnabled();
+  if(typeof sessionAuthorityEnabled!=='boolean')throw Error('MISSING_CONFIGURATION');
   const identityPeer=identityConfig();
+  if(sessionAuthorityEnabled)requireActive(identityPeer);
   if(identityPeer&&!localTest&&(identityPeer.siteOrigin!==origin||identityPeer.ownerUserId!==undefined&&identityPeer.ownerUserId!==ownerUserId))
     throw Error('SITE_IDENTITY_CONFIGURATION_MISMATCH');
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
-  const identityHandler=createSiteIdentityHandler(db,{config:identityConfig,developerEmail,origin,localTest,
+  const identityHandler=createSiteIdentityHandler(db,{config:identityConfig,developerEmail,origin,localTest,sessionsEnabled:identitySessionsEnabled,
     ...(siteIdentityTransport?{transport:siteIdentityTransport}:{})});
   // Pin the configured owner's provisioned principal, never a browser email.
   // Deferred resolution permits the existing offline invite / trusted CLI bootstrap.

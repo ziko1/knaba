@@ -1,5 +1,11 @@
 # KnaBa — окремий бюджет і квоти
 
+## F4-B federated session authority reservation — 08.11.2026
+
+F4-A PR run42475824054 at513351 completed all4 mandatory jobs; push42475797237 is still running at reservation time and requires reconciliation, no manual rerun. Reserve one F4-B source checkpoint and at most one corrective checkpoint, at most four automatically triggered existing public standard Ubuntu repository runs within unchanged timeouts. Scope: default-off federated session reader/storage, current site introspection and revocation, synthetic HTTP/PostgreSQL/SQLite acceptance. Browser issuance, real configuration, native files, production and paid services are outside this checkpoint. New paid activation EUR0; actual model/account balances and provider quotas UNKNOWN.
+
+Reconciliation before F4-B publication: push42475797237 completed CANCELLED; ERP job128716766886 cancelled, other3 mandatory jobs SUCCESS. The accepted PR run42475824054 remains the complete four-job source-pinned acceptance. No manual rerun/cancel or paid runner was requested.
+
 ## F4-A local session authority reservation — 08.11.2026
 
 F2 reservation reconciled: implementation push/PR runs42472334327/42472337064 (bridge fixture failure), corrective push/PR42472937996/42472941316; corrective PR run completed all4 mandatory jobs successfully. No unchanged rerun or production activation. Reserve one F4-A local session/device fence checkpoint and at most one corrective checkpoint, maximum four automatically triggered standard public Ubuntu repository runs using existing timeouts. Native files and paid providers are outside this slice. New external paid activation remains EUR0; real model balance/quotas unknown. Local SQL remains NOT_RUN until hosted execution; no paid fallback, staging extension or device readiness claim.

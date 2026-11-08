@@ -1,5 +1,15 @@
 # KNABA DE project memory
 
+## 08.11.2026 — F4-B source reviewed; actual acceptance pending
+
+Незалежно прийнято separate federated store/reader та current signed site authority, exact outage-safe logout і вузьке завершення self-dispatch із terminal session revocation. Додано51 actual bridge case; SQL/HTTP acceptance ще NOT_RUN. Локально128 focused CPU (останній guard delta повторно27),95 site checks,30 root, candidate ERP build; ці overlapping proofs не додаються й не замінюють exact-commit CI. [Input hashes, review, local logs і межі](../docs/unified/evidence/federated-session-authority-20261108/verification.json). Новий flag defaultoff; F3 issuance, рештаF4 policy/privacy, F5 і весь продукт NOT_READY.
+
+## 2026-11-08 — F4-A actual acceptance and F4-B candidate
+
+F4-A accepted на513351 / [CI42475824054](https://github.com/ziko1/knaba/actions/runs/42475824054): ERP2820/122 files, bridge31, site732+90+268, root30; independent source/log review ACCEPT. [Evidence](../docs/unified/evidence/request-authority-20261108/verification.json).
+
+F4-B source candidate додає separate site_auth_sessions (old reader не бачить цих hash у auth_sessions), exact provenance/current site checks, revoke both namespaces і exact logout під час peer outage. Original user version + credential fingerprint запобігають відновленню старої authority після rollback/rollforward. Немає browser issuance або new grants; defaultoff flag. [Контракт](../docs/unified/FEDERATED_SESSION_AUTHORITY_2026-11-08_UK.md). Actual combined SQL acceptance ще NOT_RUN, full product NOT_READY.
+
 ## 2026-11-08 — accepted F2 and F4-A request-authority candidate
 
 F2 accepted на exact source `1a6e837de7a351a67bf4bef3bda00961aed19d83`, [run42472941316](https://github.com/ziko1/knaba/actions/runs/42472941316): bridge31 (22 identity +9 intake), ERP2782/120 files, site732+90+268, root30, усі4 required jobs SUCCESS. Історичний40e31ac fixture failure збережено; виправлено тільки synthetic profiles.last_mutation.

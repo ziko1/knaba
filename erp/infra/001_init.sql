@@ -404,3 +404,56 @@ DROP TRIGGER IF EXISTS site_identity_successor_guard ON site_identity_bindings;
 CREATE TRIGGER site_identity_successor_guard BEFORE INSERT ON site_identity_bindings
  FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_successor();
 INSERT INTO schema_migrations(version) VALUES('004_site_identity_dual_consent') ON CONFLICT(version) DO NOTHING;
+
+-- Federated cookies are deliberately absent from auth_sessions. A rollback to
+-- a pre-federation reader must reject them instead of treating them as local.
+CREATE TABLE IF NOT EXISTS site_auth_sessions (
+ company_id text NOT NULL CHECK(octet_length(company_id) BETWEEN 1 AND 128),
+ id uuid NOT NULL DEFAULT gen_random_uuid(),
+ token_hash text NOT NULL UNIQUE CHECK(token_hash ~ '^[a-f0-9]{64}$'),
+ user_kind text NOT NULL DEFAULT 'user' CHECK(user_kind='user'),
+ user_id text NOT NULL CHECK(octet_length(user_id) BETWEEN 1 AND 128),
+ user_version integer NOT NULL CHECK(user_version>0),
+ security_fingerprint text NOT NULL CHECK(security_fingerprint ~ '^[a-f0-9]{64}$'),
+ binding_id uuid NOT NULL,
+ binding_version integer NOT NULL CHECK(binding_version>0),
+ binding_generation integer NOT NULL CHECK(binding_generation>0),
+ issuer text COLLATE "C" NOT NULL CHECK(octet_length(issuer) BETWEEN 1 AND 512),
+ audience text COLLATE "C" NOT NULL CHECK(octet_length(audience) BETWEEN 1 AND 256),
+ subject text COLLATE "C" NOT NULL CHECK(octet_length(subject) BETWEEN 1 AND 256),
+ site_session_digest text NOT NULL CHECK(site_session_digest ~ '^[a-f0-9]{64}$'),
+ site_profile_version integer NOT NULL CHECK(site_profile_version>=0),
+ site_profile_fingerprint text NOT NULL CHECK(site_profile_fingerprint ~ '^[a-f0-9]{64}$'),
+ site_expires_at timestamptz NOT NULL CHECK(isfinite(site_expires_at)),
+ trust_version integer NOT NULL CHECK(trust_version>0),
+ trust_fingerprint text NOT NULL CHECK(trust_fingerprint ~ '^[a-f0-9]{64}$'),
+ transport_fingerprint text NOT NULL CHECK(transport_fingerprint ~ '^[a-f0-9]{64}$'),
+ mfa_verified boolean NOT NULL DEFAULT false,
+ mfa_verified_at timestamptz,
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp() CHECK(isfinite(created_at)),
+ expires_at timestamptz NOT NULL CHECK(isfinite(expires_at)),
+ revoked_at timestamptz,
+ PRIMARY KEY(company_id,id),
+ FOREIGN KEY(company_id,user_kind,user_id) REFERENCES aggregates(company_id,kind,id),
+ FOREIGN KEY(company_id,binding_id) REFERENCES site_identity_bindings(company_id,id),
+ CHECK(expires_at>created_at AND expires_at<=created_at+interval '8 hours' AND expires_at<=site_expires_at),
+ CHECK((NOT mfa_verified AND mfa_verified_at IS NULL) OR
+       (mfa_verified AND mfa_verified_at IS NOT NULL AND isfinite(mfa_verified_at) AND mfa_verified_at<=created_at AND mfa_verified_at>created_at-interval '10 minutes')),
+ CHECK(revoked_at IS NULL OR isfinite(revoked_at) AND revoked_at>=created_at)
+);
+CREATE INDEX IF NOT EXISTS site_auth_sessions_user ON site_auth_sessions(company_id,user_id) WHERE revoked_at IS NULL;
+CREATE INDEX IF NOT EXISTS site_auth_sessions_binding ON site_auth_sessions(company_id,binding_id) WHERE revoked_at IS NULL;
+CREATE OR REPLACE FUNCTION knaba_guard_site_auth_session() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF (to_jsonb(NEW)-'revoked_at') IS DISTINCT FROM (to_jsonb(OLD)-'revoked_at') THEN
+  RAISE EXCEPTION 'SITE_SESSION_PROVENANCE_IMMUTABLE' USING ERRCODE='23514';
+ END IF;
+ IF OLD.revoked_at IS NOT NULL OR NEW.revoked_at IS NULL THEN
+  RAISE EXCEPTION 'SITE_SESSION_REVOCATION_TERMINAL' USING ERRCODE='23514';
+ END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_auth_session_immutable ON site_auth_sessions;
+CREATE TRIGGER site_auth_session_immutable BEFORE UPDATE ON site_auth_sessions
+ FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_auth_session();
+INSERT INTO schema_migrations(version) VALUES('005_site_session_authority') ON CONFLICT(version) DO NOTHING;
