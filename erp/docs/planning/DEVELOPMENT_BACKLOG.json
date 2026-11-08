@@ -4561,6 +4561,9 @@
     ],
     "cross_system_sso": "NOT_IMPLEMENTED",
     "original_criteria_promoted": false,
-    "production_changed": false
+    "production_changed": false,
+    "verified_source_commit": "fddd1601d989af3054099706589e1e8ab91ecf40",
+    "verified_ci_run": 42455220007,
+    "verified_ci_status": "FOUR_REQUIRED_JOBS_SUCCESS_SCOPED_PRODUCT_NOT_READY"
   }
 }

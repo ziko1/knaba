@@ -8,8 +8,8 @@
   "pull_request": "https://github.com/ziko1/knaba/pull/123",
   "branch": "feat/knaba-integrated-completion-20261108",
   "base_commit": "d03e72b8c5030390c635f3aac9133d977078dedf",
-  "recorded_at": "2026-11-08T06:27:21.304156+00:00",
-  "source_state": "working-tree candidate; exact file binding in source-files.json",
+  "recorded_at": "2026-11-08T06:40:59.932602+00:00",
+  "source_state": "PUBLISHED_EXACT_CLEAN_COMMIT_VERIFIED_BY_CI",
   "source_manifest_sha256": "90a0a10f15ffe0fc20bd9b2af25a046e3668e228207ae7d0890221e9cfa90154",
   "product_status": "NOT_READY",
   "cross_system_login": "NOT_IMPLEMENTED",
@@ -109,13 +109,18 @@
       "diff_check": {
         "exit_code": 0
       },
-      "clean_source_audit": "RUN_AFTER_COMMIT"
+      "clean_source_audit": {
+        "command": "npm run audit:source",
+        "commit": "fddd1601d989af3054099706589e1e8ab91ecf40",
+        "exit_code": 0,
+        "record": "e15543"
+      }
     },
     "evidence": "local-runs.json and site-source-and-local.json; overlapping suites are not summed"
   },
   "independent_review": {
     "reviewer": "/root/test_environment",
-    "status": "ACCEPT_SOURCE_AND_LOCAL_SCOPE_CI_OPEN",
+    "status": "ACCEPT_SOURCE_LOCAL_AND_CI_SCOPE",
     "accepted": [
       "Original-session OIDC linking, session SQL/response fences and site owner subject boundary",
       "Exact proof/device authority, strict revocation markers and legacy membership replacement",
@@ -127,13 +132,77 @@
     "cross_check": "/root/site_identity_audit independently verified normative portal scope contract, root checks and unchanged bridge/dependency/workflow paths",
     "source_hash_review": "13 site files and final 21 ERP inputs matched; no mismatch",
     "open_gates": [
-      "PostgreSQL and full aggregate CI on clean exact source",
-      "Browser, actual provider, physical device and company acceptance"
+      "Browser, actual provider, physical device and company acceptance",
+      "Full cross-system federation and shared revocation implementation"
     ],
-    "erp_final_input_manifest_sha256": "82be1dcfcf64d9afd41189eb31ba8c24d92f363192043342134e51923a9265a2"
+    "erp_final_input_manifest_sha256": "82be1dcfcf64d9afd41189eb31ba8c24d92f363192043342134e51923a9265a2",
+    "ci_review": "ERP actual source/build attestation, full SQL result and eight new PostgreSQL cases independently checked by /root/test_environment; root inspected all other job logs."
   },
   "ci": {
-    "status": "NOT_RUN_FOR_THIS_CANDIDATE",
+    "status": "success",
+    "run_id": 42455220007,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42455220007",
+    "head_sha": "fddd1601d989af3054099706589e1e8ab91ecf40",
+    "run_attempt": 1,
+    "required_jobs": [
+      {
+        "name": "Source integrity and policy tests",
+        "job_id": 128652667732,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Corporate site checks and production build",
+        "job_id": 128652667850,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Site SQLite to ERP PostgreSQL HTTP acceptance",
+        "job_id": 128652667875,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ERP checks, build and PostgreSQL tests",
+        "job_id": 128652667882,
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "erp": {
+      "passed": 2677,
+      "total": 2677,
+      "files": 117,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "postgres": "17.6",
+      "new_login_sql_cases": 4,
+      "new_membership_portal_sql_cases": 4,
+      "exact_clean_build_source": true
+    },
+    "site": {
+      "vitest": 732,
+      "vitest_files": 72,
+      "node": 90,
+      "vps": 197,
+      "failed": 0,
+      "skipped": 0,
+      "check_build_and_budgets": "PASS"
+    },
+    "bridge": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "transport": "actual VPS/SQLite -> signed HTTP -> ERP/PostgreSQL17.6"
+    },
+    "root": {
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0
+    },
+    "excerpt_sha256": "8a2b52bf1cbfbbf00836310d23950845156306726339dd715bc4fc025c885689",
     "historical_run_not_reused": 42430003249
   },
   "boundaries": [
@@ -143,5 +212,13 @@
     "Durable owner binding requires explicit OWNER_USER_ID; VPS auto pin lasts one process; hosted Sites undefined binding retains legacy email fallback",
     "No universal ERP in-flight original-session fence; F4 remains open",
     "No production/browser/provider/device/UAT or measured p95 claim"
-  ]
+  ],
+  "tested_source_commit": "fddd1601d989af3054099706589e1e8ab91ecf40",
+  "tested_tree": "4d413410bc748085b60d679d42586ee86f4d1e8a",
+  "publication": {
+    "local_prepublication_commit": "917239dd21cb6bedb268bb925e7458fa3acc03dd",
+    "published_commit": "fddd1601d989af3054099706589e1e8ab91ecf40",
+    "tree_identity_match": true,
+    "branch_update": "fast-forward with expected d03e72b; no force, merge or deploy"
+  }
 }

@@ -1,0 +1,97 @@
+{
+  "run_id": 42455220007,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42455220007",
+  "head_sha": "fddd1601d989af3054099706589e1e8ab91ecf40",
+  "event": "pull_request",
+  "conclusion": "success",
+  "run_attempt": 1,
+  "jobs": {
+    "root": {
+      "job_id": 128652667732,
+      "conclusion": "success",
+      "raw_log_sha256": "249ef5822596dab12df8f1266b4866ba98c4d1dd5ef852fb26cceff5f3d04505",
+      "excerpts": [
+        "2026-11-08T06:33:22.9400466Z PASS historical import: 66b07fb46d23c7110473c51fc23ce58d3c40a1b1",
+        "2026-11-08T06:33:22.9407222Z PASS clean committed source: fddd1601d989af3054099706589e1e8ab91ecf40; combined runtime acceptance NOT_RUN",
+        "2026-11-08T06:33:24.4050233Z ℹ tests 28",
+        "2026-11-08T06:33:24.4051147Z ℹ pass 28",
+        "2026-11-08T06:33:24.4053756Z ℹ fail 0",
+        "2026-11-08T06:33:24.4054656Z ℹ cancelled 0",
+        "2026-11-08T06:33:24.4054923Z ℹ skipped 0",
+        "2026-11-08T06:33:24.4055144Z ℹ todo 0"
+      ]
+    },
+    "site": {
+      "job_id": 128652667850,
+      "conclusion": "success",
+      "raw_log_sha256": "67a69677c0dedc28b21867fd3300fdc8aaad7e34f238844e03b9f80ed3d8bb6d",
+      "excerpts": [
+        "2026-11-08T06:33:41.0046501Z - 0 errors",
+        "2026-11-08T06:33:41.0046773Z - 0 warnings",
+        "2026-11-08T06:33:54.8002703Z  Test Files  72 passed (72)",
+        "2026-11-08T06:33:54.8004728Z       Tests  732 passed (732)",
+        "2026-11-08T06:33:56.3605998Z ℹ tests 37",
+        "2026-11-08T06:33:56.3606360Z ℹ pass 37",
+        "2026-11-08T06:33:56.3606529Z ℹ fail 0",
+        "2026-11-08T06:33:56.3606697Z ℹ cancelled 0",
+        "2026-11-08T06:33:56.3606871Z ℹ skipped 0",
+        "2026-11-08T06:33:56.3607036Z ℹ todo 0",
+        "2026-11-08T06:33:56.4622558Z ℹ tests 35",
+        "2026-11-08T06:33:56.4623059Z ℹ pass 35",
+        "2026-11-08T06:33:56.4623299Z ℹ fail 0",
+        "2026-11-08T06:33:56.4623551Z ℹ cancelled 0",
+        "2026-11-08T06:33:56.4623814Z ℹ skipped 0",
+        "2026-11-08T06:33:56.4624072Z ℹ todo 0",
+        "2026-11-08T06:33:56.6397418Z ℹ tests 10",
+        "2026-11-08T06:33:56.6399250Z ℹ pass 10",
+        "2026-11-08T06:33:56.6399762Z ℹ fail 0",
+        "2026-11-08T06:33:56.6400199Z ℹ cancelled 0",
+        "2026-11-08T06:33:56.6400634Z ℹ skipped 0",
+        "2026-11-08T06:33:56.6401346Z ℹ todo 0",
+        "2026-11-08T06:33:56.7291968Z ℹ tests 8",
+        "2026-11-08T06:33:56.7292626Z ℹ pass 8",
+        "2026-11-08T06:33:56.7292966Z ℹ fail 0",
+        "2026-11-08T06:33:56.7293289Z ℹ cancelled 0",
+        "2026-11-08T06:33:56.7293649Z ℹ skipped 0",
+        "2026-11-08T06:33:56.7293993Z ℹ todo 0",
+        "2026-11-08T06:34:23.3720533Z ℹ tests 197",
+        "2026-11-08T06:34:23.3720874Z ℹ pass 197",
+        "2026-11-08T06:34:23.3721191Z ℹ fail 0",
+        "2026-11-08T06:34:23.3721457Z ℹ cancelled 0",
+        "2026-11-08T06:34:23.3721668Z ℹ skipped 0",
+        "2026-11-08T06:34:23.3721943Z ℹ todo 0"
+      ]
+    },
+    "bridge": {
+      "job_id": 128652667875,
+      "conclusion": "success",
+      "raw_log_sha256": "db722abd523d845155a90fedfcdd6a4567c7d4fb5d8463c209bf4c7557b52cbd",
+      "excerpts": [
+        "2026-11-08T06:37:11.3595591Z # tests 9",
+        "2026-11-08T06:37:11.3596356Z # pass 9",
+        "2026-11-08T06:37:11.3596587Z # fail 0",
+        "2026-11-08T06:37:11.3596811Z # cancelled 0",
+        "2026-11-08T06:37:11.3597080Z # skipped 0",
+        "2026-11-08T06:37:11.3597476Z # todo 0",
+        "2026-11-08T06:37:11.4005822Z Passed bridge cases: 9 source: fddd1601d989af3054099706589e1e8ab91ecf40",
+        "2026-11-08T06:37:11.7194917Z  2026-11-08 06:33:28.284 UTC [1] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+        "2026-11-08T06:37:11.7204782Z  waiting for server to start....2026-11-08 06:33:27.869 UTC [48] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit"
+      ]
+    },
+    "erp": {
+      "job_id": 128652667882,
+      "conclusion": "success",
+      "raw_log_sha256": "a8bbd16f75a99e7b3d679dd03184e97b5c58e9c79208c5544c5e34d1680e720f",
+      "excerpts": [
+        "2026-11-08T06:37:33.4379008Z Build source verified: fddd1601d989af3054099706589e1e8ab91ecf40",
+        "2026-11-08T06:38:46.4897098Z  ✓ tests/customer-membership-authority.integration.test.ts (4 tests) 248ms",
+        "2026-11-08T06:38:52.4872448Z  ✓ tests/login-revocation.integration.test.ts (4 tests) 527ms",
+        "2026-11-08T06:39:03.9145001Z  Test Files  117 passed (117)",
+        "2026-11-08T06:39:03.9157500Z       Tests  2677 passed (2677)",
+        "2026-11-08T06:39:04.0279007Z Passed ERP assertions: 2677",
+        "2026-11-08T06:39:04.5606451Z  2026-11-08 06:33:26.767 UTC [1] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+        "2026-11-08T06:39:04.5707354Z  waiting for server to start....2026-11-08 06:33:26.473 UTC [48] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit"
+      ]
+    }
+  }
+}

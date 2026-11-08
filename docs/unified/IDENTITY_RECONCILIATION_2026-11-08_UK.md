@@ -2,7 +2,7 @@
 
 Дата: 08.11.2026, Europe/Berlin. Чинне доручення: продовжити Draft PR123, зіставити фактичну авторизацію, виправити підтверджені розриви, перевірити регресії на ізольованих даних. Без merge, production, DNS, реальних даних або нових платних сервісів.
 
-База аналізу: **d03e72b8c5030390c635f3aac9133d977078dedf**, гілка **feat/knaba-integrated-completion-20261108**. Історичний GitHub run42430003249 належить попередньому executable09e267d, не цьому патчу. Актуальні source/test/evidence identities фіксуються у підсумковому checkpoint.
+База аналізу: **d03e72b8c5030390c635f3aac9133d977078dedf**, гілка **feat/knaba-integrated-completion-20261108**. Історичний GitHub run42430003249 належить попередньому executable09e267d, не цьому патчу. Перевірений runtime/test source: **fddd1601d989af3054099706589e1e8ab91ecf40**, [CI 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007); hashes і результати у [verification.json](evidence/identity-20261108/verification.json).
 
 **Рішення:** виправити наявні шляхи автентифікації та відкликання; зафіксувати перевірюваний контракт федерації. Новий незавершений login gateway або другий intake outbox не створюється. **Спільний site↔ERP login/SSO залишається NOT_IMPLEMENTED; весь продукт NOT_READY.**
 
@@ -143,3 +143,9 @@ OIDC Core визначає стабільну ідентичність чере�
 Synthetic OIDC responses перевіряють наш протокол, а не доступність живих Google/Microsoft акаунтів. Loopback HTTP не підтверджує production reverse proxy або браузерну поведінку. Browser/physical device/owner/provider/UAT та спільний SSO залишаються окремими відкритими gates.
 
 Підсумкові counts, sanitized assertion index, raw-log digests, exact source binding та незалежне review: [verification.json](evidence/identity-20261108/verification.json). Історичні RED та проміжні результати збережені окремо; synthetic bearer/CSRF values із failure payloads не публікуються. Остаточний PostgreSQL/aggregate CI результат додається лише після фактичного виконання на відповідному commit; попередній run не замінює цей gate.
+
+## Exact-source CI checkpoint — 08.11.2026
+
+Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d413410bc748085b60d679d42586ee86f4d1e8a`**: [run 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007) завершив усі чотири обов’язкові jobs успішно. ERP **2677/2677** у 117 файлах зі справжньою PostgreSQL17.6 (включно з 8 новими SQL cases), bridge **9/9**, site **732 Vitest + 90 Node + 197 VPS**, root **28/28**; 0 FAIL/SKIP. Typecheck, migrations, clean build identity та site build/budgets пройшли. Попередній локальний SQL NOT_RUN лишається історичним фактом; hosted CI є окремим виконанням.
+
+Поточне доповнення з CI evidence є documentation-only; 34 runtime/test input hashes незмінні. Подальший documentation HEAD не змінює tested executable identity і не доводить browser/device/provider/UAT. **SSO NOT_IMPLEMENTED, продукт NOT_READY.**
