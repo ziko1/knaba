@@ -309,3 +309,7 @@ F1/F2 technical dependency закрито actual CI на e03d2be; F3 server/web 
 ## 08.11.2026 — actual F3 blocker and reviewed correction
 
 af6f84d main42499230900 FAILED at the ledger dispatcher:18 F3 PG and8 F3 pair cases failed before downstream assertions; rendered browser NOT_RUN. Native artifact reviews accepted Android72 test cases and iOS145 XCTest within their simulator/static scope. Dispatcher correction, in-memory nonce/operation/savepoint fixture support, and diagnostic-only PG fixture/bridge changes have independent source review and69 focused local PASS (including7 independently rerun cases). Next gate remains actual corrected PG18/pair8/browser10 and required aggregate jobs. [Current evidence](F3_ACTUAL_CI_AND_DISPATCH_FIX_2026-11-08_UK.md). Native F3/privacy/push implementation remains queued behind this gate; compound AC unchanged.
+
+## 08.11.2026 — remaining rendered F3 gate
+
+a202 actual ERP3260 and pair26 PASS include all18/8 required F3 cases. Rendered F3 is9/10, aggregate18/19; one fixture label mismatch and shared registrable synthetic domain require the reviewed one-file correction. [Exact evidence and correction](F3_BROWSER_ACCEPTANCE_CORRECTION_2026-11-08_UK.md). Actual corrected browser is pending; dependent native F3/privacy implementation and full compound AC remain unpromoted. Privacy plan now explicitly requires old idempotency-receipt compatibility, server ACCESS/PROFILE boundaries, atomic overflow/failure and saved-card version checks.

@@ -10,7 +10,9 @@ test.use({serviceWorkers:'block'});
 // Current ERP build + current VPS HTML, served at intercepted synthetic HTTPS
 // origins. Chrome supplies real Strict/Lax cookie behavior. This is not a TLS,
 // PostgreSQL, app-link ownership or device acceptance result.
-const erpOrigin='https://erp.browser.invalid',siteOrigin='https://site.browser.invalid',appOrigin='https://app.browser.invalid';
+// Distinct registrable domains make the source navigation truly cross-site;
+// sharing browser.invalid would send the Strict source cookie on the landing.
+const erpOrigin='https://erp.browser.invalid',siteOrigin='https://site.source.invalid',appOrigin='https://app.browser.invalid';
 const id='8f5eea31-f424-40b7-8b08-3c7a8a43c5bb',inspectionId='a8ab692d-2fb2-4fc7-bad4-8b2596482159';
 const state='s'.repeat(43),code='K3C.'+'c'.repeat(43),flow='synthetic-flow-cookie',oldCookie='o'.repeat(43),newCookie='KF3.'+'n'.repeat(43);
 const password='Synthetic source password!',otp='123456',csrf='synthetic-flow-csrf';
@@ -125,13 +127,20 @@ async function confirm(page:Page){
 test('F3 HTTP fixture: actual Strict/Lax cross-site continuation and explicit WEB account plus MFA confirmation',async({page,context})=>{
   await page.setViewportSize({width:390,height:844});const f=await fixture(page,context);
   await page.getByRole('link',{name:'Continue to the website',exact:true}).click();
-  await page.getByRole('button',{name:'Continue',exact:true}).click();
-  await page.getByLabel('Current password',{exact:true}).fill(password);
+  const siteContinue=page.getByRole('button',{name:'Continue',exact:true});await expect(siteContinue).toBeVisible();
+  const initial=f.calls.find(row=>row.path===siteOrigin+'/account/erp-login/'&&row.method==='GET')!;
+  expect(initial).toBeDefined();expect(initial.cookie).not.toContain('__Host-knaba-session=');
+  await siteContinue.click();
+  // getByLabel matches raw label text, including the aria-hidden required star.
+  // Check the exact input identity and its accessible name independently.
+  const currentPassword=page.locator('input#account-current[name="current"][type="password"]');
+  await expect(currentPassword).toHaveAccessibleName('Current password');
+  await expect(currentPassword).toHaveAttribute('required','');
+  await expect(currentPassword).toHaveAttribute('autocomplete','current-password');
+  await currentPassword.fill(password);
   await page.getByRole('checkbox',{name:'I have checked the account, company and application and want to use this account to sign in to ERP.',exact:true}).check();
   await page.getByRole('button',{name:'Confirm sign-in',exact:true}).click();
   await expect(page.getByText('Synthetic ERP account',{exact:true})).toBeVisible();await confirm(page);await expect(page).toHaveURL(erpOrigin+'/console');
-  const initial=f.calls.find(row=>row.path===siteOrigin+'/account/erp-login/'&&row.method==='GET')!;
-  expect(initial.cookie).not.toContain('__Host-knaba-session=');
   const returning=f.calls.find(row=>row.path===erpOrigin+'/auth/federation/return')!;
   expect(returning.cookie).toContain('__Host-knaba-federation-flow='+flow);expect(returning.cookie).not.toContain('knaba_session=');
   expect((await context.cookies(erpOrigin)).find(c=>c.name==='knaba_session')?.value).toBe(newCookie);

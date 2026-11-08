@@ -251,3 +251,7 @@ Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-
 ## 08.11.2026 — F3 actual failure and corrective checkpoint
 
 The first F3 source af6f84d has FAILED aggregate acceptance despite successful current native jobs. A missing ledger callback action allowlist entry explains18 PG/8 pair failures;5-path correction independently reviewed and locally verified. [Actual results, exact sources and next gate](F3_ACTUAL_CI_AND_DISPATCH_FIX_2026-11-08_UK.md). Corrected PostgreSQL/pair/rendered-browser acceptance remains pending. Native F3 adapters, versioned identity privacy and native push keep their existing dependency order; no compound criterion is promoted by a partial pass.
+
+## 08.11.2026 — F3 runtime acceptance and pending browser correction
+
+a202ddc8 closes the actual18 F3 PostgreSQL and8 runtime-pair checks within3260/26 successful cases. The required rendered aggregate remains18/19 because of one fixture failure; full F3 dependency is not yet accepted. [Trace-grounded fixture correction and next gate](F3_BROWSER_ACCEPTANCE_CORRECTION_2026-11-08_UK.md). Native source, normative scope and compound AC unchanged; one bounded source checkpoint follows independent review.

@@ -1,0 +1,81 @@
+{
+  "startedAt": "2026-11-08T17:01:40.152Z",
+  "scope": "Actual rendered browsers; loopback synthetic data and intercepted synthetic HTTPS origins for cookie-policy checks. ERP transfer, identity-link and login suites use explicit HTTP fixtures, not provider/PostgreSQL/TLS/device acceptance.",
+  "stages": [
+    {
+      "name": "site roles and display receipts",
+      "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+      "checks": 111,
+      "engine": "chromium",
+      "browserVersion": "156.0.8078.79",
+      "status": "PASS"
+    },
+    {
+      "name": "site six-language navigation",
+      "kind": "ACTUAL_SQLITE_HTTP_BROWSER",
+      "checks": 32,
+      "engine": "chromium",
+      "browserVersion": "156.0.8078.79",
+      "status": "PASS"
+    },
+    {
+      "name": "six public locales by four viewports",
+      "kind": "ACTUAL_RENDERED_STATIC_BROWSER",
+      "cases": 24,
+      "engine": "chromium",
+      "status": "PASS"
+    }
+  ],
+  "sourceSha": "a202ddc8d527f90dc7c13a923a11336410623173",
+  "buildManifestSha256": "0888464c7863b24afbb6b6566e7d63de9dbb26ee3539cca5e429c86efc05210d",
+  "artifacts": {
+    "siteClient": {
+      "path": "corporate-site/dist/client",
+      "files": 310,
+      "bytes": 6893044,
+      "sha256": "62d5f4cf0f5cafdf898c36ae1b706e3bd034ff72a1ef4845b1c16eb7de1cecf6"
+    },
+    "siteWorker": {
+      "path": "corporate-site/dist/server",
+      "files": 3,
+      "bytes": 551955,
+      "sha256": "400a16653b06db0aee53278f58d9964f8b17554f6525b8d38a127c23749bd655"
+    },
+    "siteVps": {
+      "path": "corporate-site/dist/vps",
+      "files": 4,
+      "bytes": 288696,
+      "sha256": "7834ce3a5bbf41d126f921fa8311eb279a0fe9d878e91732c5ca33fac0396943"
+    },
+    "erpDist": {
+      "path": "erp/dist",
+      "files": 12,
+      "bytes": 11193076,
+      "sha256": "5b72caf94571bc7b185c5acd02e68c0225eb7562175486e08229e345c68b24e1"
+    }
+  },
+  "sourceInputs": {
+    "federationProtocol": {
+      "path": "erp/packages/integrations/site-federation-protocol.mjs",
+      "bytes": 14764,
+      "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e"
+    },
+    "federationLoginProtocol": {
+      "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+      "bytes": 10977,
+      "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81"
+    },
+    "federationEntry": {
+      "path": "corporate-site/vps/federation-entry.mjs",
+      "bytes": 1136,
+      "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc"
+    }
+  },
+  "chromePath": "/usr/bin/google-chrome",
+  "chromeVersion": "Google Chrome 156.0.8078.79",
+  "playwrightVersion": "1.55.1",
+  "status": "FAIL",
+  "reason": "Child exited 1",
+  "inputsUnchanged": true,
+  "finishedAt": "2026-11-08T17:03:49.486Z"
+}
