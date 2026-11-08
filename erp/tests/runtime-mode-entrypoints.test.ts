@@ -21,11 +21,17 @@ beforeAll(async()=>{
   // Same entrypoints, package externalization, Node target and require banner
   // as scripts/bundle.mjs. Avoid a source loader's own IPC inside the network
   // trap; the emitted application executes unmodified in a plain Node process.
-  await Promise.all(entrypoints.map(({source,entry})=>build({
+  const requireBanner="import { createRequire as __knabaCreateRequire } from 'node:module'; const require=__knabaCreateRequire(import.meta.url);";
+  const releaseVariants:Array<[string,unknown]>=[['valid','a'.repeat(40)],['zero','0'.repeat(40)],
+    ['newline','a'.repeat(40)+'\n'],['null',null],['number',42],['invalid','SYNTHETIC_SHA_CANARY_DO_NOT_ECHO']];
+  const targets=[...entrypoints.map(({source,entry})=>({source,entry,banner:requireBanner})),
+    ...releaseVariants.map(([name,sha])=>({source:'apps/api/main.ts',entry:`api-build-${name}.mjs`,
+      banner:requireBanner+` globalThis.__KNABA_BUILD_SHA__=${JSON.stringify(sha)};`}))];
+  await Promise.all(targets.map(({source,entry,banner})=>build({
     absWorkingDir:erpRoot,entryPoints:[source],outfile:join(scratch,entry),
     bundle:true,platform:'node',format:'esm',target:'node24',packages:'external',
     tsconfig:join(erpRoot,'tsconfig.json'),logLevel:'silent',
-    banner:{js:"import { createRequire as __knabaCreateRequire } from 'node:module'; const require=__knabaCreateRequire(import.meta.url);"}
+    banner:{js:banner}
   })));
 });
 afterAll(async()=>{if(scratch)await rm(scratch,{recursive:true,force:true});});
@@ -152,5 +158,63 @@ describe('API canonical origin reaches the real peer comparison with an explicit
       SITE_IDENTITY_PEER_JSON:JSON.stringify({...peer,...override}),KNABA_RUNTIME_MODE_ALLOW_GPS_QUERY:'true'});
     expect(child.status,output).toBe(1);expect(output).toContain('SITE_IDENTITY_CONFIGURATION_MISMATCH');
     expect(events).toEqual(['PG_POOL','GPS_STORAGE_QUERY']);
+  });
+});
+
+// Release metadata must be rejected before any database/provider boundary.
+// The compiled fixture uses an actual esbuild banner like scripts/bundle.mjs.
+describe('API release identity rejection before side effects',()=>{
+  it('rejects a zero production environment SHA before database construction',()=>{
+    const {child,output,events}=launch('api.mjs','PRODUCTION',{GIT_SHA:'0'.repeat(40)});
+    expect(child.status,output).toBe(1);
+    expect(output).toContain('RELEASE_SHA_REQUIRED_OR_INVALID');
+    expect(events).toEqual([]);
+  });
+  it('rejects a compiled/environment SHA mismatch before database construction',()=>{
+    const {child,output,events}=launch('api-build-valid.mjs','PRODUCTION',{GIT_SHA:'b'.repeat(40)});
+    expect(child.status,output).toBe(1);
+    expect(output).toContain('RELEASE_SHA_MISMATCH');
+    expect(events).toEqual([]);
+  });
+});
+
+
+describe('API compiled release metadata boundaries and positive controls',()=>{
+  it.each(['zero','newline','null','number','invalid'])('rejects compiled %s before database/provider effects',variant=>{
+    const {child,output,events}=launch(`api-build-${variant}.mjs`,'PRODUCTION');
+    expect(child.status,output).toBe(1);expect(output).toContain('RELEASE_SHA_REQUIRED_OR_INVALID');
+    expect(output).not.toContain('SYNTHETIC_SHA_CANARY_DO_NOT_ECHO');expect(events).toEqual([]);
+  });
+  it.each(['a'.repeat(40)+'\n','A'.repeat(40),'SYNTHETIC_SHA_CANARY_DO_NOT_ECHO'])
+  ('rejects malformed explicit environment metadata before effects %#',GIT_SHA=>{
+    const {child,output,events}=launch('api.mjs','PRODUCTION',{GIT_SHA});
+    expect(child.status,output).toBe(1);expect(output).toContain('RELEASE_SHA_REQUIRED_OR_INVALID');
+    expect(output).not.toContain('SYNTHETIC_SHA_CANARY_DO_NOT_ECHO');expect(events).toEqual([]);
+  });
+  it.each(['DEMO','TEST','PRODUCTION'])('accepts matching compiled metadata in %s until the Pool trap',mode=>{
+    const {child,output,events}=launch('api-build-valid.mjs',mode);
+    expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+    expect(events).toEqual(['PG_POOL']);
+  });
+  it.each(['DEMO','TEST'])('rejects explicit zero and mismatched metadata even in %s',mode=>{
+    for(const [entry,GIT_SHA,error] of [
+      ['api.mjs','0'.repeat(40),'RELEASE_SHA_REQUIRED_OR_INVALID'],
+      ['api-build-valid.mjs','b'.repeat(40),'RELEASE_SHA_MISMATCH']
+    ]){
+      const {child,output,events}=launch(entry,mode,{GIT_SHA});
+      expect(child.status,output).toBe(1);expect(output).toContain(error);expect(events).toEqual([]);
+    }
+  });
+  it.each(['DEMO','TEST'])('preserves missing env with optional compiled metadata in %s',mode=>{
+    for(const entry of ['api.mjs','api-build-valid.mjs']){
+      const {child,output,events}=launch(entry,mode,{GIT_SHA:undefined});
+      expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+      expect(events).toEqual(['PG_POOL']);
+    }
+  });
+  it('keeps the production environment prerequisite even with a valid compiled SHA',()=>{
+    const {child,output,events}=launch('api-build-valid.mjs','PRODUCTION',{GIT_SHA:undefined});
+    expect(child.status,output).toBe(1);expect(output).toContain('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
+    expect(events).toEqual([]);
   });
 });

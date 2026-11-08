@@ -1,5 +1,13 @@
 # KnaBa — окремий бюджет і квоти
 
+## 08.11.2026 — C08-D release SHA guard
+
+- Existing project continuation on accepted F4-C1 source `131e582f1ffa50a89a5898742cf7f22b5b43efa7`; no new product or provider.
+- Scope: shared non-placeholder release SHA validation, API environment/compiled identity agreement before database construction, matching operator/bundle guards, focused actual-entrypoint regression tests. No native/UI/schema change.
+- Reserved maximum: 2 source checkpoints (initial plus one justified correction), 4 automatic repository CI runs (push/PR), 0 native runs. No unchanged reruns.
+- Existing local dependencies and authorized GitHub connection only; new paid activation EUR 0. Model balance/quota and actual monetary usage remain UNKNOWN.
+- Release identity grammar/consistency does not prove source authenticity, live readiness or physical-device acceptance. Whole product remains NOT_READY; no merge/production/store activation.
+
 ## 08.11.2026 — F4-C1 reserved source verification; C08-C reconciled
 
 C08-C завершено одним source checkpoint4e6ac099: PR42491574791 та duplicate push42491540824 SUCCESS attempt1,0 native runs,0 reruns/corrections. Обидва automatic runs збережено як окремі спостереження; вони не додають case counts одного source.

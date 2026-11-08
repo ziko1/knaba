@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "scope": "F4-C1 version-pinned self export of ERP-local site identity history",
+  "status": "ACCEPT",
+  "product_status": "NOT_READY",
+  "source_sha": "131e582f1ffa50a89a5898742cf7f22b5b43efa7",
+  "tree_sha": "551f41d805b39affafd99c5afb4f524966e03e21",
+  "parent_sha": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+  "pull_request": "https://github.com/ziko1/knaba/pull/139",
+  "review": {
+    "independent_reviewer": "/root/knaba_prompt_review",
+    "status": "ACCEPT_EXACT_SOURCE_AND_RAW_LOGS",
+    "root_final_source_and_log_verification": true,
+    "input_hashes_verified": 23,
+    "inherited_subtrees_verified": 7,
+    "tool_log_readback_exact": true
+  },
+  "manifest": {
+    "path": "docs/unified/evidence/identity-privacy-export-20261108/verification.json",
+    "bytes": 10021,
+    "sha256": "4bd2eb3f10c2612e4feb3eba527eef2fb059a61c43c4e70d417d26e3119d0266",
+    "historical_prepublication_pending_preserved": true
+  },
+  "ci": {
+    "run_id": 42494833954,
+    "attempt": 1,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42494833954",
+    "status": "completed",
+    "conclusion": "success",
+    "updated_at": "2026-11-08T15:32:59Z",
+    "jobs": {
+      "erp": {
+        "id": 128774806085,
+        "conclusion": "success",
+        "tests": 3192,
+        "files": 128,
+        "identity_privacy_sql": 12,
+        "identity_privacy_cpu": 36,
+        "governance_cpu": 62,
+        "actual_25001_row_overflow_ms": 2673
+      },
+      "bridge": {
+        "id": 128774806041,
+        "conclusion": "success",
+        "tests": 82
+      },
+      "site": {
+        "id": 128774806016,
+        "conclusion": "success",
+        "vitest": 732,
+        "node_suites": [
+          37,
+          35,
+          10,
+          8
+        ],
+        "vps": 297
+      },
+      "root": {
+        "id": 128774805876,
+        "conclusion": "success",
+        "tests": 30
+      }
+    },
+    "acceptance_skips": 0,
+    "conditional_failure_summary": {
+      "id": 128776435101,
+      "conclusion": "skipped",
+      "expected": true
+    },
+    "duplicate_push": {
+      "id": 42494770576,
+      "conclusion": "success",
+      "updated_at": "2026-11-08T15:32:58Z"
+    }
+  },
+  "logs": {
+    "erp": {
+      "path": "identity-privacy-42494833954-erp.log",
+      "bytes": 116815,
+      "sha256": "6874594e32224632e708ed065a14c12b363588199887f06d9e11ae7bc515b303"
+    },
+    "bridge": {
+      "path": "identity-privacy-42494833954-bridge.log",
+      "bytes": 105403,
+      "sha256": "6e657fc104540eca97638862fea73d004bf05433bd50c8295bf4112559cf9cd5"
+    },
+    "root": {
+      "path": "identity-privacy-42494833954-root.log",
+      "bytes": 42236,
+      "sha256": "e424758a9adbe7bf399f066a5e031b44fe9adf1997efcd9e38e04b073d6cab58"
+    },
+    "site": {
+      "path": "identity-privacy-42494833954-site.log",
+      "bytes": 142010,
+      "sha256": "d3b94fe4953c91927484221b5fc4e0c1116a600042701198681f671283974af7"
+    }
+  },
+  "local_source_audit": {
+    "path": "identity-privacy-source-audit.log",
+    "bytes": 409,
+    "sha256": "b13432a62826cfe679355a654189e09197cdcdb857aceadcb609134762da665f",
+    "exit_code": 0,
+    "historical_combined_not_run_line_precedes_ci": true
+  },
+  "boundaries": [
+    "Original72 V4/475 V3 acceptance unchanged",
+    "Synthetic isolated PostgreSQL history; no real site SSO issuance or legal DSAR fulfillment",
+    "No identity row migration/erasure/retention/background policy change",
+    "No native build requested; accepted bb223af artifacts and concurrent PR135/137/138 retain distinct source",
+    "No merge, production, live data, paid activation, signing or store upload"
+  ]
+}

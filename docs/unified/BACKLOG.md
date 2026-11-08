@@ -1,5 +1,15 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — C08-D / наступна звірка критеріїв
+
+- [x] F4-C1 exact-source hosted acceptance:131e58 / CI42494833954;12 нових PostgreSQL cases у3192, independent ACCEPT. [Receipt](evidence/identity-privacy-export-20261108/accepted-131e58.json).
+- [x] C08-D confirmed release metadata RED2, shared validator і pre-DB guard, focused215/4 files, TypeScript, independent runtime/test source review. [Contract](RELEASE_SHA_GUARD_2026-11-08_UK.md).
+- [ ] C08-D final staged review, immutable commit і4 mandatory hosted jobs; попередні counts не переносяться.
+- [ ] Звірити TPL-01–18: чинна реалізація presets/import/preview/lifecycle вже існує; виправити застарілі absence claims точними input/test references, зберегти весь acceptance scope.
+- [ ] Reconcile PR135/137/138 через explicit source/contracts/schema review та exact combined acceptance; не накладати поверх них паралельні гілки без звірки.
+
+Whole product NOT_READY; вихідні72 V4/475 V3 не перепозначено. F3 і решта F4 policy/retention/restore, specialist/native/device/company/provider/load gates OPEN. TPL source уже має три presets, constrained ZIP import/preview/lifecycle; старі18 NOT_STARTED rows потребують окремої звірки source/evidence, а не автоматичного PASS. Паралельні PR135/137/138 не інтегровані в цей source.
+
 ## 08.11.2026 — C08-C прийнято; F4-C1 identity privacy export
 
 C08-C прийнято на `4e6ac0990ddd73bed142ab05b5f7579d8ed3048a` / [PR136](https://github.com/ziko1/knaba/pull/136), [CI42491574791](https://github.com/ziko1/knaba/actions/runs/42491574791), attempt1: ERP3144/126 файлів, notification-policy PostgreSQL21 включно з7 новими cases, template-origin19; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0, independent source/raw-log ACCEPT. [Receipt](evidence/template-origin-20261108/accepted-4e6ac0.json). Duplicate push42491540824 SUCCESS; correction не знадобилась.

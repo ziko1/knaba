@@ -1,9 +1,10 @@
+import {requireReleaseSha} from '../apps/runtime-config.mjs';
 import {build} from 'esbuild';
 import {readFile,readdir,mkdir,writeFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {resolve} from 'node:path';
 let sha=process.env.GIT_SHA;try{sha??=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:10000}).trim();}catch{sha='0000000000000000000000000000000000000000';}
-if(!/^[a-f0-9]{40}$/.test(sha)||/^0{40}$/.test(sha))throw new Error('EXACT_NON_PLACEHOLDER_RELEASE_SHA_REQUIRED');
+try{requireReleaseSha(sha);}catch{throw new Error('EXACT_NON_PLACEHOLDER_RELEASE_SHA_REQUIRED');}
 let sourceDirty=null,sourceProvenance='UNATTESTED';try{sourceDirty=Boolean(execFileSync('git',['status','--porcelain','--','apps','packages','infra','scripts','tests','package.json','package-lock.json','tsconfig.json','vitest.config.ts','playwright.config.ts'],{encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:10000}).trim());sourceProvenance='GIT_WORKTREE';}catch{if(process.env.KNABA_BUILD_CONTEXT==='PINNED_SOURCE')sourceProvenance='PINNED_CONTAINER_CONTEXT';}
 const assets={};async function walk(path,prefix=''){for(const e of await readdir(path,{withFileTypes:true})){if(e.isDirectory())await walk(resolve(path,e.name),prefix+'/'+e.name);else assets[prefix+'/'+e.name]=(await readFile(resolve(path,e.name))).toString('base64');}}await walk(resolve('dist/web'));
 const migration=await readFile('infra/001_init.sql','utf8');

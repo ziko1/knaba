@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "C08-D release metadata consistency before API database construction",
+  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_HOSTED_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-release-sha-guard-20261108",
+  "base_source_sha": "131e582f1ffa50a89a5898742cf7f22b5b43efa7",
+  "base_tree_sha": "551f41d805b39affafd99c5afb4f524966e03e21",
+  "commit_binding": "Local results bind to exact input bytes. Final reviewed staged tree and future immutable commit/CI receipt are recorded separately. Historical F4-C1 receipt binds to Git131e58.",
+  "inputs": [
+    {
+      "path": "erp/apps/runtime-config.mjs",
+      "bytes": 2649,
+      "sha256": "41008bacf78805b1b10e408b8c39bdf1c503d73f045222899caf3c866c10f755"
+    },
+    {
+      "path": "erp/apps/runtime-config.d.mts",
+      "bytes": 488,
+      "sha256": "be21b0c924a4a946a2b45f5fadf39e58cdfdcab3de76ecd445efe1a83f9aee2c"
+    },
+    {
+      "path": "erp/apps/api/main.ts",
+      "bytes": 9930,
+      "sha256": "b872575196187c08f85bc947239e447cfd6a1e019e1572254edbb66d9655ab34"
+    },
+    {
+      "path": "erp/scripts/environment-check.mjs",
+      "bytes": 4708,
+      "sha256": "7577871116565e14531e64278df206fa552fb5697faa1b67447de2939986981f"
+    },
+    {
+      "path": "erp/scripts/bundle.mjs",
+      "bytes": 2597,
+      "sha256": "71a5605f76196abee1928f1a985381fefd738d7dfbfc6209e48737d642d09d42"
+    },
+    {
+      "path": "erp/tests/release-sha.test.ts",
+      "bytes": 4065,
+      "sha256": "fe046f2513c2bf00c7a9f6381616e838476ac1e5305131b0f1ce1f93a9622e44"
+    },
+    {
+      "path": "erp/tests/runtime-mode-entrypoints.test.ts",
+      "bytes": 13065,
+      "sha256": "55c5f183ed63ead851b3c36f242e1419f69a54c36bbf6e06c3b5b70aeafad4d9"
+    },
+    {
+      "path": "erp/tests/telegram-preflight.test.ts",
+      "bytes": 7361,
+      "sha256": "b5b409efb99b476bd8fe25b40f455930c41fac6fe4f62f4b562f15dfc7395d76"
+    },
+    {
+      "path": "erp/tests/runtime-config.test.ts",
+      "bytes": 4244,
+      "sha256": "abd3424412594f376c64af1d9d4e061233a05a8de95d805087e151430c475881"
+    },
+    {
+      "path": "erp/tests/fixtures/runtime-mode-traps.cjs",
+      "bytes": 1878,
+      "sha256": "7cf39be6085158d6090087731bec82f2480b57df915dedf54d8e445f07385332"
+    },
+    {
+      "path": "erp/apps/worker/main.ts",
+      "bytes": 6041,
+      "sha256": "28ffd3029b9089cf4854ad8701a630640dc2c0f612600c2eb6bacb29607ba0bd"
+    },
+    {
+      "path": "erp/scripts/railway-worker-start.mjs",
+      "bytes": 3134,
+      "sha256": "9e940441840d10992db1d9563e89cbf2b215c6915dc67cfc994285aebfdbb07e"
+    },
+    {
+      "path": "erp/apps/api/database.ts",
+      "bytes": 10345,
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c"
+    },
+    {
+      "path": "erp/package.json",
+      "bytes": 1208,
+      "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58"
+    },
+    {
+      "path": "erp/package-lock.json",
+      "bytes": 192043,
+      "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3"
+    },
+    {
+      "path": "erp/tsconfig.json",
+      "bytes": 459,
+      "sha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb"
+    },
+    {
+      "path": "erp/vitest.config.ts",
+      "bytes": 237,
+      "sha256": "be12dd7419a8543ba401b9d3344dea96acc287c165d757ca7802e47a39ce7078"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 9263,
+      "sha256": "f581ba87e0006916e540685bd48feac7a3215dc925a306b810b2721f284bde20"
+    },
+    {
+      "path": ".github/workflows/native.yml",
+      "bytes": 8762,
+      "sha256": "c8f24fb82e9b3a5a6783e14a9ec2146a2109c1af11e9b9d7db52c46b8d9a03db"
+    },
+    {
+      "path": "erp/infra/Dockerfile",
+      "bytes": 1980,
+      "sha256": "f4d82d65f827641c83738e82d227e6c72fd85a95b6a23c5d168b9080875287d7"
+    },
+    {
+      "path": "erp/infra/worker.Dockerfile",
+      "bytes": 566,
+      "sha256": "47098340b34b638dfddbde3157a66d4d124d5c7a4819f540567f4142be9fce0c"
+    }
+  ],
+  "inherited_subtrees": {
+    "erp/apps/worker": "dfb3a98ee24232cfd09e8534d51841b91ab62998",
+    "erp/apps/mobile-android": "f103ef647cbc4f88566270b3d641b9867e8d5c7b",
+    "erp/apps/mobile-ios": "3791f12c9acf7720265ec53aa010fd5e2a0e617d",
+    "erp/apps/web": "5465ec595e5b7ff4e52f170f7b7e74ae6c860340",
+    "corporate-site": "ffd12bcd54ebf8352574e9e4997ea3a8e52d8e97",
+    "scripts/mobile": "efd75579e19286942c9c0c604f962547c5417084",
+    "erp/infra": "ef47bc0ad816eade4a87a2d09e6c0b2a1a63a5b5"
+  },
+  "local": {
+    "red": {
+      "path": "release-sha-red.log",
+      "bytes": 8832,
+      "sha256": "2e0de8f01acc542b126ae7edc9bd601215745051291d87a06593b1eb7d6cf2ac",
+      "exit_code": 1,
+      "failed": 2,
+      "deselected_by_name_filter": 60,
+      "base_runtime": "131e582f1ffa50a89a5898742cf7f22b5b43efa7"
+    },
+    "initial_green": {
+      "path": "release-sha-green-initial.log",
+      "bytes": 504,
+      "sha256": "a720e878ede993828347a92d991c79adf7318eb3161eb887709d7e6565ee1a90",
+      "exit_code": 0,
+      "passed": 2,
+      "deselected_by_name_filter": 60,
+      "scope": "Historical targeted repeat before expanded coverage; not additive with final215"
+    },
+    "final_focused": {
+      "path": "release-sha-focused.log",
+      "bytes": 8978,
+      "sha256": "f7ead316d157727cbb9cbff2e9492906d5711a9cc7ecc631bc695b7d29cba051",
+      "exit_code": 0,
+      "passed": 215,
+      "files": 4,
+      "breakdown": {
+        "release_sha": 48,
+        "entrypoints": 78,
+        "preflight": 42,
+        "existing_runtime_config": 47
+      },
+      "acceptance_skips": 0
+    },
+    "final_typecheck": {
+      "path": "release-sha-typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "observed_by": "/root",
+      "completed_exec_session": 65111,
+      "scope": "Empty log alone does not prove execution; child process completion observed after final runtime/tests"
+    }
+  },
+  "red_test_source": {
+    "path": "red-entrypoints-source.txt",
+    "bytes": 10359,
+    "sha256": "a0cc5fe80893ad482b53c065e3662b96aa32086b727bf3b8ded3feb5e1197ca8"
+  },
+  "review": {
+    "runtime_and_tests": "ACCEPT",
+    "reviewer": "/root/knaba_prompt_review",
+    "blocking_findings": 0,
+    "final_staged_tree_review": "PENDING"
+  },
+  "hosted": {
+    "status": "NOT_RUN_FOR_THIS_SOURCE",
+    "required": [
+      "All4 mandatory repository jobs on exact clean immutable source",
+      "Typecheck/full build/source identity checks",
+      "Actual all ERP/PostgreSQL/bridge suites with reject-skips gates",
+      "Independent raw-log and committed-source review"
+    ],
+    "native": "No changed trigger paths; no new native run planned"
+  },
+  "historical_f4c1": {
+    "source_sha": "131e582f1ffa50a89a5898742cf7f22b5b43efa7",
+    "run_id": 42494833954,
+    "status": "ACCEPT",
+    "receipt": "../identity-privacy-export-20261108/accepted-131e58.json",
+    "receipt_sha256": "0dce006cb9d78b75fe954971f992afaf27e2e53887be55968e3ac481d9bdda38"
+  },
+  "budget": {
+    "max_source_checkpoints": 2,
+    "max_automatic_repository_runs": 4,
+    "planned_native_runs": 0,
+    "new_paid_activation_eur": 0,
+    "model_balance": "UNKNOWN"
+  },
+  "compatibility": [
+    "Production env SHA prerequisite remains mandatory even with valid compiled SHA",
+    "Only absent both sources permits legacy TEST/DEMO zero sentinel",
+    "Explicit malformed/null/zero/mismatch rejected; no normalization",
+    "Worker entrypoint/supervisor and SQL/native unchanged",
+    "SHA grammar/agreement is not source authenticity or live/device acceptance"
+  ],
+  "rollback": "Source-only return to131e58 preserves data but reintroduces the observed startup guard defects; not a production rollback acceptance.",
+  "open": [
+    "Original72 V4/475 V3 acceptance",
+    "F3 issuance and remaining F4 retention/erasure/restore/background policy",
+    "TPL-01–18 source/evidence reconciliation (existing implementation must not be called absent)",
+    "Concurrent PR135/137/138 integration",
+    "Physical devices, owner signing/stores, company/provider/legal/load acceptance"
+  ],
+  "activation": {
+    "merge": false,
+    "production": false,
+    "live_data": false,
+    "paid_services": false,
+    "signing_or_store_upload": false
+  }
+}
