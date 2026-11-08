@@ -50,6 +50,17 @@ test('bound source rejects a symlink to an unreviewed protocol',async()=>fixture
   await rm(join(root,boundSourcePaths.federationProtocol));await symlink(target,join(root,boundSourcePaths.federationProtocol));
   await assert.rejects(()=>digestSourceInputs(root),/UNSAFE_BOUND_SOURCE/);
 }));
+test('unbundled account runtime and backup changes invalidate the browser build evidence',async()=>fixture(async root=>{
+  const measured={sourceSha:sha,artifacts:await digestArtifacts(root),sourceInputs:await digestSourceInputs(root)};
+  const manifest={schemaVersion:2,sourceClean:true,...measured};
+  for(const name of ['accountAuth','accountSettings','accountBackup']){
+    const file=join(root,boundSourcePaths[name]),original='synthetic source '+boundSourcePaths[name];
+    await writeFile(file,'modified account implementation');
+    const sourceInputs=await digestSourceInputs(root);
+    assert.throws(()=>verifyManifest(manifest,{...measured,sourceInputs}),/BOUND_SOURCE_MISMATCH/);
+    await writeFile(file,original);
+  }
+}));
 test('rejects symlink files and symlink ancestors without following them into an artifact',async()=>fixture(async root=>{
   const target=join(root,'outside');await writeFile(target,'must not be an asset');
   await symlink(target,join(root,artifactRoots.siteClient,'linked.js'));

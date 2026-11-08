@@ -11,7 +11,8 @@ import {openLocalDatabase} from '../../vps/database.mjs';
 import {createCredentialsUser,createSessionForUser,sessionCookie} from '../../vps/auth.mjs';
 import {createKnabaVpsServer} from '../../vps/server.mjs';
 
-export async function createRoleUxFixture({releaseEnvironment={},localTest=false}={}){
+export async function createRoleUxFixture({releaseEnvironment={},localTest=false,
+  accountEmailEnvironment={},accountMailerFactory}={}){
   const directory=await mkdtemp(join(tmpdir(),'knaba-role-ux-'));
   const database=join(directory,'synthetic.sqlite');
   const password='Synthetic-browser-only-2026';
@@ -69,7 +70,10 @@ export async function createRoleUxFixture({releaseEnvironment={},localTest=false
       staticRoot:fileURLToPath(new URL('../../dist/client/',import.meta.url)),
       workerPath:new URL('../../dist/server/index.js',import.meta.url).href,
       host:'127.0.0.1',port:0,origin,ownerEmail:identities.owner.email,developerEmail:identities.developer.email,
-      localTest,oidcConfig:{},releaseEnvironment,erpIntakeEnvironment:{},accountEmailEnvironment:{},trustedProxyIps:'',
+      // Account acceptance may inject a server-owned, in-memory mail transport.
+      // Other fixtures keep mail disabled, regardless of the runner environment.
+      localTest,oidcConfig:{},releaseEnvironment,erpIntakeEnvironment:{},accountEmailEnvironment,accountMailerFactory,
+      federationEnvironment:{},trustedProxyIps:'',
       // Rendered-role tests inspect the real initial queue state. Keep background
       // maintenance deterministic; scheduled intake/dispatch has separate bridge tests.
       erpIntakeSchedulerFactory:()=>({stop(){}})});

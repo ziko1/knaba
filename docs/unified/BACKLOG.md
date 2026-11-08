@@ -1,5 +1,21 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — KN-US01–US08, продовження приймання
+
+- KN-US08 CLI privacy: SOURCE_PASS, 6 baseline FAIL відтворено; 14 нових
+  поведінкових backup checks пройшли в full344VPS. Private0700/0600,
+  exclusive/no-symlink, independent integrity/FK до міграції.
+- KN-US08 local recovery: PASS, два actual CLI journeys з незміненими
+  історичними runtime; credential/session/token invariants і0018/F2 denial
+  збережені після restore. Не є target-host чи distributed PostgreSQL restore.
+- KN-US01/03–07 rendered account: source/review ACCEPT, дев'ять точних case IDs
+  додано до чинного CI; actual browser receipt очікується на новому remote SHA.
+- TARGET_ACCEPTANCE: BLOCKED_ACCESS до приватного server target. Real sender,
+  quota/mailbox delivery, company UAT та release залишаються окремими gates.
+
+Повторно не переносити PR125: він уже входить до PR129 e03d2be. Поточна окрема
+гілка `feat/knaba-account-acceptance-20261108`; [докази](USER_SETTINGS_2026-11-08_UK.md).
+
 ## Поточний кандидат — 08.11.2026, PR129
 
 Опублікований remote: `5d6eeae0862e52cc693c1766f0c6fba964b12aa5`,

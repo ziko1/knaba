@@ -1,0 +1,47 @@
+✔ admin-blocked Chromium falls back once to WebKit, no duplicate Chrome launch (4.352902ms)
+✔ all policy-blocked browsers remain BLOCKED, not PASS (0.661462ms)
+✔ unavailable Chrome executable falls back to WebKit (1.103645ms)
+✔ site response 503 is FAIL, never fallback to conceal site outage (0.561082ms)
+✔ suite assertion failure is FAIL, never hidden by another browser (0.986075ms)
+✔ reject public websites and unsafe preview paths (0.892227ms)
+✔ verified Chromium policy block can be skipped in repeated same-environment QA (0.425136ms)
+✔ Chromium QA launch explicitly enables the browser sandbox (0.562469ms)
+✔ unavailable Chromium sandbox remains blocked and uses only the existing fallback (0.615764ms)
+✔ all runners share launch-only sandbox and general administrator policy classification (1.03635ms)
+✔ source binding requires the exact clean committed SHA (2.999577ms)
+✔ all four artifact groups are deterministic and any changed worker bytes invalidate the build manifest (221.282734ms)
+✔ rejects missing groups and empty output instead of attesting a partial build (33.784544ms)
+✔ a nonempty VPS output without the federation bundle cannot be attested (149.259495ms)
+✔ shared protocol and VPS entry bytes are required and any changed source invalidates the manifest (274.619355ms)
+✔ bound source rejects a symlink to an unreviewed protocol (26.286417ms)
+✔ unbundled account runtime and backup changes invalidate the browser build evidence (101.599015ms)
+✔ rejects symlink files and symlink ancestors without following them into an artifact (81.404342ms)
+✔ rejects malformed manifests and source mismatches (23.195441ms)
+✔ build manifest must be outside the checkout at an explicit absolute path (0.727113ms)
+✔ owned preview readiness uses a bodyless HEAD and waits for its own listener (2219.757727ms)
+✔ an owned preview HTTP failure is not accepted as ready (2424.726563ms)
+✖ waits for close and captures inherited stdout even after the direct child exits (3048.224519ms)
+✔ a deadline terminates only the owned process group and waits for SIGKILL close if TERM is ignored (861.803821ms)
+✔ an already completed child has idempotent bounded cleanup (280.14625ms)
+✔ spawn failure and abort reject without accepting a successful suite (3.775202ms)
+✔ a fallback PASS containing an engine block stops the wrapper before another browser launch (1.058686ms)
+✔ ERP report requires both named fixture suites, all nine distinct cases and no skip, retry or failure (2.344116ms)
+✔ account acceptance rejects partial, duplicate, failed or stale source/artifact receipts (0.900559ms)
+✔ fixture isolates provider environments and runner uses only local owned previews and temp reporters (0.753639ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 29
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9707.077502
+
+✖ failing tests:
+
+test at tests/ci-browser.test.mjs:22:1
+✖ waits for close and captures inherited stdout even after the direct child exits (3048.224519ms)
+  Error: CHILD_PROCESS_TIMEOUT
+      at Timeout.<anonymous> (file:///workspace/scratch/aef0145f1221/knaba-account-continuation/corporate-site/tests/ci-browser.mjs:53:35)
+      at listOnTimeout (node:internal/timers:685:17)
+      at process.processTimers (node:internal/timers:618:7)

@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-08T14:56:11.252428+00:00",
+  "scope": "KN-US01–US08 continuation: source, CLI recovery and browser acceptance preparation",
+  "baseSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+  "baseTree": "7dd5cf0868b6774e80712324cf692c1f18a24342",
+  "localCodeSha": "3fec02165a293431887186728844e24c95026849",
+  "localCodeTree": "53bb2cc011a7d6d7a4b3572d7b435bd7e8c0d3ad",
+  "publication": "Final remote SHA/tree and hosted run IDs are recorded in the stacked Draft PR. This receipt does not attest a future CI run.",
+  "environment": {
+    "node": "v24.22.1",
+    "data": "private synthetic SQLite and loopback HTTPS",
+    "localBrowser": "BLOCKED_NO_BROWSER_EXECUTABLE",
+    "providerCalls": 0
+  },
+  "changedCodeInputs": {
+    "corporate-site/tests/account-settings-browser.mjs": "36c284a39d6bc53c7c5cf947a929f010c3592918bcdee146be4bdb64610ff801",
+    "corporate-site/tests/ci-artifacts.mjs": "1cf7e0a3f173a84d829b3511dbdbe8aadc443c5a5ecc674d52f946538c16c254",
+    "corporate-site/tests/ci-artifacts.test.mjs": "96a8f72b424ad01fa3ffedb502f62cf5b2be28300ccc7f2fcedf5dc295fce4b8",
+    "corporate-site/tests/ci-browser.mjs": "6cfad2fe0d098b28ebcd56eef18776f067f4c0e4062ea2e90e5de5c47d6a1c72",
+    "corporate-site/tests/ci-browser.test.mjs": "77bd1b74c79f17589c9f8248b89bf1a01ac4b594fc57046c9f89ece8f401cea9",
+    "corporate-site/tests/fixtures/role-ux-server.mjs": "868959090d921a91dc97f77a77074cc0cb65cc83c8d0d46198d1648c66474d68",
+    "corporate-site/vps/manage-backup.test.mjs": "daae4279e483cd5fd858d5b3562b433853a1f3ee52556e31daebde1b5f46b8f9",
+    "corporate-site/vps/manage.mjs": "f381b5e1668149b113e59a75b8e32464ebc6d4e94d4fd5735c2bd1585fcbdf7b",
+    "corporate-site/vps/private-backup.mjs": "58911625c8427dd5f19a8854ddbcf8bc958af2ea9ac9656d3458a943e72e4aa3",
+    "scripts/account-recovery-rehearsal.test.mjs": "5e26b7361ed896a1613ac28241d38fe3c7539639a5c70fb71e4c891281d91cb6"
+  },
+  "compiledArtifacts": {
+    "corporate-site/dist/server/index.js": "ff1ccc49e2cb3feb339f7c28fad60ff2c763911f3f206acd665cabc41edbeca5",
+    "corporate-site/dist/vps/render-page.mjs": "c73d1e59f162b02af3e9ab397cbb20320d5d8bba2b1d2347e9cb19244344ff95",
+    "corporate-site/dist/vps/erp-intake.mjs": "d3295992e23e4704b07a3fd07c0ea3edcb833b7be15aa74382403b76e18facc8",
+    "corporate-site/dist/vps/articles.mjs": "c09da904e21e044eb0baca2ef699db38c7e704d88a0ace3091eb0ef7bd95f3fa",
+    "corporate-site/dist/vps/federation.mjs": "7b2e3f4687f7adf9ff3ee2f6e70c445bf378fd7f21838c942ff5c077a0a216ee"
+  },
+  "clientBuild": {
+    "scope": "production-build-static-validation",
+    "pages": 161,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "OFFICIAL",
+    "externalImageScriptRequests": "NONE_IN_HTML",
+    "externalPartnerImagesInMarkup": 0,
+    "cssGzip": 40832,
+    "allEmittedJsGzip": 222640,
+    "artifactSha256": "173670da5588f2d519d3f62bf040a3f23c2c33d184a6038a987063748d110bb7",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "verification": {
+    "root": {
+      "pass": 31,
+      "fail": 0,
+      "skip": 0
+    },
+    "siteVitest": {
+      "pass": 900,
+      "files": 83
+    },
+    "siteNode": {
+      "pass": 92
+    },
+    "vps": {
+      "pass": 344,
+      "fail": 0,
+      "skip": 0
+    },
+    "browserGuards": {
+      "pass": 30,
+      "fail": 0,
+      "skip": 0
+    },
+    "actualBrowser": "NOT_RUN_PENDING_EXISTING_INSTALLED_CHROME_CI",
+    "actualMailDelivery": "NOT_RUN",
+    "targetRestore": "BLOCKED_ACCESS",
+    "distributedPostgresqlRestore": "NOT_RUN"
+  },
+  "history": [
+    {
+      "case": "backup privacy baseline",
+      "sourceSha": "e03d2be0d0ea1ae7ced90f50631c7b81cd34c5b5",
+      "fail": 6,
+      "pass": 0,
+      "log": "continuation-backup-baseline.log",
+      "sha256": "b577df7d8420f166b9b1d0cb7019ce7db1203ba3dad09bb2be71969ee0753d54",
+      "correction": "private directory and inode from creation; independent integrity/FK before migration; 14 added CLI cases, included in 344 VPS"
+    },
+    {
+      "case": "guard lifecycle deadline",
+      "pass": 29,
+      "fail": 1,
+      "log": "continuation-guard-initial-failure.log",
+      "sha256": "e2d1e8f52eb2b30a6507f5a9e7bd27d309c369e2bc863ff5c5691495c24027a5",
+      "observed": "existing late-stdout fixture exceeded its 3000ms child-process bound during concurrent checks",
+      "correction": "bounded 10000ms fixture startup allowance; exact stdout/close assertions and production timeouts unchanged; independent delta review ACCEPT; final30 PASS"
+    },
+    {
+      "case": "initial build telemetry",
+      "status": "BLOCKED_AUTO_REVIEW",
+      "correction": "documented installed-code ASTRO_TELEMETRY_DISABLED=1 and TELEMETRY_DISABLED=1; fresh official build completed without enabling telemetry"
+    }
+  ],
+  "reviews": [
+    {
+      "reviewer": "/root",
+      "scope": "backup helper/CLI and historical recovery rehearsal",
+      "status": "ACCEPT",
+      "files": [
+        "corporate-site/vps/manage-backup.test.mjs",
+        "corporate-site/vps/manage.mjs",
+        "corporate-site/vps/private-backup.mjs",
+        "scripts/account-recovery-rehearsal.test.mjs"
+      ]
+    },
+    {
+      "reviewer": "/root/account_ops_review",
+      "scope": "CI/provenance/isolation/exact case inventory and 10-second lifecycle fixture delta",
+      "status": "ACCEPT",
+      "files": [
+        "corporate-site/tests/ci-artifacts.mjs",
+        "corporate-site/tests/ci-artifacts.test.mjs",
+        "corporate-site/tests/ci-browser.mjs",
+        "corporate-site/tests/ci-browser.test.mjs"
+      ]
+    },
+    {
+      "reviewer": "/root/account_restore_rehearsal",
+      "scope": "final browser source and fixture, including late-event failure downgrade",
+      "status": "ACCEPT",
+      "files": [
+        "corporate-site/tests/account-settings-browser.mjs",
+        "corporate-site/tests/fixtures/role-ux-server.mjs"
+      ]
+    }
+  ],
+  "requiredBrowserCases": [
+    "account.profile.persisted",
+    "account.validation.focus",
+    "account.sessions.revoke-others",
+    "account.password.rotate",
+    "account.mail.disabled",
+    "account.reset.fragment",
+    "account.reset.replay",
+    "account.email.confirm",
+    "account.layout.keyboard"
+  ],
+  "operationalBlocker": {
+    "status": "BLOCKED_ACCESS",
+    "path": "/srv/knaba/customer",
+    "reason": "connected server agent uid999(sentinelx) receives Unix permission denied",
+    "changes": "No permission, ACL, identity, live-data or deployment changes"
+  },
+  "logs": {
+    "root-tests": {
+      "sha256": "34bfb15944ad2cf1e824ad41a85f642c86a05bf950ef724cabfa3d48c383769d",
+      "summary": [
+        "ℹ tests 31",
+        "ℹ pass 31",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 3679.399756"
+      ]
+    },
+    "vps-tests": {
+      "sha256": "ddf7a9617420a1429330f2d8f99dfbc5ebfb55cef591cec4130639977e8e5092",
+      "summary": [
+        "ℹ tests 344",
+        "ℹ pass 344",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 53698.09729"
+      ]
+    },
+    "site-tests": {
+      "sha256": "36d18b540f7676721c2dd3d92a22c20a0dd284b0828ec24ad6c3a78326ec9551",
+      "summary": [
+        " Test Files  83 passed (83)",
+        "      Tests  900 passed (900)",
+        "ℹ tests 37",
+        "ℹ pass 37",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 2486.715959",
+        "ℹ tests 37",
+        "ℹ pass 37",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 224.499706",
+        "ℹ tests 10",
+        "ℹ pass 10",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 289.794368",
+        "ℹ tests 8",
+        "ℹ pass 8",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 134.231738"
+      ]
+    },
+    "check-final": {
+      "sha256": "a9fa1c0ae43d0f059ee8dd68d2077246efc9ccb874971f905fe46b3937c2dc18",
+      "summary": [
+        "Result (519 files): ",
+        "svelte-check found 0 errors and 0 warnings"
+      ]
+    },
+    "build": {
+      "sha256": "daf3559b8bece595d4b79ec95d5b745424b791d6defc306f2c2e45146ceb13f5",
+      "summary": []
+    },
+    "build-verify": {
+      "sha256": "d97c9a0f5563130c7e50f054c135467ec3bf950f6f7981620e7cd748b78ce2b5",
+      "summary": []
+    },
+    "browser-guards-final": {
+      "sha256": "e2d1e8f52eb2b30a6507f5a9e7bd27d309c369e2bc863ff5c5691495c24027a5",
+      "summary": [
+        "ℹ tests 30",
+        "ℹ pass 29",
+        "ℹ fail 1",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 9707.077502"
+      ]
+    },
+    "browser-guards-accepted": {
+      "sha256": "9639e720b290a249bbc9acb3f6a117a576b39decb043164754398cc196a15a4e",
+      "summary": [
+        "ℹ tests 30",
+        "ℹ pass 30",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 2608.015499"
+      ]
+    },
+    "source-audit": {
+      "sha256": "32c5652717cdfe02e70b16e59dc283b2bb1ad8924cdb16e531df53aaa07545d5",
+      "summary": [
+        "FEATURE CHANGE erp: ce73d2b12063c3c84bf0bc3c9d30f816cd01b64c (original a242ddb1a8b6395cafbc3cacbc0ce510f0be3c43)",
+        "FEATURE CHANGE corporate-site: 05fe71b0bac7c1e0883d508fa29dd0bdcf16ce66 (original 6ce56eb811af9733ce9b0b08dab3b636dfaf6371)",
+        "PASS clean committed source: 3fec02165a293431887186728844e24c95026849; combined runtime acceptance NOT_RUN"
+      ]
+    },
+    "modules": {
+      "sha256": "0025e8b14e0103076b2be22d87bb89ae08e191578833e062012ac2b4e1bbcd96",
+      "summary": [
+        "KNABA_MODULE_MANIFEST_PASS: 4 existing site modules + 1 source-only ERP; preview only. Not a deployment or release acceptance."
+      ]
+    },
+    "recovery-rehearsal": {
+      "sha256": "3e9848f0827f99835054c7acf9be32899f16b13c3255ac8718af804def8e9129",
+      "summary": [
+        "ℹ tests 2",
+        "ℹ pass 2",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 3079.62561"
+      ]
+    }
+  },
+  "limitations": [
+    "Synthetic recovery is not target-host restoration or distributed PostgreSQL registry acceptance.",
+    "Browser mail transport stays in memory; no real sender, quota, mailbox or delivery acceptance.",
+    "Source/build checks are not physical-device, owner/company UAT, production or complete-product readiness."
+  ]
+}

@@ -13,6 +13,15 @@ const requiredArtifactFiles=Object.freeze({siteVps:['federation.mjs']});
 export const boundSourcePaths=Object.freeze({
   federationProtocol:'erp/packages/integrations/site-federation-protocol.mjs',
   federationEntry:'corporate-site/vps/federation-entry.mjs',
+  accountSettings:'corporate-site/vps/account-settings.mjs',
+  accountSettingsUi:'corporate-site/vps/account-settings-ui.mjs',
+  accountMail:'corporate-site/vps/account-mail.mjs',
+  accountAuth:'corporate-site/vps/auth.mjs',
+  accountServer:'corporate-site/vps/server.mjs',
+  accountBackup:'corporate-site/vps/private-backup.mjs',
+  accountManage:'corporate-site/vps/manage.mjs',
+  accountBrowser:'corporate-site/tests/account-settings-browser.mjs',
+  accountFixture:'corporate-site/tests/fixtures/role-ux-server.mjs',
 });
 export function validateSource(expected,actual,dirty){
   if(!/^[a-f0-9]{40}$/.test(expected??'')||actual!==expected)throw Error('EXACT_SOURCE_SHA_REQUIRED');
