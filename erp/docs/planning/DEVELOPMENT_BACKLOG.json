@@ -4565,5 +4565,26 @@
     "verified_source_commit": "fddd1601d989af3054099706589e1e8ab91ecf40",
     "verified_ci_run": 42455220007,
     "verified_ci_status": "FOUR_REQUIRED_JOBS_SUCCESS_SCOPED_PRODUCT_NOT_READY"
+  },
+  "site_identity_f2_20261108": {
+    "task_ids": [
+      "KN-C04",
+      "KN-U09"
+    ],
+    "status": "IMPLEMENTED_SOURCE_REVIEWED_POSTGRESQL_ACCEPTANCE_PENDING",
+    "base_sha": "a670ff0be70abd1bb8f07065e237b5e3de8a7a84",
+    "contract": "../../../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md",
+    "evidence": "../../../docs/unified/evidence/site-identity-dual-consent-20261108/verification.json",
+    "local_postgresql": "NOT_RUN",
+    "new_bridge_cases": 22,
+    "cross_system_sso": "NOT_IMPLEMENTED",
+    "original_criteria_promoted": false,
+    "production_changed": false,
+    "next": [
+      "F2 exact-source PostgreSQL bridge acceptance",
+      "F3 scoped session exchange",
+      "F4 shared revocation, in-flight enforcement and retention",
+      "F5 browser/device/provider/company acceptance"
+    ]
   }
 }

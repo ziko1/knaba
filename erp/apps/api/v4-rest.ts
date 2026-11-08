@@ -124,7 +124,7 @@ export function v4HttpStatus(code:string):number{
  if(['INVALID_STATE','VERSION_CONFLICT','IDEMPOTENCY_CONFLICT'].includes(code))return 409;
  if(['MISSING_CONFIGURATION','NEEDS_APPROVAL'].includes(code))return 422;
  if(code==='RATE_LIMITED')return 429;
- if(code==='PROVIDER_UNAVAILABLE')return 503;
+ if(['PROVIDER_UNAVAILABLE','DEPENDENCY_UNAVAILABLE','TRANSACTION_TIMEOUT'].includes(code))return 503;
  return code==='INTERNAL_ERROR'?500:400;
 }
 export function v4HttpError(error:unknown):{status:number;body:{code:string;details:Data}}{

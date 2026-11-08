@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-08",
+  "stage": "F2_SOURCE_CANDIDATE",
+  "source": {
+    "base_commit": "a670ff0be70abd1bb8f07065e237b5e3de8a7a84",
+    "candidate_inputs": {
+      "corporate-site/src/components/Portal.tsx": {
+        "sha256": "274e1ec248ea55f692a96ed1ccaa4882c6c487569a5d3205941242b7a7c06570",
+        "bytes": 54012
+      },
+      "corporate-site/vps/database.mjs": {
+        "sha256": "b4177ff2f7c729c8f6e7480b4190e75aaee708e4712814596cb7f16070a8ad9b",
+        "bytes": 11683
+      },
+      "corporate-site/vps/server.mjs": {
+        "sha256": "38c4478add05f05fc77ffceaf1d15b0f3c7dacb9a7f0559dc221abaf47fa4f5f",
+        "bytes": 69897
+      },
+      "corporate-site/vps/site-identity-consent.mjs": {
+        "sha256": "4428bac44fd90e61058c8cd4b87c2d9fc8d9710a0cb48b5c795db4cea716c060",
+        "bytes": 13355
+      },
+      "corporate-site/vps/site-identity-consent.test.mjs": {
+        "sha256": "1e2d99dc4a883572c2bd931003a074f3a8decc8ac47009c558dfdbaea12a2d50",
+        "bytes": 23057
+      },
+      "corporate-site/vps/site-identity-consents.sql": {
+        "sha256": "53948ae13decf85c3f0aa12c43ab2f1e451a1d457446d8654801c25ba3ee1820",
+        "bytes": 2552
+      },
+      "corporate-site/vps/site-identity-http.mjs": {
+        "sha256": "dd416bf8ab86d3340cede4197fbb44be30928d4715315474716a93fcf6485a3f",
+        "bytes": 7657
+      },
+      "corporate-site/vps/site-identity-http.test.mjs": {
+        "sha256": "8e17d1f8bffe49e8f8ad115248d6b85726a609326546e0bcb5d670b7ec2e5ce1",
+        "bytes": 21068
+      },
+      "corporate-site/vps/site-identity-migration.test.mjs": {
+        "sha256": "c2fff9cc9b3b3e540481dfe9693c8a4ab5690e0ff5fc100c23f7ca4cc53a5301",
+        "bytes": 4241
+      },
+      "corporate-site/vps/site-identity-protocol.d.mts": {
+        "sha256": "4a0dc6a3349a4cdce32831ecad3b871796282f966b7a3aafa5f17b2822b88e0e",
+        "bytes": 1994
+      },
+      "corporate-site/vps/site-identity-protocol.mjs": {
+        "sha256": "3ab2d23645d76760593f2c5526c189857fd613cf57612bec749169fed9d4afe2",
+        "bytes": 7446
+      },
+      "corporate-site/vps/site-identity-protocol.test.mjs": {
+        "sha256": "0847a2439b42fb30ceb66c4c8c9039bb4783469f26a3a73ae81392bde131a2bd",
+        "bytes": 7592
+      },
+      "corporate-site/vps/site-identity-ui.d.mts": {
+        "sha256": "b4ae6955cad5e9d3679d07c64df116a45eecaaf115ae82b90fa2ccf240db5b6b",
+        "bytes": 106
+      },
+      "corporate-site/vps/site-identity-ui.mjs": {
+        "sha256": "255c7c032774ec2752201feaad09ecd24691ee17072d7e2d6ba2c099e0360bae",
+        "bytes": 19208
+      },
+      "erp/apps/api/http.ts": {
+        "sha256": "83c5cbc345851198e504951fc299723e1d7b90e6be3868b74cf9a08215a5a37d",
+        "bytes": 45159
+      },
+      "erp/apps/api/main.ts": {
+        "sha256": "3333f30ec3504fef8a8e4d5b15c1f11ec14a81b7e45c85b9db60b934f37a37e3",
+        "bytes": 9288
+      },
+      "erp/apps/api/site-identity-bindings.ts": {
+        "sha256": "0994b51abc8ab75f4eb5af8b50c8a6e78ff6841d265150be2174488a733ca815",
+        "bytes": 11985
+      },
+      "erp/apps/api/site-identity-flow.ts": {
+        "sha256": "c304ecd9349eb675de5987678d1ea5b9d448935bbfd82af4c042c7fb7239dc41",
+        "bytes": 19695
+      },
+      "erp/apps/api/site-identity-pages.ts": {
+        "sha256": "9ca13278b62cb1da68d0548bb5a81e48c736d3225da7a9a5892a2d84e86a71ef",
+        "bytes": 804
+      },
+      "erp/apps/api/v4-rest.ts": {
+        "sha256": "1efea5a9d64e2fabd80b46474c0e9024838bf7d815e02ed63f5fd3d17b2985ad",
+        "bytes": 23512
+      },
+      "erp/apps/web/src/App.tsx": {
+        "sha256": "aa4a11292f1d8917e1f2e21af6981f09db11cc814a3a8e82f0e53269bfbb5d85",
+        "bytes": 80841
+      },
+      "erp/infra/001_init.sql": {
+        "sha256": "0bef6ffb4afc43ca35d20dfecba174ffd3da626b715fb3026587c72d6b94852f",
+        "bytes": 33798
+      },
+      "erp/packages/integrations/site-identity-protocol.d.mts": {
+        "sha256": "4a0dc6a3349a4cdce32831ecad3b871796282f966b7a3aafa5f17b2822b88e0e",
+        "bytes": 1994
+      },
+      "erp/packages/integrations/site-identity-protocol.mjs": {
+        "sha256": "3ab2d23645d76760593f2c5526c189857fd613cf57612bec749169fed9d4afe2",
+        "bytes": 7446
+      },
+      "erp/packages/integrations/site-identity-ui.d.mts": {
+        "sha256": "b4ae6955cad5e9d3679d07c64df116a45eecaaf115ae82b90fa2ccf240db5b6b",
+        "bytes": 106
+      },
+      "erp/packages/integrations/site-identity-ui.mjs": {
+        "sha256": "255c7c032774ec2752201feaad09ecd24691ee17072d7e2d6ba2c099e0360bae",
+        "bytes": 19208
+      },
+      "erp/tests/fixtures/site-identity-pre-f2.sql": {
+        "sha256": "4c7f7bfc396baf87ba21cbdbb79f54ec7539ede080140bcf45989626efeabf4f",
+        "bytes": 24838
+      },
+      "scripts/site-identity-distribution.test.mjs": {
+        "sha256": "f8b555fa5a0b0af8e198ebcee62e18f0044fa51023efe850c61df7d05a0700ff",
+        "bytes": 1280
+      },
+      "scripts/sync-site-identity.mjs": {
+        "sha256": "26cc424b21ad070a126e409ffd5f2e42da6312e7022a70c7dc1c1662dd85692a",
+        "bytes": 963
+      },
+      "tests/bridge/site-identity.test.mjs": {
+        "sha256": "89bcefe5df55dd9cfedac8c4487f7a9a1165e5606c4eaca3f5c7e5d9a98d5bc2",
+        "bytes": 26773
+      }
+    },
+    "scope": "Uncommitted candidate input hashes; hosted acceptance must identify its actual commit separately."
+  },
+  "local": {
+    "erp_typecheck": "PASS",
+    "erp_build": "PASS",
+    "erp_focused_tests": {
+      "pass": 114,
+      "fail": 0
+    },
+    "consent_sqlite": {
+      "pass": 38,
+      "fail": 0
+    },
+    "protocol_loopback_http": {
+      "pass": 8,
+      "fail": 0
+    },
+    "site_handler_http": {
+      "pass": 20,
+      "fail": 0
+    },
+    "sqlite_migration": {
+      "pass": 5,
+      "fail": 0
+    },
+    "root_suite": {
+      "pass": 30,
+      "fail": 0
+    },
+    "vps_regression": {
+      "pass": 267,
+      "fail": 0,
+      "scope": "Before final displayed authority expiry test; latest handler20 executed separately. Do not add overlapping totals."
+    },
+    "site_check": "PASS",
+    "site_build": "PASS",
+    "site_build_verify": {
+      "status": "PASS",
+      "mode": "official",
+      "first_attempt": "FAIL_ENV_MODE_MISMATCH_STAGING_VERIFIER_OFFICIAL_ARTIFACT"
+    },
+    "nest_http_bootstrap": "PASS_SYNTHETIC_NO_SQL_JOURNEY",
+    "postgresql": "NOT_RUN",
+    "new_postgresql_bridge_cases": 22,
+    "raw_log_hashes": {
+      "identity-f2-focused-final.log": {
+        "sha256": "1ffb65f6ca206c1398282ce48032af1223062ab0bf606a9b85082c18f9a215a1",
+        "bytes": 6935
+      },
+      "identity-f2-http-final.log": {
+        "sha256": "e0ea1353f72f0492ea2afd9b1b88ec16e5baddb91e3d1b3372717185bf30a0fc",
+        "bytes": 2072
+      },
+      "identity-f2-root-tests.log": {
+        "sha256": "d83b7d90877a769a94c691e34251ad01b16f12e6ff0179385525b230ccbca706",
+        "bytes": 2558
+      },
+      "identity-f2-erp-focused.log": {
+        "sha256": "df3491ba6aa65d15c37c487fac00d2cc00a58f9d16450ecf78554b4e0a16d673",
+        "bytes": 660
+      },
+      "identity-f2-typecheck-ui.log": {
+        "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665",
+        "bytes": 143
+      },
+      "identity-f2-erp-build.log": {
+        "sha256": "5d3201ac193c3bf37100e9e1817a378a9d33052264a0f541685962aaed0be460",
+        "bytes": 1002
+      },
+      "identity-f2-site-check.log": {
+        "sha256": "39f6fd7bd9a2019dd8c65fd0d7ac60787fbe91f5bb5efc019afe01e8a3c77bf5",
+        "bytes": 11180
+      },
+      "identity-f2-site-build.log": {
+        "sha256": "a022472ada1d77fdde691904d0ba964087d3da4781cd3952481616d3b2c45254",
+        "bytes": 12975
+      },
+      "identity-f2-site-built-check-mode-mismatch.log": {
+        "sha256": "aa2ca4ed8e2e86a4b016d4fecfd105b630c9db634167964bc43430d0ede749bc",
+        "bytes": 985
+      },
+      "identity-f2-site-built-check.log": {
+        "sha256": "ace88d43d9ad2fa45f39b1594e1b7df1fce71b946d4b1c76883e6ee25ef5cb3d",
+        "bytes": 8321
+      },
+      "identity-f2-vps-regression.log": {
+        "sha256": "cb75e0da82143995adc6d11a86019e7579e61fd20bc3dda072eba003e034f9c7",
+        "bytes": 26235
+      },
+      "identity-f2-http-bootstrap.log": {
+        "sha256": "8b8f05c7edf7cf83e4bd02100a25603d17efbda5002ffebe1ee99f81c172cfb7",
+        "bytes": 112
+      }
+    }
+  },
+  "hosted": {
+    "run": 42472337064,
+    "source": "40e31acede2b3d9b55ecfb02fec33aa4cb0d5ab1",
+    "tree": "33e65cfe4c3d2aad12fb35cf4d242e68854e8972",
+    "status": "FAIL_BRIDGE_FIXTURE",
+    "jobs": {
+      "root": {
+        "id": 128705834437,
+        "status": "PASS",
+        "tests": 30
+      },
+      "site": {
+        "id": 128705834510,
+        "status": "PASS",
+        "vitest": 732,
+        "node": 90,
+        "vps": 268
+      },
+      "erp": {
+        "id": 128705834418,
+        "status": "PASS",
+        "tests": 2782,
+        "files": 120,
+        "postgresql": "ACTUAL_17.6"
+      },
+      "bridge": {
+        "id": 128705834247,
+        "status": "FAIL",
+        "tests": 31,
+        "pass": 9,
+        "fail": 22,
+        "skip": 0,
+        "cause": "All22 F2 cases stopped at fixture preparation: missing mandatory profiles.last_mutation; no F2 journey acceptance."
+      }
+    },
+    "raw_logs": {
+      "identity-f2-42472337064-bridge.log": {
+        "bytes": 96040,
+        "sha256": "a796769280d97150115dbea59427d68255d9195a5e8baaf95f44ee7d21f338e2"
+      },
+      "identity-f2-42472337064-root.log": {
+        "bytes": 40922,
+        "sha256": "45ccfde0fa774c69465c5d7ca7e8ed8f42c92f5d64a4311eaf62ae07bf9bd2b0"
+      },
+      "identity-f2-42472337064-erp.log": {
+        "bytes": 105438,
+        "sha256": "00023ec959aa0cbdb1cf6e965fde2437129ceff0d80d858c1c3e3d01ae3aa600"
+      },
+      "identity-f2-42472337064-site.log": {
+        "bytes": 135621,
+        "sha256": "eb247b9f795b709ad1f14911c0f46f7e4bc3df4f6f52d8ec83ba0898198bde51"
+      }
+    }
+  },
+  "review": {
+    "independent_agent": "/root/knaba_prompt_review",
+    "status": "SOURCE_ACCEPTED",
+    "root_review": "Consent/SQL protocol inputs and bridge assertions inspected; meaningful targeted tests executed.",
+    "final_snapshot": {
+      "corporate-site/vps/site-identity-http.mjs": "dd416bf8ab86d3340cede4197fbb44be30928d4715315474716a93fcf6485a3f",
+      "corporate-site/vps/site-identity-http.test.mjs": "8e17d1f8bffe49e8f8ad115248d6b85726a609326546e0bcb5d670b7ec2e5ce1",
+      "docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md": "1f0daec6b89c9d5cb7112e2a062f176f8e230545c507b4a528058863b0a18937"
+    },
+    "raw_logs_independently_inspected": [
+      "HTTP20",
+      "root30",
+      "ERP114",
+      "VPS267_previous_aggregate"
+    ]
+  },
+  "external": {
+    "rendered_browser": "NOT_RUN",
+    "physical_device": "NOT_RUN",
+    "production_federation_config": "NOT_CREATED",
+    "production_migration": "NOT_RUN"
+  },
+  "cross_system_sso": "NOT_IMPLEMENTED",
+  "product": "NOT_READY",
+  "original_criteria_promoted": false,
+  "correction_candidate": {
+    "scope": "Only synthetic bridge profile INSERT supplies mandatory last_mutation; application runtime and schema unchanged.",
+    "file": "tests/bridge/site-identity.test.mjs",
+    "sha256": "2d6ea81e13121d02978cea9888d702bc77fa2dbd383e62bfec64a78ef87cef89",
+    "local_probe": {
+      "status": "PASS",
+      "scope": "Actual migrated VPS SQLite, exact source INSERT, regular and long-email profiles, session creation; no PostgreSQL acceptance.",
+      "log_sha256": "a80472fb73c5bab1903601c21d1ee9062442a80038cb17a3aba9c4f2f62caf6c"
+    },
+    "review": "SOURCE_ACCEPTED_BY_INDEPENDENT_REVIEWER",
+    "hosted": "PENDING_EXACT_SOURCE"
+  }
+}

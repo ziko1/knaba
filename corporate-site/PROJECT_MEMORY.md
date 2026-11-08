@@ -1,5 +1,9 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — F2 site/ERP dual-consent candidate
+
+У Draft PR128 від `a670ff0be70abd1bb8f07065e237b5e3de8a7a84` додано neutral linking page, same-origin CSRF/preview consent, signed backchannel inspect/redeem і immutable SQLite grants з окремим checksum migration receipt. Current original session/profile/config перевіряються в SQLite transaction; email не створює binding або роль. Standalone protocol/UI distribution та [повний F2 contract](../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md) зберігають ERP/VPS packaging. Local SQLite/HTTP/source/build checks PASS; actual PostgreSQL integrated flow і rendered browser/device ще не прийняті. F3–F5/SSO/whole product NOT_READY; production federation вимкнена, live migration/config/deploy не виконано.
+
 ## 08.11.2026 — PR123 identity/revocation checkpoint
 
 Від d03e72b додано original-session hash binding для OIDC linking, повторні current-session fences біля body/SQL/private API response та stable owner subject pin через `OWNER_USER_ID`. Same-email linking не створює owner/admin. Additive VPS auth column мігрує лише за чинним migration gate; Drizzle/intake SQL незмінні. Legacy unbound linking states fail closed.

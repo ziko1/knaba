@@ -1,5 +1,13 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 08.11.2026 — F1 actual PostgreSQL acceptance
+
+Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 42464719363](https://github.com/ziko1/knaba/actions/runs/42464719363): all 4 mandatory jobs PASS; ERP 2782 tests in 120 files, including 16 new real PostgreSQL 17.6 cases and 27 CPU trust cases; bridge 9; no failed/skipped acceptance tests. Synthetic previous-schema upgrade, repeated migration and old-runtime rollback preserve users, bindings and audit. Independent source review accepted the exact inputs. [Evidence](evidence/site-identity-foundation-20261108/verification.json). F1 storage is verified; F2–F5 and shared SSO remain unimplemented/open, full product NOT_READY. No production migration or deployment.
+
+## 08.11.2026 — F1 identity storage source candidate
+
+Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.
+
 ## Exact-source CI checkpoint — 08.11.2026
 
 Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d413410bc748085b60d679d42586ee86f4d1e8a`**: [run 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007) завершив усі чотири обов’язкові jobs успішно. ERP **2677/2677** у 117 файлах зі справжньою PostgreSQL17.6 (включно з 8 новими SQL cases), bridge **9/9**, site **732 Vitest + 90 Node + 197 VPS**, root **28/28**; 0 FAIL/SKIP. Typecheck, migrations, clean build identity та site build/budgets пройшли. Попередній локальний SQL NOT_RUN лишається історичним фактом; hosted CI є окремим виконанням.

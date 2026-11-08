@@ -1,0 +1,118 @@
+{
+  "project": "KNABA_DE",
+  "phase": "F1 site identity storage foundation",
+  "sourceGitSha": "0fede54f80895a425e72df1d921a643b40a4eaf0",
+  "sourceTree": "9bc8fece9909cfad52401ea27409d98c3fbb3fa6",
+  "pullRequest": "https://github.com/ziko1/knaba/pull/128",
+  "status": "F1_STORAGE_VERIFIED_SSO_NOT_IMPLEMENTED",
+  "ci": {
+    "runId": 42464719363,
+    "url": "https://github.com/ziko1/knaba/actions/runs/42464719363",
+    "erpJobId": 128681448826,
+    "bridgeJobId": 128681448798,
+    "mandatoryJobs": 4,
+    "status": "SUCCESS",
+    "erpTests": 2782,
+    "erpTestFiles": 120,
+    "newCpuTrustTests": 27,
+    "newRealPostgresTests": 16,
+    "postgresVersion": "17.6",
+    "bridgeTests": 9,
+    "failures": 0,
+    "skippedAcceptanceTests": 0,
+    "conditionalFailureSummaryJob": "SKIPPED_EXPECTED_NO_FAILURE"
+  },
+  "postgresCases": [
+    "records an explicit target without email merge, session issuance or membership grants",
+    "keeps equal user IDs and emails in two companies isolated",
+    "does not alias subjects or issuers that differ in case or spelling",
+    "rejects unknown issuer, wrong audience and caller-selected company/fingerprint",
+    "allows exactly one concurrent binding of one principal to different ERP targets",
+    "denies missing, disabled and not-explicitly-active users at link and lookup",
+    "uses current configuration, rejecting stale version, fingerprint, revoked or expired trust",
+    "rejects a trust change during the write and rolls back both binding and audit",
+    "rolls back the binding when the real SQL audit insert fails",
+    "retains terminal tombstones and uses a CAS version for concurrent revocation",
+    "denies a lookup racing a committed revocation under the company lock",
+    "cannot retarget principal, trust or user through SQL updates",
+    "denies expired bindings without deleting or rebinding their principal",
+    "enforces the company/user composite foreign key even below the repository",
+    "keeps unlink available after issuer disable while still denying resolution",
+    "upgrades the actual previous schema, is repeatable, and preserves tombstones under old runtime migration"
+  ],
+  "inputFiles": [
+    {
+      "path": "erp/apps/api/site-identity-bindings.ts",
+      "sha256": "e584c4885908fd910b33d5829d9c6de87977e2d2e860c8a493d6f3e2102131d7"
+    },
+    {
+      "path": "erp/infra/001_init.sql",
+      "sha256": "4c7f7bfc396baf87ba21cbdbb79f54ec7539ede080140bcf45989626efeabf4f"
+    },
+    {
+      "path": "erp/tests/site-identity-trust.test.ts",
+      "sha256": "0684e3817ff69edbe7815ecd8ab18275ddccc05888535d4600977bbf7bc27e6a"
+    },
+    {
+      "path": "erp/tests/site-identity-bindings.integration.test.ts",
+      "sha256": "e75d19a34493df0075ae0c396512e00355b10791d7184bc4ab2e1a5f696f5d8b"
+    },
+    {
+      "path": "erp/tests/fixtures/site-identity-pre-f1.sql",
+      "sha256": "3a0e72d7da6531a8e8f9e3e732c38c12936f405a7ee342f2bf0ce42b9dc29dc4"
+    }
+  ],
+  "baselineSchema": {
+    "sourceGitSha": "fb4be719fc6f777138cb93837fc41729f9104c09",
+    "sha256": "3a0e72d7da6531a8e8f9e3e732c38c12936f405a7ee342f2bf0ce42b9dc29dc4",
+    "upgradeRepeatRollback": "PASS_SYNTHETIC_ISOLATED_SCHEMA",
+    "productionMigration": "NOT_RUN"
+  },
+  "independentReview": {
+    "reviewer": "/root/knaba_prompt_review",
+    "design": "ACCEPT",
+    "sourceAndFixtureBinding": "ACCEPT",
+    "actualSqlLogReview": "ACCEPT",
+    "sqlLogSha256": "fc33addc675bb7faec70332342fcec8710426ce63d0590bc8f7ffad81cf9b1ec"
+  },
+  "boundaries": [
+    "No public federation route or catalog command",
+    "No session, role, membership or MFA issuance",
+    "F2 dual-session proof and both UIs still unimplemented",
+    "F3 session exchange and F4 current revocation/privacy workflows still unimplemented",
+    "F5 real authority pins, owner UAT and browser/device acceptance remain open",
+    "Relink/retarget after terminal revocation needs separately reviewed versioned workflow"
+  ],
+  "logs": [
+    {
+      "file": "identity-f1-erp-hosted-ci.log",
+      "sha256": "fc33addc675bb7faec70332342fcec8710426ce63d0590bc8f7ffad81cf9b1ec",
+      "bytes": 102630
+    },
+    {
+      "file": "identity-f1-bridge-hosted-ci.log",
+      "sha256": "06e7ccad47b686bb6ab5c1dac2d4b421ce9d9f87354fd01d51f8a8ed700bf22e",
+      "bytes": 67805
+    },
+    {
+      "file": "identity-f1-typecheck.log",
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665",
+      "bytes": 143
+    },
+    {
+      "file": "identity-f1-trust.log",
+      "sha256": "dd7e30b1d9683d4a55d1d1b08ea6ade0fdc2843fa5efdfea6d9366e56657ed11",
+      "bytes": 291
+    },
+    {
+      "file": "identity-f1-local-checks.log",
+      "sha256": "8a61de97c2e883a16435ba8f3b1fe6aac7073f53c3a83575150360042384fe66",
+      "bytes": 394
+    },
+    {
+      "file": "source-audit-f1.log",
+      "sha256": "c1a7b19f2277f3983c690ce40b1c612f576ae89669dd2cda612d3a9510230906",
+      "bytes": 604
+    }
+  ]
+}

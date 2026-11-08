@@ -2,6 +2,8 @@ import { createServer as createHttpServer } from 'node:http';
 import { readFile,stat,realpath } from 'node:fs/promises';
 import { resolve,relative,sep,join,extname } from 'node:path';
 import { createHash } from 'node:crypto';
+import {createSiteIdentityHandler} from './site-identity-http.mjs';
+import {parsePeerConfig} from './site-identity-protocol.mjs';
 import {createClientIpResolver} from './client-ip.mjs';
 import {bindErpIntakeEnvironment,createErpIntakeScheduler} from './erp-intake-scheduler.mjs';
 import { createReadStream } from 'node:fs';
@@ -372,7 +374,7 @@ export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',ownerUserId,developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
   trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
-  erpIntakeSchedulerFactory=createErpIntakeScheduler
+  erpIntakeSchedulerFactory=createErpIntakeScheduler,siteIdentityConfig,siteIdentityTransport
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(ownerUserId!==undefined&&(typeof ownerUserId!=='string'||ownerUserId.length>200||/[\u0000-\u001f\u007f]/.test(ownerUserId)))
@@ -382,7 +384,13 @@ export async function createKnabaVpsServer({
   if(base.protocol!=='https:'&&!localTest)throw Error('Production HTTPS origin required.');
   const publicHost=base.host.toLowerCase();
   const resolveClientIp=createClientIpResolver(trustedProxyIps);
+  const identityConfig=siteIdentityConfig??(()=>parsePeerConfig(process.env.SITE_IDENTITY_PEER_JSON));
+  const identityPeer=identityConfig();
+  if(identityPeer&&!localTest&&(identityPeer.siteOrigin!==origin||identityPeer.ownerUserId!==undefined&&identityPeer.ownerUserId!==ownerUserId))
+    throw Error('SITE_IDENTITY_CONFIGURATION_MISMATCH');
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
+  const identityHandler=createSiteIdentityHandler(db,{config:identityConfig,developerEmail,origin,localTest,
+    ...(siteIdentityTransport?{transport:siteIdentityTransport}:{})});
   // Pin the configured owner's provisioned principal, never a browser email.
   // Deferred resolution permits the existing offline invite / trusted CLI bootstrap.
   // Explicit OWNER_USER_ID also pins it across process restarts.
@@ -471,6 +479,8 @@ export async function createKnabaVpsServer({
       'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store',
       'Vary':'Cookie','X-Robots-Tag':'noindex, nofollow',...headers
     });
+    if(await identityHandler({req,res,url,accountUser,readBody:readRequestBody,sameAccountSession,
+      developerWorkspace:testIdentity||testGranted||testCookiePresent,clientIp}))return;
     if(testCookiePresent&&!accountUser&&!['GET','HEAD'].includes(req.method)&&!/^\/(?:login|logout)\/?$/.test(url.pathname)){
       return jsonReply(401,{error:{code:'unauthenticated',message:'Sign in again before continuing your test.'}});
     }
