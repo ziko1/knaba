@@ -558,3 +558,7 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 2026-11-07 — site templates candidate
 
 У `/studio/templates/` реалізовано owner-only каталог, завантаження bounded KNABA ZIP v1, preview, чернетку, atomic publication та design-only rollback. Три нові таблиці в0013; контент/кабінети не переміщуються. Формат і operational rollback: [SITE_TEMPLATES_UK](docs/SITE_TEMPLATES_UK.md). Новий код не розгорнуто; browser/device/live gates не підміняються SQLite/unit/build. Підсумковий source-bound checkpoint і GitHub CI фіксуються окремо.
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.

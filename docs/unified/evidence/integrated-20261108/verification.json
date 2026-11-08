@@ -1,0 +1,31 @@
+{
+  "status": "NOT_READY",
+  "tested_sha": "09e267dad63f1a443ce08f532889b9f0f5d2dca5",
+  "source_tree": "de365326e7fe81a53a38a0bb1bf2c0da1b178305",
+  "pr": "https://github.com/ziko1/knaba/pull/123",
+  "ci_run": "https://github.com/ziko1/knaba/actions/runs/42430003249",
+  "ci_status": "SUCCESS",
+  "counts": {
+    "erp": 2549,
+    "bridge": 9,
+    "site_vitest": 730,
+    "site_node": 90,
+    "site_vps": 172,
+    "root": 28
+  },
+  "fail": 0,
+  "skipped": 0,
+  "qa_summary": "GitHub Actions42430003249 на09e267dad63f1a443ce08f532889b9f0f5d2dca5: ERP2549/2549 у112 файлах із реальною PostgreSQL17.6; HTTP bridge9/9; сайт730 Vitest +90 Node +172 VPS; root28. У цих наборах0 FAIL/SKIP. TypeScript, site/static production build, ERP clean-source build і міграції пройдено. Browser BLOCKED; live/device/provider/повний UAT NOT_RUN. Локально ERP release.json має той самий SHA та source_dirty=false.",
+  "evidence_files": [
+    "integrated-ci-excerpts.json",
+    "integrated-final-root.log",
+    "integrated-final-source.log",
+    "integrated-final-modules.log",
+    "integrated-site-check.log",
+    "integrated-final-site-build.log",
+    "integrated-final-site-vps.log",
+    "integrated-erp-check.log",
+    "integrated-erp-build.log",
+    "bridge-09e267d-summary.json"
+  ]
+}

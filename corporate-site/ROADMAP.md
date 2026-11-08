@@ -528,3 +528,7 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 2026-11-07 — оформлення через Studio
 
 Реалізація v1: три довірені presets, власний manifest ZIP, preview/select/activate/rollback, locale UI та міграція0013. Це параметризовані оформлення; довільний сторонній HTML/JS/layout import не реалізовано. Перевірити source-bound browser/a11y та safe runtime upgrade перед публікацією. Див. [формат і межі](docs/SITE_TEMPLATES_UK.md).
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.

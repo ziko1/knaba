@@ -117,3 +117,7 @@ The published ca9 source includes the **19-cause automatic work-notification bri
 Only the separate synthetic Railway project `5701136e-0b7c-48e8-a0c6-5c5a01c4330b`, environment `8ce0753b-b0b6-45f4-b655-6a9f9299ced2`, is authorized. Source and purchased plan are supplied. User-confirmed first deployment began 2026-10-06T20:55:09Z and failed; allocated `https://api-staging-a476.up.railway.app` is **NOT_READY**. The37 reviewed corrections are pinned to ca9 and wait for the concrete dashboard two-factor application request; no token bypass is permitted. [History](docs/RAILWAY_STAGING.md) records actual state.
 
 The original cutoff `2026-10-07T20:11:52Z` has expired and remains unchanged. Preserve EUR10/month budget and unrelated projects/shared billing; a new bounded window requires a concrete authorized decision. This synthetic trial does not verify sustained costs or permanent operation. After actual readiness, test authenticated scopes, worker/retry/restart/restore and transfer exact source/build/runtime SHA, artifacts and factual URLs. Company production remains a separate acceptance decision.
+
+## 08.11.2026 — integrated candidate verification
+
+Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
