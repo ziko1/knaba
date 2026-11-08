@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "baselineSourceSha": "adfa64b45179fcb2b59cd723351695a57d35652a",
+  "scope": "Uncommitted reviewed corrective source snapshot; new hosted CI not yet run",
+  "catalog": {
+    "file": "corporate-site/i18n/source-de.json",
+    "sha256": "e182dadacf1b016cb73d56aebfad4e3a3c33fc647bbc75fe8c368f1ef176ae3b",
+    "reviewer": "coverage_matrix independent read-only review",
+    "decision": "ACCEPT_SOURCE",
+    "command": "node scripts/i18n-source-catalog.mjs verify-source",
+    "exitCode": 0,
+    "routes": 28,
+    "units": 1109,
+    "digest": "e0827d8498d627f0bf1f1368dac6b7d0a4a21ea1d6cfdf24cd2c26faebf6d6f5",
+    "changedUnitRecords": 6,
+    "runtimeRouteArrayUnchanged": true,
+    "scope": "Existing reviewed Nov8 privacy content only; translations, runtime, provider and private data unchanged"
+  },
+  "browser": {
+    "decision": "ACCEPT_SOURCE_WITH_ACTUAL_CI_STILL_REQUIRED",
+    "observedHead": "adfa64b45179fcb2b59cd723351695a57d35652a",
+    "scope": "Read-only independent review of root HEAD readiness correction",
+    "sourceFiles": [
+      {
+        "path": "corporate-site/tests/ci-browser.mjs",
+        "sha256": "e63c6823f200f97564e2d0f57c7c42c8ef96b2fbab1f96ba8ccfd72616af77d7"
+      },
+      {
+        "path": "corporate-site/tests/ci-browser.test.mjs",
+        "sha256": "72667225b6afe67b6cd8a533932ecd84898c838de279df28d47b63bb89b97eed"
+      }
+    ],
+    "findings": [
+      "Probe changes only from default GET to explicit HEAD; exact own-listener marker, 200 requirement, redirect:error, 1s request timeout, child-liveness and bounded cleanup remain intact.",
+      "The new positive actual loopback HTTP test accepts HEAD only and asserts no GET; negative 503 cannot count as ready.",
+      "Browser engine, installed-browser restriction, chromiumSandbox, suite receipt assertions and test-count gates unchanged."
+    ],
+    "reviewedRootEvidence": {
+      "log": "browser-head-readiness-tests.log",
+      "sha256": "eee2055a51feb716437e654eb53aa2cfc4b557fae84edf9ef8a624cead141e14",
+      "tests": 9,
+      "passed": 9
+    },
+    "limitations": [
+      "No independent reproduction of the original Python HTTP/1.0 + Undici native parser abort was executed here.",
+      "No new browser suite or CI run performed; full corrected public/ERP browser acceptance still pending."
+    ],
+    "sourceEdits": false
+  },
+  "ios": {
+    "reviewer": "root independent full source diff and strict API wire-contract review",
+    "decision": "ACCEPT_SOURCE_PENDING_ACTUAL_XCTEST",
+    "sourceFiles": [
+      {
+        "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+        "bytes": 39532,
+        "sha256": "bc30ecc6c389a1c647620bca3c2cd616bc74fd93be58606d27c50388fe5a8a15"
+      },
+      {
+        "path": "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+        "bytes": 16919,
+        "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f"
+      }
+    ],
+    "actualPreCorrectionCi": {
+      "runId": 42474043048,
+      "jobId": 128711253124,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42474043048/job/128711253124",
+      "artifactId": 13615360041,
+      "artifactSha256": "bdeded0c60e3f1dfe561dcc80256a6e0fcdf753f196e3e3fbdd6a5e84bd2a422",
+      "productCompiled": true,
+      "simulatorPreparation": "PASS",
+      "xctest": {
+        "executed": 92,
+        "passed": 90,
+        "failed": 2
+      },
+      "causes": [
+        "Test used expectedVersion instead of existing strict wire key expected_version",
+        "Successful context list reload erased previous overview read warning; read failure also erased acknowledged result"
+      ]
+    },
+    "assertions": {
+      "existingAssertionsPreservedExceptCorrectedWireKey": true,
+      "wireExpectedValue": 7,
+      "camelCaseRejected": true,
+      "exactEnvelopeKeys": [
+        "input",
+        "expected_version",
+        "idempotency_key"
+      ],
+      "newXCTestMethods": 1
+    },
+    "behavior": {
+      "acknowledgedResultPreserved": true,
+      "independentRefreshWarningPreserved": true,
+      "guards": [
+        "epoch",
+        "sessionRevision",
+        "authorityRevision"
+      ],
+      "newMutationRetries": false,
+      "journalReinsertion": false,
+      "logoutReloginRaceRegressionAdded": true
+    },
+    "verification": {
+      "nativeContract": {
+        "command": "npm test -- tests/native-console-contract.test.ts",
+        "cases": 128,
+        "exitCode": 0
+      },
+      "nativeSource": {
+        "command": "node --test scripts/mobile-workspace-source.test.mjs",
+        "cases": 3,
+        "exitCode": 0
+      },
+      "diffWhitespace": "PASS",
+      "changedSourceXcodeAndXCTest": "NOT_RUN",
+      "newCiOrPush": "NOT_REQUESTED"
+    },
+    "changedXCTestCount": 93,
+    "reviewManifestSha256": "386245fcfe74a3713f4b6976c222f90ac87fb090f968f6d0675028cf21a192ed"
+  },
+  "localOfficialBuild": {
+    "scope": "production-build-static-validation",
+    "pages": 161,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "OFFICIAL",
+    "cssGzip": 40832,
+    "allEmittedJsGzip": 222036,
+    "artifactSha256": "b3ccd98aa5e9d36d9ffa1601cc11377dd5487000fba6a595713811bda8681a69",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "mandatoryHostedFollowUp": [
+    "Corrected verify:build",
+    "Public viewport and ERP rendered browser suites after HEAD readiness",
+    "Actual93 XCTest on corrected Swift source",
+    "Android existing pinned dependency/build gate"
+  ],
+  "externalAcceptance": "NOT_READY; no production, physical-device or live-provider acceptance inferred"
+}

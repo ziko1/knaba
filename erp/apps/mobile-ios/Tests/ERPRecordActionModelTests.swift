@@ -56,6 +56,7 @@ private actor RecordActionTransport: ERPConsoleTransport {
     func requireConfirmation() { critical = true }
     func timeoutWrite() { failWrite = true }
     func failSubsequentRead() { failReadAfterWrite = true }
+    func resumeReads() { failReadAfterWrite = false }
     func hold(_ path: String, gate: RecordActionGate) { holds[path] = gate }
     func observed() -> [URLRequest] { requests }
     func writes() -> [URLRequest] { requests.filter { $0.url?.path == "/api/v1/commands/quote.accept" } }
@@ -117,7 +118,9 @@ private actor RecordActionTransport: ERPConsoleTransport {
         let sent = await transport.writes(), persisted = await transport.persistedBeforeSend
         XCTAssertEqual(sent.count, 1); XCTAssertTrue(persisted)
         let body = try object(XCTUnwrap(sent.first?.httpBody)), input = try XCTUnwrap(body["input"] as? [String: Any])
-        XCTAssertEqual(body["expectedVersion"] as? Int, 7)
+        XCTAssertEqual(body["expected_version"] as? Int, 7)
+        XCTAssertNil(body["expectedVersion"])
+        XCTAssertEqual(Set(body.keys), Set(["input", "expected_version", "idempotency_key"]))
         XCTAssertEqual(input["id"] as? String, "quote-a"); XCTAssertEqual(input["quoteVersion"] as? Int, 3)
         XCTAssertEqual(input["acceptanceEvidence"] as? String, "Explicit approval")
         XCTAssertTrue(journal.snapshot().records.isEmpty)
@@ -217,5 +220,41 @@ private actor RecordActionTransport: ERPConsoleTransport {
         XCTAssertTrue(accepted); XCTAssertTrue(journal.snapshot().records.isEmpty)
         let sent = await transport.writes(); XCTAssertEqual(sent.count, 1)
         XCTAssertFalse(model.problem.isEmpty)
+        XCTAssertEqual(model.commandResult?.dictionary?["ok"]?.bool, true)
+        XCTAssertEqual(model.resultCommandName, "quote.accept")
+        let observed = await transport.observed()
+        let paths = observed.map { $0.url!.path }
+        let writeIndex = try XCTUnwrap(paths.firstIndex(of: "/api/v1/commands/quote.accept"))
+        let followUp = Array(paths.dropFirst(writeIndex + 1))
+        XCTAssertLessThan(try XCTUnwrap(followUp.firstIndex(of: "/api/v1/dashboard")),
+                          try XCTUnwrap(followUp.firstIndex(of: "/api/v1/entities/quote")))
+    }
+
+    func testAcknowledgedResultAndReadWarningCannotReappearAfterLogoutAndReloginDuringContextReload() async throws {
+        let journal = RecordActionJournal(), transport = RecordActionTransport(journal)
+        let (model, _, command, context) = try await workspace(transport, journal: journal)
+        await transport.failSubsequentRead()
+        let entered = expectation(description: "Acknowledged write reached independent context reload")
+        let gate = RecordActionGate(entered)
+        await transport.hold("/api/v1/entities/quote", gate: gate)
+        let originalSession = model.sessionRevision
+        let submission = Task { @MainActor in
+            await model.submit(command, fields: [:], versionText: "", expectedSession: originalSession, context: context)
+        }
+        await fulfillment(of: [entered], timeout: 2)
+        await model.signOut()
+        await transport.resumeReads(); await transport.setUser("user-b")
+        model.email = "new-user@example.test"; model.password = "Synthetic new password"
+        await model.signIn()
+        XCTAssertEqual(model.identity?.actor.userId, "user-b")
+        await gate.release()
+        let accepted = await submission.value
+        XCTAssertTrue(accepted)
+        XCTAssertEqual(model.identity?.actor.userId, "user-b")
+        XCTAssertTrue(model.problem.isEmpty)
+        XCTAssertNil(model.commandResult)
+        XCTAssertEqual(model.resultCommandName, "")
+        XCTAssertTrue(journal.snapshot().records.isEmpty)
+        let sent = await transport.writes(); XCTAssertEqual(sent.count, 1)
     }
 }

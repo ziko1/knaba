@@ -246,9 +246,16 @@ import SwiftUI
             notice = text(.saved); await syncPending(ticket)
             if epoch == ticket {
                 await loadOverview()
+                let overviewProblem = problem
                 if epoch == ticket {
                     if let context { await loadKind(context.record.kind) }
                     else if command.name.hasPrefix("task."), !selection.isEmpty { await loadKind(selection) }
+                    if epoch == ticket, sessionRevision == expectedSession, authorityRevision == originalAuthority {
+                        // Follow-up reads can fail independently of the acknowledged write.
+                        // A later successful list refresh must not erase that warning or receipt.
+                        if problem.isEmpty { problem = overviewProblem }
+                        commandResult = result
+                    }
                 }
             }
             // A confirmed mutation stays acknowledged if a separate refresh fails.

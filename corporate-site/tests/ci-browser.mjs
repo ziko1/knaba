@@ -73,14 +73,17 @@ export function assertErpUiReport(report){
     report.errors?.length||tests.length!==4||tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('FOUR_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
   return tests.length;
 }
-async function startPreview(command,args,{url,marker,signal,...options}){
+export async function startPreview(command,args,{url,marker,signal,...options}){
   let ownListening=false,seen='';
   const owned=ownProcess(command,args,{...options,onStdout:text=>{seen=(seen+text).slice(-8192);if(seen.includes(marker))ownListening=true;}});
   try{
     for(let attempt=0;attempt<100;attempt++){
       if(signal.aborted)throw Error('BROWSER_RUN_CANCELLED');
       if(owned.result||owned.child.exitCode!==null||owned.child.signalCode!==null)throw Error('OWNED_PREVIEW_EXITED_BEFORE_READINESS');
-      if(ownListening)try{const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(1000)});if(response.status===200)return owned;}catch{}
+      // Readiness needs only status. GET left an unread response stream when
+      // the Python HTTP/1.0 preview closed its socket (Undici parser assertion
+      // in the observed Node24 CI). HEAD has no body to abandon or buffer.
+      if(ownListening)try{const response=await fetch(url,{method:'HEAD',redirect:'error',signal:AbortSignal.timeout(1000)});if(response.status===200)return owned;}catch{}
       await wait(100);
     }
     throw Error('OWNED_PREVIEW_NOT_READY');

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "60f5ebb6d6b7e3b3a7575100e4714ebbec763c25b1c0d7fd9ce81ae8ff138866",
+  "sourceDigest": "e0827d8498d627f0bf1f1368dac6b7d0a4a21ea1d6cfdf24cd2c26faebf6d6f5",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1106,
+  "unitCount": 1109,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -2295,6 +2295,13 @@
         "/bauleistungen/bauhilfe/"
       ]
     },
+    "383befe3374b3dcbb30e76db": {
+      "kind": "text",
+      "source": "Stand: 8. November 2026 ·",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "38429ed63c2393d16488bfb0": {
       "kind": "text",
       "source": "Quelle: https://knaba.de/ratgeber/bauendreinigung-vorbereiten/",
@@ -2669,7 +2676,6 @@
       "kind": "text",
       "source": ". Stand: 28. Oktober 2026.",
       "routes": [
-        "/datenschutz/",
         "/impressum/"
       ]
     },
@@ -4810,6 +4816,13 @@
         "/berlin/"
       ]
     },
+    "748219c23ca2765780d15cde": {
+      "kind": "text",
+      "source": "Der private Zugangscode gilt höchstens sieben Tage ab Erstellung des Gesprächs und kann vom Inhaber früher widerrufen werden. Ein erneutes Öffnen verlängert diese Frist nicht. Ablauf oder Widerruf beenden den Gastzugang; der gespeicherte Gesprächsverlauf wird dadurch nicht automatisch gelöscht.",
+      "routes": [
+        "/datenschutz/"
+      ]
+    },
     "75060d244baae00bab9ba3e1": {
       "kind": "text",
       "source": "Was ist mit verdeckten Leitungen?",
@@ -5150,13 +5163,6 @@
       "source": "Notieren Sie Adresse, Bauphase, ungefähr zu reinigende Fläche und Etagen. Kennzeichnen Sie Schätzwerte und trennen Sie bereits fertiggestellte Bereiche von laufenden Arbeiten. Ein Grundriss oder eine Raumliste kann die Zuordnung erleichtern; entscheidend ist eine verständliche, aktuelle Beschreibung.",
       "routes": [
         "/ratgeber/baureinigung-kosten-planen/"
-      ]
-    },
-    "817a79e3ae7d761acb5f2b34": {
-      "kind": "text",
-      "source": "Stand: 28. Oktober 2026 ·",
-      "routes": [
-        "/datenschutz/"
       ]
     },
     "81b31dfc03641df1f10b9498": {
@@ -6839,6 +6845,13 @@
       "source": "Leistung ansehen: Saubere Objektübergabe",
       "routes": [
         "/galerie/"
+      ]
+    },
+    "ac9bfe0e250c233470629527": {
+      "kind": "text",
+      "source": "Wenn Ihr Browser eine Antwort des Inhabers im sichtbaren, geöffneten Chat anzeigt, übermittelt er eine technische Anzeigebestätigung. Wir speichern die Nachrichtenkennung und den Zeitpunkt der ersten Bestätigung, damit der Inhaber den Übermittlungsstand nachvollziehen kann. Dies belegt weder, dass eine Person die Nachricht tatsächlich gelesen hat, noch eine Zustimmung zu ihrem Inhalt oder einen Vertragsabschluss.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "acb15eaabe4adcdf9439ed29": {
@@ -9434,6 +9447,13 @@
       "source": "Unternehmen",
       "routes": [
         "/unternehmen/"
+      ]
+    },
+    "f3f0c3cb2be74b5047b19d05": {
+      "kind": "text",
+      "source": ". Stand: 8. November 2026.",
+      "routes": [
+        "/datenschutz/"
       ]
     },
     "f40b9f6d0e3c575b2f989a3f": {

@@ -1,6 +1,34 @@
 # KnaBa — інтегрована пам'ять продукту
 
-## 2026-11-08 — поточний інтегрований кандидат PR129; фактичні межі CI
+## 2026-11-08 — другий фактичний CI кандидата PR129
+
+Перевірений remote source `adfa64b45179fcb2b59cd723351695a57d35652a`, tree
+`02c3604f5eb06ad5932fd9a5a8466767d35e003c`: ERP **3029/3029 PASS** у131файлі
+на реальному PostgreSQL, root job PASS. Site **834 Vitest+92 Node PASS**;
+build PASS, verify:build FAIL через застарілий німецький source catalog.
+У job128712431996 bridge **9/9 PASS**, actual role browser **107 checks PASS**,
+мовні переходи **32 checks PASS**; весь job FAIL через Node Undici assertion
+під час GET перевірки локального preview. Public viewport/ERP rendered suites
+не виконані. iOS simulator preparation та Swift compile PASS; **90/92 XCTest
+PASS**,2FAIL: хибний wire-key у тесті та втрата warning/ack після незалежних
+читань. Android FAIL: timeout завантаження pinned Kotlin compiler; попередній
+перевірений APK збережено, нового PASS немає.
+
+Локальна корекція: source catalog свіжої official збірки (28routes/1109units),
+HEAD-only readiness зі збереженими обмеженнями, та iOS збереження ACK/warning
+лише для незмінних session/authority/epoch. Додано race logout→relogin XCTest.
+Source reviews ACCEPT; actual corrected93XCTest і повні browser suites ще
+потребують нового CI. Локальний official verify PASS: JS222036B/CSS40832B gzip
+у незмінених бюджетах. Це не production performance або device acceptance.
+
+Докази: `evidence/full-completion-20261108/corrective-aggregate-ci.json` та
+`ci-catalog-browser-ios-correction.json`. Зарезервовано один наступний bounded
+corrective checkpoint у чинному BUDGET після звірки обох попередніх запусків.
+Відокремлені source worktrees продовжують F2 federation і assistant→request;
+вони ще не входять до цього кандидата. Загальна готовність **NOT_READY**;
+72 compound AC не підвищено. Merge/production/провайдери/магазини не виконувались.
+
+## 2026-11-08 — попередній інтегрований checkpoint PR129; історія першого CI
 
 Опублікований source: **`5d6eeae0862e52cc693c1766f0c6fba964b12aa5`**, [PR129](https://github.com/ziko1/knaba/pull/129).
 Його Git tree **`7de0c8019ae5ab6959930225996a0c978859deba`** точно збігається з

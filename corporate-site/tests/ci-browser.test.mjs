@@ -1,8 +1,24 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {runProcess,ownProcess,assertSuiteReceipt,assertErpUiReport} from './ci-browser.mjs';
+import {createServer} from 'node:net';
+import {runProcess,ownProcess,startPreview,assertSuiteReceipt,assertErpUiReport} from './ci-browser.mjs';
 const node=process.execPath;
+async function unusedLoopbackPort(){
+  const server=createServer();await new Promise((yes,no)=>{server.once('error',no);server.listen(0,'127.0.0.1',yes);});
+  const port=server.address().port;await new Promise(yes=>server.close(yes));return port;
+}
+test('owned preview readiness uses a bodyless HEAD and waits for its own listener',async()=>{
+  const port=await unusedLoopbackPort(),marker='SYNTHETIC_PREVIEW_READY';
+  const script=`const http=require('node:http');const s=http.createServer((req,res)=>{console.log('METHOD '+req.method);res.setHeader('Connection','close');res.statusCode=req.method==='HEAD'?200:405;res.end();if(req.method!=='HEAD')s.close();});s.listen(${port},'127.0.0.1',()=>console.log('${marker}'));`;
+  const owned=await startPreview(node,['-e',script],{url:'http://127.0.0.1:'+port+'/',marker,signal:new AbortController().signal,tee:false});
+  const result=await owned.stop();assert.match(result.stdout,/METHOD HEAD/);assert.doesNotMatch(result.stdout,/METHOD GET/);
+});
+test('an owned preview HTTP failure is not accepted as ready',async()=>{
+  const port=await unusedLoopbackPort(),marker='SYNTHETIC_PREVIEW_READY';
+  const script=`const http=require('node:http');const s=http.createServer((req,res)=>{res.setHeader('Connection','close');res.statusCode=503;res.end();s.close();});s.listen(${port},'127.0.0.1',()=>console.log('${marker}'));`;
+  await assert.rejects(()=>startPreview(node,['-e',script],{url:'http://127.0.0.1:'+port+'/',marker,signal:new AbortController().signal,tee:false}),/OWNED_PREVIEW_EXITED_BEFORE_READINESS/);
+});
 test('waits for close and captures inherited stdout even after the direct child exits',async()=>{
   const grandchild="setTimeout(()=>process.stdout.write('LATE_RESULT\\n'),75)";
   const script="require('node:child_process').spawn(process.execPath,['-e',"+JSON.stringify(grandchild)+"],{stdio:['ignore',1,2]});process.exit(0)";
