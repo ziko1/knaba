@@ -11,7 +11,7 @@ const pg=process.env.DATABASE_URL?describe:describe.skip;
 const SECRET='synthetic-Telegram-QA-secret-20261025';
 const now=()=>new Date();
 const input=(id:number,text:string)=>Buffer.from(JSON.stringify({
-  update_id:id,message:{message_id:id,date:Math.floor(Date.now()/1000),chat:{type:'private',id:187650211},from:{id:187650211,is_bot:false},text}
+  update_id:id,message:{message_id:id,date:1762620000+id,chat:{type:'private',id:187650211},from:{id:187650211,is_bot:false},text}
 }));
 
 pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no provider I/O)',()=>{
