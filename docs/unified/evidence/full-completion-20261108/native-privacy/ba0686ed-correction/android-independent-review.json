@@ -1,0 +1,229 @@
+{
+  "reviewer": "/root",
+  "reviewedAtUtc": "2026-11-08T20:10:10.209009+00:00",
+  "verdict": "ACCEPT_ANDROID_ARTIFACTS_SCOPED_PHYSICAL_AND_WHOLE_PRODUCT_PENDING",
+  "sourceCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "ciRun": 42517324471,
+  "ciArtifactId": 13631184140,
+  "ciZipSha256": "521444a5a602cf8643f98ca2c74ef69f6e4b0b5fc7d30f1aca507b159956c576",
+  "checks": [
+    {
+      "label": "ci",
+      "sourceFiles": 78,
+      "verificationInputs": 1,
+      "allHashesMatchGitBlobs": true,
+      "artifacts": [
+        {
+          "name": "KNABA-DE-0.5.0-test.apk",
+          "bytes": 3093102,
+          "sha256": "b410b96cd6e46591b640087d304b3b11e4ab2619fe387eb622441d037134cf05"
+        },
+        {
+          "name": "KNABA-DE-0.5.0-test.aab",
+          "bytes": 1037394,
+          "sha256": "bea0b0ee1caab41ac984cfc47f29954afa012d80ef0c9940789a447e7c74e2f9"
+        }
+      ],
+      "certificateSha256": "8b3ae8fd4f2da562d0de79ba9cdaf7b67c6d8262173c863d94674d2bf934ab8c",
+      "sourceReceiptSha256": "539629ee0cdf3011bd5a3183291ceb4ff0ada9b6fb4788ece05641c4343937a6",
+      "packageReceiptSha256": "9ca61843a8b09e9ea76903aaf1d9ea908530ee0c7961e1d3bbca78e434ca3cae",
+      "actualBinarySignatureAndManifestChecks": [
+        {
+          "name": "apk-signature",
+          "exitCode": 0,
+          "log": "android-independent-review/ci-apk-signature.log",
+          "sha256": "1bd768e640555d9e1bf9fbf4b974f9ca889773fbd133dbbbbc83bd1689dbfae5",
+          "reusedFromInitialReview": true
+        },
+        {
+          "name": "apk-manifest",
+          "exitCode": 0,
+          "log": "android-independent-review/ci-apk-manifest.log",
+          "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a",
+          "reusedFromInitialReview": true
+        },
+        {
+          "name": "aab-signature",
+          "exitCode": 0,
+          "log": "android-independent-review/ci-aab-signature.log",
+          "sha256": "a54ec18a6a987973c7e4614aa96c52580036543d4ac0fadb39414ba1352946d4",
+          "reusedFromInitialReview": true
+        }
+      ],
+      "tests": {
+        "tests": 81,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "de.knaba.mobile.ConsoleMediaScreenTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "d11a2df16a75a80f28875a3e56b7f2caa4f0bf74836c5ff48660ff504dfabeab"
+        },
+        {
+          "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "e27decd3adf885343a5090f4ec95e985c3576aa8f601c96681f18ba8e88eef98"
+        },
+        {
+          "name": "de.knaba.mobile.ErpConsoleActivityTest",
+          "tests": 49,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "d19a40168d8cda02a4fb23f1e868dfe6e9be12ee5f8274eb6095ad66d546b7b8"
+        },
+        {
+          "name": "de.knaba.mobile.ErpFederationActivityTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "9fe855bdd989543711bdba76d395d9350107828ffa06d16c9824199bf726996d"
+        },
+        {
+          "name": "de.knaba.mobile.LauncherIconTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "038e5797e81c22704e67b047ffe12304b725c3ecce32c1c55ceb23e72757cc9c"
+        }
+      ],
+      "lint": {
+        "errors": 0,
+        "warnings": 23
+      },
+      "hostProtocolAssertions": 901,
+      "loopbackHttpAssertions": 74,
+      "loopbackHttpScenarios": 4,
+      "localizationStringsPerLocale": 362,
+      "bundleIntegrityProducerCases": 5
+    },
+    {
+      "label": "local",
+      "sourceFiles": 78,
+      "verificationInputs": 1,
+      "allHashesMatchGitBlobs": true,
+      "artifacts": [
+        {
+          "name": "KNABA-DE-0.5.0-test.apk",
+          "bytes": 3093102,
+          "sha256": "2672134aa1edffbd721c43ed4b252e500c9255c9b2b1f0c1caaef6182382a076"
+        },
+        {
+          "name": "KNABA-DE-0.5.0-test.aab",
+          "bytes": 1037392,
+          "sha256": "8831f82fedb7665b0219b928924c6f6ee1f60493d9cb7e42fa9c2371d682f554"
+        }
+      ],
+      "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+      "sourceReceiptSha256": "539629ee0cdf3011bd5a3183291ceb4ff0ada9b6fb4788ece05641c4343937a6",
+      "packageReceiptSha256": "0f79dc310463a1ed97b1b68af95e72c7e5ab9c58a92b156c23c869e5578714c5",
+      "actualBinarySignatureAndManifestChecks": [
+        {
+          "name": "apk-signature",
+          "exitCode": 0,
+          "log": "android-independent-review/local-apk-signature.log",
+          "sha256": "7e8209f033f2031aac2ecdc0d53a90cd80e6aec5045cef82dfda1ba667581a31",
+          "reusedFromInitialReview": false
+        },
+        {
+          "name": "apk-manifest",
+          "exitCode": 0,
+          "log": "android-independent-review/local-apk-manifest.log",
+          "sha256": "0c961ab8f76a6744c775c2a87e1287c62e94a2f46fed7bd529ba4b8fd0f8de2a",
+          "reusedFromInitialReview": false
+        },
+        {
+          "name": "aab-signature",
+          "exitCode": 0,
+          "log": "android-independent-review/local-aab-signature.log",
+          "sha256": "2c141c36bbd80c515c363a0101e0d3940d0db9f7b57f1c47c9a2a55b1f71abc8",
+          "reusedFromInitialReview": false
+        }
+      ],
+      "tests": {
+        "tests": 81,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "de.knaba.mobile.ConsoleMediaScreenTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "3d64a8c8090eff574d88b055a909a8b4003485f1752154d873851ab24e2498e9"
+        },
+        {
+          "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "a725b17887fa15def9dc1ba083cde5381439efba6d0ec1ac12e0948712e25750"
+        },
+        {
+          "name": "de.knaba.mobile.ErpConsoleActivityTest",
+          "tests": 49,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "0e07274af8e54b73a6ce30480c9b2fa1458cd41669ea7ec04db6de87c39cab93"
+        },
+        {
+          "name": "de.knaba.mobile.ErpFederationActivityTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "dcd53997b56176b708e62717b25b622afb35792fec5b5354e5da08bdb70fc844"
+        },
+        {
+          "name": "de.knaba.mobile.LauncherIconTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "sha256": "8d686fddd1c3acd5e9808bc9d8fcb1bd066c7f85d25955a7a0d9de897448caf7"
+        }
+      ],
+      "lint": {
+        "errors": 0,
+        "warnings": 20
+      },
+      "hostProtocolAssertions": 901,
+      "loopbackHttpAssertions": 74,
+      "loopbackHttpScenarios": 4,
+      "localizationStringsPerLocale": 362,
+      "bundleIntegrityProducerCases": 5
+    }
+  ],
+  "localProducerManifestSha256": "5173c84e06072e3d74e1d4c0f39f2f1a6c2b1442eb71eeb262cc1983d549fcd8",
+  "localProofFilesVerified": 23,
+  "independentTestRerun": false,
+  "independentBuildRerun": false,
+  "independentBinarySignatureAndZipVerification": true,
+  "privateKeyReadOrExportedByReviewer": false,
+  "localSignerMatchesPreservedPriorCertificate": true,
+  "ciSignerEqualsLocalSigner": false,
+  "limitations": [
+    "TEST Debug evaluation APK/AAB; no production federation callback or store approval",
+    "No physical system-browser login, installation, upgrade/data retention, GPS or provider delivery executed",
+    "81 test cases are not summed with protocol assertions or overlapping author runs",
+    "Current repository candidate has separate privacy PostgreSQL/browser failures; native artifact acceptance does not accept the entire candidate"
+  ],
+  "wholeProduct": "NOT_READY"
+}

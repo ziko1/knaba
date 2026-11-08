@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/mobile_actual_readiness",
+  "reviewedAtUtc": "2026-11-08T20:16:19.412571+00:00",
+  "verdict": "CONFIRMED_FIXTURE_SELECTOR_FAILURE_CORRECTION_PROPOSED_ACTUAL_AGGREGATE_INCOMPLETE",
+  "runId": 42517324475,
+  "jobId": 128843103764,
+  "sourceSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "archive": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-artifact.zip",
+    "bytes": 13006577,
+    "sha256": "072316db8dd653a2e8fdda125efd749a0098b14e87631d514ee5f407ee3fb3ac"
+  },
+  "binding": {
+    "buildManifestSha256": "e5007ce07f2eb106c34e2e41781594167fff103312e606ab0848521307da0ad5",
+    "bothManifestCopiesIdentical": true,
+    "sourceCleanReportedByCI": true,
+    "integrationInputsUnchanged": true,
+    "sourceInputsVerifiedAgainstGit": [
+      {
+        "path": "erp/packages/integrations/site-federation-protocol.mjs",
+        "bytes": 14764,
+        "sha256": "c2b43a8da4e08b7728d6176e270950e51926cbb7382a961306cd3b189b92ac5e",
+        "gitBlobMatches": true
+      },
+      {
+        "path": "erp/packages/integrations/site-federation-login-protocol.mjs",
+        "bytes": 10977,
+        "sha256": "b57a22a578e4859e2bd423000f30c33a359f969fc43c8a74c1851750b730fd81",
+        "gitBlobMatches": true
+      },
+      {
+        "path": "corporate-site/vps/federation-entry.mjs",
+        "bytes": 1136,
+        "sha256": "6e3ebcad6f3e56e678e925159af8c9fd724565418654da569dbb0b67228503fc",
+        "gitBlobMatches": true
+      }
+    ],
+    "embeddedFixtureSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+    "allFiveTraceFixtureCopiesMatchGit": true,
+    "artifactTreeDigestReferencesAgree": true,
+    "fullErpDistDigestRecomputedLocally": false,
+    "fullErpDistDigestLimit": "Browser artifact contains manifest/trace subsets, not the complete12-file ERP dist tree."
+  },
+  "outcome": {
+    "integrationStatus": "FAIL",
+    "integrationReason": "CHILD_PROCESS_TIMEOUT",
+    "expectedCases": 30,
+    "resultJsonBytes": 0,
+    "reporter": {
+      "passMarkers": 17,
+      "timeoutMarkers": 4,
+      "partialOnly": true,
+      "finalSuiteTotalsUnavailable": true
+    },
+    "retainedCompleteTimeoutCases": 4,
+    "retainedInterruptedTrace": 1,
+    "noFinalAggregatePassOrCompleteCaseCountClaim": true
+  },
+  "findings": [
+    {
+      "id": "BROWSER-PRIVACY-01",
+      "kind": "ACTUAL_RENDERED_FIXTURE_FAILURE",
+      "scope": "erp/tests/privacy-projection-ui.spec.ts:105 and174",
+      "cause": "Exact getByLabel includes SELECT option descendants because the LABEL wraps the SELECT. It differs from the actual computed combobox accessible name.",
+      "observedAccessibleName": "Export contents",
+      "actualLabelDom": [
+        "LABEL",
+        {
+          "class": "field",
+          "for": "privacy-projection"
+        },
+        [
+          "SPAN",
+          {},
+          "Export contents"
+        ],
+        [
+          "SELECT",
+          {
+            "id": "privacy-projection"
+          },
+          [
+            "OPTION",
+            {
+              "__playwright_selected_": "true",
+              "value": "knaba-dsar-v1"
+            },
+            "Basic export"
+          ],
+          [
+            "OPTION",
+            {
+              "__playwright_selected_": "false",
+              "value": "knaba-dsar-v2"
+            },
+            "Export with linked accounts"
+          ]
+        ]
+      ],
+      "pinnedPlaywrightEvidence": "1.55.1 getElementLabels calls elementText(label); elementText recursively accumulates child element text, including options.",
+      "correction": "Use getByRole(combobox) with exact current localized privacyProjectionChoice name in the English helper and six-language loop.",
+      "productUiChangeRequired": false
+    },
+    {
+      "id": "BROWSER-PRIVACY-02",
+      "kind": "CONFIRMED_DOWNSTREAM_SELECTOR_DRIFT_NOT_REACHED_IN_FOUR_TIMEOUTS",
+      "scope": "erp/tests/privacy-projection-ui.spec.ts:107 and134",
+      "cause": "Fixture literal Preview differs from current EN preview translation and actual rendered Review change button.",
+      "correction": "Use en(preview) for both click helper and disabled-button assertion.",
+      "productUiChangeRequired": false
+    }
+  ],
+  "traces": [
+    {
+      "caseDirectory": "privacy-projection-ui-Priv-0ca87-tical-reviewed-body-and-key",
+      "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-0ca87-tical-reviewed-body-and-key/trace.zip",
+      "bytes": 1502820,
+      "sha256": "4aa23a0a8f3279dd7442f8f8c1f83f4f7565aa2ac4e8de413dcecab8997a29d2",
+      "embeddedFixtureMatchesGit": true,
+      "observedApiNonGetRequests": 0,
+      "hasBrowserNetworkTrace": true,
+      "classification": "EXACT_LABEL_SELECTOR_TIMEOUT",
+      "failure": {
+        "operation": "locator.selectOption",
+        "sourceLine": 105,
+        "timeoutMs": 45000,
+        "selector": "getByRole('dialog', { name: 'New request', exact: true }).getByLabel('Export contents', { exact: true })",
+        "messageFirstLine": "Error: locator.selectOption: Test timeout of 45000ms exceeded.",
+        "testSourceStack": [
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 105,
+            "column": 58,
+            "function": "newRequest"
+          },
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 127,
+            "column": 59
+          }
+        ]
+      }
+    },
+    {
+      "caseDirectory": "privacy-projection-ui-Priv-5ffd2--a-closed-and-reopened-form",
+      "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-5ffd2--a-closed-and-reopened-form/trace.zip",
+      "bytes": 405103,
+      "sha256": "45c1e4bc0a6f6ea31949489e63f3b330356b6503d6cb5e5cb034370343e2c27b",
+      "embeddedFixtureMatchesGit": true,
+      "observedApiNonGetRequests": null,
+      "hasBrowserNetworkTrace": false,
+      "classification": "INTERRUPTED_SELECT_AND_TEARDOWN_NO_FINAL_CASE_RESULT",
+      "failure": {
+        "operation": "locator.selectOption",
+        "sourceLine": 105,
+        "timeoutMs": null,
+        "selector": "getByRole('dialog', { name: 'New request', exact: true }).getByLabel('Export contents', { exact: true })",
+        "messageFirstLine": "Error: locator.selectOption: Target page, context or browser has been closed",
+        "testSourceStack": [
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 105,
+            "column": 58,
+            "function": "newRequest"
+          },
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 155,
+            "column": 55
+          }
+        ]
+      }
+    },
+    {
+      "caseDirectory": "privacy-projection-ui-Priv-848da-d-exact-own-request-payload",
+      "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-848da-d-exact-own-request-payload/trace.zip",
+      "bytes": 1419144,
+      "sha256": "6ad1d2ec205f069089cdb5e5f98358de25666652c63da3e76ad87dcd8c4221d5",
+      "embeddedFixtureMatchesGit": true,
+      "observedApiNonGetRequests": 0,
+      "hasBrowserNetworkTrace": true,
+      "classification": "EXACT_LABEL_SELECTOR_TIMEOUT",
+      "failure": {
+        "operation": "locator.selectOption",
+        "sourceLine": 105,
+        "timeoutMs": 45000,
+        "selector": "getByRole('dialog', { name: 'New request', exact: true }).getByLabel('Export contents', { exact: true })",
+        "messageFirstLine": "Error: locator.selectOption: Test timeout of 45000ms exceeded.",
+        "testSourceStack": [
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 105,
+            "column": 58,
+            "function": "newRequest"
+          },
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 114,
+            "column": 37
+          }
+        ]
+      }
+    },
+    {
+      "caseDirectory": "privacy-projection-ui-Priv-a3d5f-ntil-an-explicit-new-choice",
+      "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-a3d5f-ntil-an-explicit-new-choice/trace.zip",
+      "bytes": 1470857,
+      "sha256": "feab750ee1b4bbc136bbd369bee43ec82dc1f695dd4e88b4cda0731beb150ef0",
+      "embeddedFixtureMatchesGit": true,
+      "observedApiNonGetRequests": 0,
+      "hasBrowserNetworkTrace": true,
+      "classification": "EXACT_LABEL_SELECTOR_TIMEOUT",
+      "failure": {
+        "operation": "locator.selectOption",
+        "sourceLine": 105,
+        "timeoutMs": 45000,
+        "selector": "getByRole('dialog', { name: 'New request', exact: true }).getByLabel('Export contents', { exact: true })",
+        "messageFirstLine": "Error: locator.selectOption: Test timeout of 45000ms exceeded.",
+        "testSourceStack": [
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 105,
+            "column": 58,
+            "function": "newRequest"
+          },
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 132,
+            "column": 37
+          }
+        ]
+      }
+    },
+    {
+      "caseDirectory": "privacy-projection-ui-Priv-acb7f-n-absent-projection-version",
+      "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-artifact/knaba-browser/erp-fixtures/artifacts/privacy-projection-ui-Priv-acb7f-n-absent-projection-version/trace.zip",
+      "bytes": 1492003,
+      "sha256": "281405b952053d69c7af09da0f93bd05efcfb53fe1745fbbb0d2ff0eb8032e27",
+      "embeddedFixtureMatchesGit": true,
+      "observedApiNonGetRequests": 0,
+      "hasBrowserNetworkTrace": true,
+      "classification": "EXACT_LABEL_SELECTOR_TIMEOUT",
+      "failure": {
+        "operation": "locator.selectOption",
+        "sourceLine": 105,
+        "timeoutMs": 45000,
+        "selector": "getByRole('dialog', { name: 'New request', exact: true }).getByLabel('Export contents', { exact: true })",
+        "messageFirstLine": "Error: locator.selectOption: Test timeout of 45000ms exceeded.",
+        "testSourceStack": [
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 105,
+            "column": 58,
+            "function": "newRequest"
+          },
+          {
+            "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-projection-ui.spec.ts",
+            "line": 122,
+            "column": 51
+          }
+        ]
+      }
+    }
+  ],
+  "timeoutRelationship": "Four45s locator timeouts consume the existing240s wrapper budget; a fifth trace is interrupted at the same helper with Target page/context/browser closed and teardown/EPIPE. Do not increase timeouts; repair selectors and execute the exact30 inventory again.",
+  "minimalPatch": {
+    "path": "/workspace/scratch/c56161c95e04/verification/native-privacy-actual-ba0686ed/browser-diagnosis/proposed-fixture.patch",
+    "sha256": "9f749737b85747c616ebaf22f05db455ffb0207dd6dbc1e525fa0595806f6f73",
+    "sourcePaths": 1,
+    "changedLines": 4,
+    "existingTestTitlesAssertionsFixturesAndTimeoutsPreserved": true,
+    "preimageSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+    "proposedSourceSha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73",
+    "notAppliedDuringDiagnosis": true
+  },
+  "runtimeConclusion": "Four retained complete cases never reached any non-GET API request; observed failure is fixture selection before submission. This does not prove later product/privacy runtime paths correct or complete.",
+  "nextValidation": [
+    "Narrow typecheck and exact30-case collection with11 privacy cases",
+    "Independent four-line source review",
+    "Future exact-candidate actual CI browser aggregate30 without skips/retries, plus other required gates"
+  ],
+  "limitations": [
+    "No browser/runtime/build/provider execution by reviewer during diagnosis",
+    "No timeout, source or workflow changes during diagnosis",
+    "No complete dist artifact digest reconstruction",
+    "No overall14/17-dot aggregate PASS claim",
+    "Raw browser ZIP, screenshots, HTML and traces remain scratch-only; no Library upload"
+  ]
+}

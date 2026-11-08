@@ -332,3 +332,9 @@ Native F3 TEST adapters and privacy v2 implementation are IN_PROGRESS under sepa
 Native F3 TEST і privacy v2 source implementation/review завершено в scoped межах;59 frozen inputs інтегровано. New exact committed runtime/SQL/browser/native acceptance — PENDING. [Evidence and acceptance inventory](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md). Whole AC statuses не змінено.
 
 Наступний known source gap — remote push: default-off registry/lineage/outbox, чотири WEB availability transitions, consent/revoke/account-switch та actual APNs/FCM adapters; жодна read-only proposal не є реалізованим API. Zod OPEN_WITH_MITIGATION перевіряється окремо. Physical devices, signing/distribution, provider/restore/load/legal/company UAT і production — окремі незакриті gates.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

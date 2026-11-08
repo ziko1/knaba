@@ -1,0 +1,22 @@
+{
+  "reviewer": "/root",
+  "reviewedAtUtc": "2026-11-08T20:12:15.358950+00:00",
+  "verdict": "ACCEPT_TEST_FIXTURE_CORRECTION_SCOPED_ACTUAL_POSTGRES_PENDING",
+  "baseCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceFile": "erp/tests/privacy-federation.integration.test.ts",
+  "sourceSha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e",
+  "manifestSha256": "aa00ed36f24ae49de24dbccadfe5c702f4609bcef456b6c4f258e48021e7bf3b",
+  "findings": [],
+  "reason": "Actual SQL PRINCIPAL fence changes only principal; source session remains stored ACTIVE. Explicit signed SESSION fence is necessary to prepare the intended revoked source-session history. The test now verifies both storage transitions without changing runtime semantics.",
+  "checked": [
+    "Complete one-file diff and exact preimage",
+    "Private SQL/domain fence branches and existing fixture helper read by root",
+    "Six runtime/helper inputs unchanged",
+    "All15 case titles retained; downstream first-case assertions and all other cases byte-identical",
+    "Author typecheck/collection/pure contract witness evidence hashes match"
+  ],
+  "independentRuntimeRerun": false,
+  "actualPostgreSQL": "PENDING_NEW_COMMIT_CI",
+  "historicalFailurePreserved": true,
+  "wholeProduct": "NOT_READY"
+}

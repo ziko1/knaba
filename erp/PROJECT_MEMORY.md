@@ -252,3 +252,9 @@ Whole product NOT_READY;72 V4/475 V3 whole criteria та historical evidence н�
 Exact reviewed Android21 та iOS19 paths інтегровано поряд із privacy v2. Fresh-cookie candidate, explicit recovery, atomic UI adoption, permanent old-client retirement, strict journal preflight та stale-intent/cancellation fences перевірені source review. Android local81 PASS/0skip, lint0 errors/20 warnings; iOS8 portable PASS,210 XCTest authored (65 new), actual Xcode NOT_RUN. Деталі: [unified checkpoint](../docs/unified/NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
 
 Новий clean candidate CI ще потрібен: privacy PG15/rendered11 within30, Android artifact і iOS210 execution. Device/GPS/version/signing inputs збережено; whole V4/V3 NOT_READY, cutoff і external approvals незмінні.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

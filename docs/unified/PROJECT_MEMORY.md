@@ -652,3 +652,9 @@ Android42507639781 SUCCESS; iOS42507639722 SKIPPED. All121 native inputs unchang
 На base6a395bb інтегровано 59 exact reviewed inputs: Android21/iOS19/privacy backend7/UI12. Android local81 PASS, lint0 errors/20 warnings, Debug-only merged callback; iOS8 portable PASS та65 нових authored XCTest (210 total), actual Swift/XCTest NOT_RUN. Privacy final model30 і corrected dirty-tree build0 підтверджені; actual privacy PG15/rendered11 pending. Independent source reviews і failure history збережені. [Спільний checkpoint](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
 
 Наступний gate — один clean committed candidate і чинні repository/native workflows, включно з rendered30 та iOS210. Старий6a acceptance не приймає новий source. Whole product NOT_READY; whole AC/trace statuses, expired cutoff, provider/signing/device/production permissions незмінні. Native push і Zod remediation залишаються наступними окремими source scopes.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

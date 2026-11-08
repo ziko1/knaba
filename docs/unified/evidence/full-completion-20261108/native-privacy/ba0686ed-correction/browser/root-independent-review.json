@@ -1,0 +1,21 @@
+{
+  "reviewer": "/root",
+  "reviewedAtUtc": "2026-11-08T20:24:23.342514+00:00",
+  "verdict": "ACCEPT_FOUR_LOCATOR_CORRECTIONS_SCOPED_ACTUAL_BROWSER_PENDING",
+  "baseCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "path": "erp/tests/privacy-projection-ui.spec.ts",
+  "sourceSha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73",
+  "manifestSha256": "2ad6427b0565dc73377b924c1784570e90922fa1441abc5568a11bf00ad7e274",
+  "findings": [],
+  "checks": [
+    "Exact four specified replacements and original preimage",
+    "Actual retained accessibility snapshot combobox Export contents and button Review change",
+    "Current translator and wrapping-label implementation independently read",
+    "All remaining fixture bytes unchanged; all other19 selected cases/config/runner/workflows/specs/locks match base",
+    "Collection30 includingprivacy11 and narrow strict typecheck evidence hashes verified"
+  ],
+  "actualBaAggregate": "FAILED_INCOMPLETE",
+  "correctedActualBrowser": "NOT_RUN",
+  "localBrowserOrBuildRerun": false,
+  "wholeProduct": "NOT_READY"
+}

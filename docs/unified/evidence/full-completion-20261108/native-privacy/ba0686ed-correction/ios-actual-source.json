@@ -1,0 +1,408 @@
+{
+  "bundleId": "de.knaba.mobile",
+  "version": "0.5.0",
+  "build": "8",
+  "inputSha256": "663495e98c86ee927c8ffb8dd7fd8b92b34e917d281f264bb36ff896ff6e1bd1",
+  "buildInputs": [
+    {
+      "path": ".github/workflows/ios.yml",
+      "sha256": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a",
+      "bytes": 5859,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Info.plist",
+      "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014",
+      "bytes": 1790,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+      "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104",
+      "bytes": 1393,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+      "sha256": "f0a9a808a0ea172bd66d9efc082d8c9fafaf9faf634ac0c70a30e9922dae5fad",
+      "bytes": 179006,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "sha256": "00429b107c2d7024b48e438c738a5aff67ef19d90b4c3ea83f5af6d3f7a60b53",
+      "bytes": 203,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/Assets.xcassets/Contents.json",
+      "sha256": "048709310c61ace645f1d9bdf81ebea3c82bdd32cf670f1e70a183c9d6578adb",
+      "bytes": 60,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+      "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21",
+      "bytes": 846,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+      "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042",
+      "bytes": 821,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+      "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c",
+      "bytes": 865,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+      "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b",
+      "bytes": 920,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+      "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1",
+      "bytes": 1478,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+      "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553",
+      "bytes": 1381,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/AppModel.swift",
+      "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868",
+      "bytes": 8546,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPActionLabels.swift",
+      "sha256": "1a0443105ed1213c78fd19f948ecbf8fa8a9e52b8b7555a3d9494f0521af2283",
+      "bytes": 4622,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "815ee7a1277bea212879d32c829803067913208b6d70a808253a23cd6b9c4d50",
+      "bytes": 59676,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "b06536a1ecfce7ce6acab0080a948e6b7a39db2efab0370a624d6680c27fc611",
+      "bytes": 16188,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "628f177f148121663f6952652501e3450022db5363d530ef251070ce5f3db21d",
+      "bytes": 51387,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+      "sha256": "92a1d8d98e064a6b303d9c07e785dba6cf2d674ea068eaa1930820ece9eec374",
+      "bytes": 17582,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationAuthSession.swift",
+      "sha256": "1a78dc9651f9691a66723b9b7814beb831db03c416303b1fd969c9cfa78caf22",
+      "bytes": 5256,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationControls.swift",
+      "sha256": "dd10c9960b9137583ebc77f3141e9dfcca458371c4bb25b27827297d963d3602",
+      "bytes": 3415,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationLogin.swift",
+      "sha256": "cf682318b387643aa6ed67b4bf28c17a2fc4fb3b41ba287e227ced7fcde578b7",
+      "bytes": 18697,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPFederationStrings.swift",
+      "sha256": "5a52bf57c4e08b5146cf4ce7ec1806617f30b4e07463f1230bc521d6235c4590",
+      "bytes": 12754,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMedia.swift",
+      "sha256": "e45d11ec0dc475c9ddf20103e94bcbfbfc1ebe1f5fa9da10cfb6ac52a8ff5e21",
+      "bytes": 18370,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaJournal.swift",
+      "sha256": "fb41149fbd9a7f6a579b34bb39fb6d8ab8cd67555ed89c1c7f7bac8b36b5ee82",
+      "bytes": 7660,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaModel.swift",
+      "sha256": "83eeb9de416ebb2d4e1b51ae5c8eaa6a99eff24f277f20e84b7abda32230a54e",
+      "bytes": 14355,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaStrings.swift",
+      "sha256": "c863c641c88e6c66034a6a98dd1d32862a684368917d73be19559901c28904d8",
+      "bytes": 29049,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPMediaView.swift",
+      "sha256": "892b676ddf2e0c98170e0f38cb83cb3eb0c1da862cf55da2b4ed31e09ee24969",
+      "bytes": 21883,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPRecordActions.swift",
+      "sha256": "50641d2fa35b2b5cec004dcbc3b20f0d06790fc851432ca62f6cf0432048b0b0",
+      "bytes": 6411,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "97ef06a6fe17c3b581fd150a73800363e01fcfa973650c8b1f620d98e0bec718",
+      "bytes": 43665,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+      "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a",
+      "bytes": 8159,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift",
+      "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61",
+      "bytes": 12689,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/Models.swift",
+      "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9",
+      "bytes": 8671,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeAPI.swift",
+      "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc",
+      "bytes": 5838,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+      "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16",
+      "bytes": 35926,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+      "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0",
+      "bytes": 3013,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/SecureStore.swift",
+      "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07",
+      "bytes": 9238,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+      "sha256": "9453602097983cd7b7f5de007fcf5690f783745d3bf09a1552ff685ea29cef6c",
+      "bytes": 10296,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+      "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662",
+      "bytes": 11002,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55",
+      "bytes": 3847,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+      "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659",
+      "bytes": 27478,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+      "sha256": "f41ea53b4e6f2cce803aa3e44787791601b6dddd1a3b17c164ef2f9861a62652",
+      "bytes": 14292,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationBrowserTests.swift",
+      "sha256": "d8bcc5a2cb6f0d9e96622b8aa0fd6be06b805afc4af32732b98bfd3f192dd392",
+      "bytes": 6231,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationModelTests.swift",
+      "sha256": "e2dfcc53ba6d8ad995f9118724184db2ba5dda8b207d59d1ca39d80cdf1c0384",
+      "bytes": 25385,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationPolicyTests.swift",
+      "sha256": "69f3407969fcff3b3a570f1c48f36e43d1166d5b3504f105a07b2efbb4823fbb",
+      "bytes": 13714,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTestSupport.swift",
+      "sha256": "534fa0cf7405174928708aafcf71758b93666f208727a6ad173d1a79b971934d",
+      "bytes": 9909,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationTransportTests.swift",
+      "sha256": "b0e8f0111df5a6a61118e0c76db4d2a0382b8e0c7735b02f8d7e6cb1bb5f2893",
+      "bytes": 21529,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPFederationURLSessionTests.swift",
+      "sha256": "7a53decbb7e7a88512051c728f440da8e217af1a4aed35bd9e353eadaaacebc6",
+      "bytes": 3619,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaJournalTests.swift",
+      "sha256": "24015452700571358bd47cff79454bb3d181ff716c1ba38bfebba75a4ffd9937",
+      "bytes": 7627,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaModelTests.swift",
+      "sha256": "ef7e9569c49ab28acf87f671e0c6118568021da8208fa03d8ea111e19f676e4c",
+      "bytes": 13500,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaPolicyTests.swift",
+      "sha256": "0c537895f0750d8d652dcad0c7b92aded48493af7a88fc4459a1cfedca85b0ec",
+      "bytes": 8242,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaRecoveryBoundaryTests.swift",
+      "sha256": "028fa2c794fe3bd0b73fb3f6de5b914847f46f26f8a95a66a1db9d5fbcef5582",
+      "bytes": 5199,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTestSupport.swift",
+      "sha256": "f2a87213882c69bb635dbd4b3f43f452107929052ac401a5edf0d84bca30decf",
+      "bytes": 11360,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPMediaTransportTests.swift",
+      "sha256": "958c1f42bc8c2cd861229bacdbb3682e6d4a24e9e7e0be2bf8b9322eb137525e",
+      "bytes": 20024,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPRecordActionModelTests.swift",
+      "sha256": "8fc45917da622278c9883746f8180636e2a44a3eee0f03f838d7f4ddd8b7ad0f",
+      "bytes": 16919,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPRecordActionsTests.swift",
+      "sha256": "344f5cb4982e4f88815eea252ff749a5af00a9123ab845be8eaabfbbbfc363e8",
+      "bytes": 9841,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+      "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c",
+      "bytes": 9703,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/NativeTests.swift",
+      "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c",
+      "bytes": 7834,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "sha256": "eff477685501e388bf0ef736c58b55c21316133ed972d1ff5c71cb8f6042d38f",
+      "bytes": 1601,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/archive-release.sh",
+      "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8",
+      "bytes": 3682,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "sha256": "36455f3eb9aa0465fe43b8f2b11fc7b4cd61f14ab86e197d2266168d88846931",
+      "bytes": 2750,
+      "mode": "0755"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/distribution.py",
+      "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8",
+      "bytes": 20641,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+      "sha256": "37290b64c5bfb5c00596a0f772d064bbc127569ecfcf763c13426d87e038dbc3",
+      "bytes": 8223,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/test-federation-config.py",
+      "sha256": "b47845f26b58d1c0acf4673609f37fc3433119e2381a04665e255d82bd3261d9",
+      "bytes": 3874,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/verify-federation-config.py",
+      "sha256": "dded3494ffe893e145780d9bfb2f5f70375d8378ffcf9905139b207cdd54ba4b",
+      "bytes": 4469,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/tests/native-vectors.json",
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+      "bytes": 4538,
+      "mode": "0644"
+    },
+    {
+      "path": "scripts/mobile/package-ios-source.py",
+      "sha256": "1c8ad6edc56228e7a37ee613ccf9ccdc4a9fef6cd0784c02a9817c620cf6b377",
+      "bytes": 5547,
+      "mode": "0644"
+    }
+  ],
+  "sourceGitSha": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "sourceGitTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "sourceWorkingTree": false,
+  "provenance": "GIT_WORKTREE"
+}

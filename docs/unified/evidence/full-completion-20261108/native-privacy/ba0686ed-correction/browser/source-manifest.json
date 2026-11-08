@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "preparedAtUtc": "2026-11-08T20:21:20.088657+00:00",
+  "author": "/root/mobile_actual_readiness",
+  "verdict": "FIXTURE_SOURCE_CORRECTION_FROZEN_COLLECTION_AND_NARROW_TYPES_PASS_BROWSER_NOT_RUN",
+  "baseSource": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "baseTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-privacy-browser-correction",
+  "detached": true,
+  "sourceCommitCreated": false,
+  "sourceScope": [
+    "erp/tests/privacy-projection-ui.spec.ts"
+  ],
+  "sourceSha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73",
+  "basePreimageSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+  "diffSha256": "a1ad169c0fcf91060089076e2bf118419073d2fcef33b907d62431fa8bcf3299",
+  "changedLines": {
+    "removed": 4,
+    "added": 4
+  },
+  "changes": [
+    "Two exact wrapped-label lookups use the observed combobox accessible name and existing locale keys.",
+    "Two literal Preview lookups use the existing preview translator key; English renders Review change."
+  ],
+  "preserved": [
+    "All 11 privacy test titles and assertions/matchers; only the four specified locator expressions changed.",
+    "All other 19 selected test sources and titles.",
+    "Production UI, API, browser runner, workflows, package/lock files, timeouts, sandbox settings, V3 and V4 specifications."
+  ],
+  "validation": {
+    "collection": {
+      "status": "PASS",
+      "selectedTests": 30,
+      "privacyTests": 11,
+      "files": 4,
+      "bodiesExecuted": false
+    },
+    "typecheck": {
+      "status": "PASS",
+      "scope": "One changed fixture plus its TypeScript-imported dependencies; repository compiler options inherited.",
+      "exitCode": 0
+    },
+    "sourceEquivalence": {
+      "status": "PASS",
+      "method": "Exact four approved replacements, complete Git diff, AST title comparison and unchanged dependency bindings."
+    },
+    "browser": {
+      "status": "NOT_RUN",
+      "reason": "No local browser execution authorized; a new exact-source CI run is required."
+    },
+    "aggregateBa0686ed": {
+      "status": "FAILED_INCOMPLETE",
+      "resultJsonBytes": 0,
+      "reason": "CHILD_PROCESS_TIMEOUT; partial reporter markers are not an aggregate acceptance."
+    }
+  },
+  "diagnosis": {
+    "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/review.json",
+    "bytes": 12880,
+    "sha256": "a4ce95be993b72d8c255dad3dda56e47855005e1854ff117889c595258afe800"
+  },
+  "proposal": {
+    "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/proposed-fixture.patch",
+    "bytes": 3786,
+    "sha256": "9f749737b85747c616ebaf22f05db455ffb0207dd6dbc1e525fa0595806f6f73"
+  },
+  "actualFailureArtifact": {
+    "path": "verification/native-privacy-actual-ba0686ed/browser-artifact.zip",
+    "bytes": 13006577,
+    "sha256": "072316db8dd653a2e8fdda125efd749a0098b14e87631d514ee5f407ee3fb3ac"
+  },
+  "sourceBindings": [
+    {
+      "path": "erp/tests/conversation-transfer-ui.spec.ts",
+      "baseGitBlob": "9e26e5ec40d9ed012765e88710b5164a9b5b1674",
+      "baseSha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "currentSha256": "2eb33ae7942ffc63065a6830b2139c12d2788b612e9f2166612ef7ba4141f548",
+      "unchanged": true
+    },
+    {
+      "path": "erp/tests/site-identity-link-ui.spec.ts",
+      "baseGitBlob": "619f5a38a1b1a17a8a281c5409afdfb6ad3a2760",
+      "baseSha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "currentSha256": "2e06192d426b30125bee3189221274d41ba353f91290e55cdc0951d2cc39917c",
+      "unchanged": true
+    },
+    {
+      "path": "erp/tests/federation-login-ui.spec.ts",
+      "baseGitBlob": "fb0d9974fc89a1b47f8949c4b5a225b8af6b73ce",
+      "baseSha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4",
+      "currentSha256": "0ca3f354cd1f019bdb63e7f55e70a9c117d92e70408fe2477141f9118417f7a4",
+      "unchanged": true
+    },
+    {
+      "path": "erp/tests/privacy-projection-ui.spec.ts",
+      "baseGitBlob": "6a57cc8039f8f616258412c3b050b9c67ce6936d",
+      "baseSha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c",
+      "currentSha256": "119c96c10e98b2ab07721050408182f76d8afefe67bda87e9c75a5dc62fa5b73",
+      "unchanged": false
+    },
+    {
+      "path": "erp/playwright.config.ts",
+      "baseGitBlob": "761c14412683d6c99a5d527276d2dce8939e30be",
+      "baseSha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+      "currentSha256": "29aac14312cd2ed6042d787cff0c2d53328473741e453e87af927b55cb96814e",
+      "unchanged": true
+    },
+    {
+      "path": "erp/tsconfig.json",
+      "baseGitBlob": "b7104544adeb8c72eacfc13830b0d29503222199",
+      "baseSha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb",
+      "currentSha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb",
+      "unchanged": true
+    },
+    {
+      "path": "erp/package.json",
+      "baseGitBlob": "5f258f8ad5ee597a209c09919e1c2d43b3a5c74c",
+      "baseSha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58",
+      "currentSha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58",
+      "unchanged": true
+    },
+    {
+      "path": "erp/package-lock.json",
+      "baseGitBlob": "5c2dacdd262606ee8cca769bf152b046b18ea348",
+      "baseSha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3",
+      "currentSha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3",
+      "unchanged": true
+    },
+    {
+      "path": "corporate-site/tests/ci-browser.mjs",
+      "baseGitBlob": "60a203e36e47259a79c4fbb5d6d2261036ef8838",
+      "baseSha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+      "currentSha256": "99d1554d045ec8642c0e51d33b20b07e44552793cb900565e21e3a3f26533c58",
+      "unchanged": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "baseGitBlob": "7d926c7fa353c796b80c08da3ac711bdbfd1fc54",
+      "baseSha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "currentSha256": "ec42ab88f99bda313a445681c0dee517fe8d2988cbf29cbed12366a1ccf9fb3f",
+      "unchanged": true
+    },
+    {
+      "path": "erp/KNABA_DE_TARGET_SPEC.md",
+      "baseGitBlob": "7ab3b044ac02b4a9f76d37c23dda6df0a0cd8979",
+      "baseSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "currentSha256": "927af5ba2a4be895b576e3eb8dae65dbb32bc82f25608e9c542351cc63960833",
+      "unchanged": true
+    },
+    {
+      "path": "erp/KNABA_DE_MASTER_SPEC.md",
+      "baseGitBlob": "d27825765ea8cf1a7f82f8b2ba2186b856cbfe71",
+      "baseSha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+      "currentSha256": "bc506661b5ee013f9948ead7ac2ff98c00fb77d3d00af1de61a2851516cdc683",
+      "unchanged": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/privacy-projection-ui.spec.preimage.ts",
+      "bytes": 22687,
+      "sha256": "621a7105b3dd26aa54edcf60379ed550bef7aa30c3c0277e7fc9b61600939f4c"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/source.patch",
+      "bytes": 4566,
+      "sha256": "a1ad169c0fcf91060089076e2bf118419073d2fcef33b907d62431fa8bcf3299"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/collection.log",
+      "bytes": 4312,
+      "sha256": "fe4f15ad789050c493d51dddf68f0b03bfe0e5122c59fe84e53562d068dcd800"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/collection-execution.json",
+      "bytes": 507,
+      "sha256": "7b698605cccc1c07a9dc4fecae8dc1d8b85d4dcdcf6bd7df7f212c1755b5756d"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/typecheck-execution.json",
+      "bytes": 452,
+      "sha256": "5269c7ec4497c2af6f5f6956f48f89cfd745e2b66054b588c9b58bf3e952ec88"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/tsconfig.json",
+      "bytes": 446,
+      "sha256": "9d5fa1254b924ff578c36a9c62c9bd37e4d07f95fa8ac37bd1ea8e27a2594d1f"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/test-title-equivalence.json",
+      "bytes": 7004,
+      "sha256": "6309578dcc92ebbf7e7e32638ce0931588e19e084a00e488e1296dff58466073"
+    },
+    {
+      "path": "verification/native-privacy-actual-ba0686ed/browser-diagnosis/correction/freeze-correction.py",
+      "bytes": 7723,
+      "sha256": "bc23669ca645d87cc9015c8172446f16aef5e919770e70532e049f607c6a06a4"
+    }
+  ],
+  "limitations": [
+    "No browser launch, application build, runtime provider call, CI run, commit or push.",
+    "Source author freeze is not independent approval; root review precedes integration.",
+    "Existing successful pair/role/language/public suites do not prove the incomplete 30-case ERP browser stage."
+  ]
+}

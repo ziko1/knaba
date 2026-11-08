@@ -1,0 +1,62 @@
+[
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > exports own revoked F1/F2/F3 history without secrets and leaves all proof/replay/tombstone rows unchanged",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > filters another user, same identifiers in another company, and same subject under a mismatched issuer/audience in SQL",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > accepts exactly 25000 source records across all groups before aggregation and rolls back 25001 without a receipt",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > fails closed for attributable malformed metadata foreign-binding without partial artifact/event/receipt",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > fails closed for attributable malformed metadata bad-client without partial artifact/event/receipt",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > fails closed for attributable malformed metadata bad-confirmed-link without partial artifact/event/receipt",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > keeps v1 receipt digests/ACK shape and bytes while unknown-ACK retries return one existing immutable artifact",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > replays an unknown v2 acknowledgement with identical artifact/checksum and never regenerates its snapshot",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > rechecks current legal expired scope before any export effect",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > rechecks current legal revoked scope before any export effect",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > rechecks current legal wrong-version scope before any export effect",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > rechecks current legal wrong-category scope before any export effect",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > never loads malformed federation metadata for v2 without PROFILE",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > denies another current user or tenant download and exposes no private attachment headers",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  },
+  {
+    "name": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority > closes an actual HTTP download when its exact original session is revoked after the private read commits",
+    "file": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction/erp/tests/privacy-federation.integration.test.ts"
+  }
+]

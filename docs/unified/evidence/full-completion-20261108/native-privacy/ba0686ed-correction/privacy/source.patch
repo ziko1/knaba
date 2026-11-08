@@ -1,0 +1,30 @@
+diff --git a/erp/tests/privacy-federation.integration.test.ts b/erp/tests/privacy-federation.integration.test.ts
+index b9e3427..d6b2e88 100644
+--- a/erp/tests/privacy-federation.integration.test.ts
++++ b/erp/tests/privacy-federation.integration.test.ts
+@@ -53,8 +53,16 @@ postgres('privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP auth
+  it('exports own revoked F1/F2/F3 history without secrets and leaves all proof/replay/tombstone rows unchanged',async()=>{
+   const f=await fixture(),pending=await f.prepare(),confirmed=await f.confirm(pending);expect(confirmed.status).toBe(200);const childToken=responseCookie(confirmed,'knaba_session')!;
+   expect((await f.web('/api/v1/auth/logout',{},'knaba_session='+childToken,csrfFor(childToken))).status).toBe(201);
++  const storedSourceSession=async()=>(await db.query(`SELECT state,version,epoch,expires_at AS "expiresAt",expires_at>clock_timestamp() AS unexpired
++   FROM site_federation_sessions WHERE company_id=$1 AND authority_id=$2 AND subject=$3 AND session_ref=$4`,[f.company,f.config.authorityId,f.source.subject,f.source.sessionRef])).rows;
++  const sourceBeforeFence=await storedSourceSession();expect(sourceBeforeFence).toHaveLength(1);
++  expect(sourceBeforeFence[0]).toMatchObject({state:'ACTIVE',version:1,epoch:1,unexpired:true});expect(sourceBeforeFence[0].expiresAt.toISOString()).toBe(f.source.sessionExpiresAt);
+   const confirmedLink=await seedChallenge(f,'CONFIRMED','erp-user',f.binding.id),claimedLink=await seedChallenge(f,'CLAIMED');
+   expect((await f.authority('FENCE',{subject:f.source.subject,scope:'PRINCIPAL',throughEpoch:1,nextEpoch:2,intentHash:h('privacy-fixture-fence')})).status).toBe(200);
++  // Principal high-water fencing denies current authority without rewriting stored session facts.
++  expect(await storedSourceSession()).toEqual(sourceBeforeFence);
++  expect((await f.fence()).status).toBe(200);
++  expect(await storedSourceSession()).toEqual([{...sourceBeforeFence[0],state:'REVOKED',version:2}]);
+   await db.transaction(f.company,'erp-user',tx=>f.bindings.revokeIn(tx,f.binding.id,1));
+   const anonymous=await seedLogin(f,null),request=await approved(f),before=await proofSnapshot(f),sourceCalls=f.source.calls;
+   const auditBefore=(await db.query('SELECT id,actor_id,action,detail,created_at FROM audit_log WHERE company_id=$1 ORDER BY id',[f.company])).rows;
+@@ -62,7 +70,7 @@ postgres('privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP auth
+   expect(ack.projectionVersion).toBe(v2);expect(m.bindings).toHaveLength(1);expect(m.bindings[0]).toMatchObject({bindingId:f.binding.id,sourceSubject:f.source.subject,storedStatus:'REVOKED',version:2});
+   expect(m.linkAttempts.map((r:Data)=>r.attemptId).sort()).toEqual([confirmedLink,claimedLink].sort());expect(m.linkAttempts.find((r:Data)=>r.attemptId===claimedLink)).not.toHaveProperty('bindingId');
+   expect(m.loginAttempts.map((r:Data)=>r.requestId)).toEqual([pending.id]);expect(m.derivedSessions).toHaveLength(1);expect(m.derivedSessions[0]).toMatchObject({requestId:pending.id,storedState:'REVOKED'});
+-  expect(m.sourceSessionSummary[0].storedPrincipalState).toBe('FENCED');expect(m.sourceSessionSummary[0].sessionCounts.revokedUnexpired).toBe(1);
++  expect(m.sourceSessionSummary[0].storedPrincipalState).toBe('FENCED');expect(m.sourceSessionSummary[0].sessionCounts).toEqual({activeUnexpired:0,activeExpired:0,revokedUnexpired:1,revokedExpired:0,revokedUnknownExpiry:0});
+   const response=await download(f,ack.exportId);expect(response.status).toBe(200);expect(response.headers.get('cache-control')).toBe('private, no-store');expect(response.headers.get('content-type')).toContain('application/json');
+   const bytes=Buffer.from(await response.arrayBuffer()),json=bytes.toString();expect(h(json)).toBe(ack.sha256);expect(bytes.length).toBe(ack.byteSize);
+   for(const secret of [childToken,childToken.slice(4),f.sessions.own.token,hashToken(f.sessions.own.token),f.source.sessionRef,f.source.securityFingerprint,anonymous,'CANARY',h('PRIVATE_CREDENTIAL_CANARY'),h('PRIVATE_CONFIG_CANARY')])expect(json).not.toContain(secret);

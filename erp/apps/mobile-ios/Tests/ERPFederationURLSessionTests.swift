@@ -50,6 +50,9 @@ final class ERPFederationURLSessionTests: XCTestCase {
         let result = try await transport(FederationOversizeProtocol.self).federationData(for: request)
         XCTAssertNil(result.body); XCTAssertEqual(result.response.expectedContentLength, 65537)
         XCTAssertEqual(ERPURLSessionTransport.maximumResponseBytes, 2 * 1024 * 1024)
-        XCTAssertEqual(ERPPendingCommand.maximumBodyBytes, 64 * 1024)
+        XCTAssertEqual(ERPFederationPolicy.maximumJSON, 64 * 1024)
+        XCTAssertEqual(ERPPendingCommand.maximumInputBytes, 64 * 1024)
+        // The existing envelope cap also allows the idempotency/version metadata.
+        XCTAssertEqual(ERPPendingCommand.maximumBodyBytes, 70_000)
     }
 }

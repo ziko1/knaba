@@ -158,3 +158,9 @@ Whole product NOT_READY;72 V4/475 V3 whole criteria та historical evidence н�
 Native F3 TEST adapters і privacy v2 прийняті source-scoped та інтегровані. Next acceptance gate — новий clean committed aggregate: actual PG15 privacy, rendered30, Android81/package та iOS210 XCTest/simulator. Local source/portable checks не закривають цей gate. [Exact preparation evidence](../docs/unified/NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
 
 Після gate: default-off push foundation/actual native lifecycle і scoped Zod remediation; full compound AC, physical device, provider/legal/UAT/load/restore/production acceptance залишаються окремими вимогами.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

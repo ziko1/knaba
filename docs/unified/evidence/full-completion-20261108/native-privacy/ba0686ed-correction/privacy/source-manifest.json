@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "preparedAtUtc": "2026-11-08T20:10:32.609117+00:00",
+  "status": "FROZEN_TEST_ONLY_CORRECTION_READY_FOR_INDEPENDENT_REVIEW",
+  "worktree": "/workspace/scratch/c56161c95e04/knaba-privacy-pg-correction",
+  "branch": "fix/knaba-privacy-pg-fixture-20261108",
+  "baseCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "baseTree": "647fd49b4efe53578d9b3c4831ef5a895eb865df",
+  "sourceFiles": [
+    {
+      "path": "erp/tests/privacy-federation.integration.test.ts",
+      "bytes": 23549,
+      "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e",
+      "preimageSha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d"
+    }
+  ],
+  "sourceDigest": "a5170c320477c7cbbeb5b03522f4d0b680053fd303d218ec6cdea56c7931490b",
+  "preimage": {
+    "path": "verification/privacy-v2/corrective-ba0686ed/preimage/erp/tests/privacy-federation.integration.test.ts",
+    "bytes": 22543,
+    "sha256": "4f6868e53aa1729100782283a4048027fb7b5e73d6417600106ea8dd13b2f36d"
+  },
+  "frozenCopy": {
+    "path": "verification/privacy-v2/corrective-ba0686ed/frozen/erp/tests/privacy-federation.integration.test.ts",
+    "bytes": 23549,
+    "sha256": "acb1ca30cf48b290874801005236b017f55bdcccb59cca69260c9df3b8c21d3e"
+  },
+  "unchangedRuntimeInputs": [
+    {
+      "path": "erp/apps/api/site-federation-ledger.ts",
+      "bytes": 18836,
+      "sha256": "f0fbb4bd4b8bbd1741b0620e610cc7c9bb0b89771e631ef96fd5db6f3d7306d8",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/packages/domain/site-federation-ledger.ts",
+      "bytes": 6477,
+      "sha256": "7ee32e1a4dbf683086263eeb9d9c12fa87868a3e77b153e83ae25b52926ea3ba",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/apps/api/site-federated-sessions.ts",
+      "bytes": 15202,
+      "sha256": "1437dd01e835738eea394a3b3522828823208a9d8786122e1b2daa7796249a00",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/apps/api/privacy-federation.ts",
+      "bytes": 6846,
+      "sha256": "db0b63fcde43533c6fcf6e21a51b926df3557abd1e69953a84383c75dcc812f8",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/packages/domain/privacy-federation.ts",
+      "bytes": 8892,
+      "sha256": "724ce4db4fd258483511dd6aa2382852b966755ef4fbde7c6287d9c738b8d4ff",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "erp/tests/fixtures/site-federation-login-pg.ts",
+      "bytes": 12595,
+      "sha256": "0a7e1e8b7929cf67c09d97bcfe800c5b843eb8cf4eb6561c504ef9d104642246",
+      "unchangedFromBase": true
+    }
+  ],
+  "initialActualFailure": {
+    "runId": 42517324475,
+    "jobId": 128843103865,
+    "rawVitest": {
+      "path": "verification/native-privacy-actual-ba0686ed/erp-artifact/erp-vitest.json",
+      "bytes": 1456454,
+      "sha256": "0a5849cfc38d2c393b6af3786b3a5ff3867febac2fb52925b1b425bae3286920"
+    },
+    "assertions": {
+      "total": 3341,
+      "passed": 3340,
+      "failed": 1,
+      "pending": 0
+    },
+    "privacyPg": {
+      "total": 15,
+      "passed": 14,
+      "failed": 1
+    },
+    "line": 65,
+    "expectedRevokedUnexpired": 1,
+    "actualRevokedUnexpired": 0,
+    "downstreamOfFailureNotExecuted": true
+  },
+  "correction": "Only fixture setup: inspect stored ACTIVE/future expiry before and after PRINCIPAL FENCE, explicit existing signed SESSION FENCE, inspect REVOKED/version2/same expiry, exact five export buckets. No runtime/projection/helper edits.",
+  "preservation": {
+    "all15TitlesUnchangedFromActualCI": true,
+    "allAssertionsAfterFailureAndAllOtherCasesByteIdentical": true,
+    "runtimeChanged": false,
+    "mainWorktreeEdited": false
+  },
+  "checks": [
+    {
+      "name": "TypeScript",
+      "command": "./node_modules/.bin/tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "name": "Diff whitespace",
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "name": "Collection only",
+      "command": "APP_MODE=TEST DATABASE_URL=postgresql://127.0.0.1:1/collection_only vitest list tests/privacy-federation.integration.test.ts --json --no-cache",
+      "exitCode": 0,
+      "count": 15,
+      "hooksExecuted": false,
+      "postgresExecuted": false
+    },
+    {
+      "name": "Pure storage contract witness",
+      "command": "node --import tsx read-only-storage-probe.mjs",
+      "exitCode": 0,
+      "scope": "Actual pure domain functions with synthetic rows; not SQL/HTTP acceptance",
+      "sourceMatchesBase": true
+    }
+  ],
+  "initialLocalDiagnostics": [
+    {
+      "name": "Collection without DATABASE_URL",
+      "exitCode": 0,
+      "collected": 0,
+      "reason": "Suite intentionally describe.skip without DB; original output retained"
+    },
+    {
+      "name": "Initial collection summary inspection",
+      "exitCode": 1,
+      "reason": "IndexError from reading first element of empty collection; inspection script only, not product/test failure"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/diagnosis.md",
+      "bytes": 5501,
+      "sha256": "6052f87131b835fda92513a5d83dc0903b329e9a1a4a1883fe16fd59711b66c4"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/initial-failure.json",
+      "bytes": 1540,
+      "sha256": "39771a17eaa6066d45832dfa5d7aed39d61a32d35bdf31ddff06ee8d5847f7a8"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/read-only-storage-probe.mjs",
+      "bytes": 3426,
+      "sha256": "90c2fb75ac0a835f5502fcea9cb10fb81cefc92f006c8e92500de9b1c62fd86d"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/read-only-storage-probe.log",
+      "bytes": 914,
+      "sha256": "8c5bea5f8155bb8f50779008294e1f317f4f394d6946b55af7a60a745ad0227a"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/collection-initial-no-database.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/collection-initial-no-database.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/collection.json",
+      "bytes": 4761,
+      "sha256": "fe5b1c5aa99378216aca272f1e91051677933449c6dd0dbfc3ee9caab8bd5f12"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/collection.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/diff-check.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "verification/privacy-v2/corrective-ba0686ed/source.patch",
+      "bytes": 4117,
+      "sha256": "1f7dd7df985f0bf3ac4bb0689978f75269aa121343e9cdc207e592b410d49b3c"
+    }
+  ],
+  "correctedActualPostgreSQL": "NOT_RUN_LOCALLY",
+  "commitPushCIProviderInstall": false,
+  "next": "Independent one-file review, then root-owned exact candidate acceptance"
+}

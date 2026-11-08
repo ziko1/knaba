@@ -274,3 +274,9 @@ Next ordered work: separately reviewed TEST-only Android/iOS F3 session adoption
 TEST-only Android/iOS F3 adapters та versioned privacy v2 backend/UI інтегровано після незалежного source review. Android local81/0skip і lint0 errors; iOS portable8 PASS,65 нових XCTest лише authored. [Exact source/evidence scope](NATIVE_F3_PRIVACY_SOURCE_CHECKPOINT_2026-11-08_UK.md).
 
 Actual new candidate gate: required repository jobs, privacy PG15, rendered30 (privacy11 + preserved19), Android package/tests, iOS210 XCTest/simulator. До цього не підвищувати runtime, device, production або whole-compound acceptance. Далі — reviewed default-off native push та окреме рішення щодо Zod; зовнішні gates залишаються відкритими.
+
+
+### 2026-11-08 — native/privacy actual ba0686ed та три reviewed test corrections
+
+Actual ba0686ed aggregate FAILED: ERP3340/3341 (privacy PG14/15), paired runtime26 PASS, ERP browser30 inventory incomplete через4 retained locator timeouts; site role111/language32/public24 PASS. Android CI81 PASS, lint0errors/23warnings; same-signer local81 PASS, lint0/20 і independent artifact review. iOS Debug build SUCCEEDED,209/210 XCTest PASS (145 baseline +64 federation), final success artifact/install/launch NOT_RUN.
+Reviewed correction змінює лише3 test files: explicit SESSION fence fixture; accessible/localized browser locators; historic iOS input65536/envelope70000 distinction. Runtime/API/UI/schema/workflows/limits незмінні. Corrected PG/browser/XCTest acceptance ще NOT_RUN; наступний bounded exact-source CI обов'язковий. Див. NATIVE_PRIVACY_CI_CORRECTIONS_2026-11-08_UK.md та preparation evidence. Source fixes не закривають whole AC або device/live gates; whole product NOT_READY.

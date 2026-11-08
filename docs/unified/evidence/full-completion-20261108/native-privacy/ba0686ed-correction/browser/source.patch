@@ -1,0 +1,34 @@
+diff --git a/erp/tests/privacy-projection-ui.spec.ts b/erp/tests/privacy-projection-ui.spec.ts
+index 6a57cc8..856e443 100644
+--- a/erp/tests/privacy-projection-ui.spec.ts
++++ b/erp/tests/privacy-projection-ui.spec.ts
+@@ -102,9 +102,9 @@ async function fixture(page:Page,{legacy=false,requests=[] as Entity[],exports=[
+ }
+ async function newRequest(page:Page,version=v2,reason='Synthetic request reason'){
+  await page.locator('.privacy-page').getByRole('button',{name:'New request',exact:true}).click();const dialog=page.getByRole('dialog',{name:'New request',exact:true});
+- await dialog.getByLabel('Export contents',{exact:true}).selectOption(version);await dialog.locator('#privacy-reason').fill(reason);return dialog;
++ await dialog.getByRole('combobox',{name:en('privacyProjectionChoice'),exact:true}).selectOption(version);await dialog.locator('#privacy-reason').fill(reason);return dialog;
+ }
+-async function preview(dialog:Locator){await dialog.getByRole('button',{name:'Preview',exact:true}).click();}
++async function preview(dialog:Locator){await dialog.getByRole('button',{name:en('preview'),exact:true}).click();}
+ async function openExport(page:Page){await page.locator('.privacy-page').getByRole('button',{name:'Prepare export',exact:true}).click();return page.getByRole('dialog',{name:'Prepare export',exact:true});}
+ async function frames(page:Page){await page.evaluate(()=>new Promise<void>(done=>requestAnimationFrame(()=>requestAnimationFrame(()=>done()))));}
+ const en=translator('EN');
+@@ -131,7 +131,7 @@ test('Privacy HTTP fixture: unknown request acknowledgement retries the identica
+ test('Privacy HTTP fixture: catalog downgrade blocks the reviewed version until an explicit new choice',async({page})=>{
+  const f=await fixture(page),dialog=await newRequest(page);await preview(dialog);f.downgrade();await dialog.getByRole('button',{name:en('submit'),exact:true}).click();
+  await expect(dialog.getByRole('alert')).toContainText(en('privacyBlock_PRIVACY_PROJECTION_UNAVAILABLE'));expect(f.calls).toHaveLength(0);await dialog.getByRole('button',{name:en('back'),exact:true}).click();
+- await expect(dialog.locator('#privacy-projection')).toHaveValue(v2);await expect(dialog.locator('#privacy-projection option[value="'+v2+'"]')).toBeDisabled();await expect(dialog.getByRole('button',{name:'Preview',exact:true})).toBeDisabled();
++ await expect(dialog.locator('#privacy-projection')).toHaveValue(v2);await expect(dialog.locator('#privacy-projection option[value="'+v2+'"]')).toBeDisabled();await expect(dialog.getByRole('button',{name:en('preview'),exact:true})).toBeDisabled();
+  await dialog.locator('#privacy-projection').selectOption(v1);await preview(dialog);await dialog.getByRole('button',{name:en('submit'),exact:true}).click();await expect(dialog).toContainText('Request recorded');expect(f.calls).toHaveLength(1);expect(f.calls[0].body.input).not.toHaveProperty('projectionVersion');
+ });
+ test('Privacy HTTP fixture: lost export acknowledgement keeps one key and shows a download only after matching ACK',async({page})=>{
+@@ -171,7 +171,7 @@ test('Privacy HTTP fixture: all six localized scopes remain readable in a narrow
+  const f=await fixture(page);
+  for(const language of ['DE','UK','RU','PL','LT','EN'] as Language[]){
+   const t=translator(language);await page.setViewportSize({width:1440,height:1000});await page.locator('.topbar .language-select select').selectOption(language);
+-  await page.locator('.privacy-page').getByRole('button',{name:t('privacyNewRequest'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('privacyNewRequest'),exact:true});await dialog.getByLabel(t('privacyProjectionChoice'),{exact:true}).selectOption(v2);
++  await page.locator('.privacy-page').getByRole('button',{name:t('privacyNewRequest'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('privacyNewRequest'),exact:true});await dialog.getByRole('combobox',{name:t('privacyProjectionChoice'),exact:true}).selectOption(v2);
+   await page.setViewportSize({width:390,height:844});await expect(dialog).toContainText(t('privacyProjectionExtendedScope'));await expect(dialog).toContainText(t('privacyProjectionOmissions'));await expect(dialog.locator('#privacy-reason')).toHaveAccessibleName(new RegExp(t('reason')));
+   expect(await dialog.evaluate(element=>element.scrollWidth<=element.clientWidth+1)).toBe(true);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1)).toBe(true);
+   await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);

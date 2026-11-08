@@ -1,0 +1,34 @@
+{
+  "sourceCommit": "ba0686ed19bd6abc9c18d307e5df178cb52e6e14",
+  "runId": 42517324475,
+  "jobId": 128843103865,
+  "rawVitest": {
+    "path": "verification/native-privacy-actual-ba0686ed/erp-artifact/erp-vitest.json",
+    "sha256": "0a5849cfc38d2c393b6af3786b3a5ff3867febac2fb52925b1b425bae3286920"
+  },
+  "counts": {
+    "numTotalTests": 3341,
+    "numPassedTests": 3340,
+    "numFailedTests": 1,
+    "numPendingTests": 0
+  },
+  "failedAssertions": [
+    {
+      "file": "/home/runner/work/knaba/knaba/erp/tests/privacy-federation.integration.test.ts",
+      "assertion": {
+        "ancestorTitles": [
+          "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority"
+        ],
+        "fullName": "privacy v2 actual PostgreSQL ownership, atomic artifacts and HTTP authority exports own revoked F1/F2/F3 history without secrets and leaves all proof/replay/tombstone rows unchanged",
+        "status": "failed",
+        "title": "exports own revoked F1/F2/F3 history without secrets and leaves all proof/replay/tombstone rows unchanged",
+        "duration": 405.117644,
+        "failureMessages": [
+          "AssertionError: expected +0 to be 1 // Object.is equality\n    at /home/runner/work/knaba/knaba/erp/tests/privacy-federation.integration.test.ts:65:138\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at file:///home/runner/work/knaba/knaba/erp/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "meta": {},
+        "tags": []
+      }
+    }
+  ]
+}
