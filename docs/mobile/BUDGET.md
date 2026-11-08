@@ -25,3 +25,12 @@ Status: amount/credits **UNKNOWN**, no new paid vendor activation authorized. Ex
 ## 2026-11-07 test-candidate execution
 
 Current isolated workspace: 8 GiB RAM limit, 8 CPU quota, about 59 GiB initially free disk. Reused connected GitHub reads and existing workspace runtime; downloaded pinned Android SDK36, build-tools35.0.0, Gradle8.13, Temurin17 and test dependencies from their official distribution sources. No new cloud provider, CI runner, paid API, store or production service activated. Monetary runtime balance remains UNKNOWN; no external monetary reservation/spend claimed.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Виконано рівно **2 native candidate runs**: initial `42492663468` на `2eb6a777…` і один corrective `42494336965` на `55b4231c870c2f302548381294967edfbe380db7` після незалежно виявленого дефекту локалізації ролей. Штатні push + pull_request triggers дали **4 repository executions**: `42492594669`, `42492663676`, `42494332783`, `42494336968`. Незмінених manual reruns не було; чинні standard `ubuntu-24.04` / `macos-15`, deadlines та one-day artifact retention збережені.
+
+Нова paid service activation, larger runner, store upload або live provider send не виконувалися. Actual billing/account/model credit balances і фактичне списання **UNKNOWN / не перевірені**; ці факти не підміняються сумою резерву для standard public runners. У цьому завершенні працювали `/root`, `/root/scope_matrix` та `/root/native_artifact_review`; попередні невдалі worker attempts залишають свою історію.
+
+[Єдиний final verification record](../unified/evidence/release-continuation-20261108/final-verification.json) містить exact source/artifact/CI bindings і розмежування тестів. Full client-handoff — HOLD; paid/provider/device/distribution gates цим бюджетним checkpoint не відкриваються. Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.

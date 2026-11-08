@@ -1,0 +1,458 @@
+{
+  "schema_version": 1,
+  "project_id": "KNABA_DE",
+  "release": "0.5.2-build9",
+  "goal": "client-handoff",
+  "recorded_at": "2026-11-08T15:46:11.654854+00:00",
+  "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+  "source_tree_sha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+  "source_branch": "feat/knaba-release-continuation-20261108",
+  "pull_request": "https://github.com/ziko1/knaba/pull/137",
+  "status": "BOUNDED_TECHNICAL_SCOPE_VERIFIED",
+  "release_decision": "HOLD",
+  "client_handoff_acceptance": "BLOCKED",
+  "product_status": "NOT_READY",
+  "documentation_scope": {
+    "docs_only_checkpoint": true,
+    "runtime_build_inputs_changed_by_this_checkpoint": false,
+    "tested_source_remains": "55b4231c870c2f302548381294967edfbe380db7",
+    "future_documentation_head_will_differ": true,
+    "rule": "A later documentation commit is not a rebuilt/tested application source. Keep artifact and runtime provenance pinned to the tested source above."
+  },
+  "pre_ci_history": {
+    "phase": "HISTORICAL_LOCAL_SUBSETS_BEFORE_HOSTED_VERIFICATION",
+    "record": {
+      "branch": "feat/knaba-release-continuation-20261108",
+      "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+      "version": "0.5.2",
+      "build": 9,
+      "status": "SOURCE_IMPLEMENTED_LOCAL_VERIFIED_HOSTED_PENDING",
+      "runtimeChecks": {
+        "passed": 293,
+        "sqlSkipped": 2,
+        "compiledEntrypointCases": 49,
+        "typecheck": "PASS",
+        "baselineDefectCases": 4
+      },
+      "recoveryChecks": {
+        "localSQLiteHttpCompatibility": 109,
+        "failed": 0,
+        "skipped": 0,
+        "postgresBridge": "NOT_RUN"
+      },
+      "nativeChecks": {
+        "catalogMutationCases": 6,
+        "rootTests": 36,
+        "newNativeBuilds": "NOT_RUN"
+      },
+      "productStatus": "NOT_READY",
+      "physicalDevices": "NOT_RUN",
+      "originalCriteriaPromoted": false,
+      "newPaidSpendAuthorized": false,
+      "contract": "../unified/RELEASE_CONTINUATION_2026-11-08_UK.md"
+    },
+    "rule": "293 local runtime cases with 2 SQL skips, 49 compiled-entrypoint cases, 109 local recovery cases and native NOT_RUN remain historical; do not add these overlapping subsets to final CI counts."
+  },
+  "ci": {
+    "repository_run": 42494336968,
+    "repository_url": "https://github.com/ziko1/knaba/actions/runs/42494336968",
+    "native_run": 42494336965,
+    "native_url": "https://github.com/ziko1/knaba/actions/runs/42494336965",
+    "required_jobs_passed": 6,
+    "status": "SUCCESS",
+    "product_test_skips": 0,
+    "failure_only_summary_job": "SKIPPED_EXPECTED_NOT_A_PRODUCT_TEST",
+    "suites": {
+      "root": {
+        "passed": 36,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "source/module/policy/localization checks"
+      },
+      "site_vitest": {
+        "passed": 732,
+        "failed": 0,
+        "skipped": 0
+      },
+      "site_node": {
+        "passed": 90,
+        "failed": 0,
+        "skipped": 0,
+        "groups": [
+          37,
+          35,
+          10,
+          8
+        ]
+      },
+      "site_vps": {
+        "passed": 345,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "temporary SQLite, synthetic accounts, injected provider transport"
+      },
+      "erp": {
+        "passed": 3108,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "ERP suite including genuine isolated PostgreSQL 17.6 tests; not every test is a SQL case"
+      },
+      "site_erp_bridge": {
+        "passed": 84,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "actual isolated SQLite to HTTP to PostgreSQL 17.6 acceptance"
+      },
+      "android_junit": {
+        "passed": 33,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "Robolectric/JVM; 28 Activity and 5 recovery-journal cases"
+      },
+      "ios_xctest": {
+        "passed": 69,
+        "failed": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "scope": "iPhone 16 Simulator, iOS 18.5, arm64; unit/model tests"
+      }
+    },
+    "site_build": {
+      "status": "PASS",
+      "html_pages": 161
+    },
+    "erp_typecheck_and_build": "PASS",
+    "summary": {
+      "location": "handoff_package",
+      "path": "evidence/ci/ci-summary.json",
+      "sha256": "1593859d367a61906c12ca8a57cb07d0dcdf58dfb774bc1dc1b703ac7489284e",
+      "size_bytes": 4210
+    },
+    "job_logs": [
+      {
+        "location": "handoff_package",
+        "path": "evidence/ci/root-job.log",
+        "sha256": "6d5b4046da6db1098d4de347cdfb5e09adada4ae256435f929be3ffe0a9527e5",
+        "size_bytes": 42717
+      },
+      {
+        "location": "handoff_package",
+        "path": "evidence/ci/site-job.log",
+        "sha256": "8d73c0218a3536bde9f60900cc87074a08c47e26ffbf0101d7cc6537ffb7f4e5",
+        "size_bytes": 148086
+      },
+      {
+        "location": "handoff_package",
+        "path": "evidence/ci/erp-job.log",
+        "sha256": "95316bb01b0b72bef38c63d99a9692a83f07993c75b3ff1ed29fe33d1ea4b333",
+        "size_bytes": 111227
+      },
+      {
+        "location": "handoff_package",
+        "path": "evidence/ci/bridge-job.log",
+        "sha256": "e8122dc82134ece4d9b4dfdc5ce78a01561d60650d60f3c82bc7f4011b6a1dc7",
+        "size_bytes": 106587
+      },
+      {
+        "location": "handoff_package",
+        "path": "evidence/ci/android-job.log",
+        "sha256": "228825908e29c90e55d5d5853dd84f12afbf7ad8a930c501669d20df6c83b425",
+        "size_bytes": 41260
+      },
+      {
+        "location": "handoff_package",
+        "path": "evidence/ci/ios-job.log",
+        "sha256": "796ba1e97d900d6266364dce765886c02c043d9d9802641322205d660d67ebfd",
+        "size_bytes": 282686
+      }
+    ]
+  },
+  "bounded_acceptance": {
+    "KN-C08-B": {
+      "status": "PASS_BOUNDED_RUNTIME_CONFIGURATION_CHECKS",
+      "scope": "Company/origin are rejected before database/provider startup; missing template origin fails before a send attempt. Compiled-entrypoint and genuine PostgreSQL regression evidence apply to this exact source.",
+      "production_or_live_runtime_acceptance": "NOT_RUN"
+    },
+    "recovery": {
+      "status": "PASS_SOURCE_SQLITE_HTTP_AND_ISOLATED_POSTGRESQL_REGRESSIONS",
+      "scope": "Single-use bounded tokens, persisted rate limits, atomic password/token/session/audit transaction, existing F2/F4 online authority checks retained.",
+      "provider_delivery": "NOT_RUN",
+      "mail_enabled_by_default": false,
+      "browser_device_company_acceptance": "BLOCKED"
+    },
+    "native": {
+      "status": "PASS_PACKAGE_SOURCE_AND_HOSTED_AUTOMATION",
+      "android_source_files_verified": 53,
+      "android_shared_vectors_verified": true,
+      "android_lint_errors": 0,
+      "android_lint_warnings": 20,
+      "android_strings_per_locale": 279,
+      "ios_companion_keys": 95,
+      "ios_erp_keys": 181,
+      "locales": [
+        "de",
+        "en",
+        "pl",
+        "lt",
+        "ru",
+        "uk"
+      ],
+      "ios_bundle_files_verified": 48,
+      "role_labels": {
+        "canonical_roles": 18,
+        "aliases": 3,
+        "languages": 6,
+        "historical_defect_source": "2eb6a777704ceecd211eecd8b3854080772d152a",
+        "resolution": "PASS_BOUNDED_RENDERED_ANDROID_AND_MODEL_IOS_REGRESSIONS"
+      },
+      "android_host_checks": {
+        "geofence_vectors": 30,
+        "locale_clock_vectors": 39,
+        "transport_assertions": 74,
+        "demo_checks": 38,
+        "scope": "separate synthetic/host categories; not physical-device journeys"
+      },
+      "physical_devices": "NOT_RUN",
+      "live_erp": "NOT_RUN",
+      "owner_signed_ipa": "UNAVAILABLE"
+    }
+  },
+  "artifacts": {
+    "android_apk": {
+      "location": "handoff_package",
+      "path": "artifacts/android/KNABA-DE-0.5.2-build9-test.apk",
+      "sha256": "d3531a18e920121be6994c9898a2531ea26016a202d7fb31adbd0274a6bf3b3e",
+      "size_bytes": 2961666,
+      "platform": "android",
+      "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+      "version": "0.5.2",
+      "build": 9,
+      "application_id": "de.knaba.mobile.test",
+      "version_name": "0.5.2-test",
+      "min_sdk": 31,
+      "target_sdk": 36,
+      "signing": "DEBUG_EVALUATION_ONLY",
+      "certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+      "signature_v2": "PASS",
+      "device_install": "NOT_RUN",
+      "upgrade": "NOT_RUN"
+    },
+    "android_aab": {
+      "location": "handoff_package",
+      "path": "artifacts/android/KNABA-DE-0.5.2-build9-test.aab",
+      "sha256": "82c72675f4b77d35251741ff92aec0de7fab03d4f48c748715c45f3263d11230",
+      "size_bytes": 1038955,
+      "platform": "android",
+      "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+      "version": "0.5.2",
+      "build": 9,
+      "signing": "DEBUG_EVALUATION_ONLY",
+      "certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+      "signed_payload_entries": 22,
+      "apk_signer_matches": true,
+      "play_upload": "NOT_RUN",
+      "direct_apk_installable": false
+    },
+    "ios_simulator": {
+      "location": "handoff_package",
+      "path": "artifacts/ios/KNABA-DE-iOS-0.5.2-build9-simulator.app.zip",
+      "sha256": "1b60a7bfc95589ca0aec4361a7b6b5051f6438c1dd7cb5da22e8b734a123dd6e",
+      "size_bytes": 6641319,
+      "platform": "ios",
+      "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+      "version": "0.5.2",
+      "build": 9,
+      "bundle_id": "de.knaba.mobile",
+      "platform_name": "iPhoneSimulator",
+      "architecture": "arm64",
+      "minimum_os": "17.0",
+      "sdk": "18.5",
+      "signing": "CODE_SIGNING_ALLOWED=NO; simulator only",
+      "signed_ipa": false,
+      "physical_device": "NOT_RUN"
+    }
+  },
+  "independent_reviews": {
+    "status": "PASS_BOUNDED_SOURCE_AND_NATIVE_EVIDENCE",
+    "full_client_handoff_review": "NOT_ACCEPTED",
+    "native_review": {
+      "location": "handoff_package",
+      "path": "evidence/native-review/native-artifact-review.json",
+      "sha256": "4b062f2c50c9536ed212123f703046c157a6cd1211b0f3dcd7113cc4c313ee8a",
+      "size_bytes": 26416,
+      "reviewer": "/root/native_artifact_review"
+    },
+    "native_ci_binding": {
+      "location": "handoff_package",
+      "path": "evidence/native-review/native-ci-provenance-review.json",
+      "sha256": "aaf117f5cfc7c24b040fdfe12767b1f750049bbd5acea55e27d544ebe225791a",
+      "size_bytes": 4509,
+      "reviewer": "/root/native_artifact_review",
+      "android_extracted_files_verified": 31,
+      "ios_extracted_files_verified": 202
+    },
+    "source_reviews": [
+      {
+        "path": "evidence/source/recovery-independent-review.json",
+        "reviewer": "/root",
+        "scope": "recovery source/local harness",
+        "location": "handoff_package",
+        "sha256": "5bb88cf7ec128d1063c3a17056a6074bdbc989d231909cb0b3618ac8f8b4d056",
+        "size_bytes": 1488
+      },
+      {
+        "path": "evidence/source/root-independent-review.json",
+        "reviewer": "/root/scope_matrix",
+        "scope": "runtime/native gate source",
+        "location": "handoff_package",
+        "sha256": "93e05d5cfa8a07e817723a3863c171e406c33176023e67668d016a114e31213b",
+        "size_bytes": 10119
+      },
+      {
+        "path": "evidence/source/android-role-source-review.json",
+        "reviewer": "/root/native_artifact_review",
+        "scope": "8 Android corrective files",
+        "location": "handoff_package",
+        "sha256": "6a9f18f5b0f78bcea3393f76232ee2963a6a19aa5d1d1dcdb53e37405f6d8553",
+        "size_bytes": 3650
+      },
+      {
+        "path": "evidence/source/ios-role-source-review.json",
+        "reviewer": "/root/native_artifact_review",
+        "scope": "3 iOS corrective files",
+        "location": "handoff_package",
+        "sha256": "77a859dbe43f56763dc80dfa5b00277d2aa8d0af3f2675a1f7276538e710d649",
+        "size_bytes": 2427
+      }
+    ]
+  },
+  "matrix_layers": {
+    "technical": {
+      "rows": 43,
+      "PASS": 31,
+      "FAIL": 0,
+      "BLOCKED": 12,
+      "evidence": {
+        "location": "handoff_package",
+        "path": "technical-checks.json",
+        "sha256": "2c6927e38a2dc7ba5825eb5dc5b571f7800dd3349e6b103907e6846e897e5e37",
+        "size_bytes": 58471
+      }
+    },
+    "primary": {
+      "rows": 143,
+      "PASS": 5,
+      "FAIL": 0,
+      "BLOCKED": 138,
+      "evidence": {
+        "location": "handoff_package",
+        "path": "matrix/release-requirements.json",
+        "sha256": "5c28c056fd5d1832477dee39b29ec88855169ccd7711169ef958701227d2678f",
+        "size_bytes": 635828
+      },
+      "bounded_pass_ids": [
+        "M9-UI",
+        "M9-TRANSPORT",
+        "M9-DEMO",
+        "M9-APK",
+        "MOBILE-010"
+      ]
+    },
+    "v3_requirements": {
+      "rows": 432,
+      "PASS": 0,
+      "FAIL": 0,
+      "BLOCKED": 432,
+      "evidence": {
+        "location": "handoff_package",
+        "path": "matrix/v3-requirements.json",
+        "sha256": "de1f227e0f9279b58a3de7c8734e324c7e76592da3b81e1aeae60e16a429c935",
+        "size_bytes": 1899349
+      }
+    },
+    "v3_acceptance": {
+      "rows": 475,
+      "PASS": 0,
+      "FAIL": 0,
+      "BLOCKED": 475,
+      "evidence": {
+        "location": "handoff_package",
+        "path": "matrix/v3-acceptance.json",
+        "sha256": "d5124133b7d66b9cc79b1bd9acc6bcef9ca723044452314511c180ce0156ef5f",
+        "size_bytes": 1776446
+      }
+    },
+    "quality": {
+      "rows": 55,
+      "PASS": 2,
+      "FAIL": 0,
+      "BLOCKED": 53,
+      "evidence": {
+        "location": "handoff_package",
+        "path": "matrix/quality-matrix.json",
+        "sha256": "77ddb2bfcfa3e7b633463321f55bf05db4cea1b26c7927cca46185edf00ee0f2",
+        "size_bytes": 62961
+      },
+      "phase_counts": {
+        "release": 49,
+        "post_release": 6
+      },
+      "phase_rule": "49 release and 6 post_release criteria remain distinct; unexecuted post_release criteria are not invented first-release FAILs."
+    }
+  },
+  "scope_count_rule": "Layers overlap. Do not sum them as unique features or derive a global readiness percentage.",
+  "rollback": {
+    "site_sqlite_migration": "002_account_recovery",
+    "production_migration_performed": false,
+    "old_pr133_code_compatible_with_migrated_database": false,
+    "procedure": "Use a compatible forward fix or coordinated code plus verified database backup restoration. Old PR133 code rejects the 002 receipt; do not remove schema receipts/tables or assume code-only rollback.",
+    "source_document": "corporate-site/docs/PASSWORD_RECOVERY_OPERATIONS_UK.md"
+  },
+  "remaining_blockers": [
+    "Physical Android standard installer, cold start, role journey and upgrade/data retention on a stable signing identity.",
+    "Owner-signed iOS IPA/provisioning and physical iPhone install/upgrade/interrupted-write journeys.",
+    "Approved TEST ERP origin, tenant and scoped accounts for same-source UI/API/DB and company UAT.",
+    "Actual authorized recovery email delivery and browser/device UAT; sender/account/quota/budget remain external prerequisites.",
+    "Complete retained V4/V3/site/mobile business, federation/SSO, partner/provider, performance/accessibility, retention/restore and company acceptance."
+  ],
+  "signing_continuity": {
+    "debug_certificate_changed": true,
+    "final_certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+    "upgrade_acceptance": "BLOCKED",
+    "rule": "Do not uninstall or erase prior app data to bypass a signing mismatch."
+  },
+  "execution_budget": {
+    "native_candidate_runs": 2,
+    "native_runs": [
+      42492663468,
+      42494336965
+    ],
+    "repository_executions": 4,
+    "repository_runs": [
+      42492594669,
+      42492663676,
+      42494332783,
+      42494336968
+    ],
+    "reason": "Initial source plus one corrective role-localization candidate; existing push and pull_request triggers produce duplicate repository runs.",
+    "runner_classes": [
+      "ubuntu-24.04",
+      "macos-15"
+    ],
+    "larger_runner_activated": false,
+    "artifact_retention_days": 1,
+    "new_paid_service_activation": false,
+    "live_provider_sends": false,
+    "store_upload": false,
+    "verified_account_balance": null,
+    "verified_model_credit_balance": null,
+    "verified_charge_amount": null,
+    "billing_note": "Actual account balances and charges were not inspected; retain the previously documented standard public-runner reservation without inventing a spend/balance figure."
+  },
+  "handoff_package": {
+    "name": "KNABA-DE-0.5.2-build9-handoff",
+    "guide": "HANDOFF_UK.md",
+    "state": "PREPARED_TEST_ARTIFACT_AND_EVIDENCE_PACKET_NOT_CUSTOMER_ACCEPTANCE",
+    "delivery_to_customer": "NOT_SENT_BY_THIS_TASK"
+  }
+}

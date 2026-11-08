@@ -4625,29 +4625,172 @@
     "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
     "version": "0.5.2",
     "build": 9,
-    "status": "SOURCE_IMPLEMENTED_LOCAL_VERIFIED_HOSTED_PENDING",
-    "runtimeChecks": {
-      "passed": 293,
-      "sqlSkipped": 2,
-      "compiledEntrypointCases": 49,
-      "typecheck": "PASS",
-      "baselineDefectCases": 4
-    },
-    "recoveryChecks": {
-      "localSQLiteHttpCompatibility": 109,
-      "failed": 0,
-      "skipped": 0,
-      "postgresBridge": "NOT_RUN"
-    },
-    "nativeChecks": {
-      "catalogMutationCases": 6,
-      "rootTests": 36,
-      "newNativeBuilds": "NOT_RUN"
-    },
+    "status": "BOUNDED_EXACT_SOURCE_CI_VERIFIED_FULL_HANDOFF_BLOCKED",
     "productStatus": "NOT_READY",
     "physicalDevices": "NOT_RUN",
     "originalCriteriaPromoted": false,
     "newPaidSpendAuthorized": false,
-    "contract": "../../../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md"
+    "contract": "../../../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md",
+    "historicalPreCiCheckpoint": {
+      "branch": "feat/knaba-release-continuation-20261108",
+      "baseGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+      "version": "0.5.2",
+      "build": 9,
+      "status": "SOURCE_IMPLEMENTED_LOCAL_VERIFIED_HOSTED_PENDING",
+      "runtimeChecks": {
+        "passed": 293,
+        "sqlSkipped": 2,
+        "compiledEntrypointCases": 49,
+        "typecheck": "PASS",
+        "baselineDefectCases": 4
+      },
+      "recoveryChecks": {
+        "localSQLiteHttpCompatibility": 109,
+        "failed": 0,
+        "skipped": 0,
+        "postgresBridge": "NOT_RUN"
+      },
+      "nativeChecks": {
+        "catalogMutationCases": 6,
+        "rootTests": 36,
+        "newNativeBuilds": "NOT_RUN"
+      },
+      "productStatus": "NOT_READY",
+      "physicalDevices": "NOT_RUN",
+      "originalCriteriaPromoted": false,
+      "newPaidSpendAuthorized": false,
+      "contract": "../../../docs/unified/RELEASE_CONTINUATION_2026-11-08_UK.md"
+    },
+    "releaseDecision": "HOLD",
+    "verifiedCandidate": {
+      "sourceGitSha": "55b4231c870c2f302548381294967edfbe380db7",
+      "sourceTreeSha": "f0ed7b37b735ab0d697df85ebf6038900840559b",
+      "version": "0.5.2",
+      "build": 9,
+      "repositoryRun": 42494336968,
+      "nativeRun": 42494336965,
+      "requiredJobsPassed": 6,
+      "status": "PASS_BOUNDED_TECHNICAL_SCOPE",
+      "tests": {
+        "root": {
+          "passed": 36,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "source/module/policy/localization checks"
+        },
+        "site_vitest": {
+          "passed": 732,
+          "failed": 0,
+          "skipped": 0
+        },
+        "site_node": {
+          "passed": 90,
+          "failed": 0,
+          "skipped": 0,
+          "groups": [
+            37,
+            35,
+            10,
+            8
+          ]
+        },
+        "site_vps": {
+          "passed": 345,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "temporary SQLite, synthetic accounts, injected provider transport"
+        },
+        "erp": {
+          "passed": 3108,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "ERP suite including genuine isolated PostgreSQL 17.6 tests; not every test is a SQL case"
+        },
+        "site_erp_bridge": {
+          "passed": 84,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "actual isolated SQLite to HTTP to PostgreSQL 17.6 acceptance"
+        },
+        "android_junit": {
+          "passed": 33,
+          "failed": 0,
+          "skipped": 0,
+          "scope": "Robolectric/JVM; 28 Activity and 5 recovery-journal cases"
+        },
+        "ios_xctest": {
+          "passed": 69,
+          "failed": 0,
+          "skipped": 0,
+          "expected_failures": 0,
+          "scope": "iPhone 16 Simulator, iOS 18.5, arm64; unit/model tests"
+        }
+      },
+      "artifacts": {
+        "android_apk": {
+          "location": "handoff_package",
+          "path": "artifacts/android/KNABA-DE-0.5.2-build9-test.apk",
+          "sha256": "d3531a18e920121be6994c9898a2531ea26016a202d7fb31adbd0274a6bf3b3e",
+          "size_bytes": 2961666,
+          "platform": "android",
+          "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+          "version": "0.5.2",
+          "build": 9,
+          "application_id": "de.knaba.mobile.test",
+          "version_name": "0.5.2-test",
+          "min_sdk": 31,
+          "target_sdk": 36,
+          "signing": "DEBUG_EVALUATION_ONLY",
+          "certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+          "signature_v2": "PASS",
+          "device_install": "NOT_RUN",
+          "upgrade": "NOT_RUN"
+        },
+        "android_aab": {
+          "location": "handoff_package",
+          "path": "artifacts/android/KNABA-DE-0.5.2-build9-test.aab",
+          "sha256": "82c72675f4b77d35251741ff92aec0de7fab03d4f48c748715c45f3263d11230",
+          "size_bytes": 1038955,
+          "platform": "android",
+          "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+          "version": "0.5.2",
+          "build": 9,
+          "signing": "DEBUG_EVALUATION_ONLY",
+          "certificate_sha256": "3e97214d11edd33b9734e8fdefe0361f02832f4a093ab34e41bc4cefddd647f7",
+          "signed_payload_entries": 22,
+          "apk_signer_matches": true,
+          "play_upload": "NOT_RUN",
+          "direct_apk_installable": false
+        },
+        "ios_simulator": {
+          "location": "handoff_package",
+          "path": "artifacts/ios/KNABA-DE-iOS-0.5.2-build9-simulator.app.zip",
+          "sha256": "1b60a7bfc95589ca0aec4361a7b6b5051f6438c1dd7cb5da22e8b734a123dd6e",
+          "size_bytes": 6641319,
+          "platform": "ios",
+          "source_git_sha": "55b4231c870c2f302548381294967edfbe380db7",
+          "version": "0.5.2",
+          "build": 9,
+          "bundle_id": "de.knaba.mobile",
+          "platform_name": "iPhoneSimulator",
+          "architecture": "arm64",
+          "minimum_os": "17.0",
+          "sdk": "18.5",
+          "signing": "CODE_SIGNING_ALLOWED=NO; simulator only",
+          "signed_ipa": false,
+          "physical_device": "NOT_RUN"
+        }
+      },
+      "evidence": "../../../docs/unified/evidence/release-continuation-20261108/final-verification.json",
+      "sourceAndNativeReview": "PASS_BOUNDED",
+      "clientHandoffAcceptance": "BLOCKED",
+      "releaseDecision": "HOLD",
+      "physicalDevices": "NOT_RUN",
+      "liveERP": "NOT_RUN",
+      "realMailDelivery": "NOT_RUN",
+      "ownerSignedIpa": "UNAVAILABLE",
+      "documentationHeadIsSeparateFromTestedSource": true,
+      "countRule": "Preserved pre-CI subsets overlap these final suites and are not added again."
+    }
   }
 }

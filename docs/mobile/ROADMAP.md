@@ -35,3 +35,16 @@ MOBILE-010 adds durable encrypted Android ERP command recovery and identity fenc
 ### Android 0.4.0 test candidate — 2026-11-07
 
 MOBILE-009 tracks current Android continuation: coherent native task/chat journeys, explicit offline demo, separate test package and session/retry safeguards. See `TEST_ANDROID_0.4.0_UK.md` and exact results in `evidence/android-test-20261107/verification.json`. This candidate does not accept M1 identity unification, all M2 role parity, M4 company handover or full-product requirements. Live ERP/physical-device/company tests and durable ambiguous-write recovery remain open.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Tested source: `55b4231c870c2f302548381294967edfbe380db7`; tree: `f0ed7b37b735ab0d697df85ebf6038900840559b`; [draft PR137](https://github.com/ziko1/knaba/pull/137). [Repository CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968) і [native CI42494336965](https://github.com/ziko1/knaba/actions/runs/42494336965) — усі 6 required jobs SUCCESS. Незалежне source/native review — PASS лише у зафіксованих межах. [Єдиний final verification record](../unified/evidence/release-continuation-20261108/final-verification.json).
+
+Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із реальною isolated PostgreSQL 17.6); SQLite→HTTP→PostgreSQL bridge 84; Android 33 JUnit/Robolectric; iOS 69 XCTest на iPhone 16 Simulator / iOS 18.5 — PASS, без продуктових FAIL/skips. Local 293 runtime / 2 SQL skips / 49 compiled-entrypoint та 109 recovery лишаються історичними subsets і повторно до totals не додаються.
+
+Матриці збережені окремо: technical 43 = 31 PASS / 0 FAIL / 12 BLOCKED; primary 143 = 5 / 0 / 138; V3 requirements 432 = 0 / 0 / 432; V3 acceptance 475 = 0 / 0 / 475; quality 55 = 2 / 0 / 53 (49 release, 6 post_release). Шари перетинаються, глобального відсотка готовності немає.
+
+Загальний результат — **HOLD / NOT_READY**. Фізичні Android/iPhone, install/upgrade/data retention, approved TEST ERP/company journeys, фактична recovery email доставка, signed iOS IPA, hardware GPS/battery та повне retained V4/V3 приймання залишаються BLOCKED. Debug signer змінився; не обходити mismatch видаленням старого застосунку/даних. SQLite `002_account_recovery` несумісна зі старим PR133 code-only rollback: потрібні compatible forward fix або погоджене відновлення узгодженого коду й перевіреної копії БД. Live/production migration та provider activation не виконувалися.
+
+Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.

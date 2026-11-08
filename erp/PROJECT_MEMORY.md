@@ -246,3 +246,16 @@ Final local typecheck and candidate build PASS; focused 204 PASS / 2 SQL SKIP; f
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 2026-11-08 — фінальний перевірений кандидат 0.5.2 / build 9
+
+Tested source: `55b4231c870c2f302548381294967edfbe380db7`; tree: `f0ed7b37b735ab0d697df85ebf6038900840559b`; [draft PR137](https://github.com/ziko1/knaba/pull/137). [Repository CI42494336968](https://github.com/ziko1/knaba/actions/runs/42494336968) і [native CI42494336965](https://github.com/ziko1/knaba/actions/runs/42494336965) — усі 6 required jobs SUCCESS. Незалежне source/native review — PASS лише у зафіксованих межах. [Єдиний final verification record](../docs/unified/evidence/release-continuation-20261108/final-verification.json).
+
+Root 36; сайт 732 Vitest + 90 Node (37/35/10/8); VPS 345; ERP 3108 (із реальною isolated PostgreSQL 17.6); SQLite→HTTP→PostgreSQL bridge 84; Android 33 JUnit/Robolectric; iOS 69 XCTest на iPhone 16 Simulator / iOS 18.5 — PASS, без продуктових FAIL/skips. Local 293 runtime / 2 SQL skips / 49 compiled-entrypoint та 109 recovery лишаються історичними subsets і повторно до totals не додаються.
+
+Матриці збережені окремо: technical 43 = 31 PASS / 0 FAIL / 12 BLOCKED; primary 143 = 5 / 0 / 138; V3 requirements 432 = 0 / 0 / 432; V3 acceptance 475 = 0 / 0 / 475; quality 55 = 2 / 0 / 53 (49 release, 6 post_release). Шари перетинаються, глобального відсотка готовності немає.
+
+Загальний результат — **HOLD / NOT_READY**. Фізичні Android/iPhone, install/upgrade/data retention, approved TEST ERP/company journeys, фактична recovery email доставка, signed iOS IPA, hardware GPS/battery та повне retained V4/V3 приймання залишаються BLOCKED. Debug signer змінився; не обходити mismatch видаленням старого застосунку/даних. SQLite `002_account_recovery` несумісна зі старим PR133 code-only rollback: потрібні compatible forward fix або погоджене відновлення узгодженого коду й перевіреної копії БД. Live/production migration та provider activation не виконувалися.
+
+Це append-only документаційний checkpoint після перевірок. Наступний docs-only HEAD відрізнятиметься від tested source; артефакти й результати лишаються прив’язаними до `55b4231c…`. Старі source/acceptance записи не перепозначені, code/build/workflow inputs не змінені.
