@@ -443,11 +443,21 @@ class ErpConsoleActivity : Activity() {
                 is RoleWorkspaceRouting.Destination.Choose -> {
                     val chooser = panel()
                     label(getString(R.string.erp_role), 17f, ink, chooser)
-                    route.workspaces.forEach { workspace ->
-                        button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }, parent = chooser) {
-                            selectedWorkspace = workspace
+                    if (selectedWorkspace != null) {
+                        button(getString(R.string.erp_role), parent = chooser) {
+                            selectedWorkspace = null
                             showDashboard()
                         }
+                    }
+                    if (selectedWorkspace == null) {
+                        route.workspaces.forEach { workspace ->
+                            button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }, parent = chooser) {
+                                selectedWorkspace = workspace
+                                showDashboard()
+                            }
+                        }
+                    } else {
+                        label(selectedWorkspace!!.name, 15f, muted, chooser)
                     }
                 }
                 else -> Unit
