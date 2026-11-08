@@ -1,5 +1,11 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 08.11.2026 — F4-B accepted; KN-C08 explicit runtime mode
+
+F4-B прийнято на e740ef969e2a6a261f0e7ba613b741ed889ec0fe / [PR131](https://github.com/ziko1/knaba/pull/131) / [CI42481614075](https://github.com/ziko1/knaba/actions/runs/42481614075): ERP — 2832 тести у 122 файлах; bridge — 82 (усі 51 F4-B, upgrade та 17 self-dispatch); site — 732+90+297; root — 30; усі 4 jobs SUCCESS без acceptance skips, незалежний review ACCEPT. Початковий fixture FAIL збережено в [evidence](evidence/federated-session-authority-20261108/verification.json).
+
+Наступна ізольована гілка feat/knaba-explicit-runtime-mode-20261108 виправляє KN-C08: явний APP_MODE до запуску API/worker/preflight, узгодженість injected Engine і worker mode, staging helper без implicit DEMO. [Контракт](EXPLICIT_RUNTIME_MODE_2026-11-08_UK.md). Незалежний source review ACCEPT; локально 123/123 focused, 1 цільова integration fixture, TypeScript і 30/30 root PASS. Exact-source hosted acceptance ще PENDING; F3, решта F4, F5 та whole product NOT_READY.
+
 ## 08.11.2026 — F4-B source reviewed; actual acceptance pending
 
 Незалежно прийнято separate federated store/reader та current signed site authority, exact outage-safe logout і вузьке завершення self-dispatch із terminal session revocation. Додано51 actual bridge case; SQL/HTTP acceptance ще NOT_RUN. Локально128 focused CPU (останній guard delta повторно27),95 site checks,30 root, candidate ERP build; ці overlapping proofs не додаються й не замінюють exact-commit CI. [Input hashes, review, local logs і межі](evidence/federated-session-authority-20261108/verification.json). Новий flag defaultoff; F3 issuance, рештаF4 policy/privacy, F5 і весь продукт NOT_READY.

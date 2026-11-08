@@ -4586,5 +4586,26 @@
       "F4 shared revocation, in-flight enforcement and retention",
       "F5 browser/device/provider/company acceptance"
     ]
+  },
+  "explicit_runtime_mode_20261108": {
+    "task_id": "KN-C08",
+    "status": "IMPLEMENTED_CANDIDATE_EXACT_SOURCE_HOSTED_PENDING",
+    "base_source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
+    "contract": "../../../docs/unified/EXPLICIT_RUNTIME_MODE_2026-11-08_UK.md",
+    "evidence": "../../../docs/unified/evidence/explicit-runtime-mode-20261108/verification.json",
+    "scope": [
+      "Explicit API/worker/preflight mode before startup side effects",
+      "Injected worker options and Engine mode consistency",
+      "Required staging helper mode, DEMO or TEST only"
+    ],
+    "previous_checkpoint": "completion_audit_20261108 remains historical; this checkpoint tracks runtime APP_MODE separately",
+    "original_criteria_promoted": false,
+    "production_changed": false,
+    "product_status": "NOT_READY",
+    "separate_open": [
+      "COMPANY_ID default and production-origin enforcement alignment",
+      "F3 session issuance and remaining F4 privacy/background policies",
+      "Browser/device/provider/company and full V4/V3 acceptance"
+    ]
   }
 }

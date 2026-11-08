@@ -11,7 +11,7 @@ export function verifyWorkerRelease(release,expectedSha){
  if(release.source_dirty!==false&&!(release.source_dirty===null&&release.source_provenance==='PINNED_CONTAINER_CONTEXT'))throw Error('WORKER_SOURCE_PROVENANCE_REQUIRED');
  return {codeSha:expectedSha,sourceDirty:release.source_dirty,sourceProvenance:release.source_provenance??'GIT_WORKTREE'};
 }
-export async function waitForExpectedApi({expectedSha,mode='DEMO',request=fetch,wait=delay,now=Date.now,deadlineMs=300000,stopped=()=>false}={}){
+export async function waitForExpectedApi({expectedSha,mode,request=fetch,wait=delay,now=Date.now,deadlineMs=300000,stopped=()=>false}={}){
  if(!/^[a-f0-9]{40}$/.test(expectedSha||'')||/^0+$/.test(expectedSha)||!['DEMO','TEST'].includes(mode)||!Number.isInteger(deadlineMs)||deadlineMs<1000||deadlineMs>300000)throw Error('INVALID_STAGING_WORKER_GATE');
  const deadline=now()+deadlineMs;
  for(let attempt=0;attempt<300&&now()<deadline;attempt++){

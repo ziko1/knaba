@@ -1,5 +1,9 @@
 # KnaBa — окремий бюджет і квоти
 
+## KN-C08 explicit runtime mode reservation — 08.11.2026
+
+F4-B implementation push/PR42480802391/42480841055 retained the one upgrade-fixture failure; corrective push/PR42481611087/42481614075 both SUCCESS, all four mandatory jobs accepted at e740ef969e2a6a261f0e7ba613b741ed889ec0fe. That reservation is reconciled. Reserve one KN-C08 source checkpoint and at most one corrective checkpoint, at most four automatically triggered existing standard public Ubuntu repository runs within unchanged timeouts. Scope: explicit API/worker/preflight/staging-wrapper mode, injected worker-engine consistency, focused tests and current evidence. Native files, providers, production activation, new infrastructure and paid services are excluded. New paid activation EUR0; actual model/account balances and quotas UNKNOWN.
+
 ## F4-B federated session authority reservation — 08.11.2026
 
 Implementation ef1242d triggered push42480802391 / PR42480841055. PR mandatory ERP2832, site732+90+297 and root30 PASS; bridge81/82 FAIL only because new upgrade fixture compared undecoded name[] to a JS array. Use the already reserved single correction for explicit text[] decoding; no runtime/schema change, no unchanged manual rerun, no additional provider activation. Corrected source still requires all mandatory CI jobs.
