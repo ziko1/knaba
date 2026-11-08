@@ -1,5 +1,14 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — F1 identity storage source candidate
+
+Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.
+
+- [x] F1 source: explicit principal/trust contract, additive storage/repository and CPU checks.
+- [x] F1 independent source review: ACCEPT; exact reviewed input hashes recorded for the candidate.
+- [ ] F1 actual PostgreSQL upgrade/isolation/revocation/concurrency/rollback acceptance.
+- [ ] F2–F5: dual-session UI/proof, session exchange, authoritative revocation, privacy integration, live/device acceptance.
+
 ## Поточна черга — 08.11.2026
 
 | ID | Пріоритет | Статус / наступний критерій |

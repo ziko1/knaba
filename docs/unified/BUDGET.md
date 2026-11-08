@@ -56,3 +56,7 @@ No new provider subscriptions or sends, using existing VPS. Brevo: no sending do
 
 ## 2026-10-27 · owner invitation attestation
 Existing isolated VPS Node24 runtime reused, zero new external email/OIDC/AI/paid-provider calls or subscriptions activated. KNABA delivery domain not verified, external budget and quota UNKNOWN. No production deploy or main merge without separate release gates.
+
+## F1 identity foundation — 08.11.2026
+
+Reserved: one implementation and one corrective source checkpoint on an isolated stacked branch; existing standard public GitHub Ubuntu workflows only, no larger runners, paid providers or runtime activation. Maximum four automatically triggered repository runs (push + PR per checkpoint), within existing per-job timeouts. Current public-repository access was verified through the authenticated GitHub connector; the native fb4be719 candidate used one successful native attempt. This is a EUR 0 new-spend reservation under public standard-runner billing, not a claim of unlimited quotas or known account balance. Reconcile actual run IDs before another checkpoint.
