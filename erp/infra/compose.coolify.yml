@@ -2,7 +2,7 @@
 # Build exact GIT_SHA locally before deployment. Required gate is managed in proxy dynamic config.
 x-runtime: &id001
   DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL with the postgres service hostname}
-  APP_MODE: ${APP_MODE:-DEMO}
+  APP_MODE: ${APP_MODE:?Select DEMO, TEST or PRODUCTION explicitly}
   COMPANY_ID: ${COMPANY_ID:-knaba-demo}
   AUTH_ENCRYPTION_KEY: ${AUTH_ENCRYPTION_KEY:?Set a private random AUTH_ENCRYPTION_KEY
     of at least 32 characters}
@@ -108,7 +108,7 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL with the postgres service hostname}
-      APP_MODE: ${APP_MODE:-DEMO}
+      APP_MODE: ${APP_MODE:?Select DEMO, TEST or PRODUCTION explicitly}
       COMPANY_ID: ${COMPANY_ID:-knaba-demo}
       AUTH_ENCRYPTION_KEY: ${AUTH_ENCRYPTION_KEY:?Set a private random AUTH_ENCRYPTION_KEY
         of at least 32 characters}

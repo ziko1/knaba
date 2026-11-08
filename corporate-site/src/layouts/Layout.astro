@@ -11,6 +11,7 @@ import { resolveSocialImageOrigin } from "../lib/social-image-origin";
 import brandMessages from "../data/brand-messages.json";
 import Icon from "../components/Icon.astro";
 import AccountAccess from '../components/AccountAccess.astro';
+import StudioCredit from '../components/StudioCredit.astro';
 
 import { languageLinks, localeAlternates, localizedPublicPath, type SiteLocale } from "../lib/site-i18n";
 import {PUBLISHED_SITE_LOCALES, LANGUAGE_NAMES} from '../lib/locale-catalog';
@@ -259,6 +260,7 @@ const structuredData = {
             >{translated.privacy}</a>
         </div>
       </div>
+      {publicDesign && <StudioCredit locale={lang} />}
     </footer>
     <AccountAccess locale={lang} />
     <div class="knaba-widget-root" data-knaba-widget data-locale={lang}>

@@ -1,0 +1,51 @@
+{
+  "purpose": "Read-only public server configuration evidence, no login or mutation",
+  "probes": [
+    {
+      "observedAt": "2026-11-08T07:55:50.703959+00:00",
+      "url": "https://knaba.de/api/public/release",
+      "method": "GET",
+      "authenticated": false,
+      "status": 403
+    },
+    {
+      "observedAt": "2026-11-08T07:55:57.000505+00:00",
+      "url": "https://kneba.vsp.rest/api/public/release",
+      "method": "GET",
+      "authenticated": false,
+      "status": 403
+    },
+    {
+      "observedAt": "2026-11-08T08:00:36.542594+00:00",
+      "url": "https://knaba.de/api/public/release",
+      "userAgent": "KNABA-Android-Discovery/1",
+      "method": "GET",
+      "authenticated": false,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bodySha256": "de600bd8de245739c2d0205c0d0298a7fb635a8f111b8474ccae4f63813f8d33",
+      "configuration": {
+        "schemaVersion": 1,
+        "stage": "prototype",
+        "erpOrigin": null,
+        "migration": {
+          "state": "pending",
+          "workingOrigin": null
+        }
+      }
+    }
+  ],
+  "conclusion": "BLOCKED_SERVER_NOT_CONFIGURED",
+  "earlierVerifiedObservation": {
+    "observedAt": "2026-11-08T07:59:38.219857+00:00",
+    "url": "https://knaba.de/api/public/release",
+    "status": 200,
+    "userAgent": "KNABA-config-readiness/1.0",
+    "configuration": {
+      "schemaVersion": 1,
+      "stage": "prototype",
+      "erpOrigin": null
+    },
+    "source": "Direct HTTP tool output in current session"
+  }
+}

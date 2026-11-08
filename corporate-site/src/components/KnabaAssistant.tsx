@@ -2,9 +2,10 @@ import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid
 import { assistantGreeting, assistantLocale, type AssistantLocale } from '../lib/assistant-knowledge';
 import { formatRecoveryCode,parseRecoveryCode,type AssistantTicket } from '../lib/assistant-recovery';
 import { createAssistantRequestState,sameAssistantTicket,type AssistantRequestScope } from '../lib/assistant-request-state';
+import {createAssistantDisplayReceipts,visibleOwnerMessageIds} from '../lib/assistant-display-receipts';
 import AssistantCaptcha, {type CaptchaState} from './AssistantCaptcha';
 
-type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string};
+type Message = {id:string;sender:'customer'|'assistant'|'owner';content:string;createdAt:string;guestDisplayedAt?:string|null};
 type Offer = {id:string;content:string;state:'pending'|'accepted'|'declined'};
 type Thread = {conversation:{id:string;status:'assistant'|'human'|'closed'};messages:Message[];offers:Offer[]};
 type Ticket = AssistantTicket;
@@ -17,6 +18,9 @@ const captions = {
   uk: {tag:'Онлайн-консультація · Зв’язок із власником',open:'Відкрити чат',close:'Закрити',welcome:'Вітаю! Підкажу щодо послуг KnaBa.',placeholder:'Ваше питання чи побажання …',privacy:'Я ознайомився з політикою конфіденційності та хочу надіслати цю розмову KnaBa.',captcha:'Пройдіть перевірку безпеки.',captchaPrompt:'Після підтвердження ознайомлення з політикою з’явиться перевірка безпеки.',send:'Надіслати',human:'Зв’язатися з власником',name:'Ім’я (необов’язково)',email:'Email (необов’язково)',phone:'Телефон (необов’язково)',request:'Передати власнику',notice:'Це автоматизований помічник, а не людина. Відповіді не є офертою; ціни й час підтверджує лише KnaBa.',hold:'Запит у кабінеті власника. Відповідь з’явиться тут.',no:'З’єднання втрачено. Спробуйте ще раз.',agreement:'Умови для погодження',pending:'Перевірте умови. Це не автоматичне укладення договору чи замовлення.',accept:'Підтвердити зміст',decline:'Відхилити',accepted:'Підтверджено',declined:'Відхилено',mic:'Диктувати',speak:'Озвучити',recording:'Розпізнавання голосу може передати аудіо постачальнику браузера. Продовжити?',unsupported:'Ваш браузер не підтримує розпізнавання голосу.',new:'Нова розмова',fresh:'Почати нову розмову? Без збереженого коду ви можете втратити доступ до попередньої.',privacyLink:'Конфіденційність',session:'Збережіть приватний код доступу, щоб відновити розмову після закриття браузера.',closed:'Цю розмову закрито.',copyCode:'Зберегти код доступу',copied:'Код скопійовано',manualCopy:'Скопіюйте цей код доступу',restoreTitle:'Відновити попередню розмову',restorePlaceholder:'Код доступу KNABA',restoreAction:'Відкрити розмову',codeWarning:'Кожен, хто знає цей код, зможе читати розмову. Бережіть його.',invalidCode:'Недійсний або прострочений код доступу.',},
   ru: {tag:'Онлайн-консультация · Связь с владельцем',open:'Открыть чат',close:'Закрыть',welcome:'Здравствуйте! Помогу с услугами KnaBa.',placeholder:'Ваш вопрос или пожелание …',privacy:'Я ознакомился с политикой конфиденциальности и хочу отправить эту беседу KnaBa.',captcha:'Пройдите проверку безопасности.',captchaPrompt:'После подтверждения ознакомления с политикой появится проверка безопасности.',send:'Отправить',human:'Связаться с владельцем',name:'Имя (необязательно)',email:'Email (необязательно)',phone:'Телефон (необязательно)',request:'Передать владельцу',notice:'Это автоматизированный помощник, а не человек. Ответы не являются офертой; цены и сроки подтверждает только KnaBa.',hold:'Обращение есть в кабинете владельца. Ответ появится здесь.',no:'Нет соединения. Повторите попытку.',agreement:'Условия для согласования',pending:'Проверьте условия. Это не автоматическое заключение договора или заказа.',accept:'Подтвердить содержание',decline:'Отклонить',accepted:'Подтверждено',declined:'Отклонено',mic:'Диктовать',speak:'Озвучить',recording:'Распознавание речи может передать аудио поставщику браузера. Продолжить?',unsupported:'Ваш браузер не поддерживает распознавание речи.',new:'Новая беседа',fresh:'Начать новую беседу? Без сохранённого кода доступ к прежнему разговору может быть утрачен.',privacyLink:'Конфиденциальность',session:'Сохраните личный код доступа, чтобы восстановить переписку после закрытия браузера.',closed:'Этот разговор закрыт.',copyCode:'Сохранить код доступа',copied:'Код скопирован',manualCopy:'Скопируйте код доступа',restoreTitle:'Восстановить прошлый разговор',restorePlaceholder:'Код доступа KNABA',restoreAction:'Открыть разговор',codeWarning:'Любой, у кого есть этот код, сможет прочитать переписку. Храните его в тайне.',invalidCode:'Неверный или устаревший код доступа.',}
 } as const;
+class AssistantHttpError extends Error {
+  constructor(readonly status:number){super(`HTTP ${status}`);}
+}
 async function http<T>(path:string,method='GET',data?:unknown,token?:string,signal?:AbortSignal):Promise<T>{
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),12000);
   const abort=()=>controller.abort();
@@ -24,7 +28,7 @@ async function http<T>(path:string,method='GET',data?:unknown,token?:string,sign
   else signal?.addEventListener('abort',abort,{once:true});
   try {
     const r=await fetch(path,{method,credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-KnaBa-Request':'portal-v1',...(token?{'X-KnaBa-Conversation':token}:{})},body:data===undefined?undefined:JSON.stringify(data),signal:controller.signal});
-    if(!r.ok)throw new Error(String(r.status));
+    if(!r.ok)throw new AssistantHttpError(r.status);
     return await r.json() as T;
   }finally{clearTimeout(timeout);signal?.removeEventListener('abort',abort);}
 }
@@ -65,8 +69,21 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   const captchaChanged=(status:CaptchaState,token='')=>{setCaptchaStatus(status);setCaptchaToken(token);};
   const [recoveryInput,setRecoveryInput]=createSignal(''),[codeCopied,setCodeCopied]=createSignal(false);
   const requests=createAssistantRequestState();
-  onCleanup(()=>requests.dispose());
   let recognition:Recognition|null=null,log:HTMLDivElement|undefined,panel:HTMLElement|undefined,launcher:HTMLButtonElement|undefined;
+  const receipts=createAssistantDisplayReceipts({
+    ticket,frame:callback=>requestAnimationFrame(callback),cancelFrame:id=>cancelAnimationFrame(id),
+    displayedIds:()=>{
+      const current=ticket(),snapshot=thread();
+      if(!open()||document.visibilityState!=='visible'||!current||snapshot?.conversation.id!==current.id)return [];
+      // Older servers omit this additive field; do not send unsupported receipt requests.
+      const allowed=new Set(snapshot.messages.filter(message=>message.sender==='owner'&&message.guestDisplayedAt===null).map(message=>message.id));
+      const viewport=window.visualViewport,left=viewport?.offsetLeft??0,top=viewport?.offsetTop??0;
+      return visibleOwnerMessageIds(log,allowed,{left,top,right:left+(viewport?.width??window.innerWidth),bottom:top+(viewport?.height??window.innerHeight)});
+    },
+    send:async(current,messageIds,signal)=>{await http(`/api/assistant/conversations/${current.id}/displayed`,'POST',{messageIds},current.token,signal);},
+    error:(problem,current)=>{expireGuestAccess(problem,current);},
+  });
+  onCleanup(()=>{requests.dispose();receipts.dispose();});
   function stopSpeech(){
     const active=recognition;recognition=null;
     if(active){
@@ -90,14 +107,32 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
       if(value&&/^[a-f0-9-]{36}$/i.test(value.id)&&/^[a-f0-9]{64}$/i.test(value.token)){setTicket(value);setAccepted(true);void load(value);}
     }catch{}
     const timer=setInterval(()=>{const current=ticket();if(open()&&current&&!document.hidden)void load(current);},8000);
-    onCleanup(()=>{clearInterval(timer);stopSpeech();});
+    const schedule=()=>receipts.schedule();
+    document.addEventListener('visibilitychange',schedule);window.addEventListener('resize',schedule);
+    window.visualViewport?.addEventListener('resize',schedule);window.visualViewport?.addEventListener('scroll',schedule);
+    onCleanup(()=>{
+      clearInterval(timer);stopSpeech();document.removeEventListener('visibilitychange',schedule);window.removeEventListener('resize',schedule);
+      window.visualViewport?.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('scroll',schedule);
+    });
   });
   createEffect(()=>{if(open())dialog.focusOnOpen();});
   createEffect(()=>{thread()?.messages.length;thread()?.offers.length;queueMicrotask(()=>{if(log)log.scrollTop=log.scrollHeight;});});
+  createEffect(()=>{open();ticket();thread();receipts.schedule();});
+  function expireGuestAccess(problem:unknown,current:Ticket|null):boolean{
+    if(!(problem instanceof AssistantHttpError)||problem.status!==404||!current||!sameAssistantTicket(ticket(),current))return false;
+    requests.reset();receipts.reset();stopSpeech();setBusy(false);
+    try{sessionStorage.removeItem(STORAGE);}catch{}
+    setTicket(null);setThread(null);setHuman(false);setKey('');setCodeCopied(false);
+    setAccepted(false);setCaptchaToken('');setCaptchaStatus('loading');setCaptchaResetVersion(v=>v+1);
+    // Preserve text the visitor has typed; a new conversation needs fresh consent.
+    setError(t.invalidCode);
+    return true;
+  }
   async function load(current:Ticket){
+    if(!sameAssistantTicket(ticket(),current))return;
     await requests.run('poll',request=>http<Thread>(`/api/assistant/conversations/${current.id}`,'GET',undefined,current.token,request.signal),{
       success:result=>{if(sameAssistantTicket(ticket(),current)){setThread(result);setError('');}},
-      error:()=>{if(open()&&sameAssistantTicket(ticket(),current))setError(t.no);},
+      error:problem=>{if(!expireGuestAccess(problem,current)&&open()&&sameAssistantTicket(ticket(),current))setError(t.no);},
     });
   }
   async function ensure(request:AssistantRequestScope):Promise<Ticket>{
@@ -123,8 +158,10 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     event.preventDefault();if(busy()||!draft().trim())return;
     if(!accepted()){setError(t.privacy);return;}
     const submitted=draft(),content=submitted.trim(),requestKey=key()||crypto.randomUUID();
+    let submittedTicket:Ticket|null=null;
     await requests.run('action',async request=>{
       const current=await ensure(request);request.check();
+      submittedTicket=current;
       const result=await http<Thread>(`/api/assistant/conversations/${current.id}/messages`,'POST',{content,idempotencyKey:requestKey},current.token,request.signal);
       return {current,result};
     },{
@@ -135,7 +172,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
         // The visitor may already be writing the next message while this one sends.
         if(key()===requestKey){if(draft()===submitted)setDraft('');setKey('');}
       },
-      error:problem=>setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no),
+      error:problem=>{if(!expireGuestAccess(problem,submittedTicket))setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);},
       finish:()=>setBusy(false),
     });
   }
@@ -143,14 +180,16 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     event.preventDefault();if(busy())return;
     if(!accepted()){setError(t.privacy);return;}
     const contact={name:name().trim(),email:email().trim(),phone:phone().trim()};
+    let submittedTicket:Ticket|null=null;
     await requests.run('action',async request=>{
       const current=await ensure(request);request.check();
+      submittedTicket=current;
       const result=await http<Thread>(`/api/assistant/conversations/${current.id}/handoff`,'POST',contact,current.token,request.signal);
       return {current,result};
     },{
       start:()=>{setBusy(true);setError('');},
       success:({current,result})=>{if(sameAssistantTicket(ticket(),current)){setThread(result);setHuman(false);}},
-      error:problem=>setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no),
+      error:problem=>{if(!expireGuestAccess(problem,submittedTicket))setError(problem instanceof Error && problem.message==='captcha_required'?t.captcha:t.no);},
       finish:()=>setBusy(false),
     });
   }
@@ -159,7 +198,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     await requests.run('action',request=>http<Thread>(`/api/assistant/conversations/${current.id}/offers/${offer.id}/decision`,'POST',{decision},current.token,request.signal),{
       start:()=>{setBusy(true);setError('');},
       success:result=>{if(sameAssistantTicket(ticket(),current))setThread(result);},
-      error:()=>setError(t.no),finish:()=>setBusy(false),
+      error:problem=>{if(!expireGuestAccess(problem,current))setError(t.no);},finish:()=>setBusy(false),
     });
   }
   function speak(){
@@ -206,7 +245,7 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
   }
   function reset(){
     if(!window.confirm(t.fresh))return;
-    requests.reset();stopSpeech();setBusy(false);
+    requests.reset();receipts.reset();stopSpeech();setBusy(false);
     try{sessionStorage.removeItem(STORAGE);}catch{}
     setTicket(null);setThread(null);setAccepted(false);setDraft('');setHuman(false);setError('');setKey('');setRecoveryInput('');setCodeCopied(false);
     setCaptchaToken('');setCaptchaStatus('loading');setCaptchaResetVersion(v=>v+1);
@@ -215,9 +254,9 @@ export default function KnabaAssistant(props:{locale?:AssistantLocale;initialOpe
     <Show when={open()} fallback={<button ref={launcher} type="button" class="ka-launcher" onClick={()=>setOpen(true)} aria-label={t.open}><span aria-hidden="true">✳</span> KNABA Assistant</button>}>
       <section ref={panel} role="dialog" aria-modal="false" aria-label="KNABA Assistant" class="ka-panel" tabIndex={-1} onKeyDown={dialog.keydown}>
         <header class="ka-header"><div><strong>✳ KNABA Assistant</strong><small>{t.tag}</small></div><button type="button" class="ka-icon" onClick={dialog.close} aria-label={t.close}>×</button></header>
-        <div ref={log} class="ka-history" aria-live="polite" aria-relevant="additions">
+        <div ref={log} class="ka-history" aria-live="polite" aria-relevant="additions" onScroll={()=>receipts.schedule()}>
           <p class="ka-message ka-assistant"><span>KNABA Assistant</span>{assistantGreeting(locale)}</p>
-          <For each={thread()?.messages??[]}>{item=><p class={`ka-message ka-${item.sender}`}><span>{item.sender==='owner'?'KnaBa':item.sender==='assistant'?'KNABA Assistant':''}</span>{item.content}</p>}</For>
+          <For each={thread()?.messages??[]}>{item=><p data-owner-message-id={item.sender==='owner'?item.id:undefined} class={`ka-message ka-${item.sender}`}><span>{item.sender==='owner'?'KnaBa':item.sender==='assistant'?'KNABA Assistant':''}</span>{item.content}</p>}</For>
           <For each={thread()?.offers??[]}>{offer=><div class="ka-offer"><strong>{t.agreement}</strong><p>{offer.content}</p><Show when={offer.state==='pending'} fallback={<small>{offer.state==='accepted'?t.accepted:t.declined}</small>}><small>{t.pending}</small><div class="ka-row"><button type="button" disabled={busy()} onClick={()=>void decide(offer,'accepted')}>{t.accept}</button><button type="button" disabled={busy()} onClick={()=>void decide(offer,'declined')}>{t.decline}</button></div></Show></div>}</For>
           <Show when={thread()?.conversation.status==='human'}><p class="ka-status">{t.hold}</p></Show>
           <Show when={thread()?.conversation.status==='closed'}><p class="ka-status">{t.closed}</p></Show>

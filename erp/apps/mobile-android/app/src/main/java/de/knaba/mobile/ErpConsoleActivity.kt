@@ -29,12 +29,24 @@ import java.util.concurrent.Executors
 /** Native, server-authorized workspace. Demo data never enters a company session. */
 class ErpConsoleActivity : Activity() {
     private var api = ErpConsoleTransport()
+    private var discovery = ErpServerDiscovery()
     private val worker = Executors.newSingleThreadExecutor()
+    private val configWorker = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
     private lateinit var content: LinearLayout
     private lateinit var notice: TextView
     private lateinit var progress: ProgressBar
     private lateinit var scroller: ScrollView
+    private lateinit var syncNotice: TextView
+    private lateinit var screenTitle: TextView
+    private var foreground = false
+    private var startedOnce = false
+    private var nextRefreshDelay = 0L
+    private var readRetryAt = 0L
+    private var refreshRead: (() -> Unit)? = null
+    private var refreshFailures = 0
+    private var discoveryBusy = false
+    private val refreshTick = Runnable { refreshRead?.invoke() }
     private var screen = 0L
     private var actor: JSONObject? = null
     private var demoMode = false
@@ -44,28 +56,15 @@ class ErpConsoleActivity : Activity() {
     private var backAction: (() -> Unit)? = null
     private var removePlatformBackCallback: (() -> Unit)? = null
     private data class PendingMutation(val title: String, val name: String, val input: String, val version: Int?, val key: String)
-    private data class RetainedSession(val transport: ErpConsoleTransport, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
+    private data class RetainedSession(val transport: ErpConsoleTransport, val discovery: ErpServerDiscovery, val actor: JSONObject?, val demo: Boolean, val pending: PendingMutation?)
     private var pendingRecovery: PendingMutation? = null
     private val controls = mutableListOf<View>()
     private val ink = Color.rgb(24, 52, 52)
     private val teal = Color.rgb(0, 105, 94)
     private val muted = Color.rgb(86, 109, 107)
-    private val modules = listOf(
-        Triple("task", R.string.erp_tasks, "task.read"),
-        Triple("site", R.string.erp_sites, "site.read"),
-        Triple("order", R.string.erp_orders, "order.manage"),
-        Triple("lead", R.string.erp_requests, "lead.read"),
-        Triple("channel", R.string.erp_messages, "chat.read"),
-        Triple("decision", R.string.erp_decisions, "decisions.read"),
-        Triple("crew_assignment", R.string.erp_crew, "crew.assign"),
-        Triple("employee", R.string.erp_people, "operations.read"),
-        Triple("shift", R.string.erp_shifts, "shift.read"),
-        Triple("presence", R.string.erp_presence, "location.presence.read"),
-        Triple("customer", R.string.erp_customers, "customer.manage"),
-        Triple("notification", R.string.erp_alerts, "notifications.manage"),
-        Triple("user", R.string.erp_users, "identity.manage"),
-        Triple("bot_config", R.string.erp_settings, "bot.manage")
-    )
+    // Discovery only: the ERP freshly authorizes and projects every returned entity.
+    // A role name never grants finance, location or customer access here.
+    private val modules = ConsoleModules.items
 
     override fun attachBaseContext(newBase: Context) { super.attachBaseContext(NativeLocale.wrap(newBase)) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +90,7 @@ class ErpConsoleActivity : Activity() {
         }
         val retained = lastNonConfigurationInstance as? RetainedSession
         if (retained != null) {
-            api = retained.transport; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
+            api = retained.transport; discovery = retained.discovery; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
             if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else showDashboard() }
             else showLogin()
         } else showLogin()
@@ -110,6 +109,7 @@ class ErpConsoleActivity : Activity() {
     }
     private fun heading(title: String, subtitle: String = "", back: (() -> Unit)? = null, showPending: Boolean = true) {
         screen++
+        main.removeCallbacks(refreshTick); refreshRead = null; refreshFailures = 0; discoveryBusy = false
         busy = false; mutation = false; uncertain = false; controls.clear(); backAction = back
         content.removeAllViews()
         if (demoMode) label(getString(R.string.erp_demo_banner), color = Color.rgb(104, 62, 0)).apply {
@@ -117,7 +117,7 @@ class ErpConsoleActivity : Activity() {
         }
         if (back != null) button(getString(R.string.erp_back), navigation = true) { goBack() }
         label("KNABA DE", 12f, teal).apply { letterSpacing = .14f; setTypeface(null, Typeface.BOLD) }
-        label(title, 28f).apply { setTypeface(null, Typeface.BOLD); setPadding(0, dp(4), 0, dp(8)) }
+        screenTitle = label(title, 28f).apply { setTypeface(null, Typeface.BOLD); setPadding(0, dp(4), 0, dp(8)) }
         if (subtitle.isNotEmpty()) label(subtitle, 14f, muted)
         progress = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
             isIndeterminate = true; visibility = View.GONE
@@ -126,6 +126,7 @@ class ErpConsoleActivity : Activity() {
         notice = label("", 14f, Color.rgb(142, 48, 35)).apply {
             accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE; visibility = View.GONE
         }
+        syncNotice = label("", 12f, muted).apply { visibility = View.GONE }
         if (showPending && pendingRecovery != null && api.hasPendingCommand()) {
             status(getString(R.string.erp_unknown_result))
             button(getString(R.string.erp_review_pending)) { showPendingRecovery() }
@@ -176,14 +177,15 @@ class ErpConsoleActivity : Activity() {
         setPadding(dp(16), dp(10), dp(16), dp(12))
         parent.addView(this, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10); bottomMargin = dp(2) })
     }
-    private fun loading(value: Boolean) {
+    private fun loading(value: Boolean, preserveInputs: Boolean = false) {
         busy = value; progress.visibility = if (value) View.VISIBLE else View.GONE
-        controls.forEach { it.isEnabled = !value }
+        controls.forEach { if (!(value && preserveInputs && it is EditText)) it.isEnabled = !value }
     }
-    private fun run(operation: () -> JSONObject, changing: Boolean = false, failed: ((Exception) -> Unit)? = null, done: (JSONObject) -> Unit) {
+    private fun run(operation: () -> JSONObject, changing: Boolean = false, refreshing: Boolean = false, failed: ((Exception) -> Unit)? = null, done: (JSONObject) -> Unit) {
         if (busy) return
         val ticket = screen
-        mutation = changing; loading(true); status(getString(R.string.erp_loading))
+        mutation = changing; loading(true, preserveInputs = refreshing)
+        if (!refreshing) status(getString(R.string.erp_loading))
         worker.execute {
             try {
                 val result = operation()
@@ -198,7 +200,7 @@ class ErpConsoleActivity : Activity() {
                         loading(false); mutation = false
                         val failure = error as? ErpConsoleTransport.Failure
                         uncertain = changing && (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT")
-                        if (failure?.status == 401 || failure?.code in setOf("NEEDS_REAUTH", "ACCESS_CHANGED")) {
+                        if (failure?.status == 401 || (refreshing && failure?.status == 403) || failure?.code in setOf("NEEDS_REAUTH", "ACCESS_CHANGED")) {
                             api.clear(); actor = null; showLogin(); status(getString(R.string.erp_session_expired))
                         } else {
                             status(if (uncertain) getString(R.string.erp_unknown_result) else errorText(error))
@@ -215,40 +217,148 @@ class ErpConsoleActivity : Activity() {
         return getString(when {
             code == "INVALID_ORIGIN" -> R.string.error_origin
             code == "INVALID_LOGIN_INPUT" || code == "INVALID_MESSAGE" -> R.string.error_validation
+            code == "SENSITIVE_COMMAND" -> R.string.erp_sensitive_command
             failure?.status == 403 -> R.string.erp_access_denied
             failure?.status == 409 -> R.string.error_conflict
             failure?.status == 429 -> R.string.erp_rate_limit
             failure?.status == 400 || failure?.status == 422 -> R.string.error_validation
-            error is java.io.IOException || failure?.outcomeUnknown == true || (failure?.status ?: 0) >= 500 -> R.string.erp_connection_error
+            code == "NETWORK_ERROR" || error is java.io.IOException || failure?.outcomeUnknown == true || (failure?.status ?: 0) >= 500 -> R.string.erp_connection_error
             else -> R.string.erp_request_failed
         })
+    }
+    private fun scheduleRefresh(delay: Long) {
+        nextRefreshDelay = delay
+        main.removeCallbacks(refreshTick)
+        if (foreground && refreshRead != null && !isDestroyed) main.postDelayed(refreshTick, delay)
+    }
+    private fun authority(value: JSONObject?): String {
+        val identity = JSONArray().put(value?.optString("userId")).put(value?.optString("companyId"))
+        listOf("roles", "permissions", "siteIds", "warehouseIds", "customerIds").forEach { key ->
+            val values = value?.optJSONArray(key) ?: JSONArray()
+            identity.put(JSONArray((0 until values.length()).map { values.optString(it) }.sorted()))
+        }
+        return identity.toString()
+    }
+    /** The only repeating work is authenticated GET. Forms and uncertain writes never retry themselves. */
+    private fun observe(interval: Long = 30_000, operation: () -> JSONObject, apply: (JSONObject) -> Unit) {
+        val ticket = screen
+        val transport = api
+        var lastPayload: String? = null
+        var lastUpdated: String? = null
+        refreshRead = refresh@{
+            if (!foreground || ticket != screen || isDestroyed) return@refresh
+            main.removeCallbacks(refreshTick)
+            if (busy) { scheduleRefresh(1_000); return@refresh }
+            if (uncertain || transport.hasPendingCommand()) { scheduleRefresh(interval); return@refresh }
+            val wait = readRetryAt - android.os.SystemClock.elapsedRealtime()
+            if (wait > 0) { status(getString(R.string.erp_rate_limit)); scheduleRefresh(wait); return@refresh }
+            syncNotice.visibility = View.VISIBLE
+            syncNotice.text = getString(R.string.erp_sync_updating)
+            val expectedAuthority = authority(actor)
+            run({
+                val current = transport.me().getJSONObject("actor")
+                if (authority(current) != expectedAuthority) throw ErpConsoleTransport.Failure(401, "ACCESS_CHANGED", false)
+                operation().put("_actor", current)
+            }, refreshing = true, failed = { error ->
+                val failure = error as? ErpConsoleTransport.Failure
+                val retryable = failure?.code == "NETWORK_ERROR" || error is java.io.IOException || failure?.status == 429 || (failure?.status ?: 0) >= 500
+                syncNotice.text = if (lastUpdated == null) getString(R.string.erp_sync_waiting) else getString(R.string.erp_sync_stale, lastUpdated)
+                if (retryable) {
+                    refreshFailures = (refreshFailures + 1).coerceAtMost(3)
+                    val serverDelay = failure?.retryAfterMillis ?: 0
+                    readRetryAt = android.os.SystemClock.elapsedRealtime() + serverDelay
+                    scheduleRefresh(ErpReadRetry.delay(interval, refreshFailures, serverDelay, Math.random()))
+                } // Protocol and other client errors require an explicit refresh or a new foreground entry.
+            }) { result ->
+                actor = result.getJSONObject("_actor")
+                val payload = result.toString()
+                val scroll = scroller.scrollY
+                if (payload != lastPayload) { apply(result); lastPayload = payload }
+                scroller.post { if (screen == ticket && !isDestroyed) scroller.scrollTo(0, scroll) }
+                lastUpdated = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss", resources.configuration.locales[0]))
+                syncNotice.text = if (demoMode) getString(R.string.erp_demo_banner) else getString(R.string.erp_sync_updated, lastUpdated)
+                refreshFailures = 0; readRetryAt = 0
+                if (!demoMode) scheduleRefresh(interval)
+            }
+        }
+        refreshRead?.invoke()
     }
     private fun showLogin() {
         actor = null; pendingRecovery = null
         heading(getString(R.string.erp_title), getString(R.string.erp_login_intro))
-        if (BuildConfig.DEBUG) {
-            button(getString(R.string.erp_try_demo), primary = true) { enterDemo() }
-            label(getString(R.string.erp_demo_intro), 13f, muted)
-        }
         button(getString(R.string.language_label)) { chooseLanguage() }
-        val server = field(getString(R.string.erp_server), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
-        server.setText(getPreferences(Context.MODE_PRIVATE).getString("erp-origin", ""))
+        val connection = label(getString(R.string.erp_server_connecting), 14f, muted, panel())
+        label(getString(R.string.erp_server_automatic), 13f, muted)
+        var resolvedOrigin = ""
+        val ticket = screen
+        val resolver = discovery
+        var configRetryAt = 0L
+        var configFailures = 0
+        refreshRead = discover@{
+            if (!foreground || ticket != screen || isDestroyed || busy || discoveryBusy) return@discover
+            val wait = configRetryAt - android.os.SystemClock.elapsedRealtime()
+            if (wait > 0) { scheduleRefresh(wait); return@discover }
+            discoveryBusy = true
+            connection.text = getString(R.string.erp_server_connecting)
+            configWorker.execute {
+                try {
+                    val origin = resolver.discover()
+                    main.post {
+                        if (ticket == screen && !isDestroyed) {
+                            discoveryBusy = false; resolvedOrigin = origin; configFailures = 0; configRetryAt = 0
+                            connection.text = getString(R.string.erp_server_connected)
+                            connection.setTextColor(teal)
+                            scheduleRefresh(60_000)
+                        }
+                    }
+                } catch (error: Exception) {
+                    main.post {
+                        if (ticket == screen && !isDestroyed) {
+                            discoveryBusy = false; resolvedOrigin = ""
+                            val failure = error as? ErpConsoleTransport.Failure
+                            val code = failure?.code
+                            connection.text = getString(when (code) {
+                                "SERVER_NOT_CONFIGURED" -> R.string.erp_server_pending
+                                "SERVER_CONFIG_INVALID" -> R.string.erp_server_invalid
+                                "SERVER_NOT_READY" -> R.string.erp_server_not_ready
+                                else -> R.string.erp_server_unavailable
+                            })
+                            connection.setTextColor(muted)
+                            if (code == "SERVER_NOT_CONFIGURED" || code == "SERVER_CONFIG_INVALID" || code == "SERVER_NOT_READY") scheduleRefresh(60_000)
+                            else {
+                                configFailures = (configFailures + 1).coerceAtMost(3)
+                                val serverDelay = failure?.retryAfterMillis ?: 0
+                                configRetryAt = android.os.SystemClock.elapsedRealtime() + serverDelay
+                                scheduleRefresh(ErpReadRetry.delay(30_000, configFailures, serverDelay, Math.random()))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        button(getString(R.string.erp_server_retry)) { refreshRead?.invoke() }
         val email = field(getString(R.string.erp_email), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
         val password = field(getString(R.string.erp_password), InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
         val code = field(getString(R.string.erp_otp), InputType.TYPE_CLASS_NUMBER).apply { filters = arrayOf(InputFilter.LengthFilter(6)) }
         button(getString(R.string.erp_sign_in), primary = true) {
-            val url = server.text.toString().trim(); val address = email.text.toString().trim()
+            val url = resolvedOrigin; val address = email.text.toString().trim()
             val secret = password.text.toString(); val otp = code.text.toString()
-            if (url.isBlank() || address.isBlank() || secret.isBlank()) { status(getString(R.string.erp_fields_required)); return@button }
+            if (address.isBlank() || secret.isBlank()) { status(getString(R.string.erp_fields_required)); return@button }
+            if (url.isBlank() || discoveryBusy) { status(getString(R.string.erp_server_wait)); refreshRead?.invoke(); return@button }
             val transport = api
             run({ transport.configure(url); transport.login(address, secret, otp) }, failed = { password.setText(""); code.setText("") }) { response ->
                 actor = response.optJSONObject("actor")
-                getPreferences(Context.MODE_PRIVATE).edit().putString("erp-origin", transport.origin()).apply()
+                readRetryAt = 0
                 password.setText(""); code.setText(""); recoverPending()
                 if (pendingRecovery != null) showPendingRecovery() else showDashboard()
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
+        if (BuildConfig.DEBUG) {
+            button(getString(R.string.erp_try_demo)) { enterDemo() }
+            label(getString(R.string.erp_demo_intro), 13f, muted)
+        }
+        refreshRead?.invoke()
     }
     private fun enterDemo() {
         if (!BuildConfig.DEBUG) return
@@ -276,7 +386,7 @@ class ErpConsoleActivity : Activity() {
         label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { human(roles.optString(it)) }, 13f, muted)
         val summary = panel()
         label(getString(R.string.erp_loading), 15f, muted, summary)
-        button(getString(R.string.erp_refresh)) { showDashboard() }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
         val destinations = panel()
         renderModules(destinations, null)
         button(getString(R.string.erp_actions)) { showActions() }
@@ -284,8 +394,7 @@ class ErpConsoleActivity : Activity() {
         button(getString(if (demoMode) R.string.erp_exit_demo else R.string.erp_logout)) { signOut() }
         label(getString(if (demoMode) R.string.erp_demo_intro else R.string.erp_presence_notice), 13f, muted)
         val transport = api
-        run({ val who = transport.me(); transport.dashboard().put("_actor", who.getJSONObject("actor")) }) { result ->
-            actor = result.getJSONObject("_actor")
+        observe(operation = { transport.dashboard() }) { result ->
             summary.removeAllViews()
             label(getString(R.string.erp_active_sites, result.optInt("activeSites")), 18f, ink, summary)
             label(getString(R.string.erp_active_shifts) + ": " + result.optInt("activeShifts"), 16f, muted, summary)
@@ -294,8 +403,8 @@ class ErpConsoleActivity : Activity() {
         }
     }
     private fun renderModules(parent: LinearLayout, counts: JSONObject?) {
-        for ((kind, name, permission) in modules) {
-            if (permitted(permission) || (kind == "task" && permitted("task.assign")) || (kind == "shift" && permitted("shift.manage"))) {
+        for ((kind, name, permissions) in modules) {
+            if (permissions.any(::permitted)) {
                 val count = if (counts?.has(kind) == true) " · " + counts.optInt(kind) else ""
                 button(getString(name) + count, parent = parent) { if (kind == "channel") showChannels() else showRecords(kind, getString(name)) }
             }
@@ -303,34 +412,35 @@ class ErpConsoleActivity : Activity() {
     }
     private fun showRecords(kind: String, title: String) {
         heading(title, getString(R.string.erp_server_scope), ::showDashboard)
-        button(getString(R.string.erp_refresh)) { showRecords(kind, title) }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
         val search = field(getString(R.string.erp_search))
+        val count = label("", 13f, muted)
         val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
-        val transport = api
-        run({ JSONObject().put("items", transport.entities(kind)) }) { result ->
-            val items = result.getJSONArray("items"); var limit = 40
-            fun render() {
-                clearList(list)
-                val query = search.text.toString().trim().lowercase(Locale.ROOT)
-                val selected = (0 until items.length()).mapNotNull { items.optJSONObject(it) }.filter {
-                    query.isEmpty() || (recordTitle(it) + " " + recordState(it) + " " + it.optString("id")).lowercase(Locale.ROOT).contains(query)
-                }
-                status(getString(R.string.erp_count, selected.size), success = true)
-                if (selected.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = list)
-                selected.take(limit).forEach { item ->
-                    val card = panel(list)
-                    label(recordTitle(item), 18f, ink, card).setTypeface(null, Typeface.BOLD)
-                    recordState(item).takeIf { it.isNotBlank() }?.let { label(human(it), 13f, teal, card) }
-                    button(getString(R.string.erp_view_details), parent = card) { showDetail(item, title) { showRecords(kind, title) } }
-                }
-                if (selected.size > limit) button(getString(R.string.erp_more), parent = list) { limit += 40; render() }
+        var items = JSONArray(); var limit = 40
+        fun render() {
+            clearList(list)
+            val query = search.text.toString().trim().lowercase(Locale.ROOT)
+            val selected = (0 until items.length()).mapNotNull { items.optJSONObject(it) }.filter {
+                query.isEmpty() || (recordTitle(it) + " " + recordState(it) + " " + it.optString("id")).lowercase(Locale.ROOT).contains(query)
             }
-            search.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { limit = 40; render() }
-                override fun afterTextChanged(s: Editable?) {}
-            })
-            render()
+            count.text = getString(R.string.erp_count, selected.size)
+            if (selected.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = list)
+            selected.take(limit).forEach { item ->
+                val card = panel(list)
+                label(recordTitle(item), 18f, ink, card).setTypeface(null, Typeface.BOLD)
+                recordState(item).takeIf { it.isNotBlank() }?.let { label(human(it), 13f, teal, card) }
+                button(getString(R.string.erp_view_details), parent = card) { showDetail(item, title) { showRecords(kind, title) } }
+            }
+            if (selected.size > limit) button(getString(R.string.erp_more), parent = list) { limit += 40; render() }
+        }
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { limit = 40; render() }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        val transport = api
+        observe(operation = { JSONObject().put("items", transport.entities(kind)) }) { result ->
+            items = result.getJSONArray("items"); render()
         }
     }
     private fun recordTitle(item: JSONObject): String {
@@ -345,32 +455,48 @@ class ErpConsoleActivity : Activity() {
     private fun showDetail(item: JSONObject, title: String, back: () -> Unit) {
         heading(recordTitle(item), title, back)
         val card = panel()
-        val data = item.optJSONObject("data") ?: JSONObject()
-        showValues(data, card)
-        label(getString(R.string.erp_record_id), 12f, muted, card)
-        label(item.optString("id"), 14f, ink, card).setTextIsSelectable(true)
-        if (item.has("version")) label(getString(R.string.erp_record_version, item.optInt("version")), 13f, muted, card)
-        if (item.optString("kind") == "task") {
-            val transport = api
-            run({ JSONObject().put("items", transport.catalog()) }) { result ->
-                val list = result.getJSONArray("items")
-                val state = data.optString("status", data.optString("state"))
-                val applicable = when (state) {
-                    "ASSIGNED" -> setOf("task.start")
-                    "IN_PROGRESS" -> setOf("task.worklog", "task.submit")
-                    else -> emptySet()
-                }
-                for (i in 0 until list.length()) {
-                    val command = list.optJSONObject(i) ?: continue
-                    if (command.optString("name") in applicable) button(commandTitle(command.optString("name")), primary = true) { showCommand(command, item) }
-                }
+        val actions = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        button(getString(R.string.erp_actions)) { showActions() }
+        val transport = api
+        val id = item.optString("id"); val kind = item.optString("kind")
+        observe(operation = {
+            val rows = transport.entities(kind)
+            val fresh = (0 until rows.length()).mapNotNull { rows.optJSONObject(it) }.firstOrNull { it.optString("id") == id }
+                ?: throw ErpConsoleTransport.Failure(403, "ACCESS_CHANGED", false)
+            JSONObject().put("item", fresh).put("catalog", if (ConsoleRecordActions.supports(kind) && fresh.optInt("version") > 0) transport.catalog() else JSONArray())
+        }) { result ->
+            val fresh = result.getJSONObject("item")
+            val data = fresh.optJSONObject("data") ?: JSONObject()
+            screenTitle.text = recordTitle(fresh)
+            clearList(card); clearList(actions)
+            showValues(data, card)
+            label(getString(R.string.erp_record_id), 12f, muted, card)
+            label(id, 14f, ink, card).setTextIsSelectable(true)
+            if (fresh.has("version")) label(getString(R.string.erp_record_version, fresh.optInt("version")), 13f, muted, card)
+            val taskActions = when (data.optString("status", data.optString("state"))) {
+                "ASSIGNED" -> setOf("task.start")
+                "IN_PROGRESS" -> setOf("task.worklog", "task.submit")
+                else -> emptySet()
+            }
+            val catalog = result.getJSONArray("catalog")
+            for (i in 0 until catalog.length()) {
+                val command = catalog.optJSONObject(i) ?: continue
+                val name = command.optString("name")
+                val field = ConsoleRecordActions.field(kind, name) ?: continue
+                val schema = command.optJSONObject("schema") ?: continue
+                val required = schema.optJSONArray("required") ?: continue
+                if (!permitted(command.optString("permission")) ||
+                    schema.optJSONObject("properties")?.optJSONObject(field)?.optString("type") != "string" ||
+                    (0 until required.length()).none { required.optString(it) == field } ||
+                    (kind == "task" && name !in taskActions)) continue
+                button(commandTitle(name), primary = true, parent = actions) { showCommand(command, JSONObject(fresh.toString())) }
             }
         }
-        button(getString(R.string.erp_actions)) { showActions() }
     }
     private fun showValues(data: JSONObject, parent: LinearLayout, depth: Int = 0) {
         data.keys().asSequence().sorted().take(40).forEach { key ->
-            if (key.lowercase(Locale.ROOT).contains("token") || key.lowercase(Locale.ROOT).contains("password") || key.lowercase(Locale.ROOT).contains("secret")) return@forEach
+            if (ErpCommandSecrets.sensitiveKey(key)) return@forEach
             val value = data.opt(key)
             if (value == null || value == JSONObject.NULL) return@forEach
             label(fieldLabel(key), 12f, muted, parent)
@@ -392,15 +518,17 @@ class ErpConsoleActivity : Activity() {
     }
     private fun showChannels() {
         heading(getString(R.string.erp_messages), getString(R.string.erp_server_scope), ::showDashboard)
-        button(getString(R.string.erp_refresh)) { showChannels() }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        val channels = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
         val transport = api
-        run({ JSONObject().put("items", transport.entities("channel")) }) { result ->
+        observe(operation = { JSONObject().put("items", transport.entities("channel")) }) { result ->
+            clearList(channels)
             val list = result.getJSONArray("items")
-            if (list.length() == 0) label(getString(R.string.erp_empty), color = muted)
+            if (list.length() == 0) label(getString(R.string.erp_empty), color = muted, parent = channels)
             for (i in 0 until list.length()) {
                 val channel = list.optJSONObject(i) ?: continue
                 val id = channel.optString("id"); val title = recordTitle(channel)
-                button(title) { showConversation(id, title) }
+                button(title, parent = channels) { showConversation(id, title) }
             }
         }
     }
@@ -426,9 +554,10 @@ class ErpConsoleActivity : Activity() {
             }) { pendingRecovery = null; composer.setText(""); showConversation(channel, title); status(getString(R.string.erp_sent), true) }
         }
         button(getString(R.string.erp_refresh)) {
-            if (pendingText != null) status(getString(R.string.erp_unknown_result)) else showConversation(channel, title)
+            if (pendingText != null) status(getString(R.string.erp_unknown_result)) else refreshRead?.invoke()
         }
-        run({ JSONObject().put("items", transport.messages(channel)) }) { result ->
+        observe(interval = 15_000, operation = { JSONObject().put("items", transport.messages(channel)) }) { result ->
+            clearList(messages)
             val list = result.getJSONArray("items")
             if (list.length() == 0) label(getString(R.string.erp_empty), color = muted, parent = messages)
             for (i in 0 until list.length()) {
@@ -443,20 +572,42 @@ class ErpConsoleActivity : Activity() {
     }
     private fun showActions() {
         heading(getString(R.string.erp_actions), getString(R.string.erp_actions_intro), ::showDashboard)
-        button(getString(R.string.erp_refresh)) { showActions() }
-        val transport = api
-        run({ JSONObject().put("items", transport.catalog()) }) { result ->
-            val catalog = result.getJSONArray("items")
-            if (catalog.length() == 0) label(getString(R.string.erp_empty), color = muted)
-            for (index in 0 until catalog.length()) {
-                val command = catalog.optJSONObject(index) ?: continue
-                button(commandTitle(command.optString("name"))) { showCommand(command) }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        val search = field(getString(R.string.erp_search))
+        val actions = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        var catalog = JSONArray()
+        fun render() {
+            clearList(actions)
+            val query = search.text.toString().trim()
+            val matches = (0 until catalog.length()).mapNotNull { catalog.optJSONObject(it) }.filter {
+                permitted(it.optString("permission")) && (query.isEmpty() ||
+                    (commandTitle(it.optString("name")) + " " + it.optString("name")).contains(query, ignoreCase = true))
             }
+            if (matches.isEmpty()) label(getString(R.string.erp_empty), color = muted, parent = actions)
+            matches.forEach { command -> button(commandTitle(command.optString("name")), parent = actions) { showCommand(command) } }
+        }
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { render() }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        val transport = api
+        observe(operation = { JSONObject().put("items", transport.catalog()) }) { result ->
+            catalog = result.getJSONArray("items"); render()
         }
     }
     private fun showCommand(command: JSONObject, contextItem: JSONObject? = null) {
         val name = command.optString("name")
-        heading(commandTitle(name), getString(R.string.erp_server_scope), if (contextItem == null) ::showActions else { { showDetail(contextItem, getString(R.string.erp_tasks)) { showRecords("task", getString(R.string.erp_tasks)) } } })
+        val oneShot = ErpCommandSecrets.isOneShot(name)
+        val contextKind = contextItem?.optString("kind").orEmpty()
+        val contextTitle = modules.firstOrNull { it.kind == contextKind }?.let { getString(it.title) }.orEmpty()
+        val contextField = ConsoleRecordActions.field(contextKind, name)
+        heading(commandTitle(name), getString(R.string.erp_server_scope), if (contextItem == null) ::showActions else { { showDetail(contextItem, contextTitle) { showRecords(contextKind, contextTitle) } } })
+        if (contextItem != null) {
+            label(recordTitle(contextItem), 18f)
+            label(getString(R.string.erp_record_version, contextItem.getInt("version")), 13f, muted)
+        }
+        if (oneShot) label(getString(R.string.erp_account_change_once), 13f, muted)
         val schema = command.optJSONObject("schema") ?: JSONObject()
         val properties = schema.optJSONObject("properties") ?: JSONObject()
         val required = schema.optJSONArray("required") ?: JSONArray()
@@ -464,8 +615,16 @@ class ErpConsoleActivity : Activity() {
         val readers = linkedMapOf<String, () -> Any?>()
         for (key in properties.keys().asSequence().sorted()) {
             val def = properties.optJSONObject(key) ?: JSONObject(); val type = def.optString("type", "string")
-            if (key == "taskId" && contextItem != null) {
+            if (key == contextField && contextItem != null) {
                 readers[key] = { contextItem.getString("id") }
+                continue
+            }
+            val snapshotValue = contextItem?.optJSONObject("data")?.opt(key)
+            if (contextItem != null && key in ConsoleRecordActions.snapshotFields(contextKind) &&
+                ((type == "string" && snapshotValue is String && snapshotValue.isNotBlank()) ||
+                 (type == "integer" && snapshotValue is Number && snapshotValue.toLong() > 0 && snapshotValue.toDouble() == snapshotValue.toLong().toDouble()))) {
+                readers[key] = { snapshotValue }
+                label(fieldLabel(key) + ": " + snapshotValue, 13f, muted)
                 continue
             }
             val unit = if (key == "quantityMilli") contextItem?.optJSONObject("data")?.optString("unit").orEmpty() else ""
@@ -484,19 +643,22 @@ class ErpConsoleActivity : Activity() {
                 if (def.has("default")) picker.setSelection(values.indexOf(def.opt("default")).let { if (it < 0) 0 else it + 1 })
                 readers[key] = { if (picker.selectedItemPosition == 0) null else values[picker.selectedItemPosition - 1] }
             } else {
-                val inputType = if (key == "quantityMilli") InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL else when (type) {
+                val secretField = ErpCommandSecrets.sensitiveKey(key)
+                val inputType = if (secretField) InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    else if (key == "quantityMilli") InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL else when (type) {
                     "integer" -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
                     "number" -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_NUMBER_FLAG_DECIMAL
                     else -> InputType.TYPE_CLASS_TEXT
                 }
                 val edit = field(caption, inputType, multiline = type == "object" || type == "array")
+                if (secretField) edit.isSaveEnabled = false
                 val defaultValue = def.opt("default")
                 if (defaultValue != null && defaultValue != JSONObject.NULL) {
                     edit.setText(if (key == "quantityMilli" && defaultValue is Number) ConsoleQuantity.display(defaultValue.toLong()) else defaultValue.toString())
                 }
                 if (type == "object" || type == "array") label(getString(R.string.erp_json_hint), 12f, muted)
                 readers[key] = {
-                    val raw = edit.text.toString().trim()
+                    val raw = if (secretField) edit.text.toString() else edit.text.toString().trim()
                     if (raw.isEmpty()) null else if (key == "quantityMilli") ConsoleQuantity.parse(raw, def.optLong("minimum", 0), def.optLong("maximum", 9_007_199_254_740_991L)) else when (type) {
                         "integer" -> raw.toLong()
                         "number" -> raw.toDouble().also { require(it.isFinite()) }
@@ -507,7 +669,7 @@ class ErpConsoleActivity : Activity() {
                 }
             }
         }
-        val version = if (contextItem == null) field(getString(R.string.erp_expected_version), InputType.TYPE_CLASS_NUMBER) else null
+        val version = if (contextItem == null && !oneShot) field(getString(R.string.erp_expected_version), InputType.TYPE_CLASS_NUMBER) else null
         var pending: JSONObject? = null; var pendingVersion: Int? = null; var key = UUID.randomUUID().toString()
         val transport = api
         button(getString(R.string.erp_submit), primary = true) {
@@ -520,6 +682,7 @@ class ErpConsoleActivity : Activity() {
                         if (value == null && field in mandatory) throw IllegalArgumentException()
                         if (value != null) input.put(field, value)
                     }
+                    if (oneShot) ErpCommandSecrets.validateOneShot(name, input)
                     val rawVersion = version?.text?.toString()?.trim().orEmpty()
                     pendingVersion = if (contextItem != null) contextItem.getInt("version").also { require(it > 0) }
                         else if (rawVersion.isEmpty()) null else rawVersion.toInt().also { require(it > 0) }
@@ -528,15 +691,27 @@ class ErpConsoleActivity : Activity() {
             }
             val payload = pending!!
             val submit = {
-                pendingRecovery = PendingMutation(commandTitle(name), name, payload.toString(), pendingVersion, key)
-                run({ transport.command(name, payload, pendingVersion, key) }, changing = true, failed = { error ->
-                    val failure = error as? ErpConsoleTransport.Failure
-                    if (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT") controls.filterNot { it is Button }.forEach { it.isEnabled = false }
-                    else { pending = null; pendingVersion = null; pendingRecovery = null; key = UUID.randomUUID().toString() }
-                }) { pendingRecovery = null; if (contextItem == null) showActions() else showRecords("task", getString(R.string.erp_tasks)); status(getString(R.string.erp_saved), true) }
+                if (oneShot) {
+                    val requestVersion = pendingVersion
+                    controls.filterIsInstance<EditText>().forEach { it.setText("") }
+                    pending = null; pendingVersion = null; pendingRecovery = null
+                    run({ transport.command(name, payload, requestVersion, key) }, changing = true, failed = { error ->
+                        api.clear(); actor = null; showLogin()
+                        val unknown = (error as? ErpConsoleTransport.Failure)?.outcomeUnknown == true
+                        status((if (unknown) getString(R.string.erp_unknown_result) + " " else "") + getString(R.string.erp_account_change_reauth))
+                    }) { api.clear(); actor = null; showLogin(); status(getString(R.string.erp_account_change_reauth), true) }
+                } else {
+                    pendingRecovery = PendingMutation(commandTitle(name), name, payload.toString(), pendingVersion, key)
+                    run({ transport.command(name, payload, pendingVersion, key) }, changing = true, failed = { error ->
+                        val failure = error as? ErpConsoleTransport.Failure
+                        if (failure?.outcomeUnknown == true || failure?.code == "IDEMPOTENCY_CONFLICT") controls.filterNot { it is Button }.forEach { it.isEnabled = false }
+                        else { pending = null; pendingVersion = null; pendingRecovery = null; key = UUID.randomUUID().toString() }
+                    }) { pendingRecovery = null; if (contextItem == null) showActions() else showRecords(contextKind, contextTitle); status(getString(R.string.erp_saved), true) }
+                }
             }
             if (command.optBoolean("highRisk")) {
-                AlertDialog.Builder(this).setTitle(R.string.erp_confirm_sensitive).setMessage(commandTitle(name))
+                val summary = commandTitle(name) + if (contextItem == null) "" else "\n" + recordTitle(contextItem) + "\n" + getString(R.string.erp_record_version, contextItem.getInt("version"))
+                AlertDialog.Builder(this).setTitle(R.string.erp_confirm_sensitive).setMessage(summary)
                     .setNegativeButton(R.string.erp_cancel) { _, _ -> if (!uncertain) { pending = null; pendingVersion = null } }
                     .setPositiveButton(R.string.erp_confirm) { _, _ -> submit() }.show()
             } else submit()
@@ -566,6 +741,10 @@ class ErpConsoleActivity : Activity() {
             "text", "description" -> R.string.erp_field_description
             "status", "state" -> R.string.erp_field_status
             "email" -> R.string.erp_email
+            "currentPassword" -> R.string.erp_current_password
+            "newPassword" -> R.string.erp_new_password
+            "secret" -> R.string.erp_mfa_secret
+            "otp" -> R.string.erp_otp
             "phone" -> R.string.erp_field_phone
             "address" -> R.string.erp_field_address
             "siteId", "site_id" -> R.string.erp_sites
@@ -584,11 +763,55 @@ class ErpConsoleActivity : Activity() {
         "HOUR" -> "h"
         else -> human(value)
     }
-    private fun commandTitle(name: String): String = when (name) {
+    private fun commandTitle(name: String): String {
+      val title = when (name) {
         "task.start" -> getString(R.string.erp_start_task)
         "task.worklog" -> getString(R.string.erp_log_work)
         "task.submit" -> getString(R.string.erp_submit_task)
+        "user.password.rotate" -> getString(R.string.erp_change_password)
+        "user.mfa.configure" -> getString(R.string.erp_configure_mfa)
+        "request.submit", "request.batch.submit", "payout.submit", "order.submit", "issue.submit" -> getString(R.string.erp_action_submit)
+        "quote.approve", "payout.approve", "report.approve", "procurement.approve" -> getString(R.string.erp_action_approve)
+        "request.approve", "request.batch.approve", "timesheet.review", "report.review", "order.review", "trip.approve" -> getString(R.string.erp_action_review)
+        "request.close", "request.batch.close", "procurement.close" -> getString(R.string.erp_action_close)
+        "request.ack", "payout.ack", "report.ack" -> getString(R.string.erp_action_receipt)
+        "payout.ack_amend" -> getString(R.string.erp_action_receipt_amend)
+        "quote.send" -> getString(R.string.erp_action_send)
+        "quote.accept", "crew_assignment.acknowledge" -> getString(R.string.erp_action_accept)
+        "quote.reject", "crew_assignment.decline" -> getString(R.string.erp_action_decline)
+        "quote.expire", "crew_assignment.expire" -> getString(R.string.erp_action_expire)
+        "crew_assignment.start" -> getString(R.string.erp_action_start)
+        "dispatch.reschedule" -> getString(R.string.erp_action_reschedule)
+        "order.confirm" -> getString(R.string.erp_action_confirm)
+        "order.link_site", "issue.link_work" -> getString(R.string.erp_action_link)
+        "order.transition" -> getString(R.string.erp_action_status)
+        "timesheet.lock" -> getString(R.string.erp_action_lock)
+        "timesheet.correction" -> getString(R.string.erp_action_correct)
+        "timesheet.correction.bulk" -> getString(R.string.erp_action_correct_bulk)
+        "payout.cancel" -> getString(R.string.erp_action_cancel)
+        "payout.record" -> getString(R.string.erp_action_record_payment)
+        "payout.reconcile", "procurement.reconcile" -> getString(R.string.erp_action_reconcile)
+        "payout.reverse" -> getString(R.string.erp_action_reverse)
+        "procurement.order" -> getString(R.string.erp_action_order)
+        "procurement.receive" -> getString(R.string.erp_action_receive)
+        "procurement.confirm_delivery", "report.delivered" -> getString(R.string.erp_action_delivery)
+        "report.refresh" -> getString(R.string.erp_action_refresh)
+        "report.publish" -> getString(R.string.erp_action_publish)
+        "report.revise" -> getString(R.string.erp_action_revise)
+        "issue.qualify" -> getString(R.string.erp_action_classify)
+        "issue.resolve" -> getString(R.string.erp_action_resolve)
+        "issue.reopen" -> getString(R.string.erp_action_reopen)
+        "trip.destination" -> getString(R.string.erp_action_destination)
+        "trip.stop" -> getString(R.string.erp_action_stop)
+        "trip.resume" -> getString(R.string.erp_action_resume)
+        "trip.arrive" -> getString(R.string.erp_action_arrive)
+        "trip.end" -> getString(R.string.erp_action_end)
         else -> human(name)
+      }
+      val kind = ConsoleRecordActions.kind(name)
+      if (kind == null || kind == "task") return title
+      val module = modules.firstOrNull { it.kind == kind } ?: return title
+      return getString(module.title) + " · " + title
     }
     private fun human(value: String): String = when (value) {
         "ASSIGNED" -> getString(R.string.erp_state_assigned)
@@ -629,10 +852,20 @@ class ErpConsoleActivity : Activity() {
     @SuppressLint("GestureBackNavigation")
     @Deprecated("Compatibility fallback; modern gestures use the platform back dispatcher")
     override fun onBackPressed() { goBack() }
-    override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, actor, demoMode, pendingRecovery)
+    override fun onStart() {
+        super.onStart(); foreground = true
+        // Start deferred initial work or resume an idle screen only while visible.
+        if (!busy && !discoveryBusy) scheduleRefresh(if (startedOnce) 0 else nextRefreshDelay)
+        startedOnce = true
+    }
+    override fun onStop() {
+        foreground = false; main.removeCallbacks(refreshTick); super.onStop()
+    }
+    override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, discovery, actor, demoMode, pendingRecovery)
     override fun onDestroy() {
         removePlatformBackCallback?.invoke(); removePlatformBackCallback = null
         screen++; if (!isChangingConfigurations) api.clear()
-        main.removeCallbacksAndMessages(null); worker.shutdown(); super.onDestroy()
+        foreground = false; refreshRead = null
+        main.removeCallbacksAndMessages(null); worker.shutdown(); configWorker.shutdownNow(); super.onDestroy()
     }
 }

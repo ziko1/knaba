@@ -1,6 +1,7 @@
 import {z} from 'zod';
 import {assert,DomainError,id,timestamp,type Actor,type CommandContext,type CommandRegistry,type Entity,type Data} from '../../packages/domain/core.js';
 import {whatsAppPolicy} from '../../packages/domain/communications.js';
+import {whatsappConsentAllowed} from '../../packages/domain/notification-policy.js';
 import {authorizeDigestPolicy,buildOperationsDigest,digestOwner,digestPolicyInput,digestPolicySchema,digestScopeAllowed,latestDigestSlot,operationsDigestHash,operationsDigestVisible,policyDue,type DigestTransaction,type OperationsDigestHost} from '../../packages/domain/operations-digest.js';
 
 export function createOperationsDigestCommands<T extends DigestTransaction>(host:OperationsDigestHost<T>):CommandRegistry {
@@ -13,7 +14,7 @@ export function createOperationsDigestCommands<T extends DigestTransaction>(host
   const members=(channel.data.members??[]).filter((m:Data)=>m.active!==false&&!m.revoked_at&&!m.revokedAt&&!m.left_at&&!m.leftAt&&!m.removed_at&&!m.removedAt&&(!m.expires_at&&!m.expiresAt||Date.parse(m.expires_at??m.expiresAt)>Date.parse(now)));
   assert(members.some((m:Data)=>m.user_id===owner.userId)&&members.length<=2,'ACCESS_DENIED',{reason:'DIGEST_PRIVATE_OWNER_CHANNEL_REQUIRED'});
   for(const member of members){assert(member.external!==true,'ACCESS_DENIED');if(member.user_id!==owner.userId){const user=await tx.get('user',member.user_id);assert(user.companyId===tx.companyId&&user.data.active===true&&user.data.roles?.includes('SERVICE_ACCOUNT'),'ACCESS_DENIED',{reason:'DIGEST_PRIVATE_OWNER_CHANNEL_REQUIRED'});}}
-  const setting=(await tx.list('notification_setting')).find(row=>row.data.user_id===owner.userId),allowed=whatsAppPolicy({now,last_inbound_at:setting?.data.last_inbound_at,consent:setting?.data.whatsapp_consent===true,opted_out:setting?.data.opted_out,approved_template:input.template,template_status:input.templateStatus});assert(allowed.allowed,'NEEDS_APPROVAL',{reason:allowed.reason});
+  const setting=(await tx.list('notification_setting')).find(row=>row.data.user_id===owner.userId),allowed=whatsAppPolicy({now,last_inbound_at:setting?.data.last_inbound_at,consent:whatsappConsentAllowed(setting?.data),opted_out:setting?.data.opted_out,approved_template:input.template,template_status:input.templateStatus});assert(allowed.allowed,'NEEDS_APPROVAL',{reason:allowed.reason});
   const origin=process.env.PUBLIC_ORIGIN;let url:URL|undefined;try{if(origin)url=new URL(origin);}catch{}assert(url?.protocol==='https:'&&!url.username&&!url.password,'NEEDS_APPROVAL',{reason:'DIGEST_PUBLIC_ORIGIN_REQUIRED'});
  };
  return {

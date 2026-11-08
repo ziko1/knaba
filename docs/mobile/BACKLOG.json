@@ -126,6 +126,99 @@
       "description": "iOS unknown-write retries preserve idempotency and logout fences stale session responses",
       "acceptance": "Native XCTest and actual iPhone interrupted write/relogin/retry create one effect only",
       "status": "PENDING"
+    },
+    {
+      "id": "MOBILE-012",
+      "description": "Check standard Android installer failure and use the current company logo as the KNABA DE launcher icon",
+      "source": "перевир ничо невидбувається при вибори стандартного установщика на телефони воно невстановлюється и добав логотип компании як иконку приложения кнаба де",
+      "baseSha": "d03e72b8c5030390c635f3aac9133d977078dedf",
+      "branch": "fix/knaba-android-install-icon-20261108",
+      "status": "APK_AND_BRAND_VERIFIED_PHONE_INSTALL_OPEN",
+      "budget": "no_new_paid_spend",
+      "acceptance": [
+        {
+          "id": "M12-DIAGNOSIS",
+          "expected": "Inspect the actual previous APK/signature/manifest and distinguish confirmed failures from missing phone evidence",
+          "owner": "/root/android_install_audit",
+          "status": "PASS_ARTIFACT_SCOPE_ROOT_CAUSE_UNKNOWN",
+          "evidence": "evidence/android-install-icon-20261108/verification.json"
+        },
+        {
+          "id": "M12-BRAND",
+          "expected": "Current company logo in packaged adaptive/round icon, legible without cropping; inspect actual rendering",
+          "owner": "/root/android_company_icon",
+          "status": "PASS_ROBOLECTRIC_NATIVE_RENDER_AND_VISUAL_REVIEW",
+          "evidence": "evidence/android-install-icon-20261108/verification.json"
+        },
+        {
+          "id": "M12-APK",
+          "expected": "Standalone signed versionCode6 APK, same package/certificate as0.4.1, CRC/alignment/manifest checks and independent review",
+          "owner": "/root",
+          "status": "PASS_STATIC_ARTIFACT_AND_INDEPENDENT_REVIEW",
+          "evidence": "evidence/android-install-icon-20261108/verification.json"
+        },
+        {
+          "id": "M12-PHONE",
+          "expected": "User standard installer successfully installs or updates and app launches with branded icon",
+          "owner": "user_device",
+          "status": "BLOCKED_NO_DEVICE_ACCESS",
+          "evidence": "evidence/android-install-icon-20261108/verification.json"
+        },
+        {
+          "id": "M12-DELIVERY",
+          "expected": "Separate downloadable APK with Android12+ and safe Files/Downloads installation instructions; no uninstall/clear-data workaround",
+          "owner": "/root",
+          "status": "PASS_SEPARATE_APK_SAVED_WITH_GUIDE",
+          "evidence": "evidence/android-install-icon-20261108/verification.json"
+        }
+      ],
+      "evidence": "evidence/android-install-icon-20261108/verification.json",
+      "next": "Open downloaded APK from Files/Downloads on Android12+. Confirm installation/update and icon on the real phone; if the installer closes, collect model/Android/source app and screenshot. Do not uninstall or clear existing app data.",
+      "testedSourceSha": "df1fe55f0d5c14e7f5a43340985f3a894e6b934e",
+      "artifactSha256": "5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1"
+    },
+    {
+      "id": "MOBILE-013",
+      "description": "Автоматична конфігурація ERP та оновлення авторизованих даних Android за запитом користувача 2026-11-08.",
+      "source": "дані підтягуватись мають автоматично з сервера, настрой все і продумай",
+      "status": "IN_PROGRESS_LIVE_SERVER_CONFIGURATION_BLOCKED",
+      "baseSha": "b80b320e0c34c3fe1c1f80d5e11f4cda40d691e5",
+      "remoteReconciledSha": "9ff77d7b0161a4dde84314f2df327e4594e0eb0c",
+      "acceptance": [
+        {
+          "id": "M13-A",
+          "expected": "No manual ERP URL; fixed official public metadata, strict HTTPS company host, readiness, no credentials before successful discovery",
+          "status": "PENDING_EXACT_SOURCE_VERIFICATION"
+        },
+        {
+          "id": "M13-B",
+          "expected": "Foreground initial/resume/periodic reads; preserve search/draft/scroll; bounded retry and no automatic mutations; clear revoked scopes",
+          "status": "PENDING_EXACT_SOURCE_VERIFICATION"
+        },
+        {
+          "id": "M13-C",
+          "expected": "Same-key versionCode7 standalone Android APK and six complete locales",
+          "status": "PENDING_BUILD"
+        },
+        {
+          "id": "M13-D",
+          "expected": "Verified real ERP origin, ready database and scoped company account on an actual phone",
+          "status": "BLOCKED_SERVER_CONFIGURATION_AND_DEVICE_ACCESS"
+        },
+        {
+          "id": "M13-E",
+          "expected": "Independent review of exact source and artifact",
+          "status": "BLOCKED_AGENT_CONTEXT_CAPACITY"
+        }
+      ],
+      "budget": {
+        "externalPaidProviderCalls": 0,
+        "productionMutations": 0,
+        "newDependencies": 0,
+        "independentReview": "Attempted server and Android agents failed before work with context-window capacity errors. No review PASS claimed."
+      },
+      "evidence": "evidence/android-autosync-20261108/public-server-probe.json",
+      "promotion": "No merge, production deploy or GitHub publication authorized; previous auto-review push rejection remains active."
     }
   ]
 }

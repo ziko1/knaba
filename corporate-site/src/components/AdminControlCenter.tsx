@@ -3,12 +3,14 @@ import type { PortalSession } from '../lib/portal-contract';
 import { portalReturnTo, resolvePortalLocale, ensurePortalLocale, portalMessages, type PortalLocale } from '../lib/portal-i18n';
 import { allowedAdminModules, allowedAdminSections, resolveAdminSection, type AdminModuleId, type AdminSection } from '../lib/admin-access';
 import AdminModuleOutlet from './AdminModuleOutlet';
+import type {InboxLabels} from '../lib/assistant-inbox-i18n';
 import DeveloperWorkspaceBar from './DeveloperWorkspaceBar';
 import { workspaceWords } from '../lib/workspace-i18n';
-import {adminWords} from '../lib/portal-locale-data';
+import {adminWords,installPortalLocale} from '../lib/portal-locale-data';
 import { listenWorkspaceNavigation, workspaceHref } from '../lib/workspace-navigation';
 import { hostingAuthentication } from '../lib/hosting-auth';
-import '../styles/admin-center.css';
+import {accountSettingsLinks} from '../lib/account-settings-links';
+import '../styles/private-workspace.css';
 const hostingAuth = hostingAuthentication();
 
 type Phase = 'checking' | 'ready' | 'error';
@@ -16,7 +18,8 @@ type Phase = 'checking' | 'ready' | 'error';
 
 const overviewIcon = '◈';
 
-export default function AdminControlCenter() {
+export default function AdminControlCenter(props:{initialInboxLabels:InboxLabels;initialLocalePack:unknown}) {
+  installPortalLocale(props.initialLocalePack,'de');
   const [phase,setPhase] = createSignal<Phase>('checking');
   const [session,setSession] = createSignal<PortalSession|null>(null);
   const [language,setLanguage] = createSignal<PortalLocale>('de');
@@ -221,6 +224,7 @@ export default function AdminControlCenter() {
                     <option value="de">DE</option><option value="en">EN</option><option value="pl">PL</option><option value="lt">LT</option><option value="ru">RU</option><option value="uk">UK</option>
                   </select></label>
                 <button type="button" class="kncc-tool" onClick={() => void verifySession()}>{t().refresh}</button>
+                <Show when={hostingAuth.passwordAccounts}><a class="kncc-tool" data-astro-reload target="_top" href={'/account/settings/?lang='+language()}>{accountSettingsLinks[language()].settings}</a></Show>
                 <a class="kncc-tool" data-astro-reload target="_top" href={hostingAuth.signOut(publicHome())}>{t().signOut}</a>
               </div>
             </div>
@@ -235,7 +239,7 @@ export default function AdminControlCenter() {
             </Show>
             <Show when={selected()!=='overview'}><div class="kncc-module-heading"><h2 ref={sectionHeading} tabIndex={-1}>{names()[selected()]}</h2></div></Show>
             <For each={modules()}>{module=><Show when={visited().includes(module.id)}>
-              <div class="kncc-module" hidden={selected()!==module.id}><Suspense fallback={<p role="status">{t().loading}</p>}><AdminModuleOutlet id={module.id} role={role()} locale={language()} active={selected()===module.id} testing={testing()}/></Suspense></div>
+              <div class="kncc-module" hidden={selected()!==module.id}><Suspense fallback={<p role="status">{t().loading}</p>}><AdminModuleOutlet id={module.id} role={role()} locale={language()} active={selected()===module.id} testing={testing()} initialInboxLabels={props.initialInboxLabels}/></Suspense></div>
             </Show>}</For>
           </section>
         </div>

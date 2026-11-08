@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-11-08T10:21:23.553905+00:00",
+  "baseCommit": "00dc255e8e492cdfb9eee155eaffc5d9b139272b",
+  "author": "root",
+  "independentReviewer": "coverage_matrix",
+  "status": "ACCEPTED_FOR_SOURCE_INTEGRATION",
+  "scope": "Only successful artifact retention 14 to 1 day and failure artifact retention 7 to 1 day, matching the current verification budget. Source, build, simulator, upload paths and workflow guards unchanged.",
+  "validation": "Independent exact two-line workflow diff review; no new simulator/test result is asserted",
+  "files": {
+    ".github/workflows/ios.yml": "63826f644c7353520a6e5a419f0f01aa51e5708f64c2afd1c9a1679b6c09709a"
+  }
+}

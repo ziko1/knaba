@@ -11,12 +11,13 @@ import {Database,assertGpsStorageSafe} from './database.ts';
 import {Engine} from './engine.ts';
 import {createApiModule} from './http.ts';
 import {identityCommands} from '../../packages/domain/identity.ts';
-import {verifyWhatsAppSignature,verifyWhatsAppChallenge,parseWhatsAppWebhook} from '../../packages/integrations/index.ts';
+import {verifyWhatsAppChallenge} from '../../packages/integrations/index.ts';
+import {whatsAppIngressHandler,whatsAppRawBody} from './whatsapp-ingress.ts';
 import {acceptTelegramWebhook} from './telegram-ingress.ts';
 import {TelegramBoundaryError} from '../../packages/integrations/telegram.ts';
 import {createHash} from 'node:crypto';
 import {validationInputBudgetMiddleware} from './validation-budget.ts';
-const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']).default('DEMO'),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
+const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
 if(env.APP_MODE==='PRODUCTION'&&(!env.AUTH_ENCRYPTION_KEY||!env.PUBLIC_ORIGIN||!env.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
 const db=new Database();
 await assertGpsStorageSafe(db,env.COMPANY_ID);
@@ -27,6 +28,7 @@ const buildSha=globals.__KNABA_BUILD_SHA__??env.GIT_SHA??'0000000000000000000000
 const app=await NestFactory.create(createApiModule({db,engine,companyId:env.COMPANY_ID,appMode:env.APP_MODE,buildSha,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY,integrationCredentials:parseIntegrationCredentials(process.env.INTEGRATION_CREDENTIALS_JSON),cookieSecure:env.PUBLIC_ORIGIN?.startsWith('https:')}),{bodyParser:false,logger:['error','warn']});
 const server=app.getHttpAdapter().getInstance();server.set('trust proxy',1);
 app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'","data:","blob:"],connectSrc:["'self'"],frameAncestors:["'self'",...(process.env.WIDGET_ALLOWED_ORIGINS??'').split(',').filter(Boolean).map(origin=>z.string().url().parse(origin))]}},crossOriginEmbedderPolicy:false}));
+app.use(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],whatsAppRawBody());
 app.use(['/api/v1/media/upload','/api/v1/media/uploads'],express.json({limit:'28mb'}));
 app.use(['/api/v1/mobile/events','/api/v1/device-events/batch'],express.json({limit:'1mb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
 app.use('/api/v1/integrations',express.json({limit:'256kb',verify:(req:any,_res,buf)=>{req.rawBody=buf;}}));
@@ -39,7 +41,7 @@ server.get('/health',(_req:any,res:any)=>res.json({ok:true,application:'KNABA DE
 server.get('/ready',async(_req:any,res:any)=>{try{await assertGpsStorageSafe(db,env.COMPANY_ID);if(env.APP_MODE==='PRODUCTION')await db.transaction(env.COMPANY_ID,'PRODUCTION_READINESS',tx=>assertProductionRetentionMatrix(tx));await db.query('SELECT token_hash FROM auth_sessions LIMIT 0');await db.transaction(env.COMPANY_ID,'READINESS',async tx=>{if(!(await tx.list('company')).some(c=>c.id===env.COMPANY_ID))throw Error('MISSING_CONFIGURATION');if(env.APP_MODE==='PRODUCTION'&&!(await tx.list('user')).some(u=>u.data.active&&u.data.roles?.includes('OWNER')))throw Error('MISSING_CONFIGURATION');});res.json({ready:true,database:'CONNECTED',mode:env.APP_MODE});}catch{res.status(503).json({ready:false});}});
 server.get('/version',(_req:any,res:any)=>res.json({sha:buildSha,gitSha:buildSha,version:'0.1.0',mode:env.APP_MODE}));
 server.get(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],(req:any,res:any)=>{try{const result=verifyWhatsAppChallenge(req.query,process.env.WHATSAPP_VERIFY_TOKEN??'');res.status(200).send(result);}catch{res.status(403).send('Forbidden');}});
-server.post(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],async(req:any,res:any)=>{try{if(!process.env.WHATSAPP_APP_SECRET||!verifyWhatsAppSignature(req.rawBody,req.headers['x-hub-signature-256'],process.env.WHATSAPP_APP_SECRET)){res.status(401).json({code:'ACCESS_DENIED'});return;}const configuredPhone=process.env.WHATSAPP_PHONE_NUMBER_ID;if(!configuredPhone){res.status(503).json({code:'MISSING_CONFIGURATION'});return;}const values=(req.body?.entry??[]).flatMap((entry:any)=>(entry.changes??[]).map((change:any)=>change.value));if(!values.length||values.some((value:any)=>value?.metadata?.phone_number_id!==configuredPhone)){res.status(401).json({code:'ACCESS_DENIED'});return;}const events=parseWhatsAppWebhook(req.body);await db.transaction(env.COMPANY_ID,'WHATSAPP_INBOX',async tx=>{for(const event of events){const eventId=event.kind==='STATUS'?`${event.id}:${event.status}:${event.received_at}`:event.id;const row=await tx.query('INSERT INTO webhook_inbox(provider,event_id,company_id,payload) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING event_id',['WHATSAPP',eventId,env.COMPANY_ID,JSON.stringify(event)]);if(row.rows.length)await tx.event('whatsapp.inbound',{provider:'WHATSAPP',event_id:eventId});}});res.status(200).json({accepted:true});}catch{res.status(400).json({code:'VALIDATION_ERROR'});}});
+server.post(['/webhooks/whatsapp','/api/v1/webhooks/whatsapp'],whatsAppIngressHandler(db,env.COMPANY_ID,()=>({appSecret:process.env.WHATSAPP_APP_SECRET,phoneNumberId:process.env.WHATSAPP_PHONE_NUMBER_ID})));
 // Telegram webhook has a separate verified secret header; no implicit customer/worker permissions.
 server.post(['/webhooks/telegram','/api/v1/webhooks/telegram'],async(req:any,res:any)=>{
  try {

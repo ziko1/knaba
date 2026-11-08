@@ -56,3 +56,22 @@ No new provider subscriptions or sends, using existing VPS. Brevo: no sending do
 
 ## 2026-10-27 · owner invitation attestation
 Existing isolated VPS Node24 runtime reused, zero new external email/OIDC/AI/paid-provider calls or subscriptions activated. KNABA delivery domain not verified, external budget and quota UNKNOWN. No production deploy or main merge without separate release gates.
+
+
+## 2026-11-08 — account settings extension
+
+Використано наявні локальні Node24 залежності й поточну команду ChatGPT з4слотами;
+жодного нового платного провайдера або підписки не активовано, реальних листів
+не надсилали. Зовнішній email/AI budget цього доручення —0EUR дозволених витрат;
+фактичні ChatGPT credits, provider balance/ціни та квоти UNKNOWN. Account mail
+opt-in залишається disabled до окремої перевірки прав/квоти/бюджету; UI відображає
+недоступність доставки. Локальний daily cap1–100 не підтверджує провайдерську квоту.
+
+## F1 identity foundation — 08.11.2026
+
+Reserved: one implementation and one corrective source checkpoint on an isolated stacked branch; existing standard public GitHub Ubuntu workflows only, no larger runners, paid providers or runtime activation. Maximum four automatically triggered repository runs (push + PR per checkpoint), within existing per-job timeouts. Current public-repository access was verified through the authenticated GitHub connector; the native fb4be719 candidate used one successful native attempt. This is a EUR 0 new-spend reservation under public standard-runner billing, not a claim of unlimited quotas or known account balance. Reconcile actual run IDs before another checkpoint.
+
+
+## Full-completion integration verification — 08.11.2026
+
+Reserved for the current integrated candidate: one initial verification checkpoint and at most one corrective checkpoint using the existing standard Ubuntu24.04/macOS26 workflows, existing per-job timeouts and one-day artifact retention. No larger runner, new subscription, paid provider, production service or external model call is enabled. Repository public visibility and write access were verified through the GitHub connector; current official billing documentation confirms free standard hosted-runner use in public repositories (https://docs.github.com/en/actions/concepts/billing-and-usage, checked2026-11-08). This reserves EUR0 of new paid activation; it does not state an account balance, remaining provider quota or total existing service cost. Actual run IDs and outcomes must be reconciled before another checkpoint. Local npm/Android checks reuse installed dependencies/toolchains.

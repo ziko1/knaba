@@ -1,0 +1,14 @@
+|  Welcome to JShell -- Version 17.0.20
+|  For an introduction type: /help intro
+
+jshell>  
+jshell>  
+jshell>  
+jshell>  
+jshell>  r ==> com.android.apksig.ApkVerifier$Result@7f63425a
+
+jshell>  KNABA_RESULT verified=true v1=false v2=true v3=false errors=[] warnings=[]
+
+jshell>  KNABA_CERT sha256=db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8 notBefore=2026-11-07T22:28:17Z notAfter=2056-10-30T22:28:17Z issuer=C=US, O=Android, CN=Android Debug
+
+jshell>  |  Goodbye

@@ -1,0 +1,263 @@
+{
+  "scope": "KNABA VPS self-service account settings; source and synthetic HTTP acceptance only",
+  "recorded_at_utc": "2026-11-08T08:02:57.656640+00:00",
+  "base_commit": "9ff77d7b0161a4dde84314f2df327e4594e0eb0c",
+  "local_tested_source_commit": "5a1b582c52fd302c54588d6c752da23239586a4e",
+  "published_runtime_test_commit": "a6e1d582a5a22219625257a354f6abc66921d40e",
+  "identical_git_tree": "1bbca25631132e1a241a1b277f77efd828f505a0",
+  "publication_note": "GitHub create_tree returned the exact local code tree. Commit IDs differ in publication metadata only. Later evidence/documentation commits do not change these runtime/test files.",
+  "node": "v24.22.1",
+  "source_files_sha256": {
+    "corporate-site/src/components/AccountAccessDialog.tsx": "deea0e480fa3eb0cd8a43bc7fe3b691bab63f6bf82e5492e0f8deab0c30da322",
+    "corporate-site/src/components/AdminControlCenter.tsx": "2dfa0e731d71d69edb21c16d77c03a202c230725afa91c90a5ebbb51eb2b447d",
+    "corporate-site/src/components/Portal.tsx": "18ac6297e0ad6bc4ae59938eb17324cca950520e9f78198ad8feacc54c47ec82",
+    "corporate-site/src/lib/account-extra-locales.ts": "6e436065622bdf718a01d71a80cddd7e5d619bfb3528e3ae1176b4255075f547",
+    "corporate-site/src/lib/account-settings-links.ts": "c318ad03dfce15ff14cb2069d779352b25935f30febc40d7ee852f5069d836ae",
+    "corporate-site/vps/account-mail.mjs": "b78e0c54871a03520f68a63a1938163ae4cdc08a5879d1e4716ffe9d00de4425",
+    "corporate-site/vps/account-mail.test.mjs": "5b33bff701d25c8639bad63d62322401bcaa7dae297ad36c316d68e3cdea1cc2",
+    "corporate-site/vps/account-settings-ui.mjs": "d1127882c663f097ba913007bdb959b45e1bc32f149fb44f76e8e6518b089500",
+    "corporate-site/vps/account-settings-ui.test.mjs": "00de465f90790349af8ecf5a1de8627ce69aaec7e8c988551e0496c36da8233e",
+    "corporate-site/vps/account-settings.http.test.mjs": "c45f7d305940268137a88fb829bc177f13ae77343c732996a6974f87abcd6a61",
+    "corporate-site/vps/account-settings.mjs": "a92991e6ba0d4987c06f069afbfe606714b719e799500a9135de1d245ef3f0a3",
+    "corporate-site/vps/account-settings.test.mjs": "7edd16e47e84497583ab7176a9a2858827ae28c16d41c6b4c2e8599add412a51",
+    "corporate-site/vps/auth.mjs": "07165f2b1e27d349aa8051e057856916a6c0756d419e6edf212a3eb05632f7e8",
+    "corporate-site/vps/database.mjs": "ffca3d9ee54959e96f13d7da194fa9070903470e3ec4f9cd8f99d5f4143c47c9",
+    "corporate-site/vps/role-destination.mjs": "19053fa52ba6e955bec16d2d18aceab175aee44a67402d64c5f84ba81d52e7f0",
+    "corporate-site/vps/server.mjs": "28f84c6d36f2e801fa0f9572d0e1fd37e062342ef66fca41418143c162f76fa1"
+  },
+  "source_manifest_sha256": "ddd31a02c8f8ff42e9e967afb6d98b0ff3f084c2d1805fdf47d015bb2661fffe",
+  "compiled_runtime_files_sha256": {
+    "corporate-site/dist/server/index.js": "f7f103240467bc3d2b750613621200c6a9fe66d692c9d3309811aafa3d13678f",
+    "corporate-site/dist/vps/render-page.mjs": "c73d1e59f162b02af3e9ab397cbb20320d5d8bba2b1d2347e9cb19244344ff95",
+    "corporate-site/dist/vps/articles.mjs": "c09da904e21e044eb0baca2ef699db38c7e704d88a0ace3091eb0ef7bd95f3fa",
+    "corporate-site/dist/vps/erp-intake.mjs": "d3295992e23e4704b07a3fd07c0ea3edcb833b7be15aa74382403b76e18facc8"
+  },
+  "checks": [
+    {
+      "cwd": "corporate-site",
+      "command": "npm run check",
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "hints": 6
+    },
+    {
+      "cwd": "corporate-site",
+      "command": "npm test",
+      "status": "PASS",
+      "vitest": 732,
+      "vitest_files": 72,
+      "node": 90,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "cwd": "corporate-site",
+      "command": "node --test --test-concurrency=4 vps/*.test.mjs",
+      "status": "PASS",
+      "tests": 261,
+      "fail": 0,
+      "skip": 0,
+      "new_tests_already_in_total": {
+        "core": 21,
+        "mail": 10,
+        "ui": 18,
+        "http": 15
+      }
+    },
+    {
+      "cwd": "corporate-site",
+      "command": "KNABA_RELEASE_MODE=official npm run build",
+      "status": "PASS"
+    },
+    {
+      "cwd": "corporate-site",
+      "command": "KNABA_RELEASE_MODE=official npm run verify:build",
+      "status": "PASS"
+    },
+    {
+      "cwd": ".",
+      "command": "npm test",
+      "status": "PASS",
+      "tests": 28,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "cwd": ".",
+      "command": "npm run verify:modules",
+      "status": "PASS"
+    },
+    {
+      "cwd": ".",
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "official_static_build": {
+    "pages": 161,
+    "cssGzip": 40930,
+    "allEmittedJsGzip": 225252,
+    "artifactSha256": "c0a1a906031534cb399dfe97b79cd890a30a30f826579d7169b3f20d0e8f12c4",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "budgets_bytes": {
+    "js_max_exclusive": 225280,
+    "css_max_exclusive": 40960,
+    "unchanged": true
+  },
+  "review": {
+    "reviewer": "/root/account_audit",
+    "status": "ACCEPT",
+    "scope": "web/VPS source, SQLite, controlled script execution, synthetic HTTP/mail",
+    "independent_selected_tests": 20,
+    "composition": {
+      "core": 6,
+      "ui": 3,
+      "mail": 2,
+      "http": 9
+    },
+    "overlap": "Included in root suite counts; not additional coverage totals.",
+    "closed_findings": [
+      "R1 exact CSP hashes for SSR focus script",
+      "R2 localized password match validation preserves fragment capability",
+      "R3 source/address/global reset limit order",
+      "R4 saved language used unless explicit supported lang exists",
+      "List limit and total session count disclosed"
+    ]
+  },
+  "historical_attempts": [
+    {
+      "status": "FAIL_RESOLVED",
+      "reason": "First HTTP assertion expected422 for foreign session handle; core contract returns409. Assertion corrected and isolation assertion retained; final15/15."
+    },
+    {
+      "status": "FAIL_RESOLVED",
+      "reason": "First UI test assumed09:30 instead of Intl(en)9:30 AM; corrected locale-aware assertion; final18/18."
+    },
+    {
+      "status": "INVALID_SETUP_RESOLVED",
+      "reason": "Verifier initially lacked KNABA_RELEASE_MODE=official for official build."
+    },
+    {
+      "status": "FAIL_RESOLVED",
+      "reason": "Duplicated recovery locale data exceeded unchanged JS budget; reused existing locale strings; rebuilt and verified225252B."
+    },
+    {
+      "status": "NOT_RUN_THEN_PASS",
+      "reason": "Independent initial HTTP module import raced clean-build deleting dist. Other11 selected cases passed; final9/9 HTTP repeated after build, no skip."
+    }
+  ],
+  "external_gates": {
+    "browser": "BLOCKED_NO_BROWSER_EXECUTABLE; Chromium/WebKit/Firefox paths absent; no download or sandbox bypass",
+    "live_email_delivery": "NOT_RUN; synthetic transport only",
+    "sender_verified_quota_price": "UNKNOWN; opt-in remains disabled",
+    "target_migration_backup_restore": "NOT_RUN; synthetic DB upgrade and transaction rollback only",
+    "physical_device": "NOT_RUN",
+    "production_deploy": "NOT_RUN",
+    "main_merge": "NOT_RUN",
+    "shared_site_erp_native_sso": "NOT_IMPLEMENTED_BY_THIS_CHANGE",
+    "erp_local_rerun": "NOT_RUN; no ERP code change, repository CI is separate"
+  },
+  "ci_at_record_creation": "NOT_RUN; exact published-head result will be reported in the Draft PR, not inferred from local tests.",
+  "logs": {
+    "account-check-dedup.log": {
+      "sha256": "c1065f6e6da5f7d86164cfca184beb0cd0bc5d0ec05ce6271309da974f8cf01b",
+      "summary": [
+        "Result (468 files): ",
+        "- 0 errors",
+        "- 0 warnings",
+        "- 6 hints",
+        "svelte-check found 0 errors and 0 warnings"
+      ]
+    },
+    "account-site-test-final.log": {
+      "sha256": "28dc666a781e56839f85e5883665de8f72c2eea8a53e94afa9b9b1f66519c58c",
+      "summary": [
+        " Test Files  72 passed (72)",
+        "      Tests  732 passed (732)",
+        "ℹ tests 37",
+        "ℹ pass 37",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 4400.921301",
+        "ℹ tests 35",
+        "ℹ pass 35",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 251.331677",
+        "ℹ tests 10",
+        "ℹ pass 10",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 390.072762",
+        "ℹ tests 8",
+        "ℹ pass 8",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 561.427245"
+      ]
+    },
+    "account-vps-all-first.log": {
+      "sha256": "d92b2b670b9dfae598ed7f92c5377844c020c6530b7aaa31049be7857c5340af",
+      "summary": [
+        "ℹ tests 261",
+        "ℹ pass 261",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 34976.12779"
+      ]
+    },
+    "account-build-final.log": {
+      "sha256": "6c5c72273e868641da2c11011944ab97a3a7cebfec55181e59229ab949fab3ce",
+      "summary": []
+    },
+    "account-verify-final.log": {
+      "sha256": "17e23244fc8b69e219e386070ff93834e3c08550652b25fa7d2df0178a97dfcc",
+      "summary": [
+        "  \"pages\": 161,",
+        "  \"cssGzip\": 40930,",
+        "  \"allEmittedJsGzip\": 225252,",
+        "  \"artifactSha256\": \"c0a1a906031534cb399dfe97b79cd890a30a30f826579d7169b3f20d0e8f12c4\",",
+        "{\"status\":\"PASS\",\"digest\":\"8c75730410a53ee3b9eb719fbadb84956f06c7b1676c13fd31bd8e51e6b2d026\",\"routes\":28,\"units\":1091}",
+        "{\"status\":\"PASS\",\"targetLanguages\":6,\"published\":6,\"pending\":0,\"checkedPages\":36,\"checkedSvgAssets\":24,\"checkedSocialAssets\":6}",
+        "PASS: 8 DE/EN/UK/RU home/catalogue routes, ordered links and exact 01–06 labels",
+        "PASS: 52 localized SVG icon placements/sections (DE,EN,UK,RU; 8 details per locale), static/a11y"
+      ]
+    },
+    "account-independent-http.log": {
+      "sha256": "c1d2fdc77e950544a727eb80d67ddb4bcb1ef5cbaeb4b59b625eb56c9c933da4",
+      "summary": [
+        "ℹ tests 9",
+        "ℹ pass 9",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 10682.115976"
+      ]
+    },
+    "account-root-test.log": {
+      "sha256": "2e923277cafbcaa14916f7b8f051a9c08d4d73ed7235611639afa974b847b433",
+      "summary": [
+        "ℹ tests 28",
+        "ℹ pass 28",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ duration_ms 2494.293649"
+      ]
+    },
+    "account-modules.log": {
+      "sha256": "0025e8b14e0103076b2be22d87bb89ae08e191578833e062012ac2b4e1bbcd96",
+      "summary": [
+        "KNABA_MODULE_MANIFEST_PASS: 4 existing site modules + 1 source-only ERP; preview only. Not a deployment or release acceptance."
+      ]
+    }
+  }
+}

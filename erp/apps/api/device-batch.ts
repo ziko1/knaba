@@ -1,3 +1,4 @@
+import {assertRequestAuthority,authorityTransaction,carryRequestAuthority,currentDevice} from './request-authority.ts';
 import {createHash} from 'node:crypto';
 import {z,ZodError} from 'zod';
 import {assert,DomainError,type Actor,type Data,type Entity} from '../../packages/domain/core.ts';
@@ -14,9 +15,10 @@ const reviewId=(actor:Actor,eventId:string)=>createHash('sha256').update(JSON.st
 
 async function manualAuthority(tx:SqlTransaction,engine:EngineLike,actor:Actor,device:Entity,event:ManualEvent,input:Data){
  assert(engine.actorIn&&engine.scope,'MISSING_CONFIGURATION');
- const current=await engine.actorIn(tx,actor.userId),definition=engine.registry[event.command],scoped=engine.scope(current,definition.permission),freshDevice=await tx.get('device',device.id);
+ await assertRequestAuthority(tx,actor);
+ const current=carryRequestAuthority(actor,await engine.actorIn(tx,actor.userId)),definition=engine.registry[event.command],scoped=engine.scope(current,definition.permission),freshDevice=await tx.get('device',device.id);
  assert(current.companyId===actor.companyId&&!current.roles.some(role=>['CLIENT','CUSTOMER','GUEST','EXTERNAL_BAULEITER','SERVICE_ACCOUNT'].includes(role))&&permits(scoped.permissions,definition.permission),'ACCESS_DENIED');
- assert(freshDevice.companyId===current.companyId&&freshDevice.data.active===true&&!freshDevice.data.revokedAt&&freshDevice.data.employeeId===current.userId&&freshDevice.data.tokenHash===device.data.tokenHash&&Number.isFinite(Date.parse(freshDevice.data.tokenExpiresAt))&&Date.parse(freshDevice.data.tokenExpiresAt)>Date.now(),'ACCESS_DENIED');
+ assert(currentDevice(freshDevice,{companyId:current.companyId,userId:current.userId,deviceId:device.id,tokenHash:device.data.tokenHash}),'ACCESS_DENIED');
  if(event.command==='shift.start'){assert(input.deviceId===device.id&&(input.employeeId===undefined||input.employeeId===current.userId),'ACCESS_DENIED');assert(scoped.permissions.includes('scope.company')||scoped.siteIds.includes(input.siteId),'ACCESS_DENIED');return {current,siteId:input.siteId};}
  const shiftId=input.shiftId??(input.tripId?(await tx.get('trip',input.tripId)).data.shiftId:input.segmentId?(await tx.get('time_segment',input.segmentId)).data.shiftId:undefined);
  assert(typeof shiftId==='string','VALIDATION_ERROR');const shift=await tx.get('shift',shiftId);
@@ -24,15 +26,15 @@ async function manualAuthority(tx:SqlTransaction,engine:EngineLike,actor:Actor,d
  return {current,shiftId,siteId:shift.data.siteId};
 }
 async function existingReview(db:DatabaseLike,engine:EngineLike,actor:Actor,device:Entity,event:ManualEvent,input:Data){
- return db.transaction(actor.companyId,actor.userId,async tx=>{
+ return authorityTransaction(db,actor,async tx=>{
   await manualAuthority(tx,engine,actor,device,event,input);
   const row=(await tx.list('manual_device_event')).find(e=>e.id===reviewId(actor,event.eventId));
   if(!row)return undefined;assert(row.data.employeeId===actor.userId&&row.data.deviceId===device.id&&row.data.inputHash===commandHash(event.command,input),'IDEMPOTENCY_CONFLICT');
   return {eventId:event.eventId,status:'REVIEW',accepted:false,reviewId:row.id,reason:row.data.reason};
- });
+ },undefined,false,engine);
 }
 async function preserveManualReview(db:DatabaseLike,engine:EngineLike,actor:Actor,device:Entity,event:ManualEvent,input:Data,reason:string){
- return db.transaction(actor.companyId,actor.userId,async tx=>{
+ return authorityTransaction(db,actor,async tx=>{
   const bound=await manualAuthority(tx,engine,actor,device,event,input),id=reviewId(actor,event.eventId),inputHash=commandHash(event.command,input);
   const prior=(await tx.list('manual_device_event')).find(e=>e.id===id);
   if(prior)assert(prior.data.employeeId===actor.userId&&prior.data.deviceId===device.id&&prior.data.inputHash===inputHash,'IDEMPOTENCY_CONFLICT');
@@ -41,7 +43,7 @@ async function preserveManualReview(db:DatabaseLike,engine:EngineLike,actor:Acto
    await tx.event('device.manual_review_requested',{reviewId:id,eventId:event.eventId,command:event.command,employeeId:actor.userId,deviceId:device.id,shiftId:bound.shiftId,siteId:bound.siteId,reason,coordinatesStored:false,isFraudFinding:false});
   }
   return {eventId:event.eventId,status:'REVIEW',accepted:false,reviewId:id,reason:prior?.data.reason??reason};
- });
+ },undefined,false,engine);
 }
 
 /** GPS acceptance and manual time facts are independent per-item outcomes. */

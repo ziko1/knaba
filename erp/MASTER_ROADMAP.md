@@ -6,6 +6,10 @@ KN-C04 / KN-U09: чинні proofs/devices, customer scope і session issuance �
 
 Наступні залежні кроки: canonical company+subject bindings, complete dual-session linking, scoped session exchange та спільне revocation з in-flight/file/worker/subscription checks. Existing invitations/permissions/customer memberships залишаються джерелом entitlements; email не є account join. SSO і whole-product acceptance відкриті; intake bridge не дублювати, історичні V3/V4 результати не переписувати.
 
+## 2026-11-08 — MOBILE-012 install and brand follow-up
+
+0.4.2/code6 candidate: current company launcher icon; standalone APK validation and same-certificate update packaging. Build and22 Android tests, native-render/visual review, v2signature/CRC/alignment/standalone checks, same-certificate comparison and independent source/artifact review PASS on `df1fe55f0d5c14e7f5a43340985f3a894e6b934e`. Separate APK delivered as a test candidate; physical installation issue remains OPEN without device reproduction. Track results in `../docs/mobile/BACKLOG.json` and `../docs/mobile/evidence/android-install-icon-20261108/verification.json`. Preserve all existing V4/V3 and company acceptance gates.
+
 ## 2026-11-08 audited continuation
 
 Seed fail-closed + website intake bridge + Android recovery implemented as an integrated candidate. Full cross-module dependencies and114-row V4/templates overview: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`. Preserve `docs/requirements/requirements.json` and all original V3 criteria in addition to72 V4 targets. Next: unified scoped identity/assistant intake, iOS durable unknown-write handling, actual UI→API→PostgreSQL business lifecycle and load/restore, then company/device/provider acceptance. Runtime default APP_MODE audit stays distinct from the seed fix.
@@ -127,3 +131,10 @@ The original cutoff `2026-10-07T20:11:52Z` has expired and remains unchanged. Pr
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 2026-11-08 — MOBILE-013 — автоматичні серверні дані Android
+
+Запит користувача про автоматичне завантаження з сервера продовжує існуючий KNABA Android; канонічний пункт `docs/mobile/BACKLOG.json` → MOBILE-013. Виправлення: fixed official release discovery, HTTPS company host + ERP readiness, foreground authenticated reads, збереження пошуку/чернетки/прокрутки, scope revocation, без автоматичних мутацій. План/межі/операторський контракт: `docs/mobile/AUTOMATIC_SYNC_2026-11-08_UK.md` від кореня репозиторію. На 08:00 UTC публічний endpoint HTTP200 повернув `erpOrigin: null`; live connection BLOCKED_SERVER_CONFIGURATION, не замінювати це вигаданою адресою.
+
+Застосовано ai-team-orchestrator, Android coding workflow, coding-autopilot, verify-repository-readiness, ECC click-path audit та Kotlin integration resilience без зміни стека чи нових залежностей. Shared code writer — root; readonly dispatch `server_config_review`/`foreground_sync_review` не відбувся через context-window capacity, independent review NOT_RUN. Поточний remote PR123 HEAD9ff77d7b0161a4dde84314f2df327e4594e0eb0c звірено; Android contract не змінився, server auth updates не оголошено протестованими цією мобільною задачею. Source/build acceptance фіксується окремим receipt після збірки. Production/DNS/merge/paid calls не виконувались; попередня заборона автоматичного GitHub push не обійдена.

@@ -1,0 +1,8 @@
+/* Private workspaces share scoped styles and compression. Keep child styles
+   before the Control Center overrides; no public page imports this entry. */
+@import './portal.css';
+@import './workspace.css';
+@import './studio-editor.css';
+@import './assistant-inbox.css';
+@import './crm.css';
+@import './admin-center.css';

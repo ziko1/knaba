@@ -367,7 +367,7 @@ export async function handleApi(request: Request,env: WorkerEnv,ctx?:WorkerConte
     if(path.startsWith('/api/reviews/'))return await handleReviews(request,env,{owner:s.role==='owner',id:s.user?.id||null});
     if(path.startsWith('/api/crm/'))return await handleCrmApi(request,env,s,{readBody,rateLimit:(key,limit)=>rateLimit(dbFor(env),key,limit)});
     if(path.startsWith('/api/studio/'))return await handleStudio(request,env,{owner:s.role==='owner',id:s.user?.id||null},req=>readBody(req,32768));
-    if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null},ctx);
+    if(path.startsWith('/api/assistant/'))return await handleAssistant(request,env,{isOwner:s.role==='owner',id:s.user?.id??null,verify:env.VERIFY_ASSISTANT_OWNER_SESSION},ctx);
     if(path==='/api/portal/session'&&request.method==='GET')return response(s);
     if(path==='/api/portal/erp-intake'&&request.method==='GET'){
       requireRole(s,['owner']);const status=await erpLeadOutboxStatus(dbFor(env));

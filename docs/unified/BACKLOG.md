@@ -1,22 +1,40 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — F1 identity storage source candidate
+
+Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.
+
+- [x] F1 source: explicit principal/trust contract, additive storage/repository and CPU checks.
+- [x] F1 independent source review: ACCEPT; exact reviewed input hashes recorded for the candidate.
+- [ ] F1 actual PostgreSQL upgrade/isolation/revocation/concurrency/rollback acceptance.
+- [ ] F2–F5: dual-session UI/proof, session exchange, authoritative revocation, privacy integration, live/device acceptance.
+
 ## Поточна черга — 08.11.2026
+
+Доповнення поточного доручення: **KN-US01–US08**, налаштування власного VPS
+облікового запису, профіль, безпечна зміна/відновлення пароля, email і сесії.
+Scope/acceptance/власники: [план модуля](USER_SETTINGS_2026-11-08_UK.md).
+Стан: SOURCE_PASS, independent ACCEPT; 261 VPS / 732 Vitest + 90 Node,
+official build/i18n/budgets PASS. Browser BLOCKED, actual mail/target restore і
+deployment NOT_RUN. KN-C04/KN-U09 shared identity та live mail gates збережено.
 
 | ID | Пріоритет | Статус / наступний критерій |
 |---|---|---|
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
-| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
+| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox 0014→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
 | KN-C04 / KN-U09 | P0 | Підтверджені local identity/revocation gaps виправлено в PR123; [контракт та F1–F5](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [evidence](evidence/identity-20261108/verification.json). Stable cross-system binding/SSO і спільне revocation ще OPEN |
-| KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
+| KN-C05 | P0 | Capability expiry/revoke реалізовано й reviewed у 422c292; наступний slice: keyset inbox pagination + усі 6 мов. Conversation→ERP source-preserving mapping і visitor receipt ще OPEN; [поточний scope](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md) |
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
-| KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |
-| KN-C08 | P1 | API/worker APP_MODE fail-closed review; seed fixed, runtime default DEMO ще окремо проаналізувати |
+| KN-C07 / TPL01–18 | P1 | v1 source наявний: 3 довірені themes, declarative import/quarantine, preview, activation/rollback, 6 locales. Матрицю виправлено на IN_PROGRESS; full browser/operator, performance/restore, retention/quota acceptance OPEN |
+| KN-C08 | P1 | API/worker APP_MODE тепер явний, implicit DEMO default прибрано; runtime-mode regressions є. Clean production-like bootstrap/full AC-01/71 ще OPEN |
 | KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
 | KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
 | KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |
+| KN-C12 / AC-07 | P0 | Web→WhatsApp transfer issue/dual-confirm/consume workflow не знайдено: one-use hash token TTL 10 хв, чинний membership, stolen/expired negatives; поточний transfer_token ACL не є реалізацією сценарію |
+| KN-C13 / AC-43 | P0 | Shared vehicle-trip commands/summary та web UI додано до поточного кандидата; незалежний review і весь критерій 3×30 хв / 20 vehicle-km, UNKNOWN/scopes/кінцевий journey ще OPEN |
 
-Власники, dependencies та докази в [плані](COMPLETION_PLAN_2026-11-08_UK.md) і [матриці](REQUIREMENTS_TRACEABILITY.csv). Пункти нижче залишають історію. Known implementation не дорівнює прийнятому acceptance.
+Власники, dependencies та докази в [плані](COMPLETION_PLAN_2026-11-08_UK.md), [матриці](REQUIREMENTS_TRACEABILITY.csv) і [поточному зіставленні](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md). Пункти нижче залишають історію. Known implementation не дорівнює прийнятому acceptance. V3 historical statuses збережено; нових full-criterion PASS цим checkpoint не додано.
 
 Стани: `DOCUMENTED` — інвентар/документ є; `PENDING` — реалізація не прийнята; `BLOCKED_EXTERNAL` — потрібне власникове/provider підтвердження; `UNKNOWN` — не перевірено. Контракт для виконання в `docs/plans/2026-10-24-knaba-integration-handover.md`.
 

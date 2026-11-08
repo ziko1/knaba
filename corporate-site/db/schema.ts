@@ -95,6 +95,9 @@ export const portalMessages = sqliteTable('portal_messages', {
 export const assistantConversations = sqliteTable("assistant_conversations", {
   id: text("id").primaryKey(),
   tokenHash: text("token_hash").notNull(),
+  /** Fixed at creation; legacy invalid timestamps intentionally remain inaccessible. */
+  tokenExpiresAt: text("token_expires_at"),
+  tokenRevokedAt: text("token_revoked_at"),
   locale: text("locale").notNull(),
   status: text("status").notNull().default("assistant"),
   contactName: text("contact_name").notNull().default(""),
@@ -112,6 +115,8 @@ export const assistantMessages = sqliteTable("assistant_messages", {
   content: text("content").notNull(),
   requestKey: text("request_key").notNull(),
   createdAt: text("created_at").notNull(),
+  /** First client-reported display in the visible visitor chat, not human reading. */
+  guestDisplayedAt: text("guest_displayed_at"),
 }, t => [uniqueIndex("assistant_message_retry").on(t.conversationId,t.requestKey),index("assistant_messages_thread").on(t.conversationId,t.createdAt)]);
 export const assistantOffers = sqliteTable("assistant_offers", {
   id: text("id").primaryKey(),

@@ -1,3 +1,4 @@
+import {assertRequestAuthority,carryRequestAuthority} from './request-authority.ts';
 import {createHash,randomUUID} from 'node:crypto';
 import {z} from 'zod';
 import {assert,type Actor} from '../../packages/domain/core.ts';
@@ -16,7 +17,8 @@ export function mediaUploadKey(value:unknown,required:boolean):string|undefined{
 export function mediaUploadHash(payload:UploadPayload){return hash(JSON.stringify({v:1,originalSha256:hash(payload.original),mimeType:payload.mimeType,fileName:payload.fileName,redactionConfirmed:payload.redactionConfirmed}));}
 export async function authorizeMediaUpload(tx:SqlTransaction,engine:EngineLike,actor:Actor){
  assert(engine.actorIn&&engine.scope,'MISSING_CONFIGURATION',{reason:'FRESH_UPLOAD_AUTHORITY_REQUIRED'});
- const current=engine.scope(await engine.actorIn(tx,actor.userId),'media.upload');
+ await assertRequestAuthority(tx,actor);
+ const current=engine.scope(carryRequestAuthority(actor,await engine.actorIn(tx,actor.userId)),'media.upload');
  assert(current.companyId===actor.companyId&&current.userId===actor.userId&&permits(current.permissions,'media.upload'),'ACCESS_DENIED');
  return current;
 }

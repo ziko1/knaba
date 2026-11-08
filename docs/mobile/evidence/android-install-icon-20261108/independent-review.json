@@ -1,0 +1,596 @@
+{
+  "recordedAt": "2026-11-08T06:25:16.549017+00:00",
+  "reviewer": "/root/android_install_audit",
+  "role": "Independent Android source and artifact reviewer; did not author candidate changes",
+  "conclusion": "ACCEPTED_SOURCE_AND_ARTIFACT_SCOPE_NOT_DEVICE_INSTALL",
+  "source": {
+    "gitSha": "df1fe55f0d5c14e7f5a43340985f3a894e6b934e",
+    "observedHead": "df1fe55f0d5c14e7f5a43340985f3a894e6b934e",
+    "observedMobileWorkingTreeClean": true,
+    "authorReceiptWorkingTreeAtBuild": false,
+    "observedWholeRepositoryStatus": [
+      "?? docs/mobile/evidence/android-install-icon-20261108/"
+    ],
+    "inputsVerifiedAgainstWorkingFilesAndCommit": 49,
+    "inputFiles": [
+      {
+        "path": ".gitignore",
+        "sha256": "d7a69780d6484c268dfc7abdf2157956345f91b515f00ef58cc2293ee688a042",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "README.md",
+        "sha256": "7bcbfccb2be0cb8aba82fda566848429d3f93a8f73a12458a5b77f227b34a7f1",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/build.gradle.kts",
+        "sha256": "8df80707786d35c8567640afebcde63e53b3388dd289e8667e3039cf04c5db8b",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/AndroidManifest.xml",
+        "sha256": "da810639b116ac88db73c740e2d2798f72d4f386c85c60edc73ce4b7bdcf158c",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ApiClient.kt",
+        "sha256": "3279d0f223e2bf1ce4413dfd5497f463ee2b8abeda5dfe76f07a3a038ba81346",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ConservativeGeofence.java",
+        "sha256": "e153cc5cf8d12cfb653a91b1784f91c8d1fda5c13acdf0dbbeca1f0476898e42",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ConsoleQuantity.kt",
+        "sha256": "95efb1fc468391d6067eb720b0ae36789f842a56570f933cb69f5636ef3cf9d4",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ConsoleRecoveryJournal.kt",
+        "sha256": "469e36ae116a2a76752c6967191c4a9887b429faa0710bfb1a05449be1707d40",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/DemoConsoleTransport.java",
+        "sha256": "cf57f380b6fd7f8576e9e60fdd4f3fa182186796314d0f5dcf6c1ac82af629a8",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+        "sha256": "1f4c1ad6a4efc589ad097bfc322f46aca797cc932f794d876bfdb4653f765fb9",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ErpConsoleTransport.java",
+        "sha256": "817b68d8b109f450db0c3e4508a9ef3182449b7e262f522e6da83066f12a6f06",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ErpOriginPolicy.java",
+        "sha256": "57e9f8001934d8ad06988ad34d627eb159356c90b1ca9bbb1cf38ff73bfd03ae",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/GenerationFence.java",
+        "sha256": "3841c749d53f7542d7f9e127aaf4cd40ca7b9d04d4e9f071a56dad0ec31c0761",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/GeofenceClassifier.kt",
+        "sha256": "8bd2ff85ae0539baa32115d47f9045a874751c8917473b18c030635a1cb61c7a",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/LanguagePolicy.java",
+        "sha256": "7ad75df44237af7a4f74e89dd06763dcfbd4abd165da249219364ff531954bd0",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/MainActivity.kt",
+        "sha256": "ae1d14c8dbd6a661f36548fda7e33f6dfa11fa5300cf7a245e452a6db8620f6a",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/NativeLocale.kt",
+        "sha256": "45b4736861416c9284a28071474745ebb35d473a52ff8c3669792a1a4404be37",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/NativeText.kt",
+        "sha256": "c48346d6b2893bf0a9014763c246ec5fd49305d10b263b0a1437462d2263ee43",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/NativeTrackingPolicy.java",
+        "sha256": "c7da641a9277c232561893d46b1471b583543994ad8d0aaf9fa36d2775b6b52c",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/SecureStore.kt",
+        "sha256": "0892c3fedf284bd7d86e3678ec287014c570bad6e9dea2a50c0e9be8272440e2",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/ShiftClock.java",
+        "sha256": "55800d5e587c09919df8c7adb556ba96d86b008276647f1e3c64f770cb5d6ce4",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/java/de/knaba/mobile/TrackingService.kt",
+        "sha256": "f5127a6a8b37889f531816c39bbdde0750008ccc938fdcb3205c38d73ee72cbe",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/drawable/ic_knaba.xml",
+        "sha256": "cd623da01ca07e7df07ad9b6dcac6d1d1efb2a05893a9b2616a5d1d7f0cd1c60",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/drawable-nodpi/ic_knaba_brand.png",
+        "sha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/mipmap-anydpi-v26/ic_knaba.xml",
+        "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/mipmap-anydpi-v26/ic_knaba_round.xml",
+        "sha256": "04a81bb3f2355ef12e6595ba67228d436246f772aed2dec84f2e7fe18ca01434",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/values/strings.xml",
+        "sha256": "ae38728587692e5b484676878564bae04c1e90b8c5badb5c6f6140ac072f72ef",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/values-en/strings.xml",
+        "sha256": "7d8675dd05371847acd78787a8b137160a11de2df3be8ad083b4770e4fef4916",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/values-lt/strings.xml",
+        "sha256": "a56f8916b7e45ec8af8e596ee3e6003e93db9c68fcd7177c7ad3fe90616c48f2",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/values-pl/strings.xml",
+        "sha256": "78bffe4d0cc337a259906dafb587cbe8233bf0ec3cdc9f78caa7a606733c7c76",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/values-ru/strings.xml",
+        "sha256": "ebf14cd34d8f61ccaa8e336f15cd3ead10e675f521e1c6fb7f8c3b39869be8cd",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/values-uk/strings.xml",
+        "sha256": "0095ba51c921effecf3215d9c5d9fa4cf9dccaa7dfb706136c09c3a8566ca9c8",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/main/res/xml/data_extraction_rules.xml",
+        "sha256": "04687559e8f966e4902f5061e7e9edf0bff525e64c4284dd156d9bd929245a28",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/test/java/de/knaba/mobile/ConsoleRecoveryJournalTest.java",
+        "sha256": "a8b34061144dd14beef80c407ab41a32dfc2ae11819c379c02126edf1f69e5e2",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+        "sha256": "0e3d6dab47389b7028e539f3f48dca2203f61ba9d48cc38f5e8620e053bb6882",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "app/src/test/java/de/knaba/mobile/LauncherIconTest.java",
+        "sha256": "fdae4b5ad0cefc2637c38057454d2d6befa9ef7b5c3ddda89cf47d35a2fe233e",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "build.gradle.kts",
+        "sha256": "aa5a3e250437f49d11a6a8869628434be5eb43fbb75709e440132d8fee6deec6",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.properties",
+        "sha256": "14719d10e452dca94a65a44d96d23124cf134ba9ae3c83692a4c9faf4239f1ab",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "gradle.properties",
+        "sha256": "bf68a94fcc59c130da168adae70bbb98e1fd383c0c0a0bc569db91b7f58f1c31",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "gradlew",
+        "sha256": "391ac37d06c63eebd85e6ffbb0262e1e79bc1b888e9c4f1554616718eee31650",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "gradlew.bat",
+        "sha256": "38fae1cfe3c46a7fe21254ae29bc15e26655930f29d2e8de45d2d26dbc848f78",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/fixtures/DemoConsoleTransportVectors.java",
+        "sha256": "26dfd0ebf7a132d3bd9c6e1dd548be113483496a5a250188bb0ab2a150f86ee3",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/package.sh",
+        "sha256": "d90a9ec55dac8f2445ec25f63adce029f2e6baca808e83a2c47393340d48648d",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/test-demo-console.sh",
+        "sha256": "d8fb31f7cf3c62b349416557e6d1995dffe0b6bdfe2e835f76c528cd7a79e540",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/test-localization.sh",
+        "sha256": "17b22cc45066b288ca9131ac8e120d255158bb5c53d9239f930f06b584f50096",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/test-transport.sh",
+        "sha256": "12021d183c37815be08ca183f127c79d7bdc71c90836be5eba5e43ae5fb2963a",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/test-vectors.sh",
+        "sha256": "b83636f154041a2076beb66caed84a8a262724d9b2b3214dc6b2bff1a0ed2777",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "scripts/tests/ErpConsoleTransportTest.java",
+        "sha256": "a8e8c71adc535f173f845c6a34d0e9414dccf63b0ea515f129c5a6ab6bce8d7d",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      },
+      {
+        "path": "settings.gradle.kts",
+        "sha256": "f4466ba7459db0bfd2e988e74e120687c33e41b8c5ee57829146dee35c671f34",
+        "matchesWorkingFile": true,
+        "matchesCommitBlob": true
+      }
+    ]
+  },
+  "artifact": {
+    "path": "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk",
+    "deliveryCopy": "/workspace/scratch/4686fcc1b388/deliverables/KNABA-DE-0.4.2-test.apk",
+    "deliveryCopyBytesIdentical": true,
+    "bytes": 2797226,
+    "sha256": "5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1",
+    "package": "de.knaba.mobile.test",
+    "versionCode": 6,
+    "versionName": "0.4.2-test",
+    "minSdk": 31,
+    "targetSdk": 36,
+    "v2Signature": "PASS",
+    "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+    "sameCertificateAsPrevious0_4_1": "PASS",
+    "zipIntegrity": "PASS",
+    "duplicateZipEntries": false,
+    "alignment": "PASS",
+    "nativeLibraries": [],
+    "testOnly": "ABSENT",
+    "splitAndRequiredSplitTypes": "ABSENT",
+    "launcherExportedMainCategory": "PASS",
+    "adaptiveAndRoundResources": "PASS",
+    "packagedBrandBitmap": {
+      "entry": "res/drawable-nodpi-v4/ic_knaba_brand.png",
+      "dimensions": [
+        192,
+        192
+      ],
+      "decodedPixelsMatchApprovedFavicon": true,
+      "packagedPngSha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1",
+      "approvedFaviconSha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1"
+    }
+  },
+  "buildEvidenceReviewed": {
+    "buildLogSha256": "7866692fa80a00f2b94912fb0f12a0d44a31001171b6be5dca2e055dba822413",
+    "result": "BUILD SUCCESSFUL",
+    "tasks": "55 actionable tasks: 55 executed",
+    "tests": [
+      {
+        "suite": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "64c15a8ecd8b3301fa61f0715a981c542ef34c88d46342e45efcdeab3f5c8d92",
+        "testCases": [
+          "interruptedLegacyAtomicWriteRecoversBackupWhenBaseIsMissing",
+          "tamperedCiphertextFailsClosedWithoutDeletingRecord",
+          "sizeAndScopeLimitsFailBeforeOverwritingExistingRecords",
+          "encryptedRecordSurvivesNewStoreAndDoesNotShareGpsState",
+          "conflictingWriteAndStaleCompletionPreserveOriginal"
+        ]
+      },
+      {
+        "suite": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "8e55005856b2e2bac541e3f361eaa35dec91ac1b8d8bb34e8db125b25340a364",
+        "testCases": [
+          "demoMessagePersistsOnRefreshAndResetsOnExit",
+          "selectedUkrainianSurvivesNewActivity",
+          "demoTaskStartWorklogSubmitUsesOrdinaryQuantitiesAndNoInternalIds",
+          "repeatedSendWhilePendingCreatesOnlyOneMessage",
+          "leavingReadScreenDiscardsLateTaskResults",
+          "recreationRetainsDemoSessionButNeverEnablesGps",
+          "reauthenticationShowsRestoredCommandAndRetriesOriginalEnvelope",
+          "emptyLoginIsRejectedAndDoesNotStartGps",
+          "phoneScreensRenderWithAccessibleTouchTargets",
+          "serverQuantityDefaultIsDisplayedInOrdinaryUnits",
+          "demoSearchDetailBackAndEmptyResultsAreUsable",
+          "expiredSessionReturnsToLoginWithoutPrivateRecords",
+          "platformBackNavigatesAndUnregistersOnDestroy",
+          "tabletAndLongUkrainianTextRender",
+          "languagePickerHasSixLanguagesAndSystemChoice",
+          "legacyBackKeyReturnsThroughDetailListAndDashboard"
+        ]
+      },
+      {
+        "suite": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "sha256": "06b3c8a1c0d3da8fe6cf6c7acc3e999861db790a110d1b4e6bc9e8b98478d654",
+        "testCases": [
+          "packagedLauncherAndRoundIconsInflateAndRenderCompanyMark"
+        ]
+      }
+    ],
+    "testTotal": 22,
+    "lintCounts": {
+      "Warning": 18
+    },
+    "lintReportSha256": "02fa4d2cebc9504b9eaeeb1d4fc35899f3b96a4dba95819f649644c4b696a616",
+    "reviewMode": "Inspected author execution logs/XML; did not rerun Gradle suite"
+  },
+  "renders": [
+    {
+      "path": "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/app/build/qa/launcher-icon-robolectric.png",
+      "sha256": "3253e38c0807f70578f11e5fca45acb26638e6ef1a5118d53693c88c7bee08f1",
+      "size": [
+        216,
+        216
+      ],
+      "tealPixels": 7562,
+      "limePixels": 940,
+      "reviewMethod": "view_image plus independent decoded pixel counts",
+      "visualResult": "Three teal company buildings and lime base visible, no clipping in the Robolectric native-rendered mask, white background."
+    },
+    {
+      "path": "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/app/build/qa/launcher-icon-round-robolectric.png",
+      "sha256": "3253e38c0807f70578f11e5fca45acb26638e6ef1a5118d53693c88c7bee08f1",
+      "size": [
+        216,
+        216
+      ],
+      "tealPixels": 7562,
+      "limePixels": 940,
+      "reviewMethod": "view_image plus independent decoded pixel counts",
+      "visualResult": "Three teal company buildings and lime base visible, no clipping in the Robolectric native-rendered mask, white background."
+    }
+  ],
+  "independentlyExecuted": [
+    {
+      "label": "independent-git-head",
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-git-head.stdout.txt",
+      "stderr": "independent-git-head.stderr.txt"
+    },
+    {
+      "label": "independent-git-status",
+      "argv": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-git-status.stdout.txt",
+      "stderr": "independent-git-status.stderr.txt"
+    },
+    {
+      "label": "independent-git-mobile-status",
+      "argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--",
+        "erp/apps/mobile-android"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-git-mobile-status.stdout.txt",
+      "stderr": "independent-git-mobile-status.stderr.txt"
+    },
+    {
+      "label": "independent-git-mobile-delta",
+      "argv": [
+        "git",
+        "diff",
+        "df1fe55f0d5c14e7f5a43340985f3a894e6b934e",
+        "HEAD",
+        "--",
+        "erp/apps/mobile-android"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-git-mobile-delta.stdout.txt",
+      "stderr": "independent-git-mobile-delta.stderr.txt"
+    },
+    {
+      "label": "independent-apksigner",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-apksigner.stdout.txt",
+      "stderr": "independent-apksigner.stderr.txt"
+    },
+    {
+      "label": "independent-old-apksigner",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/apksigner",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "/workspace/scratch/fe1b7c871eec/deliverables/KNABA-0.4.1-test.apk"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-old-apksigner.stdout.txt",
+      "stderr": "independent-old-apksigner.stderr.txt"
+    },
+    {
+      "label": "independent-zipalign",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/zipalign",
+        "-c",
+        "-v",
+        "4",
+        "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-zipalign.stdout.txt",
+      "stderr": "independent-zipalign.stderr.txt"
+    },
+    {
+      "label": "independent-aapt-badging",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/aapt",
+        "dump",
+        "badging",
+        "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-aapt-badging.stdout.txt",
+      "stderr": "independent-aapt-badging.stderr.txt"
+    },
+    {
+      "label": "independent-aapt-manifest",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/aapt",
+        "dump",
+        "xmltree",
+        "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk",
+        "AndroidManifest.xml"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-aapt-manifest.stdout.txt",
+      "stderr": "independent-aapt-manifest.stderr.txt"
+    },
+    {
+      "label": "independent-ic_knaba-adaptive-resource",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/aapt",
+        "dump",
+        "xmltree",
+        "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk",
+        "res/mipmap-anydpi-v26/ic_knaba.xml"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-ic_knaba-adaptive-resource.stdout.txt",
+      "stderr": "independent-ic_knaba-adaptive-resource.stderr.txt"
+    },
+    {
+      "label": "independent-ic_knaba_round-adaptive-resource",
+      "argv": [
+        "/workspace/scratch/4686fcc1b388/toolchain/android-sdk/build-tools/35.0.0/aapt",
+        "dump",
+        "xmltree",
+        "/workspace/scratch/4686fcc1b388/knaba/erp/apps/mobile-android/build/distribution/prototype/KNABA-DE-0.4.2-test.apk",
+        "res/mipmap-anydpi-v26/ic_knaba_round.xml"
+      ],
+      "exitCode": 0,
+      "stdout": "independent-ic_knaba_round-adaptive-resource.stdout.txt",
+      "stderr": "independent-ic_knaba_round-adaptive-resource.stderr.txt"
+    }
+  ],
+  "findings": [],
+  "nonblockingObservations": [
+    "Package script checks common split indicators; exact artifact independently also has no requiredSplitTypes or splitTypes attribute.",
+    "Both adaptive resources render with the same Robolectric native mask; no physical OEM or circular launcher result inferred."
+  ],
+  "scopeLimits": {
+    "physicalDeviceInstall": "NOT_RUN",
+    "physicalDeviceUpgradeAndDataRetention": "NOT_RUN",
+    "userAttachmentDownloadHandoff": "UNKNOWN",
+    "reportedSilentInstallerFailureRootCause": "UNKNOWN",
+    "liveErpGpsIos": "NOT_RUN",
+    "companyProductionSigning": "NOT_PROVIDED",
+    "productionOrDnsChanges": "NOT_PERFORMED"
+  },
+  "probeCorrections": [
+    "An initial whole-repository-clean assertion stopped when the coordinator added untracked evidence documents; final review checks all build inputs against immutable source and the clean mobile subtree.",
+    "A textual zipalign success check expected successful but the Android tool emits succesful; command exit was zero, final review relies on that exit status plus retained verbose output."
+  ],
+  "recommendation": "Deliver the separate signed test APK with Files/Downloads instructions. Do not claim the user-phone installer problem resolved until actual installation is confirmed."
+}

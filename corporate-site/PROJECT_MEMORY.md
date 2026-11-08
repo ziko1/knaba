@@ -6,6 +6,12 @@
 
 Локально повний VPS suite197/197, цільові portal/account/hosting Vitest71/71, check/build пройшли; runtime/input hashes та актуальний CI в [єдиному evidence](../docs/unified/evidence/identity-20261108/verification.json). Незалежний review site scope завершений. Явний owner ID необхідний для pin між restart; hosted Sites з undefined binding має legacy email fallback. [Повне зіставлення](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md). Спільний ERP SSO, живі OIDC providers, browser/device/UAT залишаються відкритими. Production/DNS/data не змінені.
 
+## 08.11.2026 — TM Ausbau / Brüninghoff Group
+
+Task `KNABA-PARTNERS-20261108`, base `d03e72b8c5030390c635f3aac9133d977078dedf`, branch `fix/knaba-partners-20261108`. Two user-confirmed partners appended to the existing five; original official local SVGs, four-language factual descriptions and official links in the existing directory. Original IDs, logo bytes and partner copy preserved. No new section/component, CSS, dependency, migration or ERP change.
+
+Evidence: `docs/evidence/partners-20261108/`. Source/build checks: 730 Vitest +90 Node site tests, 12 HTTP-verifier tests, 172 VPS tests, 28 root tests; type checks/build/static checks PASS; 12 partner-bearing pages inspected. Independent source review ACCEPT. Browser BLOCKED (no installed Chromium/WebKit/Firefox); no live/device/field-CWV acceptance. Final commit/tree is recorded by the draft PR; production, DNS and live data unchanged. Rollback: revert content candidate.
+
 ## 08.11.2026 — completion candidate
 
 New source checkpoint: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`; evidence `../docs/unified/evidence/completion-20261108/verification.json`. Restored owner contacts/footer/favicon from verified server Git history; removed only overwritten unconditional CSS declarations to preserve the existing40KiB gzip ceiling. Studio validates the entire draft against trusted bounded raw HTML before publication, rechecks current VPS session/authority inside its transaction, and atomically claims publication history. SSR reuses its parsed tree; partial mapping is rejected, not silently applied. Stable IDs/template packaging remain future work.
@@ -568,3 +574,19 @@ Cloudflare Access browserAuth request was rejected by automatic approval review 
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 08.11.2026 — власні налаштування акаунта
+
+Нове доповнення `/account/settings/` доступне з Portal/AdminControlCenter для
+локальної VPS identity: профіль, контактні поля, мова/часовий пояс, пароль,
+email із proof та сеанси. `/forgot-password/` має реальний reset flow з opt-in
+mail adapter. Ідентифікатор, роль і статус користувача зберігаються; owner/developer
+та OIDC login emails захищені. Hosted Sites використовує чинну зовнішню identity.
+
+Source `a6e1d582a5a22219625257a354f6abc66921d40e`, tree
+`1bbca25631132e1a241a1b277f77efd828f505a0`: local261VPS +732Vitest +90Node PASS,
+check0/0/6, official build/verify/i18n PASS; independent ACCEPT. JS225252B і
+CSS40930B gzip за чинних220KiB/40KiB. Browser, реальна доставка, target restore
+і deploy окремі та не прийняті. [Повний scoped запис](../docs/unified/USER_SETTINGS_2026-11-08_UK.md),
+[експлуатація й міграція](docs/ACCOUNT_SETTINGS_OPERATIONS_UK.md).

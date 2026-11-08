@@ -1,0 +1,24 @@
+{
+  "observedAt": "2026-11-08T09:19:40.144977+00:00",
+  "importedCommit": "0fede54f80895a425e72df1d921a643b40a4eaf0",
+  "integratedCommit": "83327e5fe1b966ee8244f89988c6713264cef1be",
+  "sourceFiles": {
+    "erp/apps/api/site-identity-bindings.ts": "e584c4885908fd910b33d5829d9c6de87977e2d2e860c8a493d6f3e2102131d7",
+    "erp/infra/001_init.sql": "4c7f7bfc396baf87ba21cbdbb79f54ec7539ede080140bcf45989626efeabf4f",
+    "erp/tests/fixtures/site-identity-pre-f1.sql": "3a0e72d7da6531a8e8f9e3e732c38c12936f405a7ee342f2bf0ce42b9dc29dc4",
+    "erp/tests/site-identity-bindings.integration.test.ts": "e75d19a34493df0075ae0c396512e00355b10791d7184bc4ab2e1a5f696f5d8b",
+    "erp/tests/site-identity-trust.test.ts": "0684e3817ff69edbe7815ecd8ab18275ddccc05888535d4600977bbf7bc27e6a"
+  },
+  "independentReview": "erp_session_fence read-only review accepted exact company/issuer/audience/subject, immutable target, no grants/session issuer, atomic audit/CAS/tombstone, current trust and SQL-clock checks. Root re-read implementation and reran trust fixtures.",
+  "localChecks": {
+    "cpuPassed": 27,
+    "postgresSkipped": 16
+  },
+  "upstreamCi": {
+    "run": 42464719363,
+    "headSha": "0fede54f80895a425e72df1d921a643b40a4eaf0",
+    "conclusion": "success",
+    "scope": "Upstream implementation only; current aggregate PostgreSQL gate remains pending."
+  },
+  "limitation": "F1 storage only. No runtime import, public route, login/SSO/proof issuance or production activation. F2-F4 and current aggregate CI remain open."
+}

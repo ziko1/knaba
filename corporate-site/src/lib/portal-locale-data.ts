@@ -1,9 +1,7 @@
-import defaultPack from '../data/portal-locales/de.json' with {type:'json'};
-import {createPortalLocaleStore,type PortalLocalePack} from './portal-locale-store.ts';
+import {createPortalLocaleStore} from './portal-locale-store.ts';
 import type {PublishedSiteLocale} from './locale-catalog';
 
-const store=createPortalLocaleStore(defaultPack as PortalLocalePack,async locale=>{
-  if(locale==='de')return defaultPack;
+const store=createPortalLocaleStore(undefined,async locale=>{
   const {portalLocaleUrls}=await import('./portal-locale-urls.ts');
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
   try{
@@ -14,12 +12,11 @@ const store=createPortalLocaleStore(defaultPack as PortalLocalePack,async locale
 });
 export const {portalMessages,workspaceWords,adminWords,cabinetWords}=store;
 export const ensurePortalLocale=store.ensure;
+// Astro supplies the exact SSR copy before a private island reads its labels.
+// Embedded modules share this cache after their parent has selected a language.
+export const installPortalLocale=store.install;
 
 if(import.meta.env?.SSR!==false){
   const {portalLocalePacks}=await import('./portal-locales-server.ts');
   for(const [locale,pack] of Object.entries(portalLocalePacks))store.install(pack,locale as PublishedSiteLocale);
-}else if(location.pathname.startsWith('/ru/konto/')){
-  // Match the existing Russian SSR island before hydrating it. Other portal
-  // routes begin in German and apply an explicit/saved choice after mount.
-  await ensurePortalLocale('ru').catch(()=>{});
 }

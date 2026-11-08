@@ -1,4 +1,4 @@
-const mode=process.env.APP_MODE||'DEMO';
+const mode=process.env.APP_MODE;
 const failures=[];
 const requireValue=key=>{const value=process.env[key];if(!value||/^REPLACE_|^CHANGE_ME|^<.+>$/.test(value))failures.push(`Missing valid ${key}`);return value;};
 if(!['DEMO','TEST','PRODUCTION'].includes(mode))failures.push('APP_MODE must be DEMO, TEST or PRODUCTION');

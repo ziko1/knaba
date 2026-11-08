@@ -234,3 +234,49 @@ BEGIN
 END $$;
 
 CREATE INDEX IF NOT EXISTS audit_v4_cursor ON audit_log(company_id,(date_trunc('milliseconds',created_at AT TIME ZONE 'UTC')),(id::text) COLLATE "C");
+
+-- F1: storage foundation only. No federation login/session endpoint is enabled.
+-- Preserve this additive table and revoked tombstones when rolling runtime back.
+CREATE TABLE IF NOT EXISTS site_identity_bindings (
+ company_id text NOT NULL CHECK(octet_length(company_id) BETWEEN 1 AND 128),
+ id uuid NOT NULL DEFAULT gen_random_uuid(),
+ issuer text COLLATE "C" NOT NULL CHECK(octet_length(issuer) BETWEEN 1 AND 512),
+ audience text COLLATE "C" NOT NULL CHECK(octet_length(audience) BETWEEN 1 AND 256),
+ subject text COLLATE "C" NOT NULL CHECK(octet_length(subject) BETWEEN 1 AND 256),
+ site_user_id text COLLATE "C" NOT NULL CHECK(site_user_id=subject),
+ user_kind text NOT NULL DEFAULT 'user' CHECK(user_kind='user'),
+ user_id text NOT NULL CHECK(octet_length(user_id) BETWEEN 1 AND 128),
+ trust_version integer NOT NULL CHECK(trust_version>0),
+ trust_fingerprint text NOT NULL CHECK(trust_fingerprint ~ '^[a-f0-9]{64}$'),
+ proof_reference text NOT NULL CHECK(proof_reference ~ '^[a-f0-9]{64}$'),
+ status text NOT NULL DEFAULT 'ACTIVE' CHECK(status IN ('ACTIVE','REVOKED')),
+ version integer NOT NULL DEFAULT 1 CHECK(version>0),
+ created_by text NOT NULL CHECK(created_by=user_id),
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+ expires_at timestamptz CHECK(expires_at IS NULL OR expires_at>created_at),
+ revoked_by text,
+ revoked_at timestamptz,
+ PRIMARY KEY(company_id,id),
+ UNIQUE(company_id,issuer,subject),
+ FOREIGN KEY(company_id,user_kind,user_id) REFERENCES aggregates(company_id,kind,id),
+ CHECK((status='ACTIVE' AND revoked_by IS NULL AND revoked_at IS NULL) OR
+       (status='REVOKED' AND revoked_by IS NOT NULL AND revoked_by=user_id AND revoked_at IS NOT NULL AND revoked_at>=created_at))
+);
+CREATE INDEX IF NOT EXISTS site_identity_user ON site_identity_bindings(company_id,user_id,status);
+CREATE OR REPLACE FUNCTION knaba_guard_site_identity_binding() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF TG_OP='DELETE' THEN RAISE EXCEPTION 'SITE_IDENTITY_TOMBSTONE_REQUIRED' USING ERRCODE='23514'; END IF;
+ IF ROW(NEW.company_id,NEW.id,NEW.issuer,NEW.audience,NEW.subject,NEW.site_user_id,NEW.user_kind,NEW.user_id,
+        NEW.trust_version,NEW.trust_fingerprint,NEW.proof_reference,NEW.created_by,NEW.created_at,NEW.expires_at)
+    IS DISTINCT FROM
+    ROW(OLD.company_id,OLD.id,OLD.issuer,OLD.audience,OLD.subject,OLD.site_user_id,OLD.user_kind,OLD.user_id,
+        OLD.trust_version,OLD.trust_fingerprint,OLD.proof_reference,OLD.created_by,OLD.created_at,OLD.expires_at)
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_PRINCIPAL_IMMUTABLE' USING ERRCODE='23514'; END IF;
+ IF OLD.status<>'ACTIVE' OR NEW.status<>'REVOKED' OR NEW.version<>OLD.version+1
+ THEN RAISE EXCEPTION 'SITE_IDENTITY_REVOCATION_TERMINAL' USING ERRCODE='23514'; END IF;
+ RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS site_identity_immutable ON site_identity_bindings;
+CREATE TRIGGER site_identity_immutable BEFORE UPDATE OR DELETE ON site_identity_bindings
+ FOR EACH ROW EXECUTE FUNCTION knaba_guard_site_identity_binding();
+INSERT INTO schema_migrations(version) VALUES('003_site_identity_foundation') ON CONFLICT(version) DO NOTHING;

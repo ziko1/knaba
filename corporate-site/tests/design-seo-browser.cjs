@@ -37,15 +37,15 @@ let pages=0;
          assert.equal(await page.locator('h1').count(),1);
          assert.equal(await page.locator('.bau-card').count(),6,'five core services + one project card');
          assert.equal(await page.locator('.bau-editorial-panel').count(),0,'PR68: no duplicate editorial panels');
-         assert.equal(await page.locator('#partner .knaba-partner-card').count(),5,'five partners in single component');
+         assert.equal(await page.locator('#partner .knaba-partner-card').count(),7,'seven partners in single component');
          assert.equal(await page.locator('.scene-art').count(),7,'seven distinct WebP carousel scenes');
          const carouselSources=await page.locator('.scene-art').evaluateAll(nodes=>nodes.map(node=>new URL(node.src).pathname));
          assert.equal(new Set(carouselSources).size,7,'non-repeated 2D artwork');
          assert.ok(carouselSources.every(src=>src.endsWith('.webp')),'seven WebP assets');
          // A present img element is not evidence the lazy asset can be decoded.
          const partnerImages=page.locator('#partner img');
-         assert.equal(await partnerImages.count(),5);
-         for(let i=0;i<5;i++){
+         assert.equal(await partnerImages.count(),7);
+         for(let i=0;i<7;i++){
            const img=partnerImages.nth(i);
            await img.scrollIntoViewIfNeeded();
            await img.evaluate(node=>node.decode());

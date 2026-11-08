@@ -10,7 +10,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: knaba-ci-${{ github.workflow }}-${{ github.ref }}
+  # A push followed by its same-source draft PR needs one full verification.
+  # The newest duplicate runs every gate against the same exact source SHA.
+  group: knaba-ci-${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.sha }}
   cancel-in-progress: true
 
 env:
@@ -173,10 +175,16 @@ jobs:
           node-version: '24.22.1'
       - run: npm --prefix corporate-site ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
       - run: npm --prefix erp ci --ignore-scripts --strict-ssl=true --no-audit --no-fund
+      - name: Check browser runner guards without launching browsers
+        run: node --test corporate-site/tests/ci-artifacts.test.mjs corporate-site/tests/ci-browser.test.mjs corporate-site/tests/browser-policy-gate.test.cjs
       - run: node scripts/database-check.mjs
         working-directory: erp
       - run: npm --prefix corporate-site run build
       - run: npm --prefix erp run build
+      - name: Bind fresh site and ERP artifacts to the clean candidate
+        env:
+          KNABA_CI_ARTIFACT_MANIFEST: ${{ runner.temp }}/knaba-build-artifacts.json
+        run: node corporate-site/tests/ci-artifacts.mjs
       - name: Run actual anonymous intake, signed HTTP and PostgreSQL acceptance
         # This isolated job requires PostgreSQL and both current build artifacts.
         # It never substitutes mocks or skipped SQL cases for the bridge gate.
@@ -193,6 +201,22 @@ jobs:
           }
           console.log('Passed bridge cases:',counts.pass,'source:',process.env.SOURCE_SHA);
           JS
+      - name: Actual installed-browser role and responsive acceptance
+        # Reuse the runner's installed Chrome and the ERP's pinned Playwright
+        # library. No browser download, sandbox bypass, live login or deployment.
+        env:
+          KNABA_BROWSER_QA_DIR: ${{ runner.temp }}/knaba-browser
+          KNABA_CI_ARTIFACT_MANIFEST: ${{ runner.temp }}/knaba-build-artifacts.json
+        run: node corporate-site/tests/ci-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-browser-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/knaba-browser
+            ${{ runner.temp }}/knaba-build-artifacts.json
+          if-no-files-found: warn
+          retention-days: 1
 
   failure-summary:
     name: Sanitized failure summary

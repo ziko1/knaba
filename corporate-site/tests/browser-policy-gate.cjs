@@ -2,6 +2,7 @@
 // Read-only browser QA. Infrastructure failures may change engines; product failures never do.
 const ENGINES=Object.freeze(['chromium','webkit','firefox']);
 const BLOCKED=/ERR_BLOCKED_BY_ADMINISTRATOR/i;
+const SANDBOX_BLOCKED=/No usable sandbox|Chromium sandboxing failed|Failed to move to new namespace|Running as root without/i;
 const MISSING=/Executable doesn't exist|Executable does not exist|Please run (?:the following command to download|.*playwright install)|browser.*not installed|browser.*not found|ENOENT|No such file or directory/i;
 function normalizeLoopbackOrigin(value){
   if(typeof value!=='string'||!value)throw Error('KNABA_TEST_URL must be a loopback HTTP origin');
@@ -16,6 +17,7 @@ function normalizeLoopbackOrigin(value){
 function reasonFor(error,stage){
   const message=String(error?.message||error);
   if(BLOCKED.test(message))return 'POLICY_BLOCKED';
+  if(stage==='launch'&&SANDBOX_BLOCKED.test(message))return 'POLICY_BLOCKED';
   if(stage==='launch'&&MISSING.test(message))return 'BROWSER_UNAVAILABLE';
   return null;
 }
@@ -37,6 +39,7 @@ async function runBrowserGate({origin,engines,suite,skipEngines=[]}){
     try{
       const options={headless:true};
       if(name==='chromium'){
+        options.chromiumSandbox=true;
         if(process.env.KNABA_CHROME_PATH)options.executablePath=process.env.KNABA_CHROME_PATH;
       }
       browser=await driver.launch(options);
@@ -61,4 +64,4 @@ async function runBrowserGate({origin,engines,suite,skipEngines=[]}){
   }
   return {status:'BLOCKED',reason:'NO_USABLE_BROWSER',skipped};
 }
-module.exports={normalizeLoopbackOrigin,runBrowserGate};
+module.exports={normalizeLoopbackOrigin,runBrowserGate,browserFailureReason:reasonFor};

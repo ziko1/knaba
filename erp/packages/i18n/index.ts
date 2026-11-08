@@ -1,3 +1,4 @@
+import {vehicleTripCopy} from './vehicleTripCopy';
 import {internalAssistantCopy} from './internalAssistantCopy';
 export type Language='DE'|'UK'|'RU'|'PL'|'LT'|'EN';
 // Presentation order is independent from the established translation column order.
@@ -6,6 +7,7 @@ const translationColumns:Language[]=['DE','UK','RU','PL','LT','EN'];
 export const languageNames:Record<Language,string>={DE:'Deutsch',UK:'Українська',RU:'Русский',PL:'Polski',LT:'Lietuvių',EN:'English'};
 const rows:Record<string,string[]>={
 ...internalAssistantCopy,
+...vehicleTripCopy,
 crewOffers:['Persönliche Einsatzangebote','Особисті пропозиції роботи','Личные предложения работы','Osobiste propozycje pracy','Asmeniniai darbo pasiūlymai','Personal work offers'],
 crewOfferInfo:['Die Zusage bestätigt Ihre Verfügbarkeit. Arbeitszeit beginnt erst mit der Schicht.','Згода підтверджує вашу доступність. Робочий час починається лише зі зміни.','Согласие подтверждает доступность. Рабочее время начинается только со смены.','Zgoda potwierdza dostępność. Czas pracy zaczyna się dopiero ze zmianą.','Sutikimas patvirtina pasiekiamumą. Darbo laikas prasideda tik pradėjus pamainą.','Acceptance confirms your availability. Work time starts only with a shift.'],
 offerExpiresAt:['Antwortfrist','Відповісти до','Ответить до','Termin odpowiedzi','Atsakymo terminas','Response deadline'],

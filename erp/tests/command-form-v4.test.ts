@@ -5,12 +5,24 @@ import {zodToJsonSchema} from 'zod-to-json-schema';
 import {registry} from '../apps/api/registry.ts';
 import {CommandForm,commandFormInput,commandReferenceKind,crewAssignmentOwnEmployeeId,documentUploadContext} from '../apps/web/src/CommandForm.tsx';
 import type {Entity,Schema} from '../apps/web/src/api.ts';
+import {VehicleTripSummary} from '../apps/web/src/VehicleTripSummary.tsx';
+import {translator,languages} from '../packages/i18n/index.ts';
 
 const schema=(name:string)=>zodToJsonSchema(registry[name]!.schema,{target:'jsonSchema7'}) as Schema;
 const row=(kind:string,id:string,data:Record<string,any>):Entity=>({kind,id,data,version:1,createdAt:'2026-10-08T10:00:00.000Z',updatedAt:'2026-10-08T10:00:00.000Z'});
 afterEach(()=>vi.unstubAllGlobals());
 
 describe('V4 command form request contracts (actual domain schemas; no browser execution claim)',()=>{
+ it('maps shared journey references and renders one vehicle distance independently from person-hours in all six languages',()=>{
+  for(const [field,kind]of [['vehicleTripId','vehicle_trip'],['originSiteId','site'],['driverId','user'],['passengerIds','user']] as const)expect(commandReferenceKind(field,'vehicle_trip.create')).toBe(kind);
+  for(const language of languages){
+   const t=translator(language),result={personHours:1.5,vehicleKilometers:20,participantCount:3,plannedParticipantCount:3,complete:true};
+   const html=renderToStaticMarkup(createElement(VehicleTripSummary,{result,t}));
+   expect(html).toContain('1.5');expect(html).toContain('20 km');expect(html).not.toContain('60 km');expect(html).not.toContain('vehicleTimeNote');
+   const unknown=renderToStaticMarkup(createElement(VehicleTripSummary,{result:{...result,vehicleKilometers:null,complete:false},t}));
+   expect(unknown).toContain(t('vehicleDistanceUnknown'));expect(unknown).toContain('role="status"');expect(unknown).not.toContain('0 km');
+  }
+ });
  it('serializes an explicit owner clear and the required unset owner as null',()=>{
   const value=commandFormInput({siteId:'site-a',geoResponsibleUserId:'',onCallUserId:undefined},schema('site.geo_responsible.set'));
   expect(value).toEqual({siteId:'site-a',geoResponsibleUserId:null,onCallUserId:null});

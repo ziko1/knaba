@@ -1,5 +1,5 @@
 import { createMemo, createSignal, For, onMount, Show } from 'solid-js';
-import '../styles/crm.css';
+import '../styles/private-workspace.css';
 
 type Stage='new'|'contacted'|'qualified'|'proposal'|'won'|'lost';
 type Contact={

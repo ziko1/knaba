@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-11-08T10:21:23.517067+00:00",
+  "baseCommit": "00dc255e8e492cdfb9eee155eaffc5d9b139272b",
+  "author": "root",
+  "independentReviewer": "coverage_matrix",
+  "status": "ACCEPTED_FOR_SOURCE_INTEGRATION",
+  "semanticReview": "Seven-day absolute access, no extension on opening, owner revocation without history deletion, first technical display receipt and no human-read claim match current source. Identity/transfer retention classification remains unresolved; no whole-product legal-compliance acceptance.",
+  "automatedCheck": {
+    "command": "node --test tests/legal-regression.test.mjs",
+    "scope": "Six existing structural/date/legal regressions; not automated proof of the new semantic statements",
+    "result": "6 PASS / 0 FAIL",
+    "logSha256": "d2cc0db0ec45e57048f04e84e5cdc8efb0418673dcd057556e1760d6c53af388"
+  },
+  "runtimeReferences": [
+    "corporate-site/worker/assistant.ts",
+    "corporate-site/src/lib/assistant-display-receipts.ts",
+    "corporate-site/src/components/KnabaAssistant.tsx"
+  ],
+  "limitations": [
+    "No production changes",
+    "No live provider or device acceptance",
+    "No determination of legal basis or retention on behalf of the operator"
+  ],
+  "files": {
+    "corporate-site/src/pages/datenschutz.astro": "093afcf44d71458d07127afb73e19e7844a68e7070f4ea63a1c2b53cd05cc9ba",
+    "corporate-site/src/pages/ru/datenschutz.astro": "231c4904c3ebc0b63f5bfac49bc3edf7aeec7c7221a897494ab951bff34b1325",
+    "corporate-site/tests/legal-regression.test.mjs": "d29a16f8a8de45936da68489270b9cfbfd5d7bc720517c206e2685320a451a67",
+    "docs/unified/CHANNEL_PRIVACY_READINESS_2026-11-08_UK.md": "dddb373430418d2f617a2ce2196ac8c6ff504bc58dfa5a9d22b237b96268a57f"
+  }
+}

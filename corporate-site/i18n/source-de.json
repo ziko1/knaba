@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "public-html-only",
   "sourceLocale": "de",
-  "sourceDigest": "8c75730410a53ee3b9eb719fbadb84956f06c7b1676c13fd31bd8e51e6b2d026",
+  "sourceDigest": "60f5ebb6d6b7e3b3a7575100e4714ebbec763c25b1c0d7fd9ce81ae8ff138866",
   "routes": [
     "/",
     "/bauleistungen/bauendreinigung/",
@@ -33,7 +33,7 @@
     "/ratgeber/bauuebergabe-checkliste/",
     "/unternehmen/"
   ],
-  "unitCount": 1091,
+  "unitCount": 1106,
   "units": {
     "00188cc377f4b2522f5ca33a": {
       "kind": "text",
@@ -374,6 +374,13 @@
       "source": "Wand- & Deckendurchbrüche – Anfrage ↗",
       "routes": [
         "/planer/"
+      ]
+    },
+    "073f11c28fc4aaf068d19a93": {
+      "kind": "text",
+      "source": "Offizielle Website",
+      "routes": [
+        "/partner/"
       ]
     },
     "0773a672d3c77704f29db37a": {
@@ -812,6 +819,39 @@
       "source": "E-Mail",
       "routes": [
         "/kontakt/"
+      ]
+    },
+    "12e1923d2e5dca370d63e893": {
+      "kind": "attr:alt",
+      "source": "VSP",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "1335e8032a6c6959c7b35a21": {
@@ -1560,6 +1600,13 @@
         "/berlin/"
       ]
     },
+    "26c05a415f744ca453c27ee3": {
+      "kind": "attr:aria-label",
+      "source": "Offizielle Website: Brüninghoff Group",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "26ce9c19b61f74d2d9a67874": {
       "kind": "text",
       "source": "Menü",
@@ -1647,6 +1694,15 @@
       "source": "Ihr Objekt",
       "routes": [
         "/planer/"
+      ]
+    },
+    "27bf7f01561776cc96d58695": {
+      "kind": "attr:alt",
+      "source": "Logo von Brüninghoff Group",
+      "routes": [
+        "/",
+        "/partner/",
+        "/unternehmen/"
       ]
     },
     "27c24092c5cd042fe4e021a5": {
@@ -2069,6 +2125,20 @@
       "source": "Zugang und Rahmenbedingungen nennen",
       "routes": [
         "/ratgeber/bauhelfer-einsatz-vorbereiten/"
+      ]
+    },
+    "32ae217cd8b0cd76499d5a35": {
+      "kind": "text",
+      "source": "Die Brüninghoff Group plant, produziert und realisiert Gebäude aus Holz, Beton, Metall und hybriden Konstruktionen. Zu ihren Tätigkeitsfeldern gehören Wohnungsbau, Hallenbau und Bürogebäude.",
+      "routes": [
+        "/partner/"
+      ]
+    },
+    "32c303b6a2035f0f5b03cb1d": {
+      "kind": "attr:aria-label",
+      "source": "Offizielle Website: TM Ausbau",
+      "routes": [
+        "/partner/"
       ]
     },
     "32fed574c148da2b30d34dd1": {
@@ -2547,6 +2617,14 @@
         "/ratgeber/bauendreinigung-vorbereiten/"
       ]
     },
+    "417e2ddb8928ea4e19ccf6c0": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: TM Ausbau",
+      "routes": [
+        "/",
+        "/unternehmen/"
+      ]
+    },
     "4180b6da3e68b35ec694297a": {
       "kind": "text",
       "source": "Angebot anfragen",
@@ -2806,6 +2884,13 @@
         "/unternehmen/"
       ]
     },
+    "4734f6a09f1b5081c615e7a6": {
+      "kind": "text",
+      "source": "TM Ausbau plant und realisiert Ausbauprojekte. Das Leistungsspektrum umfasst Bauen im Bestand, Innenausbau, Mieterausbau und Möbelbau.",
+      "routes": [
+        "/partner/"
+      ]
+    },
     "47a5ee5654b47ab2e848356c": {
       "kind": "text",
       "source": "Sie kennen noch nicht alle Angaben? Beschreiben Sie zunächst, was bereits feststeht.",
@@ -2868,6 +2953,14 @@
       "source": "B2B / TECHNISCH",
       "routes": [
         "/leistungen/"
+      ]
+    },
+    "4a0bf6828754a667f52f8205": {
+      "kind": "attr:aria-label",
+      "source": "Unternehmen kennenlernen: Brüninghoff Group",
+      "routes": [
+        "/",
+        "/unternehmen/"
       ]
     },
     "4a3f1a96f9e07c22f181ae23": {
@@ -3332,6 +3425,39 @@
         "/"
       ]
     },
+    "5653e6460046a06392c4b556": {
+      "kind": "text",
+      "source": ".REST",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
+      ]
+    },
     "56cec8d94e2533711a7e7e10": {
       "kind": "text",
       "source": "Schadstoffverdacht, Schimmel, unbekannte Stäube und ungesicherte Höhenarbeiten gehören nicht in einen gewöhnlichen Reinigungsauftrag. Informieren Sie die Bauleitung; die Gefährdung und erforderliche Fachkunde müssen zuerst geklärt werden.",
@@ -3643,6 +3769,39 @@
       "source": "Schutz angrenzender Bereiche, Materialabtransport und spätere Wiederherstellung getrennt planen.",
       "routes": [
         "/bauleistungen/durchbrueche/"
+      ]
+    },
+    "604905132282d1122cd74e39": {
+      "kind": "text",
+      "source": "VSP",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "606431c0c8e06ef39e8ba4e3": {
@@ -4609,6 +4768,39 @@
       "source": "So arbeitet KnaBa | KnaBa Berlin",
       "routes": [
         "/galerie/"
+      ]
+    },
+    "74708e394657e5da96456157": {
+      "kind": "text",
+      "source": "Webtechnologie von",
+      "routes": [
+        "/",
+        "/bauleistungen/bauendreinigung/",
+        "/bauleistungen/bauhilfe/",
+        "/bauleistungen/baureinigung/",
+        "/bauleistungen/baustellenraeumung/",
+        "/bauleistungen/bauzwischenreinigung/",
+        "/bauleistungen/durchbrueche/",
+        "/bauleistungen/kernbohrungen/",
+        "/bauleistungen/zusatzarbeiten/",
+        "/berlin/",
+        "/branchen/",
+        "/datenschutz/",
+        "/faq/",
+        "/galerie/",
+        "/impressum/",
+        "/karriere/",
+        "/kontakt/",
+        "/leistungen/",
+        "/partner/",
+        "/planer/",
+        "/ratgeber/",
+        "/ratgeber/bauendreinigung-vorbereiten/",
+        "/ratgeber/bauhelfer-einsatz-vorbereiten/",
+        "/ratgeber/baureinigung-kosten-planen/",
+        "/ratgeber/baureinigung-phasen/",
+        "/ratgeber/bauuebergabe-checkliste/",
+        "/unternehmen/"
       ]
     },
     "747b0d7a3c56454cdd1dbd2a": {
@@ -6796,6 +6988,15 @@
         "/kontakt/"
       ]
     },
+    "af016df5137cec35f99243f2": {
+      "kind": "text",
+      "source": "Brüninghoff Group",
+      "routes": [
+        "/",
+        "/partner/",
+        "/unternehmen/"
+      ]
+    },
     "af061246ab8c250bc5ea90fa": {
       "kind": "text",
       "source": "Gewünschten Zeitraum und verbindliche Übergabetermine getrennt nennen. Verfügbarkeit und mögliche Zeitfenster werden erst nach Prüfung bestätigt.",
@@ -7739,6 +7940,15 @@
       "source": "Technik & Leitungen",
       "routes": [
         "/planer/"
+      ]
+    },
+    "c99326d9c55e39d5e7f0d54b": {
+      "kind": "attr:alt",
+      "source": "Logo von TM Ausbau",
+      "routes": [
+        "/",
+        "/partner/",
+        "/unternehmen/"
       ]
     },
     "c9939bca9a0ca2057bb9edb4": {
@@ -9557,6 +9767,15 @@
       "source": "Bauhelfer",
       "routes": [
         "/karriere/"
+      ]
+    },
+    "fae8f0942aa30d17d8cb526c": {
+      "kind": "text",
+      "source": "TM Ausbau",
+      "routes": [
+        "/",
+        "/partner/",
+        "/unternehmen/"
       ]
     },
     "faf3be706c8c819712f0a34d": {

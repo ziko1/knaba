@@ -24,10 +24,12 @@ const snapshot=(label:string,id=ticket.id):Thread=>({conversation:{id,status:'as
 // JSX renderer. Signals, transport and storage are mocks; this is not browser QA.
 const source=ts.createSourceFile('KnabaAssistant.tsx',readFileSync(new URL('../src/components/KnabaAssistant.tsx',import.meta.url),'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
 const component=source.statements.find((node):node is ts.FunctionDeclaration=>ts.isFunctionDeclaration(node)&&node.name?.text==='KnabaAssistant');
-const names=['load','ensure','send','handoff','decide','restore','reset','copyRecovery'];
+const names=['expireGuestAccess','load','ensure','send','handoff','decide','restore','reset','copyRecovery'];
 const handlers=component?.body?.statements.filter((node):node is ts.FunctionDeclaration=>ts.isFunctionDeclaration(node)&&!!node.name&&names.includes(node.name.text));
 if(handlers?.length!==names.length)throw new Error('Assistant request handlers are missing');
-const output=ts.transpileModule(handlers.map(node=>node.getText(source)).join('\n')+`\nexports.handlers={${names.join(',')}};`,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const httpError=source.statements.find((node):node is ts.ClassDeclaration=>ts.isClassDeclaration(node)&&node.name?.text==='AssistantHttpError');
+if(!httpError)throw new Error('Assistant HTTP error contract is missing');
+const output=ts.transpileModule(httpError.getText(source)+'\n'+handlers.map(node=>node.getText(source)).join('\n')+`\nexports.handlers={${names.join(',')}};`,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
 type Handlers={
   load:(value:AssistantTicket)=>Promise<void>;
   send:(event:Event)=>Promise<void>;

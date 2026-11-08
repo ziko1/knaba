@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "requirement": "MOBILE-012",
+  "checkedAt": "2026-11-08T06:23:06.343589+00:00",
+  "sourceGitSha": "df1fe55f0d5c14e7f5a43340985f3a894e6b934e",
+  "sourceWorkingTreeAtBuild": false,
+  "branch": "fix/knaba-android-install-icon-20261108",
+  "baseSha": "d03e72b8c5030390c635f3aac9133d977078dedf",
+  "scope": "Android company logo and standalone test APK packaging; user phone installer failure investigation",
+  "status": "APK_CANDIDATE_VERIFIED_PHYSICAL_INSTALL_UNCONFIRMED",
+  "artifact": {
+    "builtAt": "2026-11-08T06:20:57.726690+00:00",
+    "artifact": "KNABA-DE-0.4.2-test.apk",
+    "sha256": "5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1",
+    "bytes": 2797226,
+    "package": "de.knaba.mobile.test",
+    "versionCode": 6,
+    "versionName": "0.4.2-test",
+    "minSdk": 31,
+    "targetSdk": 36,
+    "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+    "expectedCertificateMatch": "PASS",
+    "signing": "DEBUG_EVALUATION_ONLY",
+    "v2Signature": "PASS",
+    "zipIntegrity": "PASS",
+    "alignment": "PASS",
+    "standaloneApk": "PASS",
+    "testOnly": false,
+    "launcher": "de.knaba.mobile.ErpConsoleActivity",
+    "nativeAbiRestrictions": [],
+    "staticInstallerChecks": "PASS_NOT_DEVICE_INSTALL",
+    "physicalDeviceInstall": "NOT_RUN",
+    "upgradeAndDataRetention": "NOT_RUN",
+    "customerAcceptance": "NOT_RUN"
+  },
+  "commands": [
+    {
+      "command": "bash scripts/package.sh prototype (KNABA_ANDROID_EXPECTED_CERT_SHA256 set to previous certificate)",
+      "exitCode": 0,
+      "evidence": "build.log"
+    },
+    {
+      "command": "node --test scripts/*.test.mjs",
+      "exitCode": 0,
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "root-tests.log"
+    },
+    {
+      "command": "node scripts/verify-snapshot.mjs",
+      "exitCode": 0,
+      "scope": "clean committed source and preserved historical imports",
+      "evidence": "source-audit.log"
+    },
+    {
+      "command": "node scripts/verify-module-manifest.mjs",
+      "exitCode": 0,
+      "scope": "module metadata only",
+      "evidence": "module-manifest.log"
+    }
+  ],
+  "androidUnitTests": {
+    "runtime": "Robolectric framework simulation with native graphics; not a physical Android device",
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "suites": [
+      {
+        "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": "TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml"
+      },
+      {
+        "name": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": "TEST-de.knaba.mobile.ErpConsoleActivityTest.xml"
+      },
+      {
+        "name": "de.knaba.mobile.LauncherIconTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": "TEST-de.knaba.mobile.LauncherIconTest.xml"
+      }
+    ]
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 18,
+    "evidence": "lint-results-debug.xml",
+    "newWarnings": [
+      "ObsoleteSdkInt: v26 resource qualifier is redundant for minimum SDK31; resources resolve correctly",
+      "MonochromeLauncherIcon (2): original color company mark has an opaque white background; no incorrect solid-square monochrome mask is supplied"
+    ]
+  },
+  "brand": {
+    "source": "corporate-site/public/favicon.png",
+    "sourceSha256": "cc848639a3f2f561e2bc7e2383287752cc592a089384d67f282bc37c6e110bd1",
+    "copiedByteForByte": true,
+    "launcherAndRound": "PASS_ROBOLECTRIC_NATIVE_RENDER",
+    "visualReviewByCoordinator": "PASS: three teal buildings and lime base visible, no clipping in the rendered default mask",
+    "screenshots": [
+      "launcher-icon-robolectric.png",
+      "launcher-icon-round-robolectric.png"
+    ]
+  },
+  "baseline": {
+    "evidence": "baseline/baseline-verification.json",
+    "sha256": "d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b",
+    "integrityAndSignature": "PASS",
+    "testOnly": false,
+    "split": false,
+    "reportedPhoneFailureRootCause": "UNKNOWN_NOT_REPRODUCED",
+    "actualUserDownloadedBytes": "UNKNOWN"
+  },
+  "sourceBinding": {
+    "fileCount": 49,
+    "allFilesMatchedAfterBuild": true,
+    "evidence": "source.json"
+  },
+  "environment": {
+    "jdk": "Temurin17.0.21+9",
+    "gradle": "8.13",
+    "androidCompileSdk": 36,
+    "androidBuildTools": "35.0.0",
+    "node": "24.22.1",
+    "connectedAndroidDevices": 0,
+    "kvmAvailable": false
+  },
+  "independentReview": {
+    "status": "ACCEPTED_SOURCE_AND_ARTIFACT_SCOPE_NOT_DEVICE_INSTALL",
+    "reviewer": "/root/android_install_audit",
+    "evidence": "independent-review.json",
+    "findings": []
+  },
+  "notRun": [
+    "Physical phone standard-installer handoff/install/update",
+    "Actual device data retention",
+    "Physical launcher and OEM masks",
+    "Live ERP and hardware Keystore/GPS acceptance"
+  ],
+  "authorization": {
+    "merge": false,
+    "productionDeploy": false,
+    "dnsChange": false,
+    "liveDataChange": false,
+    "newPaidServices": false
+  },
+  "next": "Deliver separate APK and Files/Downloads instructions. If failure persists, obtain phone model/Android/source app and exact error or screen recording.",
+  "delivery": {
+    "status": "SAVED_SEPARATE_APK",
+    "fileName": "KNABA-DE-0.4.2-test.apk",
+    "bytes": 2797226,
+    "sha256": "5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1",
+    "deviceOutcome": "NOT_RUN"
+  },
+  "repositoryPublication": {
+    "status": "BLOCKED_AUTO_REVIEW",
+    "attemptedAction": "git push -u origin fix/knaba-android-install-icon-20261108",
+    "reason": "Automatic approval review requires explicit permission to publish source changes to GitHub origin; it identified possible disclosure of private code. No workaround used.",
+    "approvalNeeded": "Publish this reviewed branch to ziko1/knaba and open a draft PR; no merge or production deployment.",
+    "localSourceCommit": "df1fe55f0d5c14e7f5a43340985f3a894e6b934e",
+    "localEvidenceCommit": "ac87a8a67600997f1d298f6abc10e6863c76e426",
+    "remoteCI": "NOT_RUN"
+  }
+}

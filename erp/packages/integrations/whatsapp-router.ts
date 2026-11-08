@@ -2,6 +2,7 @@ import {createHash,randomBytes} from 'node:crypto';
 import {assert,DomainError,type Actor,type CommandRegistry,type Data,type Entity,type Transaction} from '../domain/core.ts';
 import {exactBaseQuantity} from '../domain/resources.ts';
 import {whatsAppPolicy} from '../domain/communications.ts';
+import {whatsappConsentAllowed} from '../domain/notification-policy.ts';
 import {renderWhatsAppMessage,type WhatsAppInbound,type WhatsAppOutput} from './whatsapp.ts';
 import type {SupportedLanguage} from './deepseek.ts';
 import {languageLabel,originalMessageLanguage,parseRouterCommand,routerLanguages,routerText} from './whatsapp-router-text.ts';
@@ -268,7 +269,7 @@ export class WhatsAppRouter<Tx extends Transaction> {
     if(command==='AUTOMATIONS')return this.automations(ctx);
     if(command==='ADMIN')return this.admin(ctx);
     if(command==='MAP'){assert(this.mapPermission(ctx),'ACCESS_DENIED');return this.respond(ctx,this.mapLink(ctx),[{label:'MENU',intent:'MAIN'}],'MAP');}
-    if(command==='OPTIN'||command==='STOP'){assert(ctx.actor.permissions.includes('chat.read'),'ACCESS_DENIED');const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);return this.immediate(ctx,{name:'notifications.configure',input:{language:ctx.language,whatsapp_consent:command==='OPTIN',opted_out:command==='STOP',quiet_start:settings?.data.quiet_start??22,quiet_end:settings?.data.quiet_end??7,allowed_fallback:settings?.data.allowed_fallback??'WEB'},guards:[],presentation:command});}
+    if(command==='OPTIN'||command==='STOP'){assert(ctx.actor.permissions.includes('chat.read'),'ACCESS_DENIED');const settings=(await ctx.tx.list('notification_setting')).find(s=>s.data.user_id===ctx.actor.userId);return this.immediate(ctx,{name:'notifications.configure',input:{language:ctx.language,whatsapp_consent:command==='OPTIN',...command==='OPTIN'?{all_operational_whatsapp_notifications:true}:{},opted_out:command==='STOP',quiet_start:settings?.data.quiet_start??22,quiet_end:settings?.data.quiet_end??7,allowed_fallback:settings?.data.allowed_fallback??'WEB'},guards:[],presentation:command});}
     if(command==='START')return this.sitePicker(ctx,'START_SITE');
     if(command==='SHIFT'){const shift=await this.activeShift(ctx);if(!shift)return this.respond(ctx,this.text(ctx,'noShift'),[{label:this.text(ctx,'start'),intent:'START',permission:'shift.manage'},{label:'MENU',intent:'MAIN'}],'SHIFT');ctx.accessRefs.push(ref(shift));const options:Choice[]=[{label:this.text(ctx,shift.data.activity==='ON_BREAK'?'resume':'pause'),intent:shift.data.activity==='ON_BREAK'?'RESUME':'BREAK',permission:'shift.manage'},{label:this.text(ctx,'end'),intent:'END',permission:'shift.manage'},{label:'MENU',intent:'MAIN'}];return this.respond(ctx,`${this.text(ctx,'shift')} · ${shift.id}\n${this.text(ctx,shift.data.activity)}\n${shift.data.siteId}\n${shift.data.startAt}`,options,'SHIFT');}
     if(['BREAK','RESUME','END','HOURS'].includes(command))return this.shiftAction(ctx,command);
@@ -389,15 +390,19 @@ export class WhatsAppRouter<Tx extends Transaction> {
   private async mediaStages(ctx:RouteContext<Tx>,data:Data){const guards=[ref(await ctx.tx.get('site',data.siteId)),ref(await ctx.tx.get('media_upload',data.uploadId))];if(data.taskId)guards.push(ref(await ctx.tx.get('task',data.taskId)));return this.respond(ctx,this.text(ctx,'stage'),['BEFORE','AFTER','DEFECT','MATERIALS','DOCUMENT'].map(stage=>({label:this.text(ctx,stage),intent:'MEDIA_STAGE',payload:{...data,stage},guards,permission:'media.upload'})),'MEDIA_STAGE');}
   /** Root worker calls this immediately before actual provider I/O, then persists API_ACCEPTED/FAILED/UNKNOWN. */
   async prepareResponse(companyId:string,responseId:string){return this.db.transaction(companyId,this.options.systemActorId??'knaba-integration-service',tx=>this.prepareResponseIn(tx,responseId));}
-  async prepareResponseIn(tx:Tx,responseId:string){
-    const response=await tx.get('whatsapp_router_response',responseId);if(!['PENDING','RETRY_SCHEDULED'].includes(response.data.status))return {allowed:false,reason:'ALREADY_PROCESSED'};
+  async prepareResponseIn(tx:Tx,responseId:string,sending?:{jobId:string;leaseHash:string}){
+    const response=await tx.get('whatsapp_router_response',responseId);
+    if(sending)assert(response.data.status==='SENDING'&&response.data.sending_job_id===sending.jobId&&response.data.sending_lease_hash===sending.leaseHash,'ACCESS_DENIED');
+    else if(!['PENDING','RETRY_SCHEDULED'].includes(response.data.status))return {allowed:false,reason:'ALREADY_PROCESSED'};
     const actor=await this.engine.actorIn(tx,response.data.user_id);await this.identity(tx,actor,response.data.sender);
     const session=await tx.get('whatsapp_router_session',response.data.session_id);
     if(response.data.expires_at<=this.now().toISOString()||session.data.generation!==response.data.session_generation){await tx.save(response,{...response.data,status:'CANCELLED',error:'SUPERSEDED_OR_EXPIRED'});return {allowed:false,reason:'SUPERSEDED_OR_EXPIRED'};}
     if(response.data.internal&&external(actor)||(response.data.required_permissions??[]).some((p:string)=>!actor.permissions.includes(p))){await tx.save(response,{...response.data,status:'CANCELLED',error:'ACCESS_REVOKED'});return {allowed:false,reason:'ACCESS_REVOKED'};}
     for(const r of response.data.access_refs??[])if(!await this.engine.visible(tx,actor,await tx.get(r.kind,r.id))){await tx.save(response,{...response.data,status:'CANCELLED',error:'ACCESS_REVOKED'});return {allowed:false,reason:'ACCESS_REVOKED'};}
     const settings=(await tx.list('notification_setting')).find(s=>s.data.user_id===actor.userId);
-    const policy=whatsAppPolicy({now:this.now().toISOString(),last_inbound_at:settings?.data.last_inbound_at,consent:settings?.data.whatsapp_consent===true,opted_out:settings?.data.opted_out});
+    let consentChannelId:string|undefined;
+    if(settings?.data.whatsapp_consent_scope?.kind==='CONVERSATION')try{const input=await tx.get('conversation_input',response.data.input_id);if(input.companyId===actor.companyId&&input.data.provider==='WHATSAPP'&&input.data.user_id===actor.userId&&input.data.input?.sender===response.data.sender&&typeof input.data.channel_id==='string'){const channel=await tx.get('channel',input.data.channel_id);if(channel.companyId===actor.companyId&&await this.engine.visible(tx,actor,channel))consentChannelId=channel.id;}}catch(error){if(!(error instanceof DomainError))throw error;}
+    const policy=whatsAppPolicy({now:this.now().toISOString(),last_inbound_at:settings?.data.last_inbound_at,consent:whatsappConsentAllowed(settings?.data,{channelId:consentChannelId}),opted_out:settings?.data.opted_out});
     if(!policy.allowed||policy.kind!=='TEXT'){await tx.save(response,{...response.data,status:'BLOCKED',error:policy.reason??'WHATSAPP_WINDOW_CLOSED'});return {allowed:false,reason:policy.reason??'WHATSAPP_WINDOW_CLOSED'};}
     if(this.options.mode!=='PRODUCTION'&&!this.options.testRecipients?.includes(response.data.sender)){await tx.save(response,{...response.data,status:'BLOCKED',error:'TEST_RECIPIENT_NOT_ALLOWED'});return {allowed:false,reason:'TEST_RECIPIENT_NOT_ALLOWED'};}
     return {allowed:true,to:response.data.sender,output:response.data.output as WhatsAppOutput,policy:{kind:'TEXT' as const},response};

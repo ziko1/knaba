@@ -5,6 +5,20 @@ export const DEFAULT_QUIET_END=7;
 export const SAFE_RETRY_DELAYS_MS=[60_000,300_000,900_000] as const;
 export type DeliveryFailureClass='CONFIRMED_TRANSIENT'|'DEFINITIVE'|'UNKNOWN';
 
+/** Consent restricts delivery; it never grants access to the referenced conversation. */
+export function whatsappConsentAllowed(settings:Data|undefined,context?:{channelId?:string}):boolean {
+ if(settings?.whatsapp_consent!==true||settings.opted_out!==undefined&&settings.opted_out!==null&&settings.opted_out!==false)return false;
+ const scope=settings.whatsapp_consent_scope,purpose=settings.consent_purpose;
+ // Legacy explicit operational consent remains compatible. A scoped purpose with
+ // missing scope is not a legacy record and must not become a broad permission.
+ if(scope===undefined)return purpose===undefined||purpose==='OPERATIONAL_NOTIFICATIONS';
+ if(!scope||typeof scope!=='object'||Array.isArray(scope))return false;
+ if(scope.kind==='OPERATIONAL')return Object.keys(scope).length===1&&purpose==='OPERATIONAL_NOTIFICATIONS';
+ return scope.kind==='CONVERSATION'&&purpose==='CONTINUE_GUEST_CONVERSATION'&&Object.keys(scope).length===3&&
+  typeof scope.channel_id==='string'&&scope.channel_id.length>0&&scope.channel_id.length<=100&&
+  typeof scope.transfer_id==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(scope.transfer_id)&&context?.channelId===scope.channel_id;
+}
+
 /** Retry numbers are one based. Three retries follow the first confirmed failure. */
 export function safeRetryDelayMs(failedAttempt:number){
  assert(Number.isSafeInteger(failedAttempt)&&failedAttempt>=1,'VALIDATION_ERROR');

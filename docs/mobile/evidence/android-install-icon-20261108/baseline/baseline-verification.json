@@ -1,0 +1,160 @@
+{
+  "recordedAt": "2026-11-08T06:12:22.016217+00:00",
+  "reviewer": "/root/android_install_audit",
+  "scope": "READ_ONLY_PRIOR_APK_ANALYSIS",
+  "artifacts": [
+    {
+      "path": "/workspace/scratch/fe1b7c871eec/deliverables/KNABA-0.4.1-test.apk",
+      "bytes": 3005715,
+      "sha256": "d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b",
+      "zipCrcFirstBadEntry": null,
+      "zipCrc": "PASS",
+      "nativeLibraries": [],
+      "entries": [
+        "META-INF/com/android/build/gradle/app-metadata.properties",
+        "classes.dex",
+        "classes2.dex",
+        "AndroidManifest.xml",
+        "res/drawable/ic_knaba.xml",
+        "res/xml/data_extraction_rules.xml",
+        "resources.arsc",
+        "kotlin/annotation/annotation.kotlin_builtins",
+        "kotlin/collections/collections.kotlin_builtins",
+        "kotlin/concurrent/atomics/atomics.kotlin_builtins",
+        "kotlin/coroutines/coroutines.kotlin_builtins",
+        "kotlin/internal/internal.kotlin_builtins",
+        "kotlin/kotlin.kotlin_builtins",
+        "kotlin/ranges/ranges.kotlin_builtins",
+        "kotlin/reflect/reflect.kotlin_builtins",
+        "classes3.dex"
+      ]
+    },
+    {
+      "path": "/workspace/scratch/dcea63982a0c/KNABA_CANDIDATE_09e267d/CLIENT_DELIVERY/01_APPLICATION/KNABA-0.4.1-test.apk",
+      "bytes": 3005715,
+      "sha256": "d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b",
+      "zipCrcFirstBadEntry": null,
+      "zipCrc": "PASS",
+      "nativeLibraries": [],
+      "entries": [
+        "META-INF/com/android/build/gradle/app-metadata.properties",
+        "classes.dex",
+        "classes2.dex",
+        "AndroidManifest.xml",
+        "res/drawable/ic_knaba.xml",
+        "res/xml/data_extraction_rules.xml",
+        "resources.arsc",
+        "kotlin/annotation/annotation.kotlin_builtins",
+        "kotlin/collections/collections.kotlin_builtins",
+        "kotlin/concurrent/atomics/atomics.kotlin_builtins",
+        "kotlin/coroutines/coroutines.kotlin_builtins",
+        "kotlin/internal/internal.kotlin_builtins",
+        "kotlin/kotlin.kotlin_builtins",
+        "kotlin/ranges/ranges.kotlin_builtins",
+        "kotlin/reflect/reflect.kotlin_builtins",
+        "classes3.dex"
+      ]
+    }
+  ],
+  "sameBytes": true,
+  "package": "de.knaba.mobile.test",
+  "versionCode": 5,
+  "versionName": "0.4.1-test",
+  "minSdk": 31,
+  "targetSdk": 36,
+  "binaryManifest": {
+    "testOnlyAttributePresent": false,
+    "debuggable": true,
+    "splitAttributePresent": false,
+    "launchableActivity": "de.knaba.mobile.ErpConsoleActivity"
+  },
+  "signature": {
+    "verified": true,
+    "v1": false,
+    "v2": true,
+    "v3": false,
+    "errors": "[]",
+    "warnings": "[]",
+    "certificateSha256": "db2f5fb3f756c05a51169c412f9bd93c9f229af10b55c406030736adcd69daa8",
+    "notBefore": "2026-11-07T22:28:17Z",
+    "notAfter": "2056-10-30T22:28:17Z",
+    "issuer": "C=US, O=Android, CN=Android Debug"
+  },
+  "toolchain": {
+    "aapt2": "/root/.gradle/caches/8.13/transforms/443dd2d527e3a0c4581f9125ee547abd/transformed/aapt2-8.13.0-13719691-linux/aapt2",
+    "apksigJar": "/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/apksig/8.13.0/f005788487574c7d6ba23dea63bf8cb3a4f164a6/apksig-8.13.0.jar",
+    "java": "OpenJDK 17.0.20"
+  },
+  "commands": [
+    {
+      "name": "aapt2-badging",
+      "argv": [
+        "/root/.gradle/caches/8.13/transforms/443dd2d527e3a0c4581f9125ee547abd/transformed/aapt2-8.13.0-13719691-linux/aapt2",
+        "dump",
+        "badging",
+        "/workspace/scratch/fe1b7c871eec/deliverables/KNABA-0.4.1-test.apk"
+      ],
+      "exitCode": 0,
+      "stdout": "aapt2-badging.stdout.txt",
+      "stderr": "aapt2-badging.stderr.txt"
+    },
+    {
+      "name": "aapt2-manifest",
+      "argv": [
+        "/root/.gradle/caches/8.13/transforms/443dd2d527e3a0c4581f9125ee547abd/transformed/aapt2-8.13.0-13719691-linux/aapt2",
+        "dump",
+        "xmltree",
+        "/workspace/scratch/fe1b7c871eec/deliverables/KNABA-0.4.1-test.apk",
+        "--file",
+        "AndroidManifest.xml"
+      ],
+      "exitCode": 0,
+      "stdout": "aapt2-manifest.stdout.txt",
+      "stderr": "aapt2-manifest.stderr.txt"
+    },
+    {
+      "name": "aapt2-icon",
+      "argv": [
+        "/root/.gradle/caches/8.13/transforms/443dd2d527e3a0c4581f9125ee547abd/transformed/aapt2-8.13.0-13719691-linux/aapt2",
+        "dump",
+        "xmltree",
+        "/workspace/scratch/fe1b7c871eec/deliverables/KNABA-0.4.1-test.apk",
+        "--file",
+        "res/drawable/ic_knaba.xml"
+      ],
+      "exitCode": 0,
+      "stdout": "aapt2-icon.stdout.txt",
+      "stderr": "aapt2-icon.stderr.txt"
+    },
+    {
+      "name": "apksig-verification",
+      "argv": [
+        "java",
+        "--module",
+        "jdk.jshell/jdk.internal.jshell.tool.JShellToolProvider",
+        "--class-path",
+        "/root/.gradle/caches/modules-2/files-2.1/com.android.tools.build/apksig/8.13.0/f005788487574c7d6ba23dea63bf8cb3a4f164a6/apksig-8.13.0.jar"
+      ],
+      "exitCode": 0,
+      "stdout": "apksig-verification.stdout.txt",
+      "stderr": "apksig-verification.stderr.txt"
+    }
+  ],
+  "limitations": {
+    "physicalDeviceInstall": "NOT_RUN",
+    "physicalDeviceUpdate": "NOT_RUN",
+    "actualUserDownloadedBytes": "UNKNOWN",
+    "actualUserInstallerFailureRootCause": "UNKNOWN",
+    "liveDownloadResponse": "NOT_RUN",
+    "existingSourceIcon": "legacy buildings-and-squeegee; not the current approved three-building site glyph"
+  },
+  "findings": [
+    "Both prior APK paths contain the exact same complete ZIP/APK bytes.",
+    "Fresh Android apksig verifies v2 signature without errors or warnings.",
+    "Binary manifest has no testOnly or split declaration, has exported MAIN/LAUNCHER activity.",
+    "No native libraries: artifact does not impose CPU ABI restrictions.",
+    "Minimum Android 12 follows existing product specification.",
+    "A website source handler has correct APK MIME and attachment headers, but this does not establish the actual mobile handoff or current live response.",
+    "No demonstrated APK defect explains the reported silent installer behavior."
+  ]
+}

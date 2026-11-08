@@ -1,0 +1,36 @@
+✔ KNABA Mobile ships genuine role-based native views without embedded browser (2.566801ms)
+✔ Native accounts use existing ERP authenticated server commands and do not bypass access or location gate (1.091752ms)
+✔ Homepage contains one mobile work section in correct process-to-FAQ flow and no fake downloads (0.623199ms)
+✔ missing, incomplete and malformed receipts fail closed (2.603666ms)
+✔ blocked or omitted acceptance remains blocked (0.769279ms)
+✔ approval, exact SHA and artifact digest are mandatory (0.408438ms)
+✔ reject duplicate, forged and traversal evidence locations (0.92869ms)
+✔ complete structurally valid receipt passes syntax policy only (1.955121ms)
+✔ manifest includes existing CMS/CRM/portal/inbox and a separate, disabled ERP (2.538993ms)
+✔ fails closed on a fabricated running ERP module (0.98927ms)
+✔ fails closed when mandatory backup/cutover gates disappear (0.398453ms)
+✔ rejects duplicate or unknown module instead of dynamically loading code (0.473713ms)
+✔ rejects invalid source paths and missing checkout (0.556102ms)
+✔ original imported trees and clean source are independently verified (127.484967ms)
+✔ committed ERP and site evolution does not corrupt historical import proof (163.427726ms)
+✔ unstaged ERP edit fails exact-source integrity (122.041404ms)
+✔ unstaged site edit fails exact-source integrity (135.377329ms)
+✔ staged change fails exact-source integrity (114.814041ms)
+✔ untracked root source fails exact-source integrity (130.69985ms)
+✔ dirty root metadata fails exact-source integrity (105.503691ms)
+✔ committed deletion of a canonical file fails (150.018823ms)
+✔ canonical file symlink cannot substitute for tracked regular file (157.562599ms)
+✔ missing historical anchor fails closed without fetching (128.645518ms)
+✔ an unrelated root history cannot claim imported ancestry (162.376763ms)
+✔ historical tree mismatch is never relabeled as feature change (237.679295ms)
+✔ invalid committed root metadata fails: {not json (964.132629ms)
+✔ invalid committed root metadata fails: {"name":"another-project","private":true} (1527.696558ms)
+✔ invalid committed root metadata fails: {"name":"knaba-unified-integration","private":false} (311.862797ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4807.249353

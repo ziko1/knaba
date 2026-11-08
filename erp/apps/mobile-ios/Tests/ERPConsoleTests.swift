@@ -2,6 +2,23 @@ import XCTest
 @testable import KNABADE
 
 final class ERPConsoleTests: XCTestCase {
+    func testRedirectDelegateImplementsTheActualProtocolSelectorAndRefusesForwarding() {
+        let session = URLSession(configuration: .ephemeral)
+        defer { session.invalidateAndCancel() }
+        let source = URL(string: "https://erp.example.test/api/v1/me")!
+        let destination = URLRequest(url: URL(string: "https://other.example.test/collect")!)
+        let task = session.dataTask(with: source) // Never resumed: no network request.
+        let response = HTTPURLResponse(url: source, statusCode: 302, httpVersion: "HTTP/1.1", headerFields: ["Location": destination.url!.absoluteString])!
+        let delegate: any URLSessionTaskDelegate = ERPNoRedirect()
+        var called = false
+        delegate.urlSession?(session, task: task, willPerformHTTPRedirection: response, newRequest: destination) { next in
+            called = true
+            XCTAssertNil(next)
+        }
+        // The old method's URLSession-typed task argument did not implement this
+        // optional selector at all, so URLSession would have followed the redirect.
+        XCTAssertTrue(called)
+    }
     func testEveryERPLabelHasSixCompleteTranslationsInTheDisplayOrder() {
         XCTAssertEqual(Set(ERPStrings.rows.keys), Set(ERPText.allCases))
         for key in ERPText.allCases {

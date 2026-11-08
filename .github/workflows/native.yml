@@ -1,0 +1,75 @@
+name: KNABA Android candidate verification
+on:
+  pull_request:
+    paths:
+      - 'erp/apps/mobile-android/**'
+      - 'erp/tests/native-vectors.json'
+      - 'corporate-site/public/favicon.svg'
+      - 'scripts/mobile/generate-brand-assets.mjs'
+      - '.github/workflows/native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: knaba-native-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  NATIVE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+jobs:
+  android-debug:
+    name: Android debug APK, lint and regression tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.NATIVE_SOURCE_SHA }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17.0.21'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Verify source and SDK 36 toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$NATIVE_SOURCE_SHA"
+          mkdir -p erp/apps/mobile-android/build/evidence
+          test -n "${ANDROID_HOME:-}"
+          KNABA_SDK_MANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$KNABA_SDK_MANAGER"
+          "$KNABA_SDK_MANAGER" --sdk_root="$ANDROID_HOME" 'platforms;android-36' 'build-tools;35.0.0'
+          java -version 2>&1 | tee erp/apps/mobile-android/build/evidence/java-version.txt
+          gradle --version | tee erp/apps/mobile-android/build/evidence/gradle-version.txt
+          grep -q '^Gradle 8\.13$' erp/apps/mobile-android/build/evidence/gradle-version.txt
+          test -f "$ANDROID_HOME/platforms/android-36/android.jar"
+          cat "$ANDROID_HOME/platforms/android-36/source.properties" > erp/apps/mobile-android/build/evidence/sdk-platform.txt
+          cat "$ANDROID_HOME/build-tools/35.0.0/source.properties" > erp/apps/mobile-android/build/evidence/sdk-build-tools.txt
+      - name: Resolve the pinned JVM fixture dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          KNABA_JSON_TEST_JAR="$RUNNER_TEMP/knaba-json-20240303.jar"
+          curl --fail --location --proto '=https' --max-time 30 'https://repo.maven.apache.org/maven2/org/json/json/20240303/json-20240303.jar' --output "$KNABA_JSON_TEST_JAR"
+          echo "3cf6cd6892e32e2b4c1c39e0f52f5248a2f5b37646fdfbb79a66b46b618414ed  $KNABA_JSON_TEST_JAR" | sha256sum --check --strict
+          echo "KNABA_JSON_TEST_JAR=$KNABA_JSON_TEST_JAR" >> "$GITHUB_ENV"
+      - name: Test and package APK and App Bundle
+        working-directory: erp/apps/mobile-android
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/package.sh prototype
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knaba-android-debug-${{ env.NATIVE_SOURCE_SHA }}
+          path: |
+            erp/apps/mobile-android/build/distribution/prototype/
+            erp/apps/mobile-android/app/build/reports/lint-results-debug.*
+            erp/apps/mobile-android/app/build/test-results/testDebugUnitTest/
+            erp/apps/mobile-android/app/build/qa/
+            erp/apps/mobile-android/build/evidence/
+          if-no-files-found: warn
+          retention-days: 1

@@ -7,9 +7,11 @@ import { Engine } from '../api/engine.ts';
 import { DeepSeekAdapter, WhatsAppCloudAdapter } from '../../packages/integrations/index.ts';
 import { TelegramBotAdapter } from '../../packages/integrations/telegram.ts';
 import { WorkerRunner, type WorkerOptions } from './runner.ts';
+import { z } from 'zod';
 
 export function workerOptions(env:NodeJS.ProcessEnv=process.env):WorkerOptions {
-  const companyId=env.COMPANY_ID??'knaba-demo';const appMode=env.APP_MODE??'DEMO';
+  const companyId=env.COMPANY_ID??'knaba-demo';
+  const {APP_MODE:appMode}=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION'])}).parse(env);
   // Public menu links belong to the website; API/webhook origin stays separate.
   // Empty preserves legacy single-origin setups without enabling any provider.
   const websiteOrigin=env.BOT_WEBSITE_ORIGIN||undefined;

@@ -1,5 +1,34 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-08 — поточний повний scope після Assistant lifecycle
+
+Checkpoint `422c292b426ff8f4bf8c249e643d9bdb5b11871e`, зі збереженням
+паралельного незавершеного ERP/native кандидата. [Актуальне зіставлення scope](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md)
+і [канонічна матриця](REQUIREMENTS_TRACEABILITY.csv): **114 унікальних рядків**,
+24 KNB та 18 TPL `IN_PROGRESS`, усі 72 повні AC `NOT_RUN`.
+Застаріле твердження, що каталог/ZIP import/template lifecycle відсутні,
+виправлено за фактичним v1 source. Full template browser/operator acceptance
+не підвищено до PASS.
+
+Збережено V3: 432 requirements, 475 acceptance, 34 модулі, 60 наявних source
+references. Її 4 requirement PASS і 10 test PASS лишаються історичними exact-3c85
+SOURCE_ONLY, не результатом поточного релізу. Історичні CI receipts нижче
+також не поширюються автоматично на нові executable changes.
+
+Assistant expiry/revoke реалізовано й незалежно переглянуто в `422c292…`:
+фіксовані сім діб, additive migration 0015, SQL/current-owner fences, збережена
+історія, ідемпотентний owner revoke, guest404 cleanup із збереженням draft.
+[Контракт і локальні докази](../../corporate-site/docs/ASSISTANT_ACCESS_LIFECYCLE_UK.md).
+KN-C05 залишається відкритим: pagination, шість мов inbox, visitor receipt
+та conversation→ERP mapping. Далі — окремий pagination/localization slice.
+Stable cross-system SSO, AC-07 transfer, фінальні native artifacts,
+provider/device/restore/load/UAT та загальний handover не прийняті.
+**Продукт NOT_READY_FOR_CLIENT_DELIVERY; production/main merge не виконано.**
+
+## 08.11.2026 — F1 identity storage source candidate
+
+Продовження KN-C04 / KN-U09: canonical site authority + immutable site_user_id, server-owned company/trust mapping, additive binding schema, immutable target і terminal revoked tombstone. Внутрішні bind/revoke operations та audit атомарні; public login/session/catalog не додано. CPU trust tests 27 PASS, TypeScript PASS; реальні SQL acceptance до hosted CI залишаються NOT_RUN. Контракт і обрані рішення: `SITE_IDENTITY_FOUNDATION_2026-11-08_UK.md`. F2–F5, shared login і повний продукт залишаються відкритими; немає production activation або міграції реальних даних.
+
 ## Exact-source CI checkpoint — 08.11.2026
 
 Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d413410bc748085b60d679d42586ee86f4d1e8a`**: [run 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007) завершив усі чотири обов’язкові jobs успішно. ERP **2677/2677** у 117 файлах зі справжньою PostgreSQL17.6 (включно з 8 новими SQL cases), bridge **9/9**, site **732 Vitest + 90 Node + 197 VPS**, root **28/28**; 0 FAIL/SKIP. Typecheck, migrations, clean build identity та site build/budgets пройшли. Попередній локальний SQL NOT_RUN лишається історичним фактом; hosted CI є окремим виконанням.
@@ -13,6 +42,12 @@ Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d41
 Виправлено OIDC linking після відкликання початкової VPS session, owner subject binding і поточну авторизацію захищених SQL/API операцій сайту; ERP перевіряє чинний contact proof/device, повний scope membership administration, єдиний current-membership predicate та атомарну фіналізацію login після password/MFA rotation. Legacy subject aliases підтримуються без створення другого активного grant. Наявний intake bridge і його міграції не змінені.
 
 **Спільний site↔ERP login/SSO NOT_IMPLEMENTED; весь продукт NOT_READY.** Наступний KN-C04 / KN-U09 slice: F1–F4 з dual-session proof, trusted company mapping, окремими entitlements і актуальним revocation channel. Явний `OWNER_USER_ID` потрібен для стабільного owner pin між VPS restart; hosted Sites без нього зберігає legacy email fallback. Перевірки і результати прив'язані до конкретних sources; local doubles не є PostgreSQL/browser/device acceptance. Production, DNS, реальні дані, paid activation і merge не виконувалися.
+
+## 2026-11-08 — Android icon and installer follow-up
+Publication checkpoint: automatic approval review rejected `git push` to GitHub origin because this request lacks explicit publishing permission. Source and evidence are committed locally; APK is saved separately and available to the user. No alternate write path used. Next GitHub action requires explicit approval for this branch/draft PR, without merge or production deployment.
+
+
+MOBILE-012 is scoped to the user-reported phone installation problem and current company icon. Isolated candidate0.4.2 is based on PR123 HEAD `d03e72b8c5030390c635f3aac9133d977078dedf`; parallel authentication worktrees are untouched. Baseline APK checks do not reproduce the phone failure. Verified source `df1fe55f0d5c14e7f5a43340985f3a894e6b934e`, APK `5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1`:22 Android/28root tests, current logo native-render review and independent package/source acceptance. Canonical evidence: `../mobile/evidence/android-install-icon-20261108/verification.json`; progress in `../mobile/BACKLOG.json`. Physical device outcome and original installer root cause remain unverified. No merge, production, DNS or live data action.
 
 ## 2026-11-08 — актуальний аудит і продовження
 
@@ -266,3 +301,29 @@ The first1988090 run had six stale14-migration fixture failures; correction veri
 Browser on09e267d is BLOCKED: prior Chromium environment restriction is preserved; WebKit/Firefox executables unavailable. Native APK0.4.1 is the previously verified artifact d7d452189331e4b2bfd0f8f0772b297db8cac0bca69825d876a87f01fc6a2b4b, not a newly built/signed release:44 manifest runtime/build/test inputs match and only README differs. Physical devices, iOS distribution, providers, live production, complete restore/load/legal/company UAT remain NOT_RUN/BLOCKED. Whole-product status remains NOT_READY; federation, two-channel guest transfer, trip reconciliation and full compound AC coverage remain open. Zod advisory remains OPEN_WITH_MITIGATION; lockfiles unchanged.
 
 Evidence: `docs/unified/evidence/integrated-20261108/verification.json` and `ci-excerpts.json`. This checkpoint is documentation only after the tested runtime. Do not label a later documentation commit as a newly built APK or ERP artifact. No merge to main, production/DNS/live-data change, paid activation or customer handover. Next: close source gaps by the existing AC evidence map, then authorize isolated target/device/provider/restore acceptance and review the exact release artifact.
+
+
+## 08.11.2026 — доповнення налаштувань користувача KN-US01–US08
+
+Додано self-service web/VPS профіль, контактні дані, мову/часовий пояс, зміну
+пароля, одноразове відновлення, підтверджену зміну email і керування власними
+сесіями. Runtime/test commit `a6e1d582a5a22219625257a354f6abc66921d40e`,
+Git tree `1bbca25631132e1a241a1b277f77efd828f505a0` точно збігається з локальним
+перевіреним source. Окремий candidate від PR123 зберігає паралельні задачі.
+
+Фактичні локальні результати: 261 VPS, 732 Vitest + 90 Node; check 0 errors /
+0 warnings / 6 hints; official build/verify/i18n PASS. Незалежний web/VPS review
+ACCEPT, 20 цільових повторів входять до suite totals. JS225252B/CSS40930B gzip
+в межах незмінених бюджетів; запас лише28B/30B. Нові auth таблиці потребують
+явного migrate після backup; Drizzle історія, ERP SQL, залежності та CI незмінні.
+
+Пошта opt-in і вимкнена за замовчуванням. Browser BLOCKED (немає engines),
+actual provider delivery/target restore/deploy NOT_RUN. Цей модуль не створює
+shared site/ERP/native SSO та не закриває весь продукт. Production/DNS/live data,
+main merge й платні сервіси не змінювались. [Вимоги, докази й межі](USER_SETTINGS_2026-11-08_UK.md).
+
+## 2026-11-08 — KNABA Android — server discovery / foreground refresh
+
+Запит користувача про автоматичне завантаження з сервера продовжує існуючий KNABA Android; канонічний пункт `docs/mobile/BACKLOG.json` → MOBILE-013. Виправлення: fixed official release discovery, HTTPS company host + ERP readiness, foreground authenticated reads, збереження пошуку/чернетки/прокрутки, scope revocation, без автоматичних мутацій. План/межі/операторський контракт: `docs/mobile/AUTOMATIC_SYNC_2026-11-08_UK.md` від кореня репозиторію. На 08:00 UTC публічний endpoint HTTP200 повернув `erpOrigin: null`; live connection BLOCKED_SERVER_CONFIGURATION, не замінювати це вигаданою адресою.
+
+Застосовано ai-team-orchestrator, Android coding workflow, coding-autopilot, verify-repository-readiness, ECC click-path audit та Kotlin integration resilience без зміни стека чи нових залежностей. Shared code writer — root; readonly dispatch `server_config_review`/`foreground_sync_review` не відбувся через context-window capacity, independent review NOT_RUN. Поточний remote PR123 HEAD9ff77d7b0161a4dde84314f2df327e4594e0eb0c звірено; Android contract не змінився, server auth updates не оголошено протестованими цією мобільною задачею. Source/build acceptance фіксується окремим receipt після збірки. Production/DNS/merge/paid calls не виконувались; попередня заборона автоматичного GitHub push не обійдена.

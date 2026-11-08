@@ -1,7 +1,12 @@
 .ki-shell{max-width:1200px;margin:0 auto;padding:24px 0 70px;min-width:0;color:#143e3f}
 .ki-shell h2{font-size:clamp(22px,3vw,30px);margin-bottom:20px}
 .ki-toolbar{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:14px;font-size:12px;color:#597167}
-.ki-toolbar button,.ki-thread-head button{border:1px solid #bed0c5;background:#fff;color:#143e3f;padding:9px 12px;border-radius:11px;font-size:13px}
+.ki-toolbar button,.ki-thread-head button,.ki-load-more{border:1px solid #bed0c5;background:#fff;color:#143e3f;padding:9px 12px;border-radius:11px;font-size:13px}
+.ki-language{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:16px;font-size:13px}
+.ki-language select{font:inherit;max-width:100%;min-height:44px;border:1px solid #bed0c5;border-radius:11px;background:#fff;padding:8px;color:inherit}
+.ki-load-more{display:block;width:calc(100% - 24px);margin:12px;min-height:44px}
+.ki-shell button:disabled{opacity:.55;cursor:not-allowed}
+.ki-shell button:focus-visible,.ki-language select:focus-visible{outline:3px solid #42805a;outline-offset:3px}
 .ki-grid{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:0;min-height:620px;border:1px solid #cdded4;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 12px 40px -35px #102f38}
 .ki-list{background:#f2f6ef;border-right:1px solid #d9e4d9;overflow-y:auto;max-height:760px}
 .ki-list-entry{position:relative;border:0;border-bottom:1px solid #dfe8da;padding:18px;text-align:left;width:100%;display:flex;flex-direction:column;gap:7px;background:transparent;color:#173c3f}

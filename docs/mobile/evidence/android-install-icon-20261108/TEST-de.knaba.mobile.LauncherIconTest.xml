@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.knaba.mobile.LauncherIconTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-08T06:20:54.160Z" hostname="08766be39cd5" time="0.224">
+  <properties/>
+  <testcase name="packagedLauncherAndRoundIconsInflateAndRenderCompanyMark" classname="de.knaba.mobile.LauncherIconTest" time="0.224"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

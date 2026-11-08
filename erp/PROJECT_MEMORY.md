@@ -8,6 +8,12 @@
 
 Спільного site↔ERP SSO немає. Загальне скасування всіх already-authenticated ERP in-flight operations потребує окремого F4 session-proof fence; login race fix цього не доводить. **NOT_READY**, без production, DNS, клієнтських даних, merge або paid activation.
 
+## 2026-11-08 — Android installation report and company icon
+Publication checkpoint: automatic approval review rejected `git push` to GitHub origin because this request lacks explicit publishing permission. Source and evidence are committed locally; APK is saved separately and available to the user. No alternate write path used. Next GitHub action requires explicit approval for this branch/draft PR, without merge or production deployment.
+
+
+Direct user request MOBILE-012; base `d03e72b8c5030390c635f3aac9133d977078dedf`, isolated branch `fix/knaba-android-install-icon-20261108`. Previous0.4.1 APK inspected afresh: ZIP/signature valid, no testOnly/split/ABI restriction; phone failure root cause UNKNOWN. Candidate0.4.2/code6 preserves test package/signing key, uses current company favicon in adaptive/round icons and adds compiled-APK checks to the existing package script. Exact source `df1fe55f0d5c14e7f5a43340985f3a894e6b934e`: signed standalone APK `5e31c06839d38a464fa805ccd6e07fdf583665cacb6a0a1534f9371aa495e9d1` (2797226bytes), old/new certificate equality and49source inputs independently verified. Android22/22, root28/28, lint0errors/18warnings; native-render icon visual review PASS. Physical-device install/update NOT_RUN; cause of the original phone failure remains UNKNOWN. Evidence: `../docs/mobile/evidence/android-install-icon-20261108/verification.json`. Canonical scope: `../docs/mobile/BACKLOG.json` MOBILE-012; guide `../docs/mobile/TEST_ANDROID_0.4.2_UK.md`. No production/DNS/backend/identity change.
+
 ## 2026-11-08 — completion audit candidate
 
 Current integrated scope/evidence: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`, `../docs/unified/evidence/completion-20261108/verification.json`. Seed now rejects absent APP_MODE before DB access; explicit TEST fixtures added. The website publisher reuses existing `/api/v1/integrations/knaba_site/events`, `schema_version:'1'`, `lead.upsert`, timestamp+'.'+rawBody HMAC. No duplicate intake API, new company selector from browser, or destructive ERP migration. Four new real-PG tests exercise SQLite dispatcher→ERP transaction under lost ack, rollback, tampering and changed bytes; test transport is in-process, not public TLS.
@@ -208,3 +214,10 @@ Final local typecheck and candidate build PASS; focused 204 PASS / 2 SQL SKIP; f
 ## 08.11.2026 — integrated candidate verification
 
 Tested `09e267dad63f1a443ce08f532889b9f0f5d2dca5`; exact evidence and scopes: root `docs/unified/evidence/integrated-20261108/verification.json` and `docs/unified/PROJECT_MEMORY.md`. Full four-job GitHub run42430003249 SUCCESS; whole product remains NOT_READY. This documentation checkpoint does not retag native artifacts, prove browser/device/live acceptance, authorize production or bulk-close AC.
+
+
+## 2026-11-08 — Android MOBILE-013 — автоматична конфігурація і читання
+
+Запит користувача про автоматичне завантаження з сервера продовжує існуючий KNABA Android; канонічний пункт `docs/mobile/BACKLOG.json` → MOBILE-013. Виправлення: fixed official release discovery, HTTPS company host + ERP readiness, foreground authenticated reads, збереження пошуку/чернетки/прокрутки, scope revocation, без автоматичних мутацій. План/межі/операторський контракт: `docs/mobile/AUTOMATIC_SYNC_2026-11-08_UK.md` від кореня репозиторію. На 08:00 UTC публічний endpoint HTTP200 повернув `erpOrigin: null`; live connection BLOCKED_SERVER_CONFIGURATION, не замінювати це вигаданою адресою.
+
+Застосовано ai-team-orchestrator, Android coding workflow, coding-autopilot, verify-repository-readiness, ECC click-path audit та Kotlin integration resilience без зміни стека чи нових залежностей. Shared code writer — root; readonly dispatch `server_config_review`/`foreground_sync_review` не відбувся через context-window capacity, independent review NOT_RUN. Поточний remote PR123 HEAD9ff77d7b0161a4dde84314f2df327e4594e0eb0c звірено; Android contract не змінився, server auth updates не оголошено протестованими цією мобільною задачею. Source/build acceptance фіксується окремим receipt після збірки. Production/DNS/merge/paid calls не виконувались; попередня заборона автоматичного GitHub push не обійдена.

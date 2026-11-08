@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
+import {assistantDisplayBrowserCase} from './assistant-display-browser-case.mjs';
 
 const require=createRequire(import.meta.url);
 const output=resolve(process.env.KNABA_ROLE_QA_DIR||'/tmp/knaba-role-browser-evidence');
@@ -739,6 +740,7 @@ async function run(){
   // Run after all original role/count assertions and the authenticated journey.
   await anonymousInquiryCase(pages.owner,pages.admin);
   await completedCabinetCases(pages);
+  await assistantDisplayBrowserCase({browser,fixture,owner:pages.owner,record});
   assert.deepEqual(receipt.errors,[],'browser JavaScript errors');
   receipt.status='PASS';
 }

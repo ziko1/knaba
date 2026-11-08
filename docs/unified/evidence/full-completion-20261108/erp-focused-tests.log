@@ -1,0 +1,69 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run tests/request-authority.test.ts tests/vehicle-trip-engine-authority.test.ts tests/vehicle-trips.test.ts --reporter=verbose
+
+
+ RUN  v4.1.11 /workspace/scratch/c56161c95e04/knaba/erp
+
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > counts three half-hour participants as 5400 person-seconds and one 20000 m vehicle distance 23ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > excludes a private break and keeps missing distance unknown 7ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > rejects mismatched shared membership outsider {} before recording a trip 4ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > rejects mismatched shared membership second {"passengerRole":"DRIVER"} before recording a trip 3ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > rejects mismatched shared membership driver {"passengerRole":"PASSENGER"} before recording a trip 2ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > rejects mismatched shared membership driver {"transportMode":"WALK"} before recording a trip 2ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > rejects mismatched shared membership driver {"destination":{"kind":"SITE","id":"A"}} before recording a trip 2ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > does not accept a second personal trip for the same vehicle journey 3ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > rejects duplicate participants, inactive users, missing site assignment and cross-company records 8ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > denies unrelated readers and a dispatcher outside either route site 2ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > permits the precise scoped dispatch.manage capability without inventing trip.read 2ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > permits the precise scoped trip.approve capability without inventing trip.read 3ms
+ ✓ tests/vehicle-trips.test.ts > AC-43 shared vehicle journey > never permits a manual measured-distance claim and resets an estimate to unknown explicitly 3ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts > shared vehicle Engine read authority > requires one complete permission-specific route scope, without combining unrelated delegated sites 13ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts > shared vehicle Engine read authority > keeps another participant, a foreign tenant and external actors out of the vehicle list 3ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts > shared vehicle Engine read authority > recalculates live person-time through an existing command receipt instead of returning the old summary 9ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts > shared vehicle Engine read authority > allows a scoped manager with only dispatch.manage through the actual command gateway 4ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts > shared vehicle Engine read authority > allows a scoped manager with only trip.approve through the actual command gateway 7ms
+ ✓ tests/vehicle-trip-engine-authority.test.ts > shared vehicle Engine read authority > uses actual current delegations without joining different permissions and denies a revoked grant before receipt replay 11ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects a revoked original cookie before command even when another session is valid 16ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects a revoked original cookie before read even when another session is valid 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects a revoked original cookie before page even when another session is valid 4ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects a revoked original cookie before profile even when another session is valid 8ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects a revoked original cookie before receipt even when another session is valid 6ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > retains the original authority through actor spread and permission scoping 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > keeps the binding in fresh/scoped command contexts and permission callbacks without serializing proof 3ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > cannot reuse an original proof after changing actor companyId 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > cannot reuse an original proof after changing actor userId 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes inactive 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes revoked 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes legacy revoked 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes malformed revocation 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes token rotated 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes owner changed 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes expired 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects the original device after it becomes invalid expiry 1ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > evaluates expiry at the operation boundary, not at authentication time 3ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rolls back command effects and receipts if authority expires during asynchronous work (device=false) 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rolls back command effects and receipts if authority expires during asynchronous work (device=true) 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > serializes logout revocation under the company transaction 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > commits self device revocation and returns only a server-bound minimal acknowledgement 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > guards every automatic JSON response after the handler finishes, using the original credential 4ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > replaces detailed handler errors with opaque reauthentication after revocation 2ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > suppresses a committed private read after role authority is revoked while its session remains active 7ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > suppresses a committed private read after site authority is revoked while its session remains active 4ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > suppresses a committed private read after customer authority is revoked while its session remains active 3ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > suppresses a committed private read when a permission-specific delegation is revoked with the session still active 9ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > does not let a later read overwrite the authority that produced earlier private data 7ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > retains the original response fence when the same HTTP request authenticates more than once 7ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rejects a private read when membership expires during asynchronous projection 6ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > does not invalidate a response for unrelated profile/content updates 5ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > keeps a legitimate own-channel mutation readable and never publishes a rolled-back authority snapshot 12ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > returns current profile roles instead of the roles captured by initial authentication 5ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > preserves explicitly server-created internal actors and ordinary receipt replay 3ms
+ ✓ tests/request-authority.test.ts > original authenticated authority at ERP transaction boundaries > rechecks the original cookie after asynchronous private blob I/O before sending bytes 6ms
+
+ Test Files  3 passed (3)
+      Tests  55 passed (55)
+   Start at  09:56:50
+   Duration  3.70s (transform 4.29s, setup 0ms, import 5.96s, tests 265ms, environment 0ms)
+

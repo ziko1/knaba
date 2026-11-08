@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {createRoleUxFixture} from './fixtures/role-ux-server.mjs';
 
 const require=createRequire(import.meta.url),locales=['de','en','pl','lt','ru','uk'];
+const {browserFailureReason}=require('./browser-policy-gate.cjs');
 const output=resolve(process.env.KNABA_PORTAL_LANGUAGE_QA_DIR||'/tmp/knaba-portal-languages-browser-evidence');
 const receipt={startedAt:new Date().toISOString(),environment:'isolated HTTPS / actual built website / synthetic SQLite',
   scope:'Portal and administration language selection, hydration, history and failed language-pack recovery.',
@@ -15,7 +16,7 @@ const receipt={startedAt:new Date().toISOString(),environment:'isolated HTTPS / 
 const record=(name,detail={})=>receipt.checks.push({name,status:'PASS',...detail});
 const roots={portal:'.portal:not(.portal-embedded)',admin:'.kncc'};
 const selectors={portal:'.portal-language select',admin:'.kncc-language select'};
-const packLocale=url=>new URL(url).pathname.match(/^\/_astro\/(en|pl|lt|ru|uk)\.[\w-]+\.json$/)?.[1];
+const packLocale=url=>new URL(url).pathname.match(/^\/_astro\/(de|en|pl|lt|ru|uk)\.[\w-]+\.json$/)?.[1];
 let fixture,browser,context,page,copy={},requests=[],failedOnce=false,navigations=0;
 function safe(value){
   return String(value??'').replaceAll('Synthetic-browser-only-2026','[redacted]')
@@ -106,7 +107,7 @@ async function anonymousCases(){
     await navigate(locale==='ru'?'/ru/konto/':'/konto/?lang='+locale);
     await waitLocale('portal',locale);await page.locator('.portal-welcome').waitFor({state:'visible'});
     assert.equal((await page.locator('.portal-welcome h2').textContent()).trim(),copy[locale].portal.loginTitle);
-    assert.deepEqual(requests.map(item=>item.locale),[locale],'only the chosen language is downloaded');
+    assert.deepEqual(requests.map(item=>item.locale),locale==='ru'?[]:[locale],'initial SSR copy is reused; only an explicitly different language is downloaded');
     assert.ok(requests.every(item=>item.status===200));await roleProof('anonymous');
     if(locale==='ru')assert.equal(await page.locator('html').getAttribute('lang'),'ru');
     record(locale==='ru'?'Russian SSR portal hydrates in Russian without an exception':'explicit portal URL loads its Polish/Lithuanian copy',{locale,languagePacks:requests});
@@ -174,10 +175,10 @@ async function run(){
   for(const engine of ['chromium','webkit','firefox']){
     if(skip.includes(engine)){receipt.engines.push({engine,status:'SKIPPED_BY_OPERATOR'});continue;}
     try{
-      const options={headless:true};if(engine==='chromium'&&process.env.KNABA_CHROME_PATH)options.executablePath=process.env.KNABA_CHROME_PATH;
+      const options={headless:true};if(engine==='chromium'){options.chromiumSandbox=true;if(process.env.KNABA_CHROME_PATH)options.executablePath=process.env.KNABA_CHROME_PATH;}
       browser=await drivers[engine].launch(options);receipt.browser=engine;break;
     }catch(error){
-      if(/ERR_BLOCKED_BY_ADMINISTRATOR|Executable doesn't exist|browser.*not installed|ENOENT/i.test(error.message)){
+      if(browserFailureReason(error,'launch')){
         receipt.engines.push({engine,status:'BLOCKED',reason:safe(error.message.split('\n')[0])});continue;
       }throw error;
     }
@@ -191,7 +192,7 @@ async function run(){
 }
 try{await run();}
 catch(error){
-  receipt.status=/listen EPERM|listen EACCES|ERR_BLOCKED_BY_ADMINISTRATOR/.test(error.message)?'BLOCKED':'FAIL';
+  receipt.status=/listen EPERM|listen EACCES/.test(error.message)||browserFailureReason(error,'suite')==='POLICY_BLOCKED'?'BLOCKED':'FAIL';
   receipt.failure={message:safe(error.message),stack:safe(error.stack)};
   receipt.failedCaseLanguageRequests=requests;
   if(page&&!page.isClosed())try{

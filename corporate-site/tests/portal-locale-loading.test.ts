@@ -11,7 +11,7 @@ const baseline=de as PortalLocalePack;
 
 describe('portal language data loading',()=>{
   it('keeps complete text-key parity for all six explicit language packs',()=>{
-    for(const [locale,pack] of Object.entries(packs))expect(validatePortalLocalePack(pack,locale as keyof typeof packs,baseline)).toBe(pack);
+    for(const [locale,pack] of Object.entries(packs))expect(validatePortalLocalePack(pack,locale as keyof typeof packs)).toBe(pack);
   });
   it('starts in German and requests only the selected language once',async()=>{
     const load=vi.fn(async(locale:keyof typeof packs)=>packs[locale]);

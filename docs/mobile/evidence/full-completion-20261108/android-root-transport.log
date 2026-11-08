@@ -1,0 +1,3 @@
+PASS ERP transport assertions=76; explicit HTTP/journal doubles and fresh-instance recovery; live ERP, Android OS process death NOT_RUN
+Credential safety: 10 tests, 30 assertions, 0 failures (synthetic HTTP/journal doubles)
+PASS 109 server discovery assertions; synthetic HTTP fixtures only

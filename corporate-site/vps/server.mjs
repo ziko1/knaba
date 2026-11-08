@@ -8,6 +8,10 @@ import { createReadStream } from 'node:fs';
 import {publicRelease} from './public-release.mjs';
 import { openLocalDatabase, LocalD1 } from './database.mjs';
 import { createLogin,readSession,destroySession,rotateCredentials,sessionCookie,expiredCookie } from './auth.mjs';
+import {AccountSettingsError,readAccountSettings,updateAccountSettings,revokeAccountSessions,
+  requestPasswordReset,requestEmailChange,consumeAccountToken} from './account-settings.mjs';
+import {createAccountMailer} from './account-mail.mjs';
+import {accountSettingsPage,accountRecoveryPage,accountTokenPage,accountPasswordPage,accountWords} from './account-settings-ui.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
 import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
 import {createDeveloperWorkspaceRegistry,developerRoles,isDeveloperIdentity,isGrantedDeveloper,
@@ -147,7 +151,7 @@ async function sendStatic(root,req,res,path,db,{isolated=false,origin=''}={}){
     bytes=Buffer.from(expandPublishedSitemap(bytes.toString('utf8'),origin,listPublishedArticles(db)),'utf8');
   }
   const hashed=/\/_astro\//.test(path);
-  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|pl|lt|ru|uk)\/(?:konto|postfach))\//.test(path);
+  const privatePath=/^\/(?:admin|studio|crm|konto|postfach|login|register|join|forgot-password|reset-password|account|access-requests|invite-user|activate-owner|activate-developer|logout|(?:en|pl|lt|ru|uk)\/(?:konto|postfach))\//.test(path);
   res.setHeader('Content-Type',mime[ext]||'application/octet-stream');
   res.setHeader('Cache-Control',privatePath||isolated?'private, no-store':hashed?'public, max-age=31536000, immutable':ext==='.html'||dynamicSitemap?'no-cache':'public, max-age=300');
   if(ext==='.html'||dynamicSitemap||isolated)res.setHeader('Vary','Cookie');
@@ -216,6 +220,14 @@ const privateAccountHeaders={
   'X-Frame-Options':'DENY',
   'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
 };
+function accountReply(res,status,body,extra={}){
+  // These renderers escape user fields. Hash only the exact trusted inline
+  // fragment/validation/focus scripts; never permit arbitrary inline JavaScript.
+  const hashes=[...body.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .map(match=>"'sha256-"+createHash('sha256').update(match[1]).digest('base64')+"'");
+  const csp=privateAccountHeaders['Content-Security-Policy']+(hashes.length?'; script-src '+hashes.join(' '):'');
+  return send(res,status,body,{...privateAccountHeaders,'Content-Security-Policy':csp,...extra});
+}
 function accessRequestPage(lang='de',received=false){
   lang=authLanguage(lang);
   const w=accessWords(lang);
@@ -236,15 +248,6 @@ function accessRequestPage(lang='de',received=false){
     '<label class="auth-checkbox"><input type="checkbox" name="privacy" value="on" required><span>'+
     escapeHTML(w.privacy)+' <a href="/datenschutz/">Datenschutz</a></span></label>'+
     '<button type="submit">'+escapeHTML(w.submit)+'</button></form>'+
-    '<p><a href="/login/?lang='+lang+'">'+escapeHTML(w.back)+'</a></p>',lang);
-}
-function forgottenPasswordPage(lang='de'){
-  lang=authLanguage(lang);
-  const w=accessWords(lang);
-  return html('KnaBa | '+w.lostTitle,
-    '<h1>'+escapeHTML(w.lostTitle)+'</h1><p>'+escapeHTML(w.lostIntro)+'</p>'+
-    '<p><a href="/kontakt/">'+escapeHTML(w.contact)+'</a></p>'+
-    '<p><a href="/account/password/">'+escapeHTML(w.passwordChange)+'</a></p>'+
     '<p><a href="/login/?lang='+lang+'">'+escapeHTML(w.back)+'</a></p>',lang);
 }
 function reviewRequestsPage(requests){
@@ -352,18 +355,6 @@ function invitationPage(invite=null,origin='',notice=''){
     '<p><a href="/access-requests/">Neue Zugangs-Anfragen prüfen</a></p>'+
     '<p><a href="/studio/">Zur Verwaltung</a></p>');
 }
-function credentialPage(invalid=false){
-  return html('KnaBa | Zugangsdaten ändern',
-    '<h1>KNABA · Passwort ändern</h1>'+
-    '<p>Zur Bestätigung ist das bisherige Passwort notwendig. Nach Änderung werden alle bisherigen Sitzungen beendet.</p>'+
-    (invalid?'<p role="alert" class="error">Änderung nicht möglich. Bitte aktuelle Angaben und Passwortanforderungen prüfen.</p>':'')+
-    '<form method="post" action="/account/password/">'+
-    '<label>Aktuelles Passwort<input type="password" name="current" autocomplete="current-password" required></label>'+
-    '<label>Neues Passwort (mindestens 8 Zeichen)<input type="password" name="new" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
-    '<label>Neues Passwort bestätigen<input type="password" name="confirm" autocomplete="new-password" required minlength="8" maxlength="256"></label>'+
-    '<button type="submit">Passwort sicher ändern</button></form>'+
-    '<p><a href="/konto/">Zum Konto</a></p>');
-}
 function logoutPage(returnTo){
   return html('KnaBa | Abmelden','<h1>KNABA</h1><p>Sitzung beenden?</p>'+
     '<form method="post" action="/logout/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'"><button type="submit">Abmelden</button></form>');
@@ -372,7 +363,8 @@ export async function createKnabaVpsServer({
   dbPath,staticRoot,workerPath,ownerEmail='',ownerUserId,developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
   trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
-  erpIntakeSchedulerFactory=createErpIntakeScheduler
+  erpIntakeSchedulerFactory=createErpIntakeScheduler,
+  accountEmailEnvironment=process.env,accountMailerFactory=createAccountMailer
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(ownerUserId!==undefined&&(typeof ownerUserId!=='string'||ownerUserId.length>200||/[\u0000-\u001f\u007f]/.test(ownerUserId)))
@@ -417,8 +409,13 @@ export async function createKnabaVpsServer({
   bindErpIntakeEnvironment(env,erpIntakeEnvironment);
   const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,ownerUserId:ownerPrincipal(),developerEmail}));
   const testWorkspaces=createDeveloperWorkspaceRegistry(dbPath);
+  const preferredAccountLanguage=(user,requested)=>{
+    if(['de','en','pl','lt','ru','uk'].includes(requested))return requested;
+    const saved=user?db.prepare('SELECT locale FROM vps_account_settings WHERE user_id=?').get(user.id)?.locale:null;
+    return authLanguage(saved);
+  };
   const destination=(user,target,lang)=>roleDestination(
-    authenticatedRole(db,user,{ownerEmail,ownerUserId:ownerPrincipal(),developerEmail}),target,lang);
+    authenticatedRole(db,user,{ownerEmail,ownerUserId:ownerPrincipal(),developerEmail}),target,preferredAccountLanguage(user,lang));
   const signedCookies=result=>{
     const cookie=sessionCookie(result.token,{secure:!localTest});
     return isGrantedDeveloper(db,result.user,ownerEmail,developerEmail)
@@ -426,6 +423,8 @@ export async function createKnabaVpsServer({
       :[cookie,clearDeveloperRoleCookie({secure:!localTest})];
   };
   const social=Object.keys(oidcConfig).filter(p=>['google','microsoft'].includes(p));
+  const accountMailer=accountMailerFactory({environment:accountEmailEnvironment,origin:base.origin});
+  const protectedAccountEmails=[ownerEmail,developerEmail].filter(Boolean);
   const server=createHttpServer(async(req,res)=>{
     const clientIp=resolveClientIp(req);
     res.setHeader('X-Content-Type-Options','nosniff');
@@ -439,6 +438,10 @@ export async function createKnabaVpsServer({
     const rawHost=String(req.headers.host||'').toLowerCase();
     const allowed=rawHost===publicHost || (localTest && /^127\.0\.0\.1(?::\d+)?$/.test(rawHost));
     const url=new URL(req.url||'/',origin);
+    // Private account headers cover rejected requests and redirects as well as pages.
+    if(/^\/(?:account(?:\/|$)|forgot-password\/?$|reset-password\/?$)/.test(url.pathname)){
+      for(const [name,value] of Object.entries(privateAccountHeaders))res.setHeader(name,value);
+    }
     if(url.pathname==='/healthz' || url.pathname==='/readyz'){
       if(!allowed && !localTest)return send(res,421,'Wrong host');
       const ready=Boolean(ownerPrincipal()&&hasOwnerAuthority(db,{userId:ownerPrincipal(),ownerEmail,ownerUserId:ownerPrincipal()}));
@@ -557,8 +560,100 @@ export async function createKnabaVpsServer({
       }
     }
     if(url.pathname==='/forgot-password/'||url.pathname==='/forgot-password'){
-      if(req.method!=='GET')return send(res,405,'Method not allowed',{Allow:'GET'});
-      return send(res,200,forgottenPasswordPage(authLanguage(url.searchParams.get('lang'))),privateAccountHeaders);
+      const lang=authLanguage(url.searchParams.get('lang')),w=accountWords(lang);
+      const page=options=>accountRecoveryPage({lang,mailEnabled:accountMailer.enabled,...options});
+      if(req.method==='GET')return accountReply(res,200,page({}));
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET, POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readRequestBody(1024)).toString('utf8'));
+        if([...params.keys()].length!==1||!params.has('email'))return accountReply(res,422,page({error:w.validation}));
+        if(!accountMailer.enabled)return accountReply(res,503,page({error:w.unavailable}));
+        // Scheduling is bounded and does not await provider delivery; both known
+        // and unknown mailboxes receive the same status/body without a token.
+        await requestPasswordReset(db,{email:params.get('email'),clientKey:clientIp,locale:lang,mail:accountMailer});
+        return accountReply(res,202,page({sent:true}));
+      }catch(error){
+        if(error?.code==='limited')return accountReply(res,202,page({sent:true}));
+        const status=error?.code==='too_large'?413:error?.code==='validation'?422:503;
+        return accountReply(res,status,page({error:status===503?w.unavailable:w.validation}));
+      }
+    }
+    if(['/reset-password','/reset-password/','/account/email/confirm','/account/email/confirm/'].includes(url.pathname)){
+      const kind=url.pathname.startsWith('/reset-password')?'password_reset':'email_change';
+      const lang=authLanguage(url.searchParams.get('lang')),w=accountWords(lang);
+      const page=options=>accountTokenPage({kind,lang,...options});
+      const tokenReply=(status,options={},extra={})=>accountReply(res,status,page(options),extra);
+      // A fragment is not sent to this server. Never accept query-string secrets.
+      if([...url.searchParams.keys()].some(key=>key!=='lang'))return tokenReply(400,{error:w.invalidToken});
+      if(req.method==='GET')return tokenReply(200);
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET, POST'});
+      if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+      if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
+      try{
+        const params=new URLSearchParams((await readRequestBody(4096)).toString('utf8'));
+        const expected=kind==='password_reset'?['token','new','confirm']:['token'];
+        const keys=[...params.keys()];
+        if(keys.length!==expected.length||new Set(keys).size!==keys.length||keys.some(key=>!expected.includes(key)))
+          return tokenReply(422,{error:w.validation});
+        consumeAccountToken(db,{kind,token:params.get('token'),newPassword:params.get('new'),confirmed:params.get('confirm'),protectedEmails:protectedAccountEmails});
+        return tokenReply(200,{done:true},{
+          'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
+      }catch(error){
+        const status=error?.code==='too_large'?413:error instanceof AccountSettingsError?422:503;
+        return tokenReply(status,{error:status===503?w.unavailable:w.invalidToken});
+      }
+    }
+    if(['/account/settings','/account/settings/','/account/email','/account/email/','/account/sessions','/account/sessions/'].includes(url.pathname)){
+      const lang=preferredAccountLanguage(accountUser,url.searchParams.get('lang')),w=accountWords(lang);
+      const settingsPath=url.pathname.replace(/\/$/,'')==='/account/settings';
+      const mailEnabled=Boolean(accountMailer.enabled);
+      const currentAccount=()=>{
+        const account=readAccountSettings(db,{cookieHeader:req.headers.cookie,protectedEmails:protectedAccountEmails});
+        const actor=readSession(db,req.headers.cookie);
+        return {...account,role:authenticatedRole(db,actor,{ownerEmail,ownerUserId:ownerPrincipal(),developerEmail})};
+      };
+      const renderSettings=(status,options={})=>accountReply(res,status,accountSettingsPage({account:currentAccount(),lang,mailEnabled,...options}));
+      if(!accountUser){
+        if(req.method==='GET'&&settingsPath)return redirect(res,'/login/?lang='+lang+'&return_to='+encodeURIComponent('/account/settings/?lang='+lang));
+        return accountReply(res,401,accountPasswordPage({lang,error:w.unauthenticated}));
+      }
+      if(testIdentity&&!testGranted)return send(res,403,'Developer access requires an active grant.');
+      try{
+        if(req.method==='GET'&&settingsPath)return renderSettings(200);
+        if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:settingsPath?'GET, POST':'POST'});
+        if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
+        if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
+        const params=new URLSearchParams((await readRequestBody(8192)).toString('utf8'));
+        const route=url.pathname.replace(/\/$/,'');
+        const expected=settingsPath?['name','phone','company','address','locale','timeZone','version']:route==='/account/email'?['email','current']:['target'];
+        const keys=[...params.keys()];
+        if(keys.length!==expected.length||new Set(keys).size!==keys.length||keys.some(key=>!expected.includes(key)))
+          return renderSettings(422,{error:w.validation});
+        if(settingsPath){
+          const fields=Object.fromEntries(params);
+          if(!/^(0|[1-9][0-9]{0,9})$/.test(fields.version))return renderSettings(422,{error:w.validation});
+          updateAccountSettings(db,{cookieHeader:req.headers.cookie,values:{...fields,version:Number(fields.version)}});
+          return accountReply(res,200,accountSettingsPage({account:currentAccount(),lang:authLanguage(fields.locale),mailEnabled,notice:accountWords(fields.locale).saved}));
+        }
+        if(route==='/account/email'){
+          if(!mailEnabled)return renderSettings(503,{error:w.unavailable});
+          await requestEmailChange(db,{cookieHeader:req.headers.cookie,email:params.get('email'),currentPassword:params.get('current'),locale:lang,protectedEmails:protectedAccountEmails,mail:accountMailer});
+          // The actor may have logged out during the provider request.
+          return renderSettings(202,{notice:w.emailRequested});
+        }
+        revokeAccountSessions(db,{cookieHeader:req.headers.cookie,target:params.get('target')});
+        if(!readSession(db,req.headers.cookie))return redirect(res,'/login/?lang='+lang,{
+          'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
+        return renderSettings(200,{notice:w.sessionsRevoked});
+      }catch(error){
+        const code=error?.code==='session_revoked'?'unauthenticated':error?.code;
+        const status=({unauthenticated:401,forbidden:403,protected:403,oidc:403,conflict:409,validation:422,limited:429,too_large:413})[code]||503;
+        const message=w[code]||w[status===503?'unavailable':'validation'];
+        try{return renderSettings(status,{error:message});}
+        catch{return accountReply(res,status,accountPasswordPage({lang,error:message}));}
+      }
     }
     if(url.pathname==='/access-requests/resolve/'||url.pathname==='/access-requests/resolve'){
       const user=readSession(db,req.headers.cookie);
@@ -781,7 +876,7 @@ export async function createKnabaVpsServer({
             cookie:req.headers.cookie,fetchImpl:oidcFetch,ownerEmail,developerEmail
           });
           const signed=createOidcSession(db,result);
-          return redirect(res,destination(signed.user,'',authLanguage(url.searchParams.get('lang'))),{'Set-Cookie':[cleared,...signedCookies(signed)],
+          return redirect(res,destination(signed.user,'',url.searchParams.get('lang')),{'Set-Cookie':[cleared,...signedCookies(signed)],
             'Referrer-Policy':'no-referrer'});
         }catch(error){
           const status=error instanceof OidcError && error.code==='provider_unavailable'?503:401;
@@ -797,7 +892,7 @@ export async function createKnabaVpsServer({
         if(accountUser&&(!testIdentity||testGranted)){
           try{
             const next=testIdentity?roleDestination(readDeveloperRole(req.headers.cookie,accountUser),rt,authLanguage(url.searchParams.get('lang')))
-              :destination(accountUser,rt,authLanguage(url.searchParams.get('lang')));
+              :destination(accountUser,rt,url.searchParams.get('lang'));
             return redirect(res,next);
           }catch{/* A new login replaces a stale or invalid test-role cookie. */}
         }
@@ -824,16 +919,15 @@ export async function createKnabaVpsServer({
           destroySession(db,sessionCookie(result.token,{secure:!localTest}));
           return send(res,403,'Developer access requires an active grant.');
         }
-        if(wantsJSON)return send(res,200,JSON.stringify({authenticated:true,returnTo:destination(result.user,target,authLanguage(url.searchParams.get('lang')))}),{'Content-Type':'application/json; charset=utf-8','Set-Cookie':signedCookies(result),'Cache-Control':'private, no-store','Vary':'Accept'});
-        return redirect(res,destination(result.user,target,authLanguage(url.searchParams.get('lang'))),{'Set-Cookie':signedCookies(result)});
+        if(wantsJSON)return send(res,200,JSON.stringify({authenticated:true,returnTo:destination(result.user,target,url.searchParams.get('lang'))}),{'Content-Type':'application/json; charset=utf-8','Set-Cookie':signedCookies(result),'Cache-Control':'private, no-store','Vary':'Accept'});
+        return redirect(res,destination(result.user,target,url.searchParams.get('lang')),{'Set-Cookie':signedCookies(result)});
       }catch(error){return send(res,error?.code==='too_large'?413:400,'Invalid request');}
     }
     if(url.pathname==='/account/password/'||url.pathname==='/account/password'){
       const user=readSession(db,req.headers.cookie);
       if(!user)return send(res,401,'Login required');
-      const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
-        'X-Robots-Tag':'noindex,nofollow','Referrer-Policy':privateFormReferrerPolicy,'X-Frame-Options':'DENY'};
-      if(req.method==='GET')return send(res,200,credentialPage(),headers);
+      const lang=preferredAccountLanguage(user,url.searchParams.get('lang')),w=accountWords(lang);
+      if(req.method==='GET')return accountReply(res,200,accountPasswordPage({lang}));
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
@@ -846,15 +940,16 @@ export async function createKnabaVpsServer({
           return send(res,422,'Invalid form');
         const changed=rotateCredentials(db,{
           userId:user.id,currentPassword:params.get('current')||'',
-          newPassword:params.get('new')||'',confirmed:params.get('confirm')||''
+          newPassword:params.get('new')||'',confirmed:params.get('confirm')||'',cookieHeader:req.headers.cookie
         });
-        if(!changed)return send(res,422,credentialPage(true),headers);
-        return redirect(res,'/login/?return_to=%2Fkonto%2F',{
+        if(!changed)return accountReply(res,422,accountPasswordPage({lang,error:w.validation}));
+        return redirect(res,'/login/?lang='+lang+'&return_to=%2Faccount%2Fsettings%2F',{
           'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})],'Referrer-Policy':'no-referrer'
         });
       }catch(error){
-        if(error?.code==='too_large')return send(res,413,'Invalid form');
-        return send(res,409,'Credential update temporarily unavailable');
+        if(error?.code==='too_large')return accountReply(res,413,accountPasswordPage({lang,error:w.validation}));
+        if(error?.code==='session_revoked')return accountReply(res,401,accountPasswordPage({lang,error:w.unauthenticated}));
+        return accountReply(res,409,accountPasswordPage({lang,error:w.unavailable}));
       }
     }
     if(url.pathname==='/logout/'||url.pathname==='/logout'){
@@ -894,6 +989,12 @@ export async function createKnabaVpsServer({
         if(workspace){
           headers.set('oai-authenticated-user-full-name',encodeURIComponent(user.name));
           headers.set('oai-authenticated-user-full-name-encoding','percent-encoded-utf-8');
+        }else{
+          const name=db.prepare('SELECT name FROM vps_account_settings WHERE user_id=?').get(user.id)?.name;
+          if(name){
+            headers.set('oai-authenticated-user-full-name',encodeURIComponent(name));
+            headers.set('oai-authenticated-user-full-name-encoding','percent-encoded-utf-8');
+          }
         }
       }
       // Only the validated peer/header resolution may supply the Worker IP.
@@ -921,9 +1022,12 @@ export async function createKnabaVpsServer({
           if(workspace)return isGrantedDeveloper(db,accountUser,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,accountUser)===testRole;
           return true;
         };
-        responseAuthorized=currentAccountAllowed;
-        const requestDb=accountUser?(workspace?.d1||d1).withAuthorization(currentAccountAllowed,db):(workspace?.d1||d1);
+        const assistantOwnerRoute=url.pathname.startsWith('/api/assistant/owner/');
+        const currentRouteAllowed=assistantOwnerRoute?()=>currentAccountAllowed()&&currentOwnerAllowed():currentAccountAllowed;
+        responseAuthorized=currentRouteAllowed;
+        const requestDb=accountUser?(workspace?.d1||d1).withAuthorization(currentRouteAllowed,db):(workspace?.d1||d1);
         scopedEnv.DB=requestDb;
+        if(assistantOwnerRoute)scopedEnv.VERIFY_ASSISTANT_OWNER_SESSION=currentOwnerAllowed;
         // Publication transactions and later metadata responses both re-read
         // the actual current cookie; captured identity headers are not enough.
         scopedEnv.STUDIO_PUBLICATION_BATCH=statements=>requestDb.authorizedBatch(statements,currentOwnerAllowed,db);
@@ -959,7 +1063,8 @@ export async function createKnabaVpsServer({
   let closing;
   return {server,db,migrations,port:server.address().port,close:()=>closing??=(async()=>{
     const stopped=new Promise(resolve=>server.close(resolve));
-    await Promise.all([stopped,erpIntake.stop()]);testWorkspaces.close();db.close();
+    await Promise.all([stopped,erpIntake.stop()]);
+    await accountMailer.close();testWorkspaces.close();db.close();
   })()};
 }
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){

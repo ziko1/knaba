@@ -19,7 +19,7 @@ for (const [locale, privacyPath, imprintPath] of [
       assert.ok(privacy.includes(`aria-labelledby="${anchor}"`), `${locale}: missing privacy section ${anchor}`);
       assert.ok(privacy.includes(`id="${anchor}"`), `${locale}: missing privacy title ${anchor}`);
     }
-    assert.match(privacy, /28\.?\s*(?:Oktober|октября)\s*2026/);
+    assert.match(privacy, /8\.?\s*(?:November|ноября)\s*2026/);
     assert.match(privacy, /§ 25(?:\s+Abs\.)?.*TDDDG/);
     assert.match(privacy, /Turnstile/);
     assert.match(privacy, /§ 201 StGB/);

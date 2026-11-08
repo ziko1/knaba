@@ -55,6 +55,7 @@ export function roleDestination(role,requested='',language='de'){
     return home.pathname+home.search;
   }
   if(path==='/account/password')return '/account/password/';
+  if(path==='/account/settings')return '/account/settings/?lang='+lang;
   // Public links are safe to resume, but account/API paths never become a
   // fallback that takes a newly signed-in user to another role's workspace.
   if(/^\/(?:en\/|pl\/|lt\/|ru\/|uk\/)?(?:$|kontakt\/?$|leistungen(?:\/[^/?]+)?\/?$|galerie\/?$|unternehmen\/?$|karriere\/?$|datenschutz\/?$|impressum\/?$)/.test(target.pathname)){

@@ -1,0 +1,62 @@
+
+ RUN  v5.0.5 /workspace/scratch/c56161c95e04/knaba/corporate-site
+
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > ships a complete plain-text pack for every supported language 23ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > makes all languages and more pages reachable through labeled controls 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > caches only validated public packs per mounted instance and retries failed data 5ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 0 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 1 0ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 2 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 3 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 4 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 5 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 6 1ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > rejects an incomplete or incorrect fetched language pack 7 0ms
+ ✓ tests/assistant-inbox-i18n.test.ts > Assistant owner inbox language contract > requests only static JSON URLs without credentials and leaves failed fetches retryable 6ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > clears expired private state after confirmed poll 404 and keeps the typed draft 257ms
+ ✓ tests/assistant-inbox-payload.test.ts > Assistant inbox locale payload boundary > keeps all six dictionaries out of the client locale bundle 49ms
+ ✓ tests/assistant-inbox-payload.test.ts > Assistant inbox locale payload boundary > forwards initial page labels through the protected lazy admin messages entry 212ms
+ ✓ tests/assistant-inbox-payload.test.ts > Assistant inbox locale payload boundary > supplies only the initial page language at all three Astro entry points 1ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > clears expired private state after confirmed send 404 and keeps the typed draft 160ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > clears expired private state after confirmed handoff 404 and keeps the typed draft 50ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > clears expired private state after confirmed decision 404 and keeps the typed draft 62ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > keeps a recoverable conversation and draft after HTTP 500 44ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > keeps a recoverable conversation and draft after HTTP 503 43ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > uses one localized contact page link without duplicated phone or email links 189ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > never lets an earlier poll replace a confirmed sent message 37ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > skips polling during a mutation and preserves a newly typed draft 40ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > keeps one slow poll in flight across ticks and ignores errors after reset 25ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > does not update the thread after unmount during polling 23ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > does not issue duplicate handoffs during a pending mutation 23ms
+ ✓ tests/assistant-async-state.test.ts > public Assistant asynchronous state > preserves the current reset cancellation contract during a pending handoff 23ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > provides every inbox action and status in de and retains a validated language choice 28ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > provides every inbox action and status in en and retains a validated language choice 32ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > provides every inbox action and status in pl and retains a validated language choice 21ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > provides every inbox action and status in lt and retains a validated language choice 25ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > provides every inbox action and status in ru and retains a validated language choice 20ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > provides every inbox action and status in uk and retains a validated language choice 20ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > keeps the newest selected language when an older load is resolved last 34ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > keeps the newest selected language when an older load is rejected last 14ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > reuses an in-flight language when choices cycle and ignores the superseded failure 16ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > keeps labels, drafts, thread and cursor after a network failure and allows retry 18ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > keeps labels, drafts, thread and cursor after a invalid pack failure and allows retry 19ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > invalidates a pending locale completion when current owner access is lost 20ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > does not apply or persist a language response after unmount 18ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > appends one page, deduplicates rows and preserves the loaded window during polling 17ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > does not let a late page replace state after an owner mutation or revoked access 28ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > keeps the existing page and retry cursor after a transient next-page error 35ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > revokes the selected guest code only after confirmation and keeps owner history 53ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > ignores old selections and their errors and keeps drafts per conversation 17ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > prevents selection and stale polling from replacing a pending owner reply 15ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > keeps one slow owner refresh in flight across polling ticks 18ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > notification refresh completion does not unlock a newer owner mutation 45ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > clears private cached state and pending updates after current HTTP 401 36ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > clears private cached state and pending updates after current HTTP 403 33ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > ignores an unauthorized response from a superseded selection 35ms
+ ✓ tests/assistant-async-state.test.ts > owner inbox asynchronous state > ignores a late thread response after navigation/unmount 37ms
+
+ Test Files  3 passed (3)
+      Tests  53 passed (53)
+   Start at  10:23:25
+   Duration  2.60s (tests 57%, import 32%, transform 9%, worker 1%)
+
