@@ -319,7 +319,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 if model.identity == nil { ERPLoginScreen(model: model) }
                 else if model.availableWorkspaces.isEmpty {
                     VStack(spacing: 16) {
-                        Text(model.text(.accessDenied)).font(.headline)
+                        Text(model.text(.errorAccess)).font(.headline)
                         Button(model.text(.signOut)) { Task { await model.signOut() } }
                     }.padding()
                 } else if model.selectedWorkspace == nil {
@@ -327,7 +327,15 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                         VStack(spacing: 16) {
                             Text(model.text(.title)).font(.title2.bold())
                             ForEach(model.availableWorkspaces) { workspace in
-                                Button(workspace.rawValue.capitalized) { model.selectedWorkspace = workspace }
+                                Button(model.text({ () -> ERPText in
+                                    switch workspace {
+                                    case .client: return .roleClient
+                                    case .worker: return .roleEmployee
+                                    case .partner: return .roleClient
+                                    case .bauleiter: return .roleExternalBauleiter
+                                    case .owner: return .roleOwner
+                                    }
+                                }())) { model.selectedWorkspace = workspace }
                                     .buttonStyle(KNABAButtonStyle())
                                     .accessibilityIdentifier("workspace-\(workspace.rawValue)")
                             }
