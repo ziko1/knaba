@@ -1,9 +1,8 @@
 # KNABA Mobile — roadmap
 
-## 08.11.2026 — iOS candidate continuation
+## 08.11.2026 — iOS simulator candidate verified
 
-MOBILE-011 source now includes encrypted original-command recovery and UI/session fencing; exact macOS/XCTest and physical acceptance remain required. MOBILE-012 tracks the current full iOS file request: scoped native portal/task/results, active CI, signing/export, whole-product gaps and actual handover. No full delivery accepted by a source ZIP or simulator build. See `TEST_IOS_0.4.0_UK.md`.
-
+MOBILE-011 has 74/74 actual native XCTest and exact-source simulator build/install/launch evidence at `134d208bb1908b7ba6470b48928759ed865d2616`; physical interrupted-write acceptance remains open. MOBILE-012 has source and arm64 simulator artifacts with verified hashes, not a signed phone-installable IPA. Owner signing/channel, physical iPhone/live ERP acceptance, full specialized native parity, Partner/SSO and canonical product gates remain open. Nullable form clearing and read-only recovery access are implemented and tested; native onboarding handoff and unknown-command reconciliation are explicit follow-ups. See `evidence/ios-20261108/verification.json` and `TEST_IOS_0.4.0_UK.md`.
 
 ## 08.11.2026 — recovery continuation
 

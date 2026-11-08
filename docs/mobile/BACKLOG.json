@@ -125,15 +125,34 @@
       "id": "MOBILE-011",
       "description": "iOS unknown-write retries preserve idempotency and logout fences stale session responses",
       "acceptance": "Native XCTest and actual iPhone interrupted write/relogin/retry create one effect only",
-      "status": "IMPLEMENTED_CANDIDATE_NATIVE_CHECKS_PENDING"
+      "status": "NATIVE_VERIFIED_DEVICE_AND_LIVE_ACCEPTANCE_OPEN",
+      "evidence": "evidence/ios-20261108/verification.json",
+      "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616"
     },
     {
       "id": "MOBILE-012",
       "source": "Current user request 2026-11-08: continue KNABA iOS and deliver working file with all system functionality",
       "acceptance": "Exact-source native build/tests, role/task/result/recovery journeys, signed phone-installable artifact and actual iPhone/backend/whole-product acceptance",
-      "status": "IN_PROGRESS_FULL_HANDOFF_BLOCKED",
+      "status": "SIMULATOR_SOURCE_CANDIDATE_READY_PHONE_HANDOFF_BLOCKED",
       "budget": "no_new_paid_spend",
-      "guide": "TEST_IOS_0.4.0_UK.md"
+      "guide": "TEST_IOS_0.4.0_UK.md",
+      "evidence": "evidence/ios-20261108/verification.json",
+      "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+      "next": "Owner signing/provisioning and approved iPhone/ERP acceptance; remaining full-product scope retained."
+    },
+    {
+      "id": "MOBILE-013",
+      "description": "Dedicated native one-time invitation and device-enrollment credential handoff",
+      "acceptance": "Authorized role-scoped one-time display/transfer, no persistence or leakage across sessions/background, usable invitation/enrollment acceptance against approved server",
+      "status": "OPEN",
+      "budget": "no_new_paid_spend"
+    },
+    {
+      "id": "MOBILE-014",
+      "description": "Server-authoritative reconciliation of unknown/missing mobile command journal state",
+      "acceptance": "Audited scoped proof of prior business effect before resolving a pending record; no automatic deletion, new-key replay or cross-actor reconciliation",
+      "status": "OPEN_REQUIRES_BACKEND_CONTRACT",
+      "budget": "no_new_paid_spend"
     }
   ]
 }

@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA DE",
+  "recordedAt": "2026-11-08T08:42:58.439344+00:00",
+  "status": "IOS_SIMULATOR_BUILD_TESTS_AND_SOURCE_BINDING_PASS",
+  "fullUserRequest": "OPEN_PHONE_SIGNING_LIVE_AND_PRODUCT_GATES",
+  "source": {
+    "gitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+    "gitTree": "1f46143a9e70a8d324795205b1225493c781cbdb",
+    "inputSha256": "1565f2e8c9e83ea5945e39d6f3d47dcdbf5fa05b64dab89505a0b2363c94801c",
+    "workingTree": false,
+    "nativeInputsMatchedToGit": 36,
+    "pullRequest": "https://github.com/ziko1/knaba/pull/126",
+    "branch": "feat/knaba-ios-recovery-20261108"
+  },
+  "application": {
+    "bundleId": "de.knaba.mobile",
+    "version": "0.4.0",
+    "build": 4,
+    "minimumIOS": "17.0",
+    "deliveredBinaryPlatform": "iPhoneSimulator",
+    "deliveredBinaryArchitecture": "arm64"
+  },
+  "checks": {
+    "native": {
+      "status": "PASS",
+      "runId": 42463393159,
+      "jobId": 128677325681,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42463393159",
+      "xcode": "26.6",
+      "swift": "6.3.3",
+      "swiftLanguageMode": "5",
+      "simulator": "iPhone 17 / iOS 26.5",
+      "xctest": {
+        "total": 74,
+        "passed": 74,
+        "failed": 0,
+        "skipped": 0,
+        "expectedFailures": 0
+      },
+      "suites": {
+        "Model": 8,
+        "Recovery": 9,
+        "Console": 5,
+        "Transport": 18,
+        "Workflow": 15,
+        "LocalizationAndSummary": 11,
+        "Native": 8
+      },
+      "addedXCTestCases": 51,
+      "testScope": "Application-hosted unit/model XCTest; does not replace physical device, XCUITest journeys or live ERP acceptance.",
+      "simulatorInstallLaunch": "PASS",
+      "startupScreenshot": "REVIEWED_BY_ROOT"
+    },
+    "root": {
+      "status": "PASS",
+      "command": "npm test",
+      "tests": 29,
+      "failed": 0,
+      "skipped": 0,
+      "node": "v24.22.1",
+      "log": "root-tests.log"
+    },
+    "distribution": {
+      "status": "PASS",
+      "pythonCases": 21,
+      "counting": "Included in the root iOS wrapper and separately run by native CI; do not add twice.",
+      "scope": "CPU tests of source integrity, packaging, export boundaries and receipt validation; not a signed IPA export."
+    },
+    "sourceIntegrity": {
+      "status": "PASS",
+      "command": "node scripts/verify-snapshot.mjs",
+      "log": "source-integrity.log",
+      "historicalImportAnchor": "66b07fb46d23c7110473c51fc23ce58d3c40a1b1"
+    },
+    "repositoryCI": {
+      "status": "PASS",
+      "runId": 42463393097,
+      "url": "https://github.com/ziko1/knaba/actions/runs/42463393097",
+      "requiredJobsPassed": [
+        "Source integrity and policy tests",
+        "Corporate site checks and production build",
+        "ERP checks, build and PostgreSQL tests",
+        "Site SQLite to ERP PostgreSQL HTTP acceptance"
+      ],
+      "skippedDiagnosticOnly": "Sanitized failure summary"
+    },
+    "independentReview": {
+      "status": "ACCEPTED_STATIC_REVIEW_AND_SOURCE_BINDING",
+      "records": [
+        "independent-review.json",
+        "independent-review-followup.json",
+        "artifact-binding.json",
+        "handoff-independent-review.json"
+      ],
+      "reviewers": [
+        "/root",
+        "/root/ios_transport",
+        "/root/ios_delivery_audit",
+        "/root/ios_build_pipeline"
+      ]
+    },
+    "independentHandoffReview": {
+      "status": "ACCEPT_HANDOFF_PACKAGE",
+      "record": "handoff-independent-review.json",
+      "reviewer": "/root/ios_delivery_audit"
+    }
+  },
+  "artifacts": {
+    "github": {
+      "id": 13610537707,
+      "bytes": 7648743,
+      "sha256": "3cc9e7847746a8695d31a7f75c7eda39502522905bacca7072fde6bad6e609e3",
+      "url": "https://github.com/ziko1/knaba/actions/runs/42463393159/artifacts/13610537707",
+      "expiresAt": "2026-11-22T08:39:18Z"
+    },
+    "native": [
+      {
+        "path": "KNABADE-simulator.app.zip",
+        "bytes": 7185734,
+        "sha256": "89a3edd679540086ced2117ca2c9260b2273266908294caa4a652d9c4a8b8df9"
+      },
+      {
+        "path": "NativeTests.xcresult.zip",
+        "bytes": 210075,
+        "sha256": "518e7ab1515d622976c041a381b5f43b6dac5d5f4aa11323d48006e760997c39"
+      }
+    ],
+    "source": {
+      "file": "KNABA-DE-iOS-0.4.0-134d208-source.zip",
+      "bytes": 130261,
+      "sha256": "4662867fff9fb1eef8883227201752457bffe2386464ca6e941d39508e98398f",
+      "type": "XCODE_SOURCE_ONLY_NOT_IPA",
+      "filesVerified": 39
+    }
+  },
+  "openGates": [
+    {
+      "id": "SIGNED_IPHONE_DISTRIBUTION",
+      "status": "BLOCKED_EXTERNAL",
+      "reason": "No authorized owner Apple signing assets/provisioning or approved TestFlight delivery channel in the accessible environment. No IPA is provided."
+    },
+    {
+      "id": "PHYSICAL_IPHONE_AND_LIVE_ERP",
+      "status": "NOT_RUN",
+      "reason": "Install/upgrade/data retention, hardware Keychain, background/reboot/GPS/battery, live tenant/role/data and interrupted-write acceptance require an actual iPhone and approved ERP accounts."
+    },
+    {
+      "id": "FULL_NATIVE_PRODUCT_PARITY",
+      "status": "OPEN",
+      "reason": "Specialized forms/media/export workflows, site/ERP SSO, ERP Partner role and canonical V3/V4 business/company gates remain open."
+    },
+    {
+      "id": "NATIVE_ONBOARDING_HANDOFF",
+      "status": "OPEN",
+      "reason": "Generic user.invite/device.enroll results hide one-time tokens; dedicated reviewed handoff remains necessary."
+    },
+    {
+      "id": "UNKNOWN_COMMAND_RECONCILIATION",
+      "status": "OPEN",
+      "reason": "No safe server reconciliation/repair endpoint established. Unknown/missing journal cases allow reads but block all new mutations; do not discard state or retry with a new key."
+    }
+  ],
+  "warnings": [
+    {
+      "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift:6",
+      "severity": "PRE_EXISTING_NONBLOCKING",
+      "detail": "CLLocationManagerDelegate actor-isolation warning needs review before switching to Swift 6 language mode."
+    }
+  ],
+  "rollback": {
+    "code": "Isolated draft PR126 on the integrated candidate. No main merge or production deployment performed.",
+    "data": "Do not erase journal/key or reinstall to bypass an unknown operation. Reconcile server outcome and signing/data-format compatibility before a downgrade."
+  },
+  "budgetPolicy": "no_new_paid_spend; standard public GitHub runner only; no external model/provider activation or claimed credit balance"
+}

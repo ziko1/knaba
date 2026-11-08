@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-08T08:48:27.659369+00:00",
+  "reviewer": "/root/ios_delivery_audit",
+  "status": "ACCEPT_HANDOFF_PACKAGE",
+  "mode": "READ_ONLY_NO_TEST_RERUN_NO_UPLOAD",
+  "artifact": "KNABA-DE-iOS-0.4.0-simulator-and-source.zip",
+  "bytes": 7779805,
+  "sha256": "20f289e3fd1f5ed7bca87c9f1922aa34441942b2c46220365491ba78a4f0d415",
+  "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+  "nativeInputSha256": "1565f2e8c9e83ea5945e39d6f3d47dcdbf5fa05b64dab89505a0b2363c94801c",
+  "checked": {
+    "checksumEntriesMatched": 21,
+    "manifestPayloadsMatched": 20,
+    "sourceFilesMatched": 39,
+    "nativeBuildInputsMatched": 36,
+    "outerAndInnerCRC": "PASS",
+    "innerAppSourceXCResultHashes": "PASS",
+    "nativeReceiptSummaryAndActualLogAgree": "74/74 PASS; 0 failures; 0 skipped",
+    "label": "MAC_APPLE_SILICON_SIMULATOR_AND_SOURCE_NOT_IPA",
+    "phoneInstallable": false
+  },
+  "blockersWithinPackaging": [],
+  "acceptanceBoundary": "Artifact integrity and accurate labelling only. Apple signing, physical iPhone, live ERP and full native product parity remain OPEN/BLOCKED."
+}

@@ -1,0 +1,270 @@
+{
+  "recordedAt": "2026-11-08T08:39:17.898519+00:00",
+  "bundleId": "de.knaba.mobile",
+  "version": "0.4.0",
+  "build": "4",
+  "inputSha256": "1565f2e8c9e83ea5945e39d6f3d47dcdbf5fa05b64dab89505a0b2363c94801c",
+  "buildInputs": [
+    {
+      "path": ".github/workflows/ios.yml",
+      "sha256": "ba1745e2abc165bca4c7f7d3daf87d129183fcc9c84c33a9f1dc233f31b0f748",
+      "bytes": 5860,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Info.plist",
+      "sha256": "f9b82fee4387c663f140591a3fd461bc371383e0a8546837fd78fc0848a42014",
+      "bytes": 1790,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/PrivacyInfo.xcprivacy",
+      "sha256": "8048cef550fab56460241a9f6edafe9fa839a7c107c7077e50f00d106ff4d104",
+      "bytes": 1393,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/de.lproj/InfoPlist.strings",
+      "sha256": "36b1517006d24e6fde0b384a0feb4febecad8c3030d1f61464bc2029ceda9f21",
+      "bytes": 846,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/en.lproj/InfoPlist.strings",
+      "sha256": "b80f891bc6d01c11f735aae8c8c962dc6004a885fea249b5f53fd37416a30042",
+      "bytes": 821,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/lt.lproj/InfoPlist.strings",
+      "sha256": "6eacac7304cf617076ee46b43a43b43e0615e55c4f29ddfc3a4c6632056f4e1c",
+      "bytes": 865,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/pl.lproj/InfoPlist.strings",
+      "sha256": "5b9f30718f5abfa44a814d6dd30654d9af9b54498506efb08f5edcae81baa15b",
+      "bytes": 920,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/ru.lproj/InfoPlist.strings",
+      "sha256": "d3e9eab4dfc7d8d05eff059109633bf9354043192bebb13978c676e56d0099c1",
+      "bytes": 1478,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Resources/uk.lproj/InfoPlist.strings",
+      "sha256": "6a9d92fcac55f391724ed655e24f1351a3ceb9e7f0f8c70b8ced864b0460c553",
+      "bytes": 1381,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/AppModel.swift",
+      "sha256": "c56c7539b35cb1ce3da4d7050c83a272fdeaa4db275037635417fa10a7afb868",
+      "bytes": 8546,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleCore.swift",
+      "sha256": "f2a8ea44a8c440457bd8bbacc04854c2ccd496b2823d1129d2f6815ce5736354",
+      "bytes": 26514,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleRecovery.swift",
+      "sha256": "1844e15c1d440cf83bc26438fc2daff35497fcbf0d4eb1ad2131b9db5592465c",
+      "bytes": 15773,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleView.swift",
+      "sha256": "d07a10b590ce9de99ff1122a1b7237e95ffa712e84e09ab69450f1d71c70cae2",
+      "bytes": 35403,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPConsoleWorkflow.swift",
+      "sha256": "bf9b73661177e7fa01d5866c3d1cc844912780d5a34927ab1ddd3414e34c1998",
+      "bytes": 14761,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "sha256": "6e87dc30d3c09a07f9024c21425bd6b775a976da852817db28aed04b73ae22ba",
+      "bytes": 30843,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/KNABADEApp.swift",
+      "sha256": "22093af38dcb994c20137086d99c0463b7329cda74742193e735a980308cc88a",
+      "bytes": 8159,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/LocationTracker.swift",
+      "sha256": "9957594521acdcc8203a6ee836bc6a2170f7a2e158aa9ccf6a76af0f672c7a61",
+      "bytes": 12689,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/Models.swift",
+      "sha256": "d1a9e865cb49958d75bd72891dcae74f6d04fb1786073fb0abaddaa0186487e9",
+      "bytes": 8671,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeAPI.swift",
+      "sha256": "aeadc8c857ec23624cf829a626f338866767291cf0d2826f9079e1afc58bcccc",
+      "bytes": 5838,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeLocalization.swift",
+      "sha256": "2b581456645872e0ddb09f375c176a66662052c0b006dcf920d2dd80847e0c16",
+      "bytes": 35926,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/NativeShiftSummary.swift",
+      "sha256": "03a67e696ace537e8239ae04a5a42566cabdc85833b879765f26e405ea55a5d0",
+      "bytes": 3013,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/SecureStore.swift",
+      "sha256": "c1c7ec2561ef1945d68efb4fa5674d32dda95b9c3fc2e36ffecdcfdbd3326e07",
+      "bytes": 9238,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleModelTests.swift",
+      "sha256": "8c1f31f00b5f92cd8d148fd0af2fd52662c1f4040d4b21f3991da84ca4b3a6b5",
+      "bytes": 10078,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleRecoveryTests.swift",
+      "sha256": "54e0875e93133cbc03a2e728a94b05afea2d2a70f73dda34e9748b8ea47b5662",
+      "bytes": 11002,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTests.swift",
+      "sha256": "fbd2d2138644ff5049b894f71bdd91fa77cb8de7de0a623d01135d356ca72c55",
+      "bytes": 3847,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleTransportTests.swift",
+      "sha256": "cf20831fdfbf6630c1ec0338d05d8fd80c5c48f15fcdc6848cd9be3b85d79659",
+      "bytes": 27478,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPConsoleWorkflowTests.swift",
+      "sha256": "d702a68754059710d38bf63e4479cec0a55c6b160761a951e11937f237182148",
+      "bytes": 13039,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/LocalizationAndSummaryTests.swift",
+      "sha256": "6a6a031169b9c09e273a36d23485d5427da03709f17994404a0dd6b90055700c",
+      "bytes": 9703,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/NativeTests.swift",
+      "sha256": "4685b29df355746beaafa43dd275e8969bda899567b59b2fbc6acc3ed536ca7c",
+      "bytes": 7834,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/project.yml",
+      "sha256": "72aaf0f62c69dc8ff459b8b8432af40c260ff4783665e83e74ba3614de197596",
+      "bytes": 1268,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/archive-release.sh",
+      "sha256": "4bdc318837d484252efeea23bd0139edbad962fdcd26c3798ffe5d06b5fed6b8",
+      "bytes": 3682,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/build.sh",
+      "sha256": "758fd233df7e78ae23591552a8f15a10d3259545bbd0b0c6126349e8ebb21ccb",
+      "bytes": 1679,
+      "mode": "0755"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/distribution.py",
+      "sha256": "2f133fb8b5c66db8e18472c31641533a3ea90796adb952d8d6eabae4b2023fd8",
+      "bytes": 20641,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/apps/mobile-ios/scripts/prepare-simulator.py",
+      "sha256": "fd0eca988df1d82869a0dfd83027e4af8ace593ddcd120407865547eb3973790",
+      "bytes": 5758,
+      "mode": "0644"
+    },
+    {
+      "path": "erp/tests/native-vectors.json",
+      "sha256": "48d025d55a2407be7fad8a9fdae6466375c095be47bf625a9c4653febc00bf2a",
+      "bytes": 4538,
+      "mode": "0644"
+    },
+    {
+      "path": "scripts/mobile/package-ios-source.py",
+      "sha256": "1c8ad6edc56228e7a37ee613ccf9ccdc4a9fef6cd0784c02a9817c620cf6b377",
+      "bytes": 5547,
+      "mode": "0644"
+    }
+  ],
+  "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+  "sourceGitTree": "1f46143a9e70a8d324795205b1225493c781cbdb",
+  "sourceWorkingTree": false,
+  "provenance": "GIT_WORKTREE",
+  "type": "IOS_SIMULATOR_ONLY_NOT_IPA",
+  "xctest": {
+    "total": 74,
+    "passed": 74,
+    "failed": 0,
+    "skipped": 0,
+    "expectedFailures": 0
+  },
+  "simulator": {
+    "sourceGitSha": "134d208bb1908b7ba6470b48928759ed865d2616",
+    "requestedXcode": "26.6",
+    "requestedOS": "26.5",
+    "requestedDevice": "iPhone 17",
+    "hostArchitecture": "arm64",
+    "status": "SIMULATOR_READY_XCTEST_NOT_RUN",
+    "runtimeDownload": "NOT_REQUESTED",
+    "xctestExecution": "NOT_RUN",
+    "physicalDeviceVerification": "NOT_RUN",
+    "deviceUdid": "3B89DD1A-B07F-4AA9-A62A-2441C63D9512",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "runtimeBuildVersion": "23F77",
+    "deviceTypeIdentifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-17",
+    "deviceState": "Booted"
+  },
+  "simulatorInstallLaunch": "PASS",
+  "artifacts": [
+    {
+      "path": "KNABADE-simulator.app.zip",
+      "bytes": 7185734,
+      "sha256": "89a3edd679540086ced2117ca2c9260b2273266908294caa4a652d9c4a8b8df9"
+    },
+    {
+      "path": "NativeTests.xcresult.zip",
+      "bytes": 210075,
+      "sha256": "518e7ab1515d622976c041a381b5f43b6dac5d5f4aa11323d48006e760997c39"
+    }
+  ],
+  "signing": "CODE_SIGNING_ALLOWED=NO",
+  "physicalDeviceInstall": "NOT_RUN",
+  "realBackendUAT": "NOT_RUN",
+  "appStoreOrTestFlight": "NOT_RUN"
+}

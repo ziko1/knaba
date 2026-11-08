@@ -36,7 +36,9 @@
 
 ## Перевірки кандидата
 
-Актуальні результати exact source, CI runs, artifact hashes, незалежний review і FAIL/BLOCKED зберігаються в `evidence/ios-20261108/verification.json`, коли відповідні перевірки фактично виконані. До появи receipts жоден authored XCTest або workflow не є PASS.
+Перевірений native source: `134d208bb1908b7ba6470b48928759ed865d2616`. Xcode26.6, iPhone17 Simulator/iOS26.5: **74/74 XCTest PASS**, 0 failures/skips, встановлення й запуск PASS. Завантажені архіви звірено за SHA-256; усі36 native build inputs збіглися з Git. Root29 і21 Python packaging cases PASS (Python suite входить до root wrapper і не рахується двічі). Чотири основні repository CI jobs, включно з PostgreSQL та HTTP bridge acceptance, PASS. Це unit/model і simulator-докази; physical iPhone та live ERP UAT не виконані.
+
+Актуальні exact source, CI runs, artifact hashes, незалежний review та відкриті gates: `evidence/ios-20261108/verification.json`. Native run: https://github.com/ziko1/knaba/actions/runs/42463393159. Repository run: https://github.com/ziko1/knaba/actions/runs/42463393097. Пізніші документаційні коміти не змінюють походження вже зібраних байтів.
 
 Локальні команди з кореня репозиторію:
 
