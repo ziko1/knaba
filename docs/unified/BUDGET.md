@@ -60,3 +60,11 @@ Existing isolated VPS Node24 runtime reused, zero new external email/OIDC/AI/pai
 ## F1 identity foundation — 08.11.2026
 
 Reserved: one implementation and one corrective source checkpoint on an isolated stacked branch; existing standard public GitHub Ubuntu workflows only, no larger runners, paid providers or runtime activation. Maximum four automatically triggered repository runs (push + PR per checkpoint), within existing per-job timeouts. Current public-repository access was verified through the authenticated GitHub connector; the native fb4be719 candidate used one successful native attempt. This is a EUR 0 new-spend reservation under public standard-runner billing, not a claim of unlimited quotas or known account balance. Reconcile actual run IDs before another checkpoint.
+
+## Native documentation-head infrastructure retry reservation
+
+Run 42464567819 on documentation-only d9cb200 failed Android during setup-gradle with an observed HTTP 504 before application compilation. Reserve one retry of failed jobs only, standard public Ubuntu runner, maximum 30 runner-minutes and EUR 0 new paid activation; do not rerun successful iOS jobs. Repository access remains public in the authenticated run metadata. This bounded retry is additional to the two initial native attempts and will be reconciled with its real outcome; source/artifact acceptance at fb4be719 remains separately preserved.
+
+## Reconciled F1 and native retry outcome
+
+F1 runtime checkpoint: repository runs 42464696490 (push) and 42464719363 (PR); the mandatory PR run succeeded. Documentation/native run 42464567819 retry attempted only failed Android; it again failed before compilation with HTTP 504 while provisioning Gradle 8.13. Independent probes of services.gradle.org, downloads.gradle.org and the official Gradle GitHub release asset returned HTTP 504. Stop further unchanged retries; no paid fallback or toolchain/version downgrade. Original native source fb4be719 and its artifacts retain their successful exact-source run 42463090142; d9cb documentation-head Android replay remains externally blocked. The remaining reserved F1 documentation checkpoint uses the existing public Ubuntu CI only.

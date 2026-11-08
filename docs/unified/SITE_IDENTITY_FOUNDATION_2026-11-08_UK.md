@@ -1,5 +1,9 @@
 # KNABA — F1: зберігання прив’язок сайту та ERP
 
+## 08.11.2026 — F1 actual PostgreSQL acceptance
+
+Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 42464719363](https://github.com/ziko1/knaba/actions/runs/42464719363): all 4 mandatory jobs PASS; ERP 2782 tests in 120 files, including 16 new real PostgreSQL 17.6 cases and 27 CPU trust cases; bridge 9; no failed/skipped acceptance tests. Synthetic previous-schema upgrade, repeated migration and old-runtime rollback preserve users, bindings and audit. Independent source review accepted the exact inputs. [Evidence](evidence/site-identity-foundation-20261108/verification.json). F1 storage is verified; F2–F5 and shared SSO remain unimplemented/open, full product NOT_READY. No production migration or deployment.
+
 Це продовження F1 з `IDENTITY_RECONCILIATION_2026-11-08_UK.md`, KN-C04 / KN-U09 та MOBILE-003. Зміни виконуються в ізольованій гілці `feat/knaba-identity-foundation-20261108` від мобільного кандидата `fb4be719fc6f777138cb93837fc41729f9104c09`.
 
 **Статус на момент підготовки:** код та 27 CPU tests перевірено; PostgreSQL acceptance ще NOT_RUN до фактичного CI. Спільний вхід залишається NOT_IMPLEMENTED; продукт NOT_READY. F1 створює внутрішнє сховище й перевірюваний контракт, а не маршрут login або готову федерацію.
