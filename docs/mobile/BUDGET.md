@@ -1,5 +1,11 @@
 # KNABA Mobile — budget fence
 
+## 08.11.2026 — native reconciliation і KN-C08-B reservation
+
+Consolidation прийнято на bb223af67af9eae5f11e7ca225f89ddf97a8e4e2: repository push42486323278 і PR42486326925 SUCCESS; native PR42486326902, Android та iOS SUCCESS. Використано один source checkpoint, два automatic repository runs та один native run; unchanged manual rerun не проводився. Фактичні Android lint warnings20 збережено.
+
+KN-C08-B: один source checkpoint і максимум один correction для конкретного failure; не більше чотирьох automatic existing standard public Ubuntu repository runs, чинні timeouts. Native inputs/workflow paths не змінюються; зайвий native run не планується. Public access і офіційний стандартний public-runner тариф перевірені 08.11.2026: https://docs.github.com/en/actions/concepts/billing-and-usage. Новий paid activation EUR0; реальний model/account balance і quotas UNKNOWN. Provider calls, signing/stores, production і live data не активуються.
+
 ## 2026-11-08 native/backend consolidation reservation
 
 C08 PR run 42483792274 and duplicate push 42483788861 are SUCCESS and independently accepted at e747fd94e219e09faffea96c2f9f84be15a6def1. Historical iOS 0.5.1 job in run 42467913707 accepted 67 XCTest; its Android peer failed before compilation on dependency HTTP504 and remains recorded as such. No unchanged manual rerun is requested.

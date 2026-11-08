@@ -1,5 +1,13 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 08.11.2026 — зведений native/backend кандидат прийнято; KN-C08-B
+
+Спільний source `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2` / [PR133](https://github.com/ziko1/knaba/pull/133) прийнято незалежно: [repository CI42486326925](https://github.com/ziko1/knaba/actions/runs/42486326925) — ERP 2969/124 файли, bridge 82, site 732+90+297, root 30; [native CI42486326902](https://github.com/ziko1/knaba/actions/runs/42486326902) — Android 32 JUnit, lint 0 errors/20 warnings, APK/AAB; iOS 67 XCTest на iPhone 16/iOS 18.5 Simulator. Усі required jobs SUCCESS, acceptance skips 0. [Source-bound receipt](../mobile/evidence/native-consolidation-20261108/accepted-bb223af.json). Це debug Android і unsigned iOS simulator; owner signing/device/store gates відкриті.
+
+На цій прийнятій базі ізольовано реалізовано KN-C08-B: explicit production company, strict/canonical API origin, optional raw worker origin, узгоджені BOT/preflight guards і runtime Docker dependency. Локально initial focused 238 PASS; після вузького BOT grammar RED→GREEN — final affected 137 PASS, TypeScript PASS. Ці overlapping runs не підсумовуються. Exact-source hosted acceptance нового source ще PENDING. [Контракт](PRODUCTION_CONFIG_GUARDS_2026-11-08_UK.md), [input evidence](evidence/production-config-20261108/verification.json).
+
+F3 issuer, решта F4 privacy/retention/background policy, template-origin consumer gap, повні specialist/device/company/provider/load/restore acceptance залишаються OPEN. Whole product NOT_READY; вихідні 72 V4 / 475 V3 критерії не перепозначені.
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.

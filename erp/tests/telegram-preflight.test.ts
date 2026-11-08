@@ -60,7 +60,9 @@ describe('preflight accepts explicit Telegram-only mode and denies broken channe
   it('rejects malformed website roots even while sending is disabled, without echoing URL secrets',()=>{
     for(const BOT_WEBSITE_ORIGIN of ['http://site.example.test/','https://test:private-value@site.example.test/',
       'https://site.example.test/contact/','https://site.example.test/?token=private-value',
-      'https://site.example.test/#fragment','https://site.example.invalid/','not-a-url']){
+      'https://site.example.test/#fragment','https://site.example.invalid/','not-a-url',
+      'https://site.example.test/a/..','https://site.example.test/?','https://site.example.test/#',
+      'https://@site.example.test/','https://site.example.test\\']){
       const run=verify({BOT_WEBSITE_ORIGIN});
       expect(run.status).toBe(1);expect(run.stderr).toContain('BOT_WEBSITE_ORIGIN');
       expect(run.stdout+run.stderr).not.toContain('private-value');
@@ -86,5 +88,39 @@ describe('preflight accepts explicit Telegram-only mode and denies broken channe
       const run=verify({...telegramOnly,...override});
       expect(run.status).toBe(1);
     }
+  });
+});
+
+describe('operator preflight matches runtime company/origin guards',()=>{
+  it.each([undefined,'',' ','company\n','knaba-demo','knaba-de-demo','company/other','a'.repeat(101)])
+  ('rejects invalid production company %s',COMPANY_ID=>{
+    const run=verify({APP_MODE:'PRODUCTION',COMPANY_ID});
+    expect(run.error).toBeUndefined();expect(run.signal).toBeNull();expect(run.status).toBe(1);
+    expect(run.stderr).toContain('PRODUCTION requires an explicit valid non-demo COMPANY_ID');
+    expect(run.stdout).not.toContain('PASSED:');
+  });
+  it.each(['DEMO','TEST'])('retains the missing environment company fallback for %s',APP_MODE=>{
+    const run=verify({APP_MODE,COMPANY_ID:undefined});
+    expect(run.status).toBe(0);expect(run.stdout).toContain(`PASSED: ${APP_MODE}`);
+    expect(verify({APP_MODE,COMPANY_ID:''}).status).toBe(1);
+  });
+  it.each(['http://erp.example.test/','https://user:SYNTHETIC_PRIVATE_VALUE@erp.example.test/',
+    'https://erp.example.test/erp','https://erp.example.test/a/..','https://erp.example.test/?',
+    'https://erp.example.test/#','https://erp.\texample.test/'])
+  ('rejects unsafe production origin %s without echoing credentials',PUBLIC_ORIGIN=>{
+    const run=verify({APP_MODE:'PRODUCTION',PUBLIC_ORIGIN});
+    expect(run.error).toBeUndefined();expect(run.signal).toBeNull();expect(run.status).toBe(1);
+    expect(run.stderr).toContain('PRODUCTION requires HTTPS PUBLIC_ORIGIN');
+    expect(run.stdout+run.stderr).not.toContain('SYNTHETIC_PRIVATE_VALUE');
+  });
+  it.each(['https://erp.example.test','https://erp.example.test/','HTTPS://ERP.example.test:443/'])
+  ('accepts a valid explicit production root %s',PUBLIC_ORIGIN=>{
+    const run=verify({APP_MODE:'PRODUCTION',PUBLIC_ORIGIN});
+    expect(run.status).toBe(0);expect(run.stdout).toContain('PASSED: PRODUCTION');
+  });
+  it.each(['AUTH_ENCRYPTION_KEY','PUBLIC_ORIGIN','GIT_SHA'])
+  ('keeps the full operator prerequisite %s even outside production',key=>{
+    const run=verify({[key]:undefined});
+    expect(run.status).toBe(1);expect(run.stderr).toContain(`Missing valid ${key}`);
   });
 });

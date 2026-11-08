@@ -1,0 +1,168 @@
+{
+  "status": "ACCEPT_NATIVE_BACKEND_CONSOLIDATION_ACTUAL_CI",
+  "source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "tree_sha": "54de236e29601fdc5fe6315e42a8c8b5e67d2617",
+  "parent_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+  "pr": 133,
+  "repository_run": 42486326925,
+  "native_run": 42486326902,
+  "duplicate_push_run": 42486323278,
+  "duplicate_push_status": "SUCCESS",
+  "all_required_jobs": "SUCCESS",
+  "conditional_failure_summary": "SKIPPED_AS_EXPECTED",
+  "logs": {
+    "erp": {
+      "job_id": 128748886770,
+      "run_id": 42486326925,
+      "status": "SUCCESS",
+      "file": "native-consolidation-42486326925-erp.log",
+      "bytes": 106345,
+      "sha256": "84f06cdcc8236959702ac302d42eaeac91bd06f4751d16f0625b0d47d423f22e"
+    },
+    "bridge": {
+      "job_id": 128748886851,
+      "run_id": 42486326925,
+      "status": "SUCCESS",
+      "file": "native-consolidation-42486326925-bridge.log",
+      "bytes": 105568,
+      "sha256": "ee9f22fe68e157ea472669a97082a1fee6c70f58e3cfad2d49bc4316c13d4841"
+    },
+    "site": {
+      "job_id": 128748886840,
+      "run_id": 42486326925,
+      "status": "SUCCESS",
+      "file": "native-consolidation-42486326925-site.log",
+      "bytes": 141646,
+      "sha256": "eb760bd0591540b11c8774bba078c82d0972839878a71fb55dd9ad5ed7cf5ddd"
+    },
+    "root": {
+      "job_id": 128748886847,
+      "run_id": 42486326925,
+      "status": "SUCCESS",
+      "file": "native-consolidation-42486326925-root.log",
+      "bytes": 41251,
+      "sha256": "9d6c47455a53bf0e9051df25fc3da894044db9e73544bff10894145fbf1ca994"
+    },
+    "android": {
+      "job_id": 128748886783,
+      "run_id": 42486326902,
+      "status": "SUCCESS",
+      "file": "native-consolidation-42486326902-android.log",
+      "bytes": 39699,
+      "sha256": "adcee89764f948a48272c65860fe700b858d6138a1e538d6efa896d4baa61dd9"
+    },
+    "ios": {
+      "job_id": 128748886512,
+      "run_id": 42486326902,
+      "status": "SUCCESS",
+      "file": "native-consolidation-42486326902-ios.log",
+      "bytes": 278510,
+      "sha256": "7bd5d6c92e7b44162b35636ade212f9c054b671e3a1084824bbe8b81adafc558"
+    }
+  },
+  "results": {
+    "erp": {
+      "tests": 2969,
+      "files": 124,
+      "native_console_contracts": 126
+    },
+    "bridge": {
+      "tests": 82
+    },
+    "site": {
+      "vitest": 732,
+      "node_other": [
+        37,
+        35,
+        10,
+        8
+      ],
+      "vps": 297
+    },
+    "root": {
+      "tests": 30
+    },
+    "android": {
+      "junit_tests": 32,
+      "lint_errors": 0,
+      "lint_warnings": 20,
+      "aab_integrity_cases": 5,
+      "source_files": 53,
+      "shared_vector_inputs": 1,
+      "hosted_signature_verification": "PASS",
+      "local_signature_rerun": "NOT_RUN"
+    },
+    "ios": {
+      "xctests": 67,
+      "failed": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "compiled_bundle_files": 48,
+      "xcode": "16.4",
+      "simulator": "iPhone 16 / iOS 18.5 / arm64"
+    }
+  },
+  "acceptance_skips": 0,
+  "source_input_count": 65,
+  "inherited_subtrees": 6,
+  "artifacts": {
+    "android_zip": {
+      "github_artifact_id": 13619532048,
+      "file": "knaba-android-bb223af-ci.zip",
+      "bytes": 2383363,
+      "sha256": "9213186ac5a577c586ac72fe6e9c5be620f62881a2d4a05a835ca8e475820194"
+    },
+    "ios_zip": {
+      "github_artifact_id": 13619758832,
+      "file": "knaba-ios-bb223af-ci.zip",
+      "bytes": 6822258,
+      "sha256": "c8d0393c3dc7b1f5be838acd0c00e161f4b4980ca36766c9c5fa1ee9288da9d8"
+    },
+    "apk": {
+      "file": "android-bb223af-ci/build/distribution/prototype/knaba-android-0.5.0-test.apk",
+      "bytes": 2953722,
+      "sha256": "14501b771ba7e3bc51012763f9f32a589b7d1c332d384a53ae479f61720dc0f2"
+    },
+    "aab": {
+      "file": "android-bb223af-ci/build/distribution/prototype/knaba-android-0.5.0-test.aab",
+      "bytes": 1035985,
+      "sha256": "ed1b90fd3480d2350d19bd1e8eabb0e7e82d7627380eebab3bbb16c3fd74c5bc"
+    },
+    "simulator_app": {
+      "file": "ios-bb223af-ci/KNABADE-simulator.app.zip",
+      "bytes": 6620402,
+      "sha256": "b32347c7f6be30d39c5baf95e9d8d21f92e8b70dd3095e5fbb87c3838c7ff24f"
+    },
+    "android_receipt": {
+      "file": "android-bb223af-ci/build/distribution/prototype/receipt.json",
+      "bytes": 9437,
+      "sha256": "5c2696c2b637035e1b7391ab6cc09c8384d72efe58b6eeb777f40e9583ccbe0a"
+    },
+    "android_source": {
+      "file": "android-bb223af-ci/build/distribution/prototype/source.json",
+      "bytes": 8502,
+      "sha256": "d9e1e9732a8b609da7735de8d53eb11702935bd557d63675ac0cef5be498655d"
+    },
+    "ios_receipt": {
+      "file": "ios-bb223af-ci/evidence/native-receipt.json",
+      "bytes": 9641,
+      "sha256": "aba1942f75c991b89c19d3d330dd59a642242d6c024fd7dab8668ff2cd1bf7e4"
+    },
+    "ios_xctest_summary": {
+      "file": "ios-bb223af-ci/evidence/xctest-summary.json",
+      "bytes": 1170,
+      "sha256": "6ce4d461a54da0f37d47687ac1316cbfd05374b2d2bf83d24f100a07f6291c36"
+    }
+  },
+  "independent_review": "ACCEPT",
+  "independent_reviewer": "/root/knaba_prompt_review",
+  "scope": "Exact consolidated source, hosted repository/native builds and tests, artifact source binding and bytes",
+  "excluded": [
+    "Whole-product V4/V3 acceptance",
+    "F3 issuance and remaining F4 privacy/background policy",
+    "KN-C08-B company/origin implementation",
+    "Physical devices, GPS/battery, stable owner signing, signed IPA and stores",
+    "Live company/browser/provider/legal/load/restore acceptance",
+    "Merge, production or live data changes"
+  ]
+}

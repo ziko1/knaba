@@ -3,7 +3,7 @@
   "project": "KNABA DE",
   "date": "2026-11-08",
   "scope": "Consolidate accepted native 0.5.1 source with current accepted backend",
-  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "status": "ACCEPT_NATIVE_BACKEND_CONSOLIDATION_ACTUAL_CI",
   "product_status": "NOT_READY",
   "branch": "feat/knaba-native-backend-consolidation-20261108",
   "base_source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
@@ -11,7 +11,7 @@
   "native_source_sha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
   "native_tree_sha": "397a069a87df7f33eb4889942d93b825a502fb1b",
   "common_ancestor": "fb4be719fc6f777138cb93837fc41729f9104c09",
-  "commit_binding": "Candidate input hashes only. The eventual immutable commit/tree and its own repository/native CI are recorded separately; historical source/artifact proofs are never retagged.",
+  "commit_binding": "Historical accepted inputs, subtree hashes and hosted results belong to bb223af67af9eae5f11e7ca225f89ddf97a8e4e2. Later backend/configuration or documentation commits do not retag these native artifacts or tests.",
   "inputs": {
     "docs/mobile/BRAND_ASSETS.json": {
       "bytes": 1829,
@@ -597,16 +597,18 @@
     "portable_source_entries": 44,
     "historical_compiled_bundle_entries": 48,
     "scope": "Exact native source and archive inputs, preserved backend/site/infra/workflows, historical bundle hashes, local logs and source-bound evidence",
-    "final_documentation_tree_review": "Required before publication; frozen tree decision recorded in the PR receipt"
+    "final_documentation_tree_review": "ACCEPT committed bb223af exact tree, 65 inputs, six inherited subtrees; actual raw logs and artifacts subsequently accepted independently"
   },
   "hosted": {
-    "status": "NOT_RUN_FOR_CONSOLIDATED_SOURCE",
-    "required": [
-      "Four mandatory repository jobs on exact clean commit",
-      "Android debug build/lint/regression and APK/AAB integrity",
-      "iOS simulator build and actual XCTest",
-      "Independent exact source/artifact/raw-log review"
-    ]
+    "status": "ACCEPT",
+    "source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "repository_run": 42486326925,
+    "native_run": 42486326902,
+    "duplicate_push_run": 42486323278,
+    "all_required_jobs": "SUCCESS",
+    "acceptance_skips": 0,
+    "receipt": "accepted-bb223af.json",
+    "independent_review": "ACCEPT"
   },
   "log_location": "Raw log basenames refer to preserved handoff evidence and original GitHub jobs; they are not claimed to be repository files.",
   "budget": {
@@ -634,5 +636,7 @@
     "owner_signing": false,
     "store_upload": false,
     "original_criteria_promoted": false
-  }
+  },
+  "accepted_source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "accepted_tree_sha": "54de236e29601fdc5fe6315e42a8c8b5e67d2617"
 }

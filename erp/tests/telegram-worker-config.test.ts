@@ -6,7 +6,7 @@ import {TelegramBotAdapter} from '../packages/integrations/telegram.ts';
 const token='123456:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 const chat='187650211';
 const enabled:NodeJS.ProcessEnv={
-  APP_MODE:'TEST',LIVE_SEND_ALLOWED:'true',TELEGRAM_LIVE_SEND_ALLOWED:'true',
+  APP_MODE:'TEST',COMPANY_ID:'synthetic-telegram-company',LIVE_SEND_ALLOWED:'true',TELEGRAM_LIVE_SEND_ALLOWED:'true',
   TELEGRAM_BOT_TOKEN:token,TELEGRAM_ALLOWED_CHAT_IDS:chat,
   TELEGRAM_APPROVED_CONSENT_VERSION:'TEST_ONLY_NOTICE_2026',
   PUBLIC_ORIGIN:'https://kneba.vsp.rest/'
@@ -31,11 +31,24 @@ describe('Telegram worker runtime wiring (no real provider calls)',()=>{
 
   it.each(['http://site.example.test/','https://test:secret@site.example.test/',
     'https://site.example.test/contact/','https://site.example.test/?token=secret',
-    'https://site.example.test/#fragment','https://site.example.invalid/','not-a-url'])
+    'https://site.example.test/#fragment','https://site.example.invalid/','not-a-url',
+    'https://site.example.test/a/..','https://site.example.test/?','https://site.example.test/#',
+    'https://@site.example.test/','https://site.example.test\\'])
   ('rejects an invalid website origin without activating or calling a provider: %s',origin=>{
     const request=vi.fn();vi.stubGlobal('fetch',request);
     expect(()=>workerOptions({APP_MODE:'TEST',BOT_WEBSITE_ORIGIN:origin})).toThrow('BOT_WEBSITE_ORIGIN_INVALID');
     expect(request).not.toHaveBeenCalled();
+  });
+
+  it('checks website origin grammar before reading other provider configuration',()=>{
+    const reads:PropertyKey[]=[];
+    const env=new Proxy({APP_MODE:'TEST',COMPANY_ID:'synthetic-telegram-company',BOT_WEBSITE_ORIGIN:'https://site.example.test/a/..'},
+      {get(target,key){
+        if(key==='APP_MODE'||key==='COMPANY_ID'||key==='BOT_WEBSITE_ORIGIN')return target[key];
+        reads.push(key);throw new Error('PROVIDER_CONFIGURATION_MUST_NOT_BE_READ');
+      }}) as unknown as NodeJS.ProcessEnv;
+    expect(()=>workerOptions(env)).toThrow('BOT_WEBSITE_ORIGIN_INVALID');
+    expect(reads).toEqual([]);
   });
 
   it('never enables Telegram outbound from a token or WhatsApp global flag alone',()=>{
@@ -58,11 +71,18 @@ describe('Telegram worker runtime wiring (no real provider calls)',()=>{
     ['duplicate recipient',{TELEGRAM_ALLOWED_CHAT_IDS:'187650211,187650211'}],
     ['origin',{PUBLIC_ORIGIN:undefined}],
     ['non-TLS origin',{PUBLIC_ORIGIN:'http://kneba.vsp.rest/'}],
-    ['URL credentials',{PUBLIC_ORIGIN:'https://test:secret@kneba.vsp.rest/'}],
     ['invalid host',{PUBLIC_ORIGIN:'https://knaba.example.invalid/'}],
-    ['unexpected path',{PUBLIC_ORIGIN:'https://kneba.vsp.rest/admin/'}]
   ] as const)('fails closed when %s is missing or invalid',(_name,override)=>{
     expect(()=>configure(override)).toThrow('TELEGRAM_OUTBOUND_CONFIGURATION_MISSING');
+  });
+
+  it.each([
+    ['URL credentials','https://test:secret@kneba.vsp.rest/'],
+    ['unexpected path','https://kneba.vsp.rest/admin/']
+  ])('rejects %s at the shared origin boundary before Telegram is configured',(_name,PUBLIC_ORIGIN)=>{
+    const request=vi.fn();vi.stubGlobal('fetch',request);
+    expect(()=>configure({PUBLIC_ORIGIN})).toThrow('PUBLIC_ORIGIN_REQUIRED_OR_INVALID');
+    expect(request).not.toHaveBeenCalled();
   });
 
   it('wires an explicitly allowed recipient and versioned consent without sending on boot',async()=>{

@@ -52,9 +52,9 @@ function launch(entry:string,mode:string|undefined,overrides:NodeJS.ProcessEnv={
   const output=child.stdout+child.stderr;
   expect(child.error,output).toBeUndefined();expect(child.signal,output).toBeNull();
   expect(existsSync(tracePath),output).toBe(true);
-  const trace=JSON.parse(readFileSync(tracePath,'utf8')) as {scope:string;events:string[]};
+  const trace=JSON.parse(readFileSync(tracePath,'utf8')) as {scope:string;events:string[];queries:Array<{sql:string;params:unknown[]}>};
   expect(trace.scope).toBe('EXPLICIT_PG_NETWORK_INTERVAL_TRAPS');
-  return {child,output,events:trace.events};
+  return {child,output,events:trace.events,queries:trace.queries};
 }
 
 describe.each(entrypoints)('$name actual compiled entrypoint with explicit side-effect traps',({entry,error})=>{
@@ -82,5 +82,75 @@ describe('API production prerequisites remain in force before the database',()=>
     expect(child.status,output).toBe(1);
     expect(output).toContain('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
     expect(events).toEqual([]);
+  });
+});
+
+describe('production scope regression at actual compiled entrypoints',()=>{
+  it.each(entrypoints)('$name rejects a missing production company before the database',({entry})=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{COMPANY_ID:undefined});
+    expect(child.status,output).toBe(1);
+    expect(output).toContain('COMPANY_ID_REQUIRED_OR_INVALID');
+    expect(events).toEqual([]);
+  });
+  it('API rejects an insecure production origin before the database',()=>{
+    const {child,output,events}=launch('api.mjs','PRODUCTION',{PUBLIC_ORIGIN:'http://erp.example.test/'});
+    expect(child.status,output).toBe(1);
+    expect(output).toContain('PUBLIC_ORIGIN_REQUIRED_OR_INVALID');
+    expect(events).toEqual([]);
+  });
+});
+
+describe.each(entrypoints)('$name compiled company/origin boundary coverage',({entry,name})=>{
+  it.each(['knaba-demo','knaba-de-demo','',' company','company\n','company/other','a'.repeat(101)])
+  ('rejects invalid production company %s before Pool construction',COMPANY_ID=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{COMPANY_ID});
+    expect(child.status,output).toBe(1);expect(output).toContain('COMPANY_ID_REQUIRED_OR_INVALID');
+    expect(events).toEqual([]);
+  });
+  it.each(['https://user:SYNTHETIC_PRIVATE_VALUE@erp.example.test/',
+    'https://erp.example.test/erp','https://erp.example.test/a/..',
+    'https://erp.example.test/?','https://erp.example.test/#'])
+  ('rejects unsafe configured origin %s before Pool construction',PUBLIC_ORIGIN=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{PUBLIC_ORIGIN});
+    expect(child.status,output).toBe(1);expect(output).toContain('PUBLIC_ORIGIN_REQUIRED_OR_INVALID');
+    expect(output).not.toContain('SYNTHETIC_PRIVATE_VALUE');expect(events).toEqual([]);
+  });
+  it.each(['DEMO','TEST'])('preserves %s missing-company fallback and optional origin',mode=>{
+    const {child,output,events}=launch(entry,mode,{COMPANY_ID:undefined,PUBLIC_ORIGIN:undefined});
+    expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+    expect(events).toEqual(['PG_POOL']);
+  });
+  it.each(['DEMO','TEST'])('preserves explicit %s HTTP origin',mode=>{
+    const {child,output,events}=launch(entry,mode,{PUBLIC_ORIGIN:'http://127.0.0.1:3030/'});
+    expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+    expect(events).toEqual(['PG_POOL']);
+  });
+  if(name==='worker')it('does not require API-only secrets/origin for production jobs without public links',()=>{
+    const {child,output,events}=launch(entry,'PRODUCTION',{PUBLIC_ORIGIN:undefined,AUTH_ENCRYPTION_KEY:undefined,GIT_SHA:undefined});
+    expect(child.status,output).toBe(1);expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:PG_POOL');
+    expect(events).toEqual(['PG_POOL']);
+  });
+});
+
+describe('API canonical origin reaches the real peer comparison with an explicit GPS query double',()=>{
+  const peer={companyId:'synthetic-mode-company',issuer:'https://site.example.test/identity/v1',
+    audience:'synthetic-erp-test',version:1,active:true,erpOrigin:'https://erp.example.test',
+    siteOrigin:'https://site.example.test',keyId:'knaba-federation-startup-probe',secret:Buffer.alloc(32,7).toString('base64url')};
+  it.each(['https://erp.example.test','https://erp.example.test/','HTTPS://ERP.example.test:443/'])
+  ('accepts matching authority for %s through to the trapped identity-schema query',PUBLIC_ORIGIN=>{
+    const {child,output,events,queries}=launch('api.mjs','TEST',{PUBLIC_ORIGIN,
+      SITE_IDENTITY_PEER_JSON:JSON.stringify(peer),KNABA_RUNTIME_MODE_ALLOW_GPS_QUERY:'true'});
+    expect(child.status,output).toBe(1);
+    expect(output).toContain('SYNTHETIC_STARTUP_BOUNDARY:SITE_IDENTITY_SCHEMA_QUERY');
+    expect(output).not.toContain('SITE_IDENTITY_CONFIGURATION_MISMATCH');
+    expect(events).toEqual(['PG_POOL','GPS_STORAGE_QUERY','SITE_IDENTITY_SCHEMA_QUERY']);
+    expect(queries[0]).toEqual({sql:'SELECT knaba_assert_gps_storage_safe($1::text)',params:['synthetic-mode-company']});
+  });
+  it.each([{companyId:'other-company'},{erpOrigin:'https://other.example.test'}])
+  ('still rejects a mismatched trusted peer %j before schema access',override=>{
+    const {child,output,events}=launch('api.mjs','TEST',{
+      SITE_IDENTITY_PEER_JSON:JSON.stringify({...peer,...override}),KNABA_RUNTIME_MODE_ALLOW_GPS_QUERY:'true'});
+    expect(child.status,output).toBe(1);expect(output).toContain('SITE_IDENTITY_CONFIGURATION_MISMATCH');
+    expect(events).toEqual(['PG_POOL','GPS_STORAGE_QUERY']);
   });
 });
