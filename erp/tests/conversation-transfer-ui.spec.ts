@@ -4,6 +4,10 @@ const id='24bb970d-5db5-4c89-a642-57c52d35059e',secret='s'.repeat(43),sender='+4
 const code=`KNABA_TRANSFER ${id}.${secret}`,url=`https://wa.me/4915700000099?text=${encodeURIComponent(code)}`;
 type Status={id:string;channelId:string;state:string;version:number;expiresAt:string;sender?:string};
 function deferred(){let resolve!:()=>void;const promise=new Promise<void>(done=>{resolve=done;});return {promise,resolve};}
+function transferFixtureRoute(address:URL,origin:string){
+ const base='/api/v1/public/chat/guest-channel/transfer';
+ return address.origin===origin&&address.search===''&&address.hash===''&&[base,`${base}/${id}/confirm`,`${base}/${id}/cancel`].includes(address.pathname);
+}
 const unexpectedRequests=new WeakMap<Page,string[]>();
 test.afterEach(async({page})=>{expect(unexpectedRequests.get(page)??[],'HTTP fixtures must not contact a real API or external provider.').toEqual([]);});
 
@@ -19,8 +23,11 @@ async function fixture(page:Page){
  await page.route('**/api/v1/public/config',route=>route.fulfill({json:{mode:'TEST',services:[],legal:{}}}));
  await page.route('**/api/v1/public/chat',route=>route.fulfill({status:201,json:{channelId:'guest-channel',status:'MANUAL_FALLBACK',csrfToken:csrf}}));
  await page.route('**/api/v1/public/chat/*/messages',route=>route.fulfill({json:{items:[],pendingDrafts:[]}}));
- await page.route('**/api/v1/public/chat/*/transfer**',async(route:Route)=>{
+ await page.route(address=>transferFixtureRoute(address,origin),async(route:Route)=>{
   const request=route.request(),path=new URL(request.url()).pathname;
+  if(!['GET','POST'].includes(request.method())||request.method()==='GET'&&path!=='/api/v1/public/chat/guest-channel/transfer'){
+   unexpected.push(`${request.method()} ${origin}${path}`);await route.abort('blockedbyclient');return;
+  }
   if(request.method()==='GET'){
    const captured=status?{...status}:null,holding=holdRead;holdRead=undefined;if(holding){holding.entered.resolve();await holding.release.promise;}
    await route.fulfill(denied?{status:401,json:{code:'NEEDS_REAUTH'}}:{json:{available:true,transfer:captured}});return;

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-08T13:37:10.013262+00:00",
+  "reviewer": "/root/coverage_matrix",
+  "recordedBy": "/root",
+  "reviewSource": "Actual final read-only review delivered by coverage_matrix in the current task; this record transcribes that decision.",
+  "decision": "ACCEPT_EVIDENCE_SCOPED",
+  "source": "019458c453933749480e736a64045272865ebed0",
+  "buildSource": "20fbbb55cbdfb34c17a6eab98fc8e805159bab21",
+  "reviewedFiles": [
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-source-review.json",
+      "sha256": "c1853b9c1d89758d97091de8a89977759342130425ba9d9ba9fbf65483543eae"
+    },
+    {
+      "path": "docs/unified/evidence/full-completion-20261108/federation-local-verification.json",
+      "sha256": "71f12af70273e1d88aae9a1eadf6db0f749a116e0ec36da1d04bd4cc69740388"
+    },
+    {
+      "path": "docs/unified/PROJECT_MEMORY.md",
+      "sha256": "3ed42c883878370c7ca1c6226767f6b517e3bbe1d57ae5c84c4d9e7b626d89f6"
+    },
+    {
+      "path": "docs/unified/CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md",
+      "sha256": "14b840fae62dd1d0c06cc00fff48688f8f2155e881169ad3703f3e2561abaf04"
+    },
+    {
+      "path": "docs/unified/MASTER_ROADMAP.md",
+      "sha256": "68423cd94b8b44abe8fc2641bd5ea7b0cf7f6cfeb4208d31cd9e0f0f779cf04e"
+    },
+    {
+      "path": "docs/unified/REQUIREMENTS_TRACEABILITY.csv",
+      "sha256": "d132266ee99b4b88151c6a76d4da39f7d429421d2b0414e3206445a9b28c5712"
+    }
+  ],
+  "verified": [
+    "All93 source hashes match current files and019458c;89 changed paths and4 unchanged Assistant prerequisites cover the complete integration.",
+    "All13 referenced original manifest/review hashes and embedded JSON copies match.",
+    "Application runtime unchanged across the nine-file20fbbb to019458c test/CI/README delta.",
+    "Actual logs confirm330 VPS/29root/86 targeted source/13 HTTP/23 migration/28 CI guard/39 independent gate fixtures with overlap preserved; no invented combined total.",
+    "Initial322/328 PASS and6FAIL remain recorded; corrected guarded fixture connections preserve403/no-data behavior.",
+    "Independent gzip and client digest calculation:310 files/161HTML,JS222640B,CSS40832B,client digest bba1c1eca1554ae65a77b4679775ec52b93c371ad6621ce7b9cfed7ec10b395a;all5 Node bundles match.",
+    "Previous18 migration receipts and23 definitions preserved; baseline17 restored and18 added.",
+    "114 unique trace rows,42 IN_PROGRESS/72 NOT_RUN;normative fields/status/tested source/artifact fields and preservedV3 requirements unchanged.",
+    "Playwright9-case collection is explicitly COLLECTED_NOT_EXECUTED."
+  ],
+  "findings": [],
+  "runtimeEditsByReviewer": false,
+  "limits": [
+    "24 actual PostgreSQL,7 actual runtime-pair and9 rendered cases remain open until hosted aggregate verification.",
+    "F3 is blocked before actual F2 gates; no whole-product,device,provider,live or operational restore acceptance."
+  ]
+}

@@ -1,5 +1,78 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-08 — F2 інтегровано; локальні перевірки пройшли, aggregate CI відкритий
+
+Виконуваний код зв’язування акаунтів інтегровано в `20fbbb55cbdfb34c17a6eab98fc8e805159bab21`.
+Корекції CI та історичних fixtures — `019458c453933749480e736a64045272865ebed0`;
+їхні дев’ять файлів не змінюють application runtime. Draft PR129 залишається
+робочим кандидатом; попередній опублікований source — `dc54f109`.
+
+F2 реалізує password-based підтвердження двома чинними сесіями, одноразовий
+код, явну згоду та terminal unlink через наявне F1 сховище. ERP session,
+роль і device grant цим кроком не створюються. Source mutations спочатку
+забороняють локальний доступ, отримують durable PostgreSQL fence і лише
+після ACK завершують локальну зміну. Невідомий результат залишається PENDING;
+втрата RAM-only кандидата credentials потребує нового підтвердження.
+
+Незалежні ERP/VPS, paired test-plan, CI та integration reviews прийняті
+у зафіксованому обсязі. Чотири source findings усунено: межа transport label,
+відмова старого runtime після additive0018, повторна перевірка віку підпису
+після SQLite lock і strict DTO. Усі попередні18 migration receipts і23
+canonical table definitions збережені. Конфліктне зведення спочатку пропустило
+baseline17 test; його відновлено й додано baseline18 без зміни старих assertions.
+
+Локально: **330/330 VPS, 29/29 root, 86/86 targeted source contracts PASS**;
+ERP typecheck, site check516files (0 errors,0 warnings,7 hints), official build
+і verify PASS. Public161pages, JS222640B/CSS40832B gzip в незмінених бюджетах.
+Попередній VPS run322/328 із6 fixture failures збережено як FAIL. Після
+виправлення guarded test connections13 HTTP cases PASS; вони входять до330.
+CI guard28 і незалежні JSON/TAP fixtures39 перевіряють інфраструктуру тестів,
+а не PostgreSQL чи браузер.
+
+Потрібен зарезервований aggregate checkpoint: **24 F2 PostgreSQL +7 справжніх
+VPS/SQLite↔ERP/HTTP/PostgreSQL +9 rendered HTTP-fixture cases** на спільному
+чистому source та нових збірках. CI явно вимагає всі ці набори. Локально PG
+і браузер не запускалися; F3 до проходження gate не розпочинається. Подальші
+F3/F4, OIDC-only linking, privacy/retention і зовнішнє приймання відкриті.
+Загальний **NOT_READY**,114 trace rows /42 IN_PROGRESS /72 AC NOT_RUN збережено.
+Production, main merge, providers, клієнтські дані й повідомлення не змінювалися.
+
+Докази: `evidence/full-completion-20261108/federation-source-review.json`
+і `federation-local-verification.json`. Публікація наступного candidate
+потребує фінального review цих доказів; дозволи й бюджет незмінні.
+
+## 2026-11-08 — Assistant checkpoint dc54: наскрізний сценарій PASS, fixture correction відкрита
+
+Published `dc54f109c52e3b8f8a2e506821a6eb322b5417c4`, tree
+`7118ef9872591fa86dd8657189cd10e1599363e9`, точно дорівнює фінальному
+локальному `5eff24b`; [draft PR129](https://github.com/ziko1/knaba/pull/129).
+Main run 42481181297 загалом FAILED: root/site PASS, ERP 3035/3035 у 132 файлах,
+actual SQLite→HTTP→PostgreSQL 11/11, site 900 Vitest + 92 Node / 281 VPS,
+check/build/verify PASS (JS 222640 / CSS 40832 байти gzip), role browser 111, мовні переходи 32,
+24 перевірки публічних екранів PASS. Нові assistant cases фактично довели явну згоду,
+один ERP effect/origin після restart, exact retry після втрати відповіді,
+withdrawal та revoke без public fallback. Це scoped proof, не весь KNB/AC.
+
+Два з чотирьох ERP transfer browser cases FAIL: Playwright glob
+`transfer**` не охоплює nested `/id/confirm`; deny-all fixture перервала
+запити. Actual screenshot підтверджує виправлену англійську локалізацію.
+Local correction задає точний origin/три дозволені paths і GET/POST boundary;
+усі 4 поведінкові assertions збережено. Actual installed matcher 11/11 PASS,
+попередні confirm/cancel patterns RED; corrected rendered ще NOT_RUN.
+Це fixture correction, runtime/провайдер не змінено.
+
+Android 42481181147 SUCCESS; iOS PR 42481181376 SKIPPED, нового native push
+не було; попередні 93 XCTest / 43 inputs мають власний source 395993f. Наявний APK
+із перевіреним локальним signer не підмінено runner build.
+
+F2 source ізольований, незалежний ERP review scoped ACCEPT. Потрібен
+реальний pair VPS/SQLite↔ERP HTTP/PG, оскільки окремі suites мають synthetic
+counterpart. Review також виявив old-binary read bypass pending deny;
+additive 0018 compatibility barrier перевіряється на exact dc54 legacy pack.
+До F2 acceptance F3 не починається. Новий bounded checkpoint зарезервовано
+після звірки поточних 4 запусків. Whole product NOT_READY; усі 72 compound AC OPEN.
+Доказ: `evidence/full-completion-20261108/assistant-checkpoint-aggregate-ci.json`.
+
 ## 2026-11-08 — Assistant→заявка: інтегрований source та локальні перевірки
 
 Локальний кандидат `6708578bc4c326f727bcde3e84389775b00541fe`, tree

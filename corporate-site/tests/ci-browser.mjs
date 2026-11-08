@@ -66,12 +66,23 @@ export function assertSuiteReceipt(value,{publicCases,requiredChecks=[]}={}){
   else if(!value.checks?.length||value.checks.some(check=>check.status!=='PASS'))throw Error('INCOMPLETE_BROWSER_CHECKS');
   if(requiredChecks.some(id=>value.checks?.filter(check=>check.caseId===id).length!==1))throw Error('MISSING_REQUIRED_BROWSER_CASE');
 }
+export const erpFixtureSuites=Object.freeze([
+  {file:'conversation-transfer-ui.spec.ts',cases:4,name:'ERP conversation transfer'},
+  {file:'site-identity-link-ui.spec.ts',cases:5,name:'ERP site identity link'},
+]);
 export function assertErpUiReport(report){
-  const tests=[];function walk(suites){for(const suite of suites??[]){for(const spec of suite.specs??[])tests.push(...(spec.tests??[]));walk(suite.suites);}}
+  const tests=[],ids=new Set(),counts=Object.fromEntries(erpFixtureSuites.map(suite=>[suite.file,0]));
+  function walk(suites){for(const suite of suites??[]){for(const spec of suite.specs??[]){
+    if(!Object.hasOwn(counts,spec.file)||typeof spec.id!=='string'||!spec.id||ids.has(spec.id)||spec.tests?.length!==1)
+      throw Error('EXACT_ERP_HTTP_FIXTURE_UI_INVENTORY_REQUIRED');
+    ids.add(spec.id);counts[spec.file]++;tests.push(...spec.tests);
+  }walk(suite.suites);}}
   walk(report?.suites);
-  if(report?.stats?.expected!==4||report.stats.unexpected!==0||report.stats.skipped!==0||report.stats.flaky!==0||
-    report.errors?.length||tests.length!==4||tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('FOUR_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
-  return tests.length;
+  const expected=erpFixtureSuites.reduce((total,suite)=>total+suite.cases,0);
+  if(report?.stats?.expected!==expected||report.stats.unexpected!==0||report.stats.skipped!==0||report.stats.flaky!==0||
+    report.errors?.length||tests.length!==expected||erpFixtureSuites.some(suite=>counts[suite.file]!==suite.cases)||
+    tests.some(test=>test.status!=='expected'||test.results?.length!==1||test.results[0].status!=='passed'))throw Error('ALL_NINE_ERP_HTTP_FIXTURE_UI_CASES_MUST_PASS');
+  return counts;
 }
 export async function startPreview(command,args,{url,marker,signal,...options}){
   let ownListening=false,seen='';
@@ -92,7 +103,7 @@ export async function startPreview(command,args,{url,marker,signal,...options}){
 export async function main(){
   const output=process.env.KNABA_BROWSER_QA_DIR||join(process.env.RUNNER_TEMP||'/tmp','knaba-browser-'+process.pid);
   mkdirSync(output,{recursive:true});
-  const receipt={startedAt:new Date().toISOString(),scope:'Actual rendered browsers; loopback synthetic data. ERP transfer uses explicit HTTP fixtures, not provider/PostgreSQL acceptance.',stages:[]};
+  const receipt={startedAt:new Date().toISOString(),scope:'Actual rendered browsers; loopback synthetic data. ERP transfer and identity-link suites use explicit HTTP fixtures, not provider/PostgreSQL acceptance.',stages:[]};
   const previews=[],abort=new AbortController();
   const cancel=()=>abort.abort();process.once('SIGINT',cancel);process.once('SIGTERM',cancel);
   let manifestPath,manifestBytes,manifest,inputsVerified=false,completed=false;
@@ -103,7 +114,7 @@ export async function main(){
     manifestBytes=readFileSync(manifestPath);manifest=JSON.parse(manifestBytes);
     verifyManifest(manifest,await measureCandidate(process.env.SOURCE_SHA));
     inputsVerified=true;
-    receipt.sourceSha=manifest.sourceSha;receipt.buildManifestSha256=createHash('sha256').update(manifestBytes).digest('hex');receipt.artifacts=manifest.artifacts;
+    receipt.sourceSha=manifest.sourceSha;receipt.buildManifestSha256=createHash('sha256').update(manifestBytes).digest('hex');receipt.artifacts=manifest.artifacts;receipt.sourceInputs=manifest.sourceInputs;
     writeFileSync(join(output,'build-manifest.json'),manifestBytes);
     const chrome=[process.env.KNABA_CHROME_PATH,'/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].filter(Boolean).find(installed);
     if(!chrome)throw blocked('No installed Chrome executable; no download or sandbox bypass is permitted');
@@ -126,7 +137,7 @@ export async function main(){
     receipt.stages.push({name:'six public locales by four viewports',kind:'ACTUAL_RENDERED_STATIC_BROWSER',cases:24,engine:publicResult.engine,status:'PASS'});await staticPreview.stop();
 
     if((env.KNABA_BROWSER_SKIP??'').split(',').map(value=>value.trim()).includes('chromium'))throw blocked('Chromium was already skipped; do not retry for ERP fixtures');
-    const erp=join(repo,'erp'),erpOutput=join(output,'erp-transfer');mkdirSync(erpOutput,{recursive:true});
+    const erp=join(repo,'erp'),erpOutput=join(output,'erp-fixtures');mkdirSync(erpOutput,{recursive:true});
     // Vite preview inherits server.proxy by default. Explicitly disable it so an
     // unhandled fixture request cannot reach another service on port 3000.
     const viteCode=`import {preview} from ${JSON.stringify(pathToFileURL(join(erp,'node_modules/vite/dist/node/index.js')).href)};const server=await preview({configFile:${JSON.stringify(join(erp,'apps/web/vite.config.ts'))},preview:{host:'127.0.0.1',port:4177,strictPort:true,proxy:{}}});const address=server.httpServer.address();if(!address||typeof address==='string'||address.address!=='127.0.0.1'||address.port!==4177)throw Error('Unexpected preview listener');console.log('KNABA_ERP_PREVIEW_READY');`;
@@ -134,14 +145,15 @@ export async function main(){
     const reportPath=join(erpOutput,'result.json');
     writeFileSync(reportPath,''); // A failed launch must never reuse an earlier result.
     try{
-      await runProcess(process.execPath,['node_modules/@playwright/test/cli.js','test','tests/conversation-transfer-ui.spec.ts','--config','playwright.config.ts','--reporter=json','--output',join(erpOutput,'artifacts')],{
+      await runProcess(process.execPath,['node_modules/@playwright/test/cli.js','test',...erpFixtureSuites.map(suite=>'tests/'+suite.file),'--config','playwright.config.ts','--reporter=json','--output',join(erpOutput,'artifacts')],{
         cwd:erp,env:{...env,PLAYWRIGHT_CHROMIUM_EXECUTABLE:chrome,E2E_BASE_URL:'http://127.0.0.1:4177',PLAYWRIGHT_JSON_OUTPUT_FILE:reportPath},timeoutMs:240000,signal:abort.signal,logPath:join(erpOutput,'runner.log')});
     }catch(error){
       let text='';try{text=readFileSync(reportPath,'utf8');}catch{}
       if(browserFailureReason(text,'launch'))throw blocked('ERP browser launch blocked; no retry');throw error;
     }
     const erpReport=JSON.parse(readFileSync(reportPath,'utf8'));
-    receipt.stages.push({name:'ERP conversation transfer',kind:'RENDERED_UI_WITH_HTTP_FIXTURES',cases:assertErpUiReport(erpReport),engine:'chromium',status:'PASS',scope:'Four route-fulfilled UI cases; separate from signed real HTTP/PostgreSQL tests'});
+    const erpCounts=assertErpUiReport(erpReport);
+    for(const suite of erpFixtureSuites)receipt.stages.push({name:suite.name,file:suite.file,kind:'RENDERED_UI_WITH_HTTP_FIXTURES',cases:erpCounts[suite.file],engine:'chromium',status:'PASS',scope:'Route-fulfilled UI cases; separate from signed real HTTP/PostgreSQL tests'});
     await erpPreview.stop();
     completed=true;
   }catch(error){receipt.status=error.exitCode===2?'BLOCKED':'FAIL';receipt.reason=String(error.message);process.exitCode=error.exitCode===2?2:1;}

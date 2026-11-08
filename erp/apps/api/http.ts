@@ -1,5 +1,8 @@
 import {assertRequestAuthority,assertResponseAuthority} from './request-authority.ts';
 import {GuestConversationTransfers} from './conversation-transfer.ts';
+import {FederationAuthorities} from './site-federation-config.ts';
+import {SiteIdentityLinks} from './site-identity-link.ts';
+import {federationIngress} from './site-federation-ingress.ts';
 import {containsGuestTransfer} from '../../packages/domain/conversation-transfer.ts';
 import {RequestAuthorityInterceptor} from './request-authority-interceptor.ts';
 import {queueHandoffSla} from '../../packages/domain/handoff-calendar.ts';
@@ -31,7 +34,7 @@ import { assert,DomainError,isManager,type Actor,type Data,type Entity } from '.
 import { activateInvitation,permits } from '../../packages/domain/identity.js';
 import { AuthService,RateLimiter,hashToken,opaqueToken,sameOrigin,type DatabaseLike,type EngineLike,type AuthOptions } from './auth.js';
 
-export interface ApiRuntime extends AuthOptions {db:DatabaseLike;engine:EngineLike;buildSha:string;version?:string;integrationStatus?:Record<string,string>;storage?:PrivateBlobStore;integrationCredentials?:IntegrationCredential[]}
+export interface ApiRuntime extends AuthOptions {db:DatabaseLike;engine:EngineLike;buildSha:string;version?:string;integrationStatus?:Record<string,string>;storage?:PrivateBlobStore;integrationCredentials?:IntegrationCredential[];federationAuthorities?:()=>FederationAuthorities;federationFetch?:typeof fetch}
 export const API_RUNTIME='KNABA_API_RUNTIME';
 @Catch()
 export class ApiExceptionFilter implements ExceptionFilter {
@@ -49,8 +52,8 @@ const publicLeadSchema=z.object({contact:z.object({name:z.string().trim().min(1)
 @UseInterceptors(RequestAuthorityInterceptor)
 export class ApiController {
  private cursorKey:Buffer=randomBytes(32);
- private auth:AuthService;private transfers:GuestConversationTransfers;private storage:PrivateBlobStore;private publicLimiter=new RateLimiter(15,60000);private mutationLimiter=new RateLimiter(120,60000);private streams=new Map<string,number>();private uploadLimiter=new RateLimiter(4,60000);private activeUploads=0;
- constructor(@Inject(API_RUNTIME) private runtime:ApiRuntime){this.auth=new AuthService(runtime.db,runtime.engine,runtime);this.transfers=new GuestConversationTransfers(this.auth);this.storage=runtime.storage??createPrivateBlobStore(runtime.db);if(runtime.encryptionKey)this.cursorKey=createHash('sha256').update('KNABA-V4-CURSOR\0').update(runtime.encryptionKey).digest();}
+ private auth:AuthService;private transfers:GuestConversationTransfers;private links:SiteIdentityLinks;private federationHandler:ReturnType<typeof federationIngress>;private storage:PrivateBlobStore;private publicLimiter=new RateLimiter(15,60000);private mutationLimiter=new RateLimiter(120,60000);private streams=new Map<string,number>();private uploadLimiter=new RateLimiter(4,60000);private activeUploads=0;
+ constructor(@Inject(API_RUNTIME) private runtime:ApiRuntime){this.auth=new AuthService(runtime.db,runtime.engine,runtime);this.transfers=new GuestConversationTransfers(this.auth);const federation=runtime.federationAuthorities??(()=>new FederationAuthorities());this.links=new SiteIdentityLinks(this.auth,federation,runtime.federationFetch);this.federationHandler=federationIngress(federation,request=>this.links.authority(request));this.storage=runtime.storage??createPrivateBlobStore(runtime.db);if(runtime.encryptionKey)this.cursorKey=createHash('sha256').update('KNABA-V4-CURSOR\0').update(runtime.encryptionKey).digest();}
  private async actor(req:Request,mutation=false){const auth=mutation?await this.auth.mutation(req):await this.auth.authenticate(req);if(mutation)this.mutationLimiter.check(hashToken(auth.actor.userId));return auth;}
  @Get('health')health(){return {ok:true,application:'KNABA DE',mode:this.runtime.appMode,apiVersion:1};}
  @Get('ready')async ready(@Res({passthrough:true})res:Response){try{await this.runtime.db.query('SELECT knaba_assert_gps_storage_safe($1::text)',[this.runtime.companyId]);await this.runtime.db.query('SELECT token_hash FROM auth_sessions LIMIT 0');await this.runtime.db.transaction(this.runtime.companyId,'READINESS',async tx=>{assert((await tx.list('company')).some(c=>c.id===this.runtime.companyId),'MISSING_CONFIGURATION');if(this.runtime.appMode==='PRODUCTION')assert((await tx.list('user')).some(u=>u.data.active&&u.data.roles?.includes('OWNER')),'MISSING_CONFIGURATION');});return {ready:true,database:'CONNECTED',mode:this.runtime.appMode,integrations:this.integrationStatus()};}catch{res.status(503);return {ready:false,code:'MISSING_CONFIGURATION'};}}
@@ -59,6 +62,12 @@ export class ApiController {
  @Post('auth/demo')demo(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:unknown){return this.auth.demo(req,res,body);}
  @Post('auth/logout')logout(@Req()req:Request,@Res({passthrough:true})res:Response){return this.auth.logout(req,res);}
  @Get('me')async me(@Req()req:Request){const a=await this.actor(req);return {...await this.auth.profileSnapshot(a.actor),csrfToken:a.csrfToken,mode:this.runtime.appMode,version:this.runtime.buildSha};}
+ @Post('federation/authority')async federationAuthority(@Req()req:Request,@Res()res:Response){return this.federationHandler(req,res);}
+ @Get('account/site-links')async siteLinks(@Req()req:Request){return this.links.list(req);}
+ @Post('account/site-links/challenge')async siteLinkIssue(@Req()req:Request,@Body()body:unknown){return this.links.issue(req,body);}
+ @Post('account/site-links/challenges/:id/confirm')async siteLinkConfirm(@Req()req:Request,@Param('id')id:string,@Body()body:unknown){return this.links.confirm(req,id,body);}
+ @Post('account/site-links/challenges/:id/cancel')async siteLinkCancel(@Req()req:Request,@Param('id')id:string,@Body()body:unknown){return this.links.cancel(req,id,body);}
+ @Post('account/site-links/bindings/:id/unlink')async siteLinkUnlink(@Req()req:Request,@Param('id')id:string,@Body()body:unknown){return this.links.unlink(req,id,body);}
  @Post('auth/activate')async activate(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:any){sameOrigin(req,this.runtime.publicOrigin);this.publicLimiter.check(hashToken(`invite:${req.ip??'unknown'}`));const result=await this.runtime.db.transaction(this.runtime.companyId,'INVITATION_ACTIVATION',tx=>activateInvitation(tx,this.runtime.companyId,body,new Date().toISOString(),this.runtime.encryptionKey));const mfa=Boolean(body.totpSecret&&body.otp);const session=await this.auth.createSession(result.userId,false,mfa);this.auth.cookie(res,session.token);const actor=this.auth.bindSession(req,{...await this.runtime.engine.getActor(result.userId,this.runtime.companyId),mfaVerified:mfa},session.token);return {actor,user:await this.auth.profile(actor),csrfToken:session.csrfToken,mode:this.runtime.appMode,reauthenticationRequired:false};}
  @Get('commands')async commands(@Req()req:Request){const actor=await this.auth.currentActor((await this.actor(req)).actor);return {items:Object.entries(this.runtime.engine.registry).filter(([,def])=>permits(actor.permissions,def.permission)).map(([name,def])=>({name,permission:def.permission,highRisk:!!def.highRisk,schema:zodToJsonSchema(def.schema,{$refStrategy:'none'})}))};}
  @Post('commands/:name')async command(@Req()req:Request,@Param('name')name:string,@Body()body:unknown){const {actor}=await this.actor(req,true);return this.runtime.engine.execute(actor,name,(()=>{const e=envelopeSchema.parse(body);return {input:e.input??{},expected_version:e.expected_version,idempotency_key:e.idempotency_key};})());}

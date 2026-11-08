@@ -1,5 +1,17 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 2026-11-08 — F2 source та локальний gate
+
+F2 password-based dual-session link/unlink і source revocation coordinator
+інтегровано у20fbbb; CI/fixture continuation019458c зберігає виконуваний код.
+Незалежний source review і локальний330-case VPS gate прийняті у своєму scope.
+До F3 потрібні фактичні24 PostgreSQL,7 runtime-pair і9 rendered fixture cases
+на одному candidate. F3 session exchange, dependent F4 delivery, privacy
+нових metadata та зовнішнє приймання залишаються відкритими. Current details
+і докази: [coverage](CURRENT_REQUIREMENTS_COVERAGE_2026-11-08_UK.md).
+Жоден whole-product AC не підвищено; наступний combined checkpoint уже
+зарезервовано в чинному BUDGET.md, без нових jobs або paid activation.
+
 ## Поточний checkpoint — 08.11.2026, PR129 / початкові CI failures
 
 [PR129](https://github.com/ziko1/knaba/pull/129) опублікував source

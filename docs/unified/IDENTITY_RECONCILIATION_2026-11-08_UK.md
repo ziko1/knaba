@@ -149,3 +149,115 @@ Synthetic OIDC responses перевіряють наш протокол, а не
 Runtime/test commit **`fddd1601d989af3054099706589e1e8ab91ecf40`**, tree **`4d413410bc748085b60d679d42586ee86f4d1e8a`**: [run 42455220007](https://github.com/ziko1/knaba/actions/runs/42455220007) завершив усі чотири обов’язкові jobs успішно. ERP **2677/2677** у 117 файлах зі справжньою PostgreSQL17.6 (включно з 8 новими SQL cases), bridge **9/9**, site **732 Vitest + 90 Node + 197 VPS**, root **28/28**; 0 FAIL/SKIP. Typecheck, migrations, clean build identity та site build/budgets пройшли. Попередній локальний SQL NOT_RUN лишається історичним фактом; hosted CI є окремим виконанням.
 
 Поточне доповнення з CI evidence є documentation-only; 34 runtime/test input hashes незмінні. Подальший documentation HEAD не змінює tested executable identity і не доводить browser/device/provider/UAT. **SSO NOT_IMPLEMENTED, продукт NOT_READY.**
+
+## F2 source protocol v1 — 08.11.2026, implementation contract
+
+Цей розділ фіксує узгоджуваний source-контракт окремої гілки `feat/knaba-federation-source-20261108` від `adfa64b45179fcb2b59cd723351695a57d35652a`. Він не оголошує F2/F3/F4 або production завершеними. F1 не дублюється: використовується `SiteIdentityBindings.recordVerifiedLinkIn` та terminal `revokeIn`. F2 не видає ERP session, role, membership чи device grant.
+
+### Authority, transport та schema
+
+Конфігурація за замовчуванням вимкнена. Кожна server-owned authority задає `authorityId`, `companyId`, exact HTTPS `issuer`/`siteOrigin`, `erpOrigin`, `erpAudience`, `siteAudience`, `policyVersion` та окремі `siteToErp`/`erpToSite` ключі `{kid,secret}`. Secret — canonical base64url, щонайменше 32 випадкові bytes. Жоден intake/guest/telemetry ключ не приймається. Loopback HTTP можливий лише в явно налаштованому TEST fixture; redirects заборонені. Transport timeout — 3 s, body — максимум 32 KiB.
+
+Один ERP server endpoint: `POST /api/v1/federation/authority`. Site endpoint: `POST /api/federation/introspect`. Shared Node module `erp/packages/integrations/site-federation-protocol.mjs` визначає byte contract; VPS delivery має включати його через перевірений build bundle, без прихованої вимоги sibling repository у production package.
+
+Strict JSON envelope: `{v:1,companyId,issuer,audience,operationId,action,payload}`; `operationId` — UUID v4. Невідомі поля відхиляються. Exact raw bytes автентифікуються до JSON parsing. Headers: `x-knaba-federation-authority`, `-key`, `-generation`, `-time`, `-nonce`, `-signature`. Час — integer Unix milliseconds, вік не більше 60 s, майбутній skew не більше 5 s; nonce — нові 32 випадкові bytes у base64url. HMAC-SHA256 frame зв’язує REQUEST-v1 domain, налаштовані authority/issuer/audience/company/kid, generation, час, nonce, POST, exact path і SHA256 body. Response використовує окремий RESPONSE-v1 domain, протилежний direction key, original request nonce, час, HTTP status та body digest.
+
+Generation є підписаним transport header; вона не змінює immutable business-operation digest. Retry після невідомого результату використовує той самий operationId/body digest і новий transport nonce. Duplicate operationId з іншим body — conflict. Receipt підтверджує історичний commit; він ніколи не є current authorization. Відповідь окремо містить current generation/revision/state. Nonce, operation receipt, ledger effect та audit фіксуються атомарно.
+
+| Action | Strict payload |
+|---|---|
+| `BOOTSTRAP_AUTHORITY` | `{instanceId: UUID}`; generation header 0, idempotent operation |
+| `RECONCILE_PAGE` | `{cursor: string|null, snapshotRevision: integer|null}`; server page limit 50 records |
+| `ACTIVATE_AUTHORITY` | `{snapshotRevision: integer}`; exact current generation |
+| `REGISTER_SESSION` | `{subject,sessionRef,epoch,securityFingerprint,sessionExpiresAt,sourcePolicyVersion}` |
+| `LOOKUP_PRINCIPAL` | `{subject,sessionRef?:string}`; current generation/config, bounded exact-subject lookup, never a grant |
+| `FENCE` SESSION | `{subject,scope:'SESSION',sessionRefs:[...],intentHash}`; 1–256 unique refs |
+| `FENCE` PRINCIPAL | `{subject,scope:'PRINCIPAL',throughEpoch,nextEpoch,intentHash}`; `nextEpoch=throughEpoch+1` |
+| `ACTIVATE_EPOCH` | `{subject,epoch,securityFingerprint,fenceOperationId,sourcePolicyVersion}` |
+| `INSPECT_CHALLENGE` | `{code}`; safe ERP target/company labels only |
+| `CLAIM` | `{code,subject,sessionRef,epoch,securityFingerprint,sourcePolicyVersion,reauthAt,siteLabel}` |
+| `LINK_STATUS` | `{subject,sessionRef,epoch,securityFingerprint,sourcePolicyVersion}`; лише власні binding/challenge status DTO, без ERP business data |
+| Site `INTROSPECT` | `{subject,sessionRef,epoch,securityFingerprint,sourcePolicyVersion,challengeId,purpose:'LINK_CONFIRM'}` |
+
+`subject` — exact immutable site user ID, 1–128 characters без control/whitespace. `sessionRef` — 43 base64url characters, SHA256 of UTF-8 `KNABA-FEDERATION-SESSION-v1\0` + issuer + `\0` + subject + `\0` + stored token_hash. Raw token_hash/cookie не передаються. Epoch/policyVersion — positive safe integers; fingerprints/intentHash — 64 lowercase hex; timestamps — canonical UTC ISO milliseconds. Session registration не продовжує строк існуючої сесії та не змінює її subject/epoch. Tombstone exact sessionRef terminal у всіх generations.
+
+### Security fingerprint
+
+Source обчислює SHA256(domain `KNABA-FEDERATION-SECURITY-v1\0` + canonical JSON). Canonical JSON рекурсивно сортує keys. Snapshot має exact поля:
+
+```text
+{v:1,issuer,subject,policyVersion,
+ credential:{salt,passwordHash,disabled:boolean},
+ email:normalizedEmail,
+ profile:null|{id,email:normalizedEmail,role:null|string,status},
+ staffGrant:null|{email:normalizedEmail,purpose,active:boolean},
+ ownerPolicy:{ownerUserId:null|string,ownerEmail:normalizedEmail,developerEmail:normalizedEmailOrEmpty},
+ oidcLinks:[{issuer,subject,userId}] sorted by issuer,subject,userId}
+```
+
+Display name і звичайний `profiles.version` не входять: harmless name edit не стає security mutation. Source CAS окремо перевіряє актуальні row/credential versions. Raw snapshot/password verifier/salt ніколи не потрапляють у transport, receipt, audit чи diagnostics; передається тільки fingerprint. Проміжний replacement verifier/salt для rotation допускається лише в protected auth DB, у bounded operation з початковою свіжою authority ≤5 min; очищується при terminal state/expiry. Raw password/cookie/link code зберігаються лише в request/UI memory.
+
+Для enabled federation owner eligibility потрібний explicit stable `ownerUserId`, а не lazy email lookup. Existing approved profile прив’язується за exact immutable ID; site roles не копіюються в ERP. Legacy site auth лишається окремим незміненим контрактом.
+
+### Register, revoke, restore
+
+Перед першим outbound REGISTER/CLAIM source атомарно зберігає REGISTERING dependency для exact principal/session та всіх налаштованих destination authorities. Unknown-session FENCE створює terminal tombstone навіть без попереднього REGISTER. Initial principal epoch — 1. FENCE principal закриває старі epochs, але не активує nextEpoch. ACTIVATE_EPOCH потребує exact попереднього fence та фактично застосованого поточного source state.
+
+Порядок security mutation: local **PENDING_DENY (P)** → durable PG **FENCE (L)** під company lock → source final CAS/commit **C**, потім completed ACK. Network I/O не перебуває всередині SQL locks. Оскільки ERP authorization commit і L серіалізуються одним lock, C перед ERP commit гарантує, що ERP побачить fence. P сам не є completed global logout. При недоступному ledger можна очистити cookie й відмовити локально, але результат лишається PENDING; pending не очищується таймером. Втрата ACK повторює immutable operation із новим nonce. Source finalize failure не відкочує fence; результат `ABORTED_FENCED`/`REENTRY_REQUIRED` відокремлює закриття сесій від незастосованої зміни credentials/grant.
+
+Scope координатора — affected target, не тип сесії ініціатора. Він охоплює logout/all/others/handle, password rotation, unauthenticated reset/email redemption, role/status/disabled changes, OIDC credential attach/remove, staff grant revoke, offline owner/developer maintenance та SQL guards. Synthetic workspace identities не допускаються. Terminal unlink не видаляє F1 tombstone й не дозволяє relink.
+
+BOOTSTRAP_AUTHORITY встановлює нову PG generation і RECONCILING, відхиляючи старі proofs. Source до приймання security mutations/federation proofs читає bounded pages **усіх** subjects/dependencies/tombstones, відновлює local deny guards та перевіряє security fingerprints. Mismatch після restore не можна автоматично прийняти на новому epoch. ACTIVATE_AUTHORITY вимагає ту саму generation/snapshotRevision після local guard commit; concurrent FENCE змінює revision і вимагає bounded restart або fail closed. FENCE дозволений під час reconciliation; REGISTER/CLAIM/confirm — лише ACTIVE.
+
+Configured historical destinations зберігаються поза restoreable auth DB; їх видалення/вимкнення потребує fence acknowledgement. Disabled config не стирає вже відомі obligations. Offline CLI приєднується до перевіреного current DB coordinator/generation або відмовляє; він не bootstrap-ить незалежну generation поверх активного server. Multi-company mutation завершується лише після ACK усіх destinations. Цей контракт не є доказом фактично виконаного restore.
+
+### Browser flow, freshness та помилки
+
+ERP routes: `GET /api/v1/account/site-links`; `POST .../challenge`; `POST .../challenges/:id/confirm`; `POST .../challenges/:id/cancel`; `POST .../bindings/:id/unlink`. Challenge вимагає current ERP web cookie, same-origin CSRF, fresh password та поточний TOTP коли налаштовано/потрібно. Guest/device/service account paths не приймаються. Scrypt поза company lock; exact credentials/session/current user повторно перевіряються перед commit. TTL challenge ≤300 s, 256-bit secret, лише hash у БД, exact original ERP session та trust configuration.
+
+ERP показує одноразовий code для копіювання та звичайне посилання `/account/erp-link/` **без secret у URL**. Source UI після вставлення code показує обидва акаунти/company, виконує fresh password check та explicit confirmation. CLAIM лише закріплює site principal/session. Початкова ERP web session показує site account і окремо підтверджує final link.
+
+ERP final confirm виконує nonce-bound online INTROSPECT поза SQL lock, потім під company lock перевіряє original ERP session/credential witness, expiry, current trust, exact ACTIVE generation/ledger session+epoch, атомарно споживає challenge та викликає F1 `recordVerifiedLinkIn`. Signed proof після logout/pending/suspension не достатній. Source response: `{active,subject,sessionRef,epoch,securityFingerprint,sourcePolicyVersion,generation,reauthAt,sessionExpiresAt,siteLabel}`; inactive response не відкриває приватні поля. Session/epoch/label не беруться з browser claims. Unlink — fresh current ERP self proof + CAS `revokeIn`, без source network dependency; F3 session exchange відсутній.
+
+Site AccountSettings отримує current власний status через signed `LINK_STATUS`. Кнопка unlink відкриває поточний ERP account/self-unlink flow зі свіжою ERP автентифікацією; site не має окремого impersonation/revoke endpoint. Відсутня ERP session означає явний перехід до login, а не завершений unlink. F1 terminal tombstone показується як terminal, без автоматичного relink.
+
+UI розрізняє DISABLED, ISSUED, CLAIMED, CONFIRMED, CANCELLED, EXPIRED, CONFLICT, AUTHORITY_UNAVAILABLE і REAUTH_REQUIRED; mutation невідомого результату спочатку читає status і не replay-ить credentials/code. Pending source revocation показується як незавершена, не як success. Немає offline journal, localStorage чи URL для proofs. Після session rejection приватні labels/code очищуються. Raw request diagnostics не повертаються.
+
+### Acceptance та release gates цього зрізу
+
+Потрібні CPU/actual signed HTTP/реальні PostgreSQL–SQLite regressions: late register після fence, fresh check→fence→commit, commit→fence, unknown ACK retry, concurrent confirm, stale generation/epoch/config, bootstrap page revision change, restored pre-enrollment registry, restored verifier mismatch, direct mutation guards, expired reauth, self-unlink при authority outage та відсутність credentials у durable/log/browser storage. PG/browser/live/device виконання позначається тільки за фактичними результатами exact candidate. Retention/erasure для нових identity/session/proof metadata потребує окремо затвердженої політики; CHAT classification не вигадується. Rollback/disable має лишати obligations fenced та tombstones збереженими, а не повертати boolean-only або pre-federation consumers у чинний потік.
+
+### Локальна перевірка ERP F2 source candidate
+
+Ізольований worktree базується на `adfa64b45179fcb2b59cd723351695a57d35652a`; нові ERP файли ще не є окремим release commit. На цьому candidate 68 CPU tests PASS: transport22, ledger domain12, signed local HTTP11, fresh password/MFA11, UI/DTO contracts12. Окремий суміжний набір F1/request-authority/API дав 111 PASS. `npm run build` завершився exit0: TypeScript, web build та server/worker bundles; `release.json` правильно має `source_dirty:true`, тому base SHA не подається як SHA готового релізу. Vite зберіг warning про великий JS chunk; нове вимірювання production latency чи performance acceptance не заявляється.
+
+24 справжні PostgreSQL cases authored, але локально SKIPPED через відсутність `DATABASE_URL`: ledger12 і signed HTTP dual-session flow12. Вони охоплюють company-lock races, unknown-session tombstones, restore generation/cursor conflicts, original-session logout під час source I/O, source fence перед final commit, SQL deadline після F1 insert, one-use concurrency, tenant isolation та terminal unlink без source availability. Команда на disposable PostgreSQL: `APP_MODE=TEST DATABASE_URL=<test-database> npm test -- tests/site-federation-ledger.integration.test.ts tests/site-identity-link.integration.test.ts`. Міграції викликаються самими integration fixtures. Поки фактичний CI цього candidate не завершився, ці сценарії мають статус **NOT_RUN**, а не PASS.
+
+Playwright collection підтвердила п’ять rendered fixture cases: initial proof/explicit final confirmation, original-session rejection, stale status response, self-unlink при disabled trust та reconnect після unknown issuance outcome. Локального installed Chrome немає, тому browser execution також **NOT_RUN**; SSR/collection не замінюють rendered evidence. Final acceptance потребує незалежного source review, ERP/VPS aggregate PostgreSQL/HTTP/browser gates та узгоджених release settings. Source candidate лишається default-off, F3 session exchange не реалізовано; production/provider/device readiness не заявляється.
+
+### F2 v1 response DTO та реалізовані межі ERP source candidate
+
+Signed success має форму `{ok:true,receipt:{operationId,action,generation,revision,result},current:{generation,revision,phase,policyVersion}}`. `receipt` — незмінний результат первинного commit; `current` — окремий поточний стан PG authority. Історична activation/register/lookup квитанція не є дозволом. Повтор stable operation з новим transport nonce повертає стару квитанцію та поточний стан; змінений digest відхиляється. Відкликання/expiry перевіряються знову в транзакції споживача. Signed failure: `{ok:false,error:{code},current?}`; generation/revision/config conflict —409, current-session failure —401, rate limit —429, недоступність authority —503. Невідома/вимкнена authority не відкриває endpoint і не запускає SQL.
+
+| Action | `receipt.result` |
+|---|---|
+| `BOOTSTRAP_AUTHORITY` | `{instanceId,generation,snapshotRevision}` |
+| `RECONCILE_PAGE` | `{generation,snapshotRevision,records,cursor,done}`; максимум50 записів, весь response максимум32KiB |
+| `ACTIVATE_AUTHORITY` | `{activated:true,generation,snapshotRevision}`; потрібен повний server-tracked paged chain тієї самої revision після local guard commit |
+| `LOOKUP_PRINCIPAL` | `{subject,hasDependencies,principal,session}`; лише точний subject і необов’язковий exact sessionRef, без credentials/roles; відсутній principal не означає відсутність session tombstones |
+| `REGISTER_SESSION` | `{subject,sessionRef,epoch,principalVersion,sessionVersion}` |
+| `FENCE` | `{scope,subject,minimumEpoch,sessionCount,fenceOperationId}`; `minimumEpoch:null` для session fence |
+| `ACTIVATE_EPOCH` | `{subject,epoch,principalVersion}`; dedicated source authority засвідчує post-C fingerprint і exact latest principal fenceOperationId, без відновлення старої sessionRef |
+| `INSPECT_CHALLENGE` | `{challengeId,companyLabel,erpUserLabel,expiresAt}` |
+| `CLAIM` | `{challengeId,state:'CLAIMED',expiresAt}`; це ще не link або згода original ERP user |
+| `LINK_STATUS` | `{bindings:[{bindingId,state,version}],challenges:[{challengeId,state,expiresAt}]}`; тільки exact current signed source principal/session, максимум8 останніх challenges |
+
+`PRINCIPAL` record: `{kind:'PRINCIPAL',subject,epoch,minimumEpoch,state,securityFingerprint,sourcePolicyVersion,version,fenceOperationId}`. `SESSION` record: `{kind:'SESSION',subject,sessionRef,epoch,securityFingerprint,expiresAt,state,version}`; unknown-session tombstone має null epoch/fingerprint/expiry. Старі ACTIVE session records після principal fence залишаються історичними: epoch нижче principal floor завжди заборонений. `LOOKUP_PRINCIPAL` працює лише в поточній generation/config; nullable principal — snapshot, не дозвіл і не доказ відсутності race. Для fresh lookup потрібен новий operationId; під час enrollment/link commit PG state перевіряється ще раз під company lock. Reconciliation не може пропустити cursor або активувати authority до завершення всіх сторінок. Concurrent fence скидає прогрес та вимагає restart із null cursor.
+
+ERP server configuration — окремий `SITE_FEDERATION_AUTHORITIES_JSON`, absent/empty за замовчуванням вимикає нову federation authority. Усі поля server-owned; максимум8 authorities для configured company. Нова конфігурація/ключі потребують збільшення `policyVersion` при BOOTSTRAP: старий вузол не може відкотити current authority. **F1 bindings зберігають immutable trust version/fingerprint**; зміна policy не переписує їх і не виконує relink. Потрібний окремо reviewed recovery contract для таких старих bindings; цей F2 candidate його не вигадує. Self-unlink працює за current ERP proof навіть коли trust вимкнено або source недоступний.
+
+Код ERP має формат `KNABA-LINK-` +43 base64url символи і hash domain `KNABA-SITE-LINK-v1\0`. Тривалість — не більше300с від fresh ERP reauthentication; issuance максимум3 за10хв на ERP user, inspection максимум10 на challenge, додаткові bounded process limits для fresh auth і signed actions. У raw ingress signature перевіряється до JSON parsing; request/response максимум32KiB, outgoing timeout3с, redirect не виконується. SQL використовує clock_timestamp після company lock. Після source I/O final transaction повторно перевіряє original ERP session, credential/MFA security fingerprint, source generation/epoch/ref/fingerprint/expiry та trust; після F1 insert перевірки часу виконуються знову до commit.
+
+ERP UI route — `/account/site-links`; login зберігає цей return path. Website self-unlink веде на `erpOrigin + '/account/site-links'`. У браузері пароль, OTP і одноразовий код існують лише в пам’яті компонента; dedicated CSRF requests не проходять через generic commands/offline queue. Source CLAIM показує назву та immutable account ID; link вимагає окремого explicit original ERP confirmation. Unknown outcome/reconnect виконує status read, не replay credentials; незбережений raw code не відновлюється. Self-unlink має окрему явну згоду та fresh ERP password/MFA. Шість мов використовують total keyed locale map.
+
+Для локальних HTTP fixtures незмінний F1 HTTPS issuer contract збережено: production-shaped HTTPS authority залишається pinned, а server-owned test fetch adapter відображає лише exact synthetic origin/path на локальний listener. Production main такого adapter не має. Rendered ERP fixture suite — `erp/tests/site-identity-link-ui.spec.ts`, усі API responses синтетичні, невідомі API/external requests abort; реальний сайт/провайдер не відкривається. Потрібні fresh ERP web build і same-origin static preview без `/api` proxy, installed Chrome із `chromiumSandbox:true`; команда: `PLAYWRIGHT_CHROMIUM_EXECUTABLE=<installed-browser> E2E_BASE_URL=<static-preview-origin> npx playwright test tests/site-identity-link-ui.spec.ts`. Наявні regression/PG tests не є доказом production, physical device або live provider activation.

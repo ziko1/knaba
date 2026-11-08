@@ -4,6 +4,8 @@ import { mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import {federationSchemaPending,installFederationSchema} from './federation-schema.mjs';
+import {installFederationGuard} from './federation-state.mjs';
 
 /** A synchronous durable D1 subset; batches never yield across BEGIN and COMMIT. */
 const bindable=x=>x===undefined?null:typeof x==='boolean'?(x?1:0):x;
@@ -99,6 +101,10 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
   mkdirSync(dirname(path),{recursive:true,mode:0o700});
   const db=new DatabaseSync(path);
   try {
+    installFederationGuard(db);
+    const pendingFederation=federationSchemaPending(db);
+    if(pendingFederation&&!allowMigrations)
+      throw Error('Pending VPS auth migration federation; run reviewed migrate CLI after backup.');
     const hasLedger=db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='vps_schema_migrations'").get();
     const applied=hasLedger?db.prepare('SELECT filename,sha256 FROM vps_schema_migrations ORDER BY filename').all():[];
     const installed=new Set();
@@ -175,6 +181,11 @@ export function openLocalDatabase(path,{migrationDirectory=new URL('../drizzle/'
           db.exec('ALTER TABLE vps_oidc_states ADD COLUMN link_session_hash TEXT REFERENCES vps_sessions(token_hash) ON DELETE CASCADE');
         db.exec('COMMIT');
       }catch(error){db.exec('ROLLBACK');throw error;}
+    }
+    if(pendingFederation){
+      db.exec('BEGIN IMMEDIATE');
+      try{installFederationSchema(db);db.exec('COMMIT');}
+      catch(error){db.exec('ROLLBACK');throw error;}
     }
     return {db,d1:new LocalD1(db),migrations:names};
   }catch(error){

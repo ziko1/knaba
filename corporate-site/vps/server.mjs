@@ -12,6 +12,9 @@ import {AccountSettingsError,readAccountSettings,updateAccountSettings,revokeAcc
   requestPasswordReset,requestEmailChange,consumeAccountToken} from './account-settings.mjs';
 import {createAccountMailer} from './account-mail.mjs';
 import {accountSettingsPage,accountRecoveryPage,accountTokenPage,accountPasswordPage,accountWords} from './account-settings-ui.mjs';
+import {loadSourceFederation} from './federation-loader.mjs';
+import {federationPage,federationWords,federationErrorText} from './federation-ui.mjs';
+import {changeFederatedProfileAccess} from './federation-profile.mjs';
 import {hasOwnerAuthority} from './admin-access.mjs';
 import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
 import {createDeveloperWorkspaceRegistry,developerRoles,isDeveloperIdentity,isGrantedDeveloper,
@@ -364,7 +367,8 @@ export async function createKnabaVpsServer({
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
   trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
   erpIntakeSchedulerFactory=createErpIntakeScheduler,
-  accountEmailEnvironment=process.env,accountMailerFactory=createAccountMailer
+  accountEmailEnvironment=process.env,accountMailerFactory=createAccountMailer,
+  federationEnvironment=process.env,federationFactory,federationFetch=fetch
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
   if(ownerUserId!==undefined&&(typeof ownerUserId!=='string'||ownerUserId.length>200||/[\u0000-\u001f\u007f]/.test(ownerUserId)))
@@ -387,6 +391,10 @@ export async function createKnabaVpsServer({
     return pinnedOwnerId??'';
   };
   ownerPrincipal();
+  let federation;
+  try{federation=await loadSourceFederation({db,environment:federationEnvironment,origin:base.origin,mode:localTest?'TEST':'PRODUCTION',
+    ownerPolicy:{ownerEmail,ownerUserId,developerEmail},factory:federationFactory,fetchImpl:federationFetch});}
+  catch(error){db.close();throw error;}
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
@@ -455,6 +463,15 @@ export async function createKnabaVpsServer({
     const effectiveOrigin=localTest&&rawHost.startsWith('127.0.0.1')?origin:(base.protocol+'//'+rawHost);
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
+    if(url.pathname.startsWith('/api/federation')){
+      if(!federation||url.pathname!=='/api/federation/introspect'||url.search)return send(res,404,'Not found');
+      if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'POST'});
+      if(!String(req.headers['content-type']||'').startsWith('application/json')||req.headers['content-encoding'])return send(res,415,'JSON required');
+      try{
+        const body=await readBody(req,32*1024),reply=federation.introspect(req.headers,body);
+        return send(res,reply.status,reply.body,{'X-Robots-Tag':'noindex, nofollow',...reply.headers});
+      }catch(error){return send(res,error?.code==='too_large'?413:401,JSON.stringify({active:false}),{'Content-Type':'application/json','Cache-Control':'no-store'});}
+    }
     const accountUser=readSession(db,req.headers.cookie);
     const sameAccountSession=()=>{
       const current=readSession(db,req.headers.cookie);
@@ -559,6 +576,47 @@ export async function createKnabaVpsServer({
         return send(res,409,'Access service temporarily unavailable');
       }
     }
+    if(/^\/account\/erp-link(?:\/(?:inspect|claim|reauth))?\/?$/.test(url.pathname)){
+      const lang=preferredAccountLanguage(accountUser,url.searchParams.get('lang')),w=federationWords(lang),route=url.pathname.replace(/\/$/,'');
+      const reauthOnly=route.endsWith('/reauth');
+      const authorities=federation?[...federation.authorities.values()].map(c=>({id:c.authorityId,label:new URL(c.erpOrigin).hostname+' · '+c.companyId})):[];
+      const page=(status,options={})=>accountReply(res,status,federationPage({lang,enabled:Boolean(federation),authorities,siteLabel:accountUser?.email??'',reauthOnly,...options}));
+      if([...url.searchParams.keys()].some(key=>key!=='lang'))return page(400,{errorCode:'FEDERATION_INVALID'});
+      if(!accountUser){
+        if(req.method==='GET')return redirect(res,'/login/?lang='+lang+'&return_to='+encodeURIComponent('/account/erp-link/'+(reauthOnly?'reauth/':'')+'?lang='+lang));
+        return page(401,{errorCode:'NEEDS_REAUTH'});
+      }
+      if(!federation)return page(503);
+      const subject=accountUser.id,tokenHash=createHash('sha256').update(accountUser.token).digest('hex');
+      try{
+        if(req.method==='GET'&&(route==='/account/erp-link'||reauthOnly)){
+          if(reauthOnly)return page(200);
+          const statuses=await federation.linkStatus(subject,tokenHash);
+          if(!sameAccountSession())return page(401,{errorCode:'NEEDS_REAUTH',siteLabel:''});
+          return page(200,{statuses});
+        }
+        if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET, POST'});
+        if(!csrfOK(req,rawHost,effectiveOrigin))return page(403,{errorCode:'NEEDS_REAUTH'});
+        if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
+        const params=new URLSearchParams((await readRequestBody(4096)).toString('utf8'));
+        const expected=route.endsWith('/inspect')?['authority','code']:route.endsWith('/claim')?['inspectionId','current','confirmed']:reauthOnly?['current']:[];
+        const keys=[...params.keys()];
+        if(!expected.length||keys.length!==expected.length||new Set(keys).size!==keys.length||keys.some(key=>!expected.includes(key)))return page(422,{errorCode:'FEDERATION_INVALID'});
+        if(reauthOnly){federation.reauthenticate(subject,tokenHash,params.get('current'));return page(200,{notice:w.reauthDone});}
+        if(route.endsWith('/inspect')){
+          const inspection=await federation.inspectLink({subject,tokenHash,authorityId:params.get('authority'),code:params.get('code')});
+          if(!sameAccountSession())return page(401,{errorCode:'NEEDS_REAUTH',siteLabel:''});
+          return page(200,{inspection});
+        }
+        await federation.claimLink({subject,tokenHash,inspectionId:params.get('inspectionId'),password:params.get('current'),confirmed:params.get('confirmed')==='yes'});
+        const statuses=await federation.linkStatus(subject,tokenHash);
+        if(!sameAccountSession())return page(401,{errorCode:'NEEDS_REAUTH',siteLabel:''});
+        return page(200,{statuses,notice:w.waiting});
+      }catch(error){
+        const code=error?.code==='session_revoked'?'NEEDS_REAUTH':error?.code;
+        return page(code==='NEEDS_REAUTH'?403:code==='FEDERATION_CONFLICT'?409:code==='RATE_LIMITED'?429:503,{errorCode:code||'FEDERATION_UNAVAILABLE',siteLabel:sameAccountSession()?accountUser.email:''});
+      }
+    }
     if(url.pathname==='/forgot-password/'||url.pathname==='/forgot-password'){
       const lang=authLanguage(url.searchParams.get('lang')),w=accountWords(lang);
       const page=options=>accountRecoveryPage({lang,mailEnabled:accountMailer.enabled,...options});
@@ -597,12 +655,12 @@ export async function createKnabaVpsServer({
         const keys=[...params.keys()];
         if(keys.length!==expected.length||new Set(keys).size!==keys.length||keys.some(key=>!expected.includes(key)))
           return tokenReply(422,{error:w.validation});
-        consumeAccountToken(db,{kind,token:params.get('token'),newPassword:params.get('new'),confirmed:params.get('confirm'),protectedEmails:protectedAccountEmails});
+        await consumeAccountToken(db,{kind,token:params.get('token'),newPassword:params.get('new'),confirmed:params.get('confirm'),protectedEmails:protectedAccountEmails});
         return tokenReply(200,{done:true},{
           'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
       }catch(error){
         const status=error?.code==='too_large'?413:error instanceof AccountSettingsError?422:503;
-        return tokenReply(status,{error:status===503?w.unavailable:w.invalidToken});
+        return tokenReply(status,{error:error?.code?.startsWith('FEDERATION_')||error?.code==='REENTRY_REQUIRED'?federationErrorText(lang,error.code):status===503?w.unavailable:w.invalidToken});
       }
     }
     if(['/account/settings','/account/settings/','/account/email','/account/email/','/account/sessions','/account/sessions/'].includes(url.pathname)){
@@ -614,7 +672,8 @@ export async function createKnabaVpsServer({
         const actor=readSession(db,req.headers.cookie);
         return {...account,role:authenticatedRole(db,actor,{ownerEmail,ownerUserId:ownerPrincipal(),developerEmail})};
       };
-      const renderSettings=(status,options={})=>accountReply(res,status,accountSettingsPage({account:currentAccount(),lang,mailEnabled,...options}));
+      const federationUi={federationEnabled:Boolean(federation),federationLabel:federationWords(lang).title};
+      const renderSettings=(status,options={})=>accountReply(res,status,accountSettingsPage({account:currentAccount(),lang,mailEnabled,...federationUi,...options}));
       if(!accountUser){
         if(req.method==='GET'&&settingsPath)return redirect(res,'/login/?lang='+lang+'&return_to='+encodeURIComponent('/account/settings/?lang='+lang));
         return accountReply(res,401,accountPasswordPage({lang,error:w.unauthenticated}));
@@ -635,7 +694,7 @@ export async function createKnabaVpsServer({
           const fields=Object.fromEntries(params);
           if(!/^(0|[1-9][0-9]{0,9})$/.test(fields.version))return renderSettings(422,{error:w.validation});
           updateAccountSettings(db,{cookieHeader:req.headers.cookie,values:{...fields,version:Number(fields.version)}});
-          return accountReply(res,200,accountSettingsPage({account:currentAccount(),lang:authLanguage(fields.locale),mailEnabled,notice:accountWords(fields.locale).saved}));
+          return accountReply(res,200,accountSettingsPage({account:currentAccount(),lang:authLanguage(fields.locale),mailEnabled,...federationUi,federationLabel:federationWords(fields.locale).title,notice:accountWords(fields.locale).saved}));
         }
         if(route==='/account/email'){
           if(!mailEnabled)return renderSettings(503,{error:w.unavailable});
@@ -643,14 +702,14 @@ export async function createKnabaVpsServer({
           // The actor may have logged out during the provider request.
           return renderSettings(202,{notice:w.emailRequested});
         }
-        revokeAccountSessions(db,{cookieHeader:req.headers.cookie,target:params.get('target')});
+        await revokeAccountSessions(db,{cookieHeader:req.headers.cookie,target:params.get('target')});
         if(!readSession(db,req.headers.cookie))return redirect(res,'/login/?lang='+lang,{
           'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
         return renderSettings(200,{notice:w.sessionsRevoked});
       }catch(error){
         const code=error?.code==='session_revoked'?'unauthenticated':error?.code;
         const status=({unauthenticated:401,forbidden:403,protected:403,oidc:403,conflict:409,validation:422,limited:429,too_large:413})[code]||503;
-        const message=w[code]||w[status===503?'unavailable':'validation'];
+        const message=code?.startsWith('FEDERATION_')||code==='REENTRY_REQUIRED'?federationErrorText(lang,code):w[code]||w[status===503?'unavailable':'validation'];
         try{return renderSettings(status,{error:message});}
         catch{return accountReply(res,status,accountPasswordPage({lang,error:message}));}
       }
@@ -875,7 +934,7 @@ export async function createKnabaVpsServer({
             code:url.searchParams.get('code'),state:url.searchParams.get('state'),
             cookie:req.headers.cookie,fetchImpl:oidcFetch,ownerEmail,developerEmail
           });
-          const signed=createOidcSession(db,result);
+          const signed=await createOidcSession(db,result);
           return redirect(res,destination(signed.user,'',url.searchParams.get('lang')),{'Set-Cookie':[cleared,...signedCookies(signed)],
             'Referrer-Policy':'no-referrer'});
         }catch(error){
@@ -909,14 +968,20 @@ export async function createKnabaVpsServer({
         const email=params.get('email')||'',password=params.get('password')||'';
         const target=returnPath(params.get('return_to'));
         if(password.length>256 || email.length>320)return send(res,422,'Invalid form');
-        let result=null;
-        try{result=createLogin(db,{email,password,clientKey:clientIp});}catch{/* Uniform response */}
         const wantsJSON=String(req.headers.accept||'').split(',').some(value=>value.trim().split(';')[0]==='application/json');
+        let result=null;
+        try{result=await createLogin(db,{email,password,clientKey:clientIp});}
+        catch(error){
+          if(error?.code?.startsWith('FEDERATION_')||error?.code==='REENTRY_REQUIRED')return wantsJSON
+            ?send(res,503,JSON.stringify({error:{code:error.code==='REENTRY_REQUIRED'?'federation_reentry_required':'federation_pending'}}),{'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','Vary':'Accept'})
+            :accountReply(res,503,accountPasswordPage({lang:authLanguage(url.searchParams.get('lang')),error:federationErrorText(url.searchParams.get('lang'),error.code)}));
+          // Invalid credentials retain the same public response.
+        }
         if(!result)return wantsJSON
           ?send(res,401,JSON.stringify({error:{code:'invalid_credentials'}}),{'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','Vary':'Accept'})
           :send(res,401,loginPage(target,true,authLanguage(url.searchParams.get('lang')),social),{'Content-Type':'text/html; charset=utf-8','Vary':'Accept'});
         if(isDeveloperIdentity(result.user,developerEmail)&&!isGrantedDeveloper(db,result.user,ownerEmail,developerEmail)){
-          destroySession(db,sessionCookie(result.token,{secure:!localTest}));
+          await destroySession(db,sessionCookie(result.token,{secure:!localTest}));
           return send(res,403,'Developer access requires an active grant.');
         }
         if(wantsJSON)return send(res,200,JSON.stringify({authenticated:true,returnTo:destination(result.user,target,url.searchParams.get('lang'))}),{'Content-Type':'application/json; charset=utf-8','Set-Cookie':signedCookies(result),'Cache-Control':'private, no-store','Vary':'Accept'});
@@ -938,7 +1003,7 @@ export async function createKnabaVpsServer({
         if(keys.length!==3||new Set(keys).size!==3||
            keys.some(key=>!['current','new','confirm'].includes(key)))
           return send(res,422,'Invalid form');
-        const changed=rotateCredentials(db,{
+        const changed=await rotateCredentials(db,{
           userId:user.id,currentPassword:params.get('current')||'',
           newPassword:params.get('new')||'',confirmed:params.get('confirm')||'',cookieHeader:req.headers.cookie
         });
@@ -947,6 +1012,7 @@ export async function createKnabaVpsServer({
           'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})],'Referrer-Policy':'no-referrer'
         });
       }catch(error){
+        if(error?.code?.startsWith('FEDERATION_')||error?.code==='REENTRY_REQUIRED')return accountReply(res,503,accountPasswordPage({lang,error:federationErrorText(lang,error.code)}));
         if(error?.code==='too_large')return accountReply(res,413,accountPasswordPage({lang,error:w.validation}));
         if(error?.code==='session_revoked')return accountReply(res,401,accountPasswordPage({lang,error:w.unauthenticated}));
         return accountReply(res,409,accountPasswordPage({lang,error:w.unavailable}));
@@ -960,9 +1026,13 @@ export async function createKnabaVpsServer({
       try{
         const raw=await readRequestBody(1024);
         const target=returnPath(new URLSearchParams(raw.toString()).get('return_to'));
-        destroySession(db,req.headers.cookie);
+        await destroySession(db,req.headers.cookie);
         return redirect(res,target,{'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
-      }catch{return send(res,400,'Invalid request');}
+      }catch(error){
+        if(error?.code?.startsWith('FEDERATION_')||error?.code==='REENTRY_REQUIRED')return accountReply(res,503,federationPage({lang:authLanguage(url.searchParams.get('lang')),enabled:Boolean(federation),noticeOnly:true,errorCode:error.code}),{
+          'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
+        return send(res,400,'Invalid request');
+      }
     }
     if(url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/catalogue')){
       const valid=['GET','HEAD','POST','PUT','PATCH','DELETE'];
@@ -1022,6 +1092,12 @@ export async function createKnabaVpsServer({
           if(workspace)return isGrantedDeveloper(db,accountUser,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,accountUser)===testRole;
           return true;
         };
+        if(federation&&!workspace)scopedEnv.COORDINATE_PROFILE_ACCESS=async input=>{
+          const tokenHash=createHash('sha256').update(accountUser?.token??'').digest('hex');
+          const proof=accountUser&&federation.freshReauth(accountUser.id,tokenHash);
+          const authorize=()=>Boolean(accountUser&&sameAccountSession()&&currentOwnerAllowed()&&federation.freshReauth(accountUser.id,tokenHash));
+          return changeFederatedProfileAccess(db,{input,actorId:accountUser?.id,authorize,authorizationExpiresAt:proof?.expires_at??Date.now(),ownerEmail,developerEmail});
+        };
         const assistantOwnerRoute=url.pathname.startsWith('/api/assistant/owner/');
         const currentRouteAllowed=assistantOwnerRoute?()=>currentAccountAllowed()&&currentOwnerAllowed():currentAccountAllowed;
         responseAuthorized=currentRouteAllowed;
@@ -1064,7 +1140,7 @@ export async function createKnabaVpsServer({
   return {server,db,migrations,port:server.address().port,close:()=>closing??=(async()=>{
     const stopped=new Promise(resolve=>server.close(resolve));
     await Promise.all([stopped,erpIntake.stop()]);
-    await accountMailer.close();testWorkspaces.close();db.close();
+    await accountMailer.close();await federation?.stop();testWorkspaces.close();db.close();
   })()};
 }
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){

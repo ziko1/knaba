@@ -15,10 +15,10 @@ for(const revoke of ['disable','logout'])test(`Studio VPS rejects ${revoke} duri
   // publication awaits the asset, before its final authorization transaction.
   const sql=revoke==='disable'?'UPDATE vps_users SET disabled=1':'DELETE FROM vps_sessions';
   await writeFile(workerPath,`import worker from ${JSON.stringify(new URL('../dist/server/index.js',import.meta.url).href)};
-import {DatabaseSync} from 'node:sqlite';
+import {openLocalDatabase} from ${JSON.stringify(new URL('./database.mjs',import.meta.url).href)};
 export default {fetch(request,env,ctx){return worker.fetch(request,{...env,ASSETS:{fetch:async assetRequest=>{
   const asset=await env.ASSETS.fetch(assetRequest);
-  const db=new DatabaseSync(${JSON.stringify(dbPath)});try{db.exec(${JSON.stringify(sql)});}finally{db.close();}
+  const {db}=openLocalDatabase(${JSON.stringify(dbPath)},{allowMigrations:false});try{db.exec(${JSON.stringify(sql)});}finally{db.close();}
   return asset;
 }}},ctx);}};
 `);

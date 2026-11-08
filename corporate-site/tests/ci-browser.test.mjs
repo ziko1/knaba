@@ -49,12 +49,18 @@ test('a fallback PASS containing an engine block stops the wrapper before anothe
   assert.throws(()=>assertSuiteReceipt(base,{requiredChecks:['assistant.display.visible']}),/MISSING_REQUIRED/);
   assertSuiteReceipt({status:'PASS',checks:[{status:'PASS',caseId:'assistant.display.visible'}]},{requiredChecks:['assistant.display.visible']});
 });
-test('ERP report requires exactly four executed fixture UI cases without skip, retry or failure',()=>{
-  const tests=Array.from({length:4},()=>({status:'expected',results:[{status:'passed'}]}));
-  const report={stats:{expected:4,unexpected:0,skipped:0,flaky:0},errors:[],suites:[{specs:tests.map(test=>({tests:[test]}))}]};
-  assert.equal(assertErpUiReport(report),4);
+test('ERP report requires both named fixture suites, all nine distinct cases and no skip, retry or failure',()=>{
+  const suites=[['conversation-transfer-ui.spec.ts',4],['site-identity-link-ui.spec.ts',5]].map(([file,count])=>({file,
+    specs:Array.from({length:count},(_,i)=>({file,id:file+':'+i,title:'synthetic case '+i,tests:[{status:'expected',results:[{status:'passed'}]}]})),
+  }));
+  const report={stats:{expected:9,unexpected:0,skipped:0,flaky:0},errors:[],suites};
+  assert.deepEqual(assertErpUiReport(report),{'conversation-transfer-ui.spec.ts':4,'site-identity-link-ui.spec.ts':5});
   for(const patch of [{skipped:1},{unexpected:1},{flaky:1},{expected:0}])assert.throws(()=>assertErpUiReport({...report,stats:{...report.stats,...patch}}));
-  tests[0].results.push({status:'passed'});assert.throws(()=>assertErpUiReport(report));
+  const missing=structuredClone(report);missing.suites.pop();missing.stats.expected=4;assert.throws(()=>assertErpUiReport(missing));
+  const wrong=structuredClone(report);wrong.suites[1].specs.forEach(spec=>{spec.file='conversation-transfer-ui.spec.ts';});assert.throws(()=>assertErpUiReport(wrong));
+  const duplicate=structuredClone(report);duplicate.suites[1].specs[1]=structuredClone(duplicate.suites[1].specs[0]);assert.throws(()=>assertErpUiReport(duplicate));
+  const unknown=structuredClone(report);unknown.suites[1].specs[0].file='unrelated.spec.ts';assert.throws(()=>assertErpUiReport(unknown));
+  report.suites[0].specs[0].tests[0].results.push({status:'passed'});assert.throws(()=>assertErpUiReport(report));
 });
 test('fixture isolates provider environments and runner uses only local owned previews and temp reporters',()=>{
   const fixture=readFileSync(new URL('./fixtures/role-ux-server.mjs',import.meta.url),'utf8');

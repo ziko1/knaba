@@ -127,6 +127,13 @@
       "when": 1794130331366,
       "tag": "0017_assistant_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1794130331367,
+      "tag": "0018_federation_runtime_barrier",
+      "breakpoints": true
     }
   ]
 }

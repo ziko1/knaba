@@ -1,6 +1,7 @@
 /** Self-service VPS accounts. Every mutation is scoped to a current local session or one-use capability. */
 import {createHash,randomBytes,scryptSync} from 'node:crypto';
 import {normalizeEmail,readSession,verifyCredentialPassword} from './auth.mjs';
+import {federationMutation,federationSessionAllowed,securityTransaction} from './federation-state.mjs';
 
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const locales=['de','en','pl','lt','ru','uk'];
@@ -17,9 +18,7 @@ export class AccountSettingsError extends Error{
 }
 const fail=code=>{throw new AccountSettingsError(code);};
 function transaction(db,work,{readOnly=false}={}){
-  db.exec(readOnly?'BEGIN':'BEGIN IMMEDIATE');
-  try{const result=work();db.exec('COMMIT');return result;}
-  catch(error){db.exec('ROLLBACK');throw error;}
+  return securityTransaction(db,work,{readOnly});
 }
 function audit(db,userId,action,actorId=userId){
   db.prepare('INSERT INTO portal_audit (id,actor_id,action,entity_id,created_at) VALUES (?,?,?,?,?)')
@@ -128,27 +127,24 @@ export function updateAccountSettings(db,{cookieHeader,values}={}){
 
 export function revokeAccountSessions(db,{cookieHeader,target}={}){
   if(typeof target!=='string'||(!['all','others'].includes(target)&&!/^[a-f0-9]{64}$/.test(target)))fail('validation');
-  return transaction(db,()=>{
-    const {user,session}=currentAccount(db,cookieHeader);
-    const currentHash=hash(session.token);
-    let changed,currentRevoked=false;
-    if(target==='all'){
-      changed=db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(user.id);
-      currentRevoked=true;
-    }else if(target==='others'){
-      changed=db.prepare('DELETE FROM vps_sessions WHERE user_id=? AND token_hash<>?').run(user.id,currentHash);
-    }else{
-      // Only handles of this user's currently displayed sessions are addressable.
-      const own=db.prepare('SELECT token_hash FROM vps_sessions WHERE user_id=? AND expires_at>? ORDER BY (token_hash=?) DESC,created_at DESC,token_hash LIMIT ?')
-        .all(user.id,time(),currentHash,maxListedSessions);
-      const found=own.find(row=>sessionHandle(row.token_hash)===target);
-      if(!found)fail('conflict');
-      changed=db.prepare('DELETE FROM vps_sessions WHERE user_id=? AND token_hash=?').run(user.id,found.token_hash);
-      currentRevoked=found.token_hash===currentHash;
-    }
+  const {user,session}=currentAccount(db,cookieHeader),currentHash=hash(session.token);
+  let hashes;
+  if(target==='all'||target==='others')hashes=db.prepare('SELECT token_hash FROM vps_sessions WHERE user_id=?').all(user.id)
+    .map(row=>row.token_hash).filter(value=>target==='all'||value!==currentHash);
+  else{
+    const own=db.prepare('SELECT token_hash FROM vps_sessions WHERE user_id=? AND expires_at>? ORDER BY (token_hash=?) DESC,created_at DESC,token_hash LIMIT ?')
+      .all(user.id,time(),currentHash,maxListedSessions);
+    const found=own.find(row=>sessionHandle(row.token_hash)===target);if(!found)fail('conflict');hashes=[found.token_hash];
+  }
+  const currentRevoked=hashes.includes(currentHash);
+  return federationMutation(db,{subject:user.id,kind:target==='all'?'REVOKE_ALL':target==='others'?'REVOKE_OTHERS':'REVOKE_SESSION',
+    scope:target==='all'?'PRINCIPAL':'SESSION',sessionHashes:hashes,excludedHash:target==='others'?currentHash:null,pureRevocation:true,
+    authorize:()=>{const now=readSession(db,cookieHeader);return Boolean(now&&now.id===user.id&&hash(now.token)===currentHash);},
+    apply:()=>transaction(db,()=>{
+    const changed=db.prepare('DELETE FROM vps_sessions WHERE user_id=? AND token_hash IN (SELECT value FROM json_each(?))').run(user.id,JSON.stringify(hashes));
     audit(db,user.id,target==='all'?'account.sessions.revoked_all':'account.sessions.revoked');
     return {revoked:Number(changed.changes),currentRevoked};
-  });
+  })});
 }
 
 function limit(db,scope,subject,{max,seconds},now=time()){
@@ -185,6 +181,7 @@ function validToken(db,capability,{protectedEmails=[]}={}){
     if(emailBlock(db,user,protectedEmails)||normalizedProtected(protectedEmails).includes(token.target_email))return null;
     if(!token.session_hash||!db.prepare('SELECT 1 FROM vps_sessions WHERE token_hash=? AND user_id=? AND expires_at>?')
       .get(token.session_hash,user.id,time()))return null;
+    if(!federationSessionAllowed(db,user.id,token.session_hash))return null;
   }else if(token.target_email!==user.email||token.session_hash!==null)return null;
   return {token,user,profile};
 }
@@ -270,14 +267,24 @@ export function consumeAccountToken(db,{kind,token,newPassword,confirmed,protect
   if(!['password_reset','email_change'].includes(kind)||typeof token!=='string'||!/^[A-Za-z0-9_-]{43}$/.test(token))fail('validation');
   if(kind==='password_reset'&&(typeof newPassword!=='string'||newPassword.length<8||newPassword.length>256||newPassword!==confirmed))fail('validation');
   const capability={kind,tokenHash:hash(token)};
-  return transaction(db,()=>{
+  const initial=validToken(db,capability,{protectedEmails});
+  if(!initial||!['accepted','unknown'].includes(initial.token.delivery_state))fail('validation');
+  let replacement;
+  if(kind==='password_reset'){
+    if(verifyCredentialPassword(initial.user,newPassword))fail('validation');
+    const salt=randomBytes(16).toString('hex');
+    replacement={salt,passwordHash:scryptSync(newPassword,Buffer.from(salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024}).toString('hex')};
+  }
+  return federationMutation(db,{subject:initial.user.id,kind:kind==='password_reset'?'PASSWORD_RESET':'EMAIL_CHANGE',scope:'PRINCIPAL',pureRevocation:false,
+    intent:{capabilityDigest:capability.tokenHash,candidateDigest:hash(JSON.stringify(replacement??{targetEmail:initial.token.target_email}))},
+    authorizationExpiresAt:Math.min(Date.now()+300_000,initial.token.expires_at*1000),
+    authorize:()=>{const now=validToken(db,capability,{protectedEmails});return Boolean(now&&now.user.id===initial.user.id&&now.token.credential_hash===initial.token.credential_hash&&['accepted','unknown'].includes(now.token.delivery_state));},
+    apply:()=>transaction(db,()=>{
     const current=validToken(db,capability,{protectedEmails});
     if(!current||!['accepted','unknown'].includes(current.token.delivery_state))fail('validation');
     const {user,profile}=current;
     if(kind==='password_reset'){
-      if(verifyCredentialPassword(user,newPassword))fail('validation');
-      const salt=randomBytes(16).toString('hex');
-      const passwordHash=scryptSync(newPassword,Buffer.from(salt,'hex'),64,{N:32768,r:8,p:1,maxmem:64*1024*1024}).toString('hex');
+      const {salt,passwordHash}=replacement;
       const changed=db.prepare('UPDATE vps_users SET salt=?,password_hash=? WHERE id=? AND email=? AND disabled=0 AND salt=? AND password_hash=?')
         .run(salt,passwordHash,user.id,user.email,user.salt,user.password_hash);
       if(changed.changes!==1)fail('conflict');
@@ -300,5 +307,5 @@ export function consumeAccountToken(db,{kind,token,newPassword,confirmed,protect
     db.prepare('DELETE FROM vps_sessions WHERE user_id=?').run(user.id);
     audit(db,user.id,kind==='password_reset'?'credential.reset':'account.email.changed');
     return {changed:true};
-  });
+  })});
 }

@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "source": "dc54f109c52e3b8f8a2e506821a6eb322b5417c4",
+  "tree": "7118ef9872591fa86dd8657189cd10e1599363e9",
+  "workflows": {
+    "main": {
+      "id": 42481181297,
+      "conclusion": "FAILURE"
+    },
+    "mainPush": {
+      "id": 42481177774,
+      "conclusion": "CANCELLED_SAME_SOURCE_CONCURRENCY"
+    },
+    "android": {
+      "id": 42481181147,
+      "conclusion": "SUCCESS"
+    },
+    "iosPR": {
+      "id": 42481181376,
+      "conclusion": "SKIPPED_EXISTING_PUSH_REUSE_POLICY"
+    },
+    "iosPush": "NOT_TRIGGERED_NATIVE_INPUTS_UNCHANGED"
+  },
+  "jobs": {
+    "root": {
+      "id": 128733248347,
+      "conclusion": "SUCCESS"
+    },
+    "site": {
+      "id": 128733248539,
+      "conclusion": "SUCCESS",
+      "vitest": 900,
+      "vitestFiles": 83,
+      "node": 92,
+      "vps": 281,
+      "build": "PASS",
+      "verifyBuild": "PASS",
+      "jsGzip": 222640,
+      "cssGzip": 40832
+    },
+    "erp": {
+      "id": 128733248684,
+      "conclusion": "SUCCESS",
+      "tests": 3035,
+      "files": 132,
+      "skipped": 0,
+      "actualPostgreSQL": true
+    },
+    "bridgeAndBrowser": {
+      "id": 128733248544,
+      "conclusion": "FAILURE",
+      "actualSQLiteHttpPostgreSQL": {
+        "passed": 11,
+        "failed": 0,
+        "skipped": 0
+      },
+      "roles": {
+        "checks": 111,
+        "status": "PASS"
+      },
+      "languages": {
+        "checks": 32,
+        "status": "PASS"
+      },
+      "publicViewports": {
+        "cases": 24,
+        "status": "PASS"
+      },
+      "erpTransferHttpFixtureBrowser": {
+        "passed": 2,
+        "failed": 2,
+        "skipped": 0,
+        "status": "FAIL",
+        "reason": "Playwright transfer** glob fails to match nested /id/confirm. Fixture deny-all guard aborted both confirmation requests; unchanged runtime UI stayed in CLAIMED."
+      }
+    }
+  },
+  "newAssistantCases": {
+    "actualPG": [
+      "Explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves scoped origin after restart",
+      "Capability-scoped withdrawal prevents a not-yet-sent real ERP effect"
+    ],
+    "rendered": [
+      "assistant.request.explicit-consent",
+      "assistant.request.retry",
+      "assistant.request.withdrawal",
+      "assistant.request.revoked"
+    ],
+    "renderedBoundary": "Real isolated SQLite and HTTP; exact retry after deliberately lost response; background maintenance explicitly paused for initial PENDING state. Not scheduled ERP delivery or provider acceptance."
+  },
+  "artifact": {
+    "id": 13617642918,
+    "name": "knaba-browser-dc54f109c52e3b8f8a2e506821a6eb322b5417c4-1",
+    "bytes": 8406742,
+    "sha256": "5e4f1fcdf50fd964f59d50bf5ab3453fb58a44e88921cff8dfb87ecd5830b40b",
+    "zipCrc": "PASS",
+    "cleanSource": true,
+    "inputsUnchanged": true,
+    "buildManifestSha256": "b6251c9653764fe5b1af40eca38f5c7c753f8acd4ec3a0a2977a75940eb1ea97",
+    "roleReceiptSha256": "2bbc5445e39f828a023cf9d9260aae06eec423b19ea881540125758bb57dedf2",
+    "transferResultSha256": "10071b4de0a16f42cdfe757055d4bf8654fbad2d1843e4733251bff65620defa",
+    "browser": "Chrome156.0.8078.79 / Playwright1.55.1"
+  },
+  "logExcerpts": [
+    {
+      "job": 128733248539,
+      "lines": [
+        "2026-11-08T12:39:09.4457763Z  Test Files  83 passed (83)",
+        "2026-11-08T12:39:09.4465267Z       Tests  900 passed (900)",
+        "2026-11-08T12:39:11.4130257Z ℹ tests 37",
+        "2026-11-08T12:39:11.4130705Z ℹ pass 37",
+        "2026-11-08T12:39:11.4130905Z ℹ fail 0",
+        "2026-11-08T12:39:11.5452739Z ℹ tests 37",
+        "2026-11-08T12:39:11.5453396Z ℹ pass 37",
+        "2026-11-08T12:39:11.5453710Z ℹ fail 0",
+        "2026-11-08T12:39:11.7656169Z ℹ tests 10",
+        "2026-11-08T12:39:11.7656903Z ℹ pass 10",
+        "2026-11-08T12:39:11.7657261Z ℹ fail 0",
+        "2026-11-08T12:39:11.8813290Z ℹ tests 8",
+        "2026-11-08T12:39:11.8814882Z ℹ pass 8",
+        "2026-11-08T12:39:11.8815552Z ℹ fail 0",
+        "2026-11-08T12:39:20.9950889Z   \"cssGzip\": 40832,",
+        "2026-11-08T12:39:20.9951133Z   \"allEmittedJsGzip\": 222640,",
+        "2026-11-08T12:39:47.2518306Z ℹ tests 281",
+        "2026-11-08T12:39:47.2518721Z ℹ pass 281",
+        "2026-11-08T12:39:47.2518942Z ℹ fail 0"
+      ]
+    },
+    {
+      "job": 128733248684,
+      "lines": [
+        "2026-11-08T12:45:01.7119287Z  Test Files  132 passed (132)",
+        "2026-11-08T12:45:01.7132634Z       Tests  3035 passed (3035)",
+        "2026-11-08T12:45:01.8386689Z Passed ERP assertions: 3035"
+      ]
+    },
+    {
+      "job": 128733248544,
+      "lines": [
+        "2026-11-08T12:43:05.7127463Z ok 1 - explicit assistant conversion crosses actual VPS/SQLite/signed HTTP/PostgreSQL once and preserves its scoped origin after restart",
+        "2026-11-08T12:43:06.4464659Z ok 2 - assistant withdrawal is capability-scoped and prevents a not-yet-sent real ERP effect",
+        "2026-11-08T12:43:15.0959024Z # tests 11",
+        "2026-11-08T12:43:15.0968232Z # pass 11",
+        "2026-11-08T12:43:15.0968654Z # fail 0",
+        "2026-11-08T12:43:15.0969208Z # skipped 0",
+        "2026-11-08T12:43:15.1543343Z Passed bridge cases: 11 source: dc54f109c52e3b8f8a2e506821a6eb322b5417c4",
+        "2026-11-08T12:44:55.6198364Z     +   \"POST http://127.0.0.1:4177/api/v1/public/chat/guest-channel/transfer/24bb970d-5db5-4c89-a642-57c52d35059e/confirm\",",
+        "2026-11-08T12:44:55.6280951Z     +   \"POST http://127.0.0.1:4177/api/v1/public/chat/guest-channel/transfer/24bb970d-5db5-4c89-a642-57c52d35059e/confirm\","
+      ]
+    }
+  ],
+  "correction": {
+    "scope": "Only browser fixture matcher; runtime unchanged",
+    "file": "erp/tests/conversation-transfer-ui.spec.ts",
+    "sha256": "cdc2a042e5d0d7879fadf527c9efdfecf7bf23cd42859250d76eb5e7d81176b1",
+    "actualInstalledMatcher": {
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "oldNestedConfirmAndCancel": "RED"
+    },
+    "collection": 4,
+    "renderedCorrected": "NOT_RUN",
+    "review": {
+      "decision": "ACCEPT_SOURCE",
+      "reviewer": "erp_session_fence",
+      "receiptSha256": "2939ff521038bcedf4a29347af55864e55211d2a9571e9017291331c49aef21d",
+      "urlChecks": {
+        "passed": 12,
+        "failed": 0
+      },
+      "methodChecks": {
+        "passed": 12,
+        "failed": 0
+      },
+      "behaviorTestBodiesByteIdentical": true,
+      "renderedCorrection": "NOT_RUN"
+    }
+  },
+  "limits": [
+    "Main workflow remains FAILED; scoped passes do not relabel the aggregate result",
+    "No new iOS simulator execution; prior93XCTest/43native-input evidence remains separately tied to395993f",
+    "Android runner success does not replace delivered APK/debug-certificate update chain",
+    "F2 isolated source and full pair acceptance still OPEN_BEFORE_F3",
+    "No whole compound AC/live/device/provider/production acceptance"
+  ],
+  "review": {
+    "status": "ACCEPT_WITH_SCOPE",
+    "reviewer": "erp_session_fence",
+    "reviewedDocumentSha256": "ade83b7e9c87e3aac335fbf3fd429dcb13f2f15b8a6f564703a1d36eb5ff2573",
+    "receiptSha256": "3e9c7ee66ee465d2f3cddcde9d69f4132d6f7a70802c2111233e6d556b86bf12",
+    "checked": [
+      "Fresh GitHub job and workflow metadata plus3raw logs",
+      "ZIP CRC/hash and exact build/browser receipts",
+      "Actual English failure screenshot and nested-request fixture failure",
+      "114trace rows and normative/status/artifact fields preserved",
+      "Bounded budget reconciliation and distinct native artifact/source scopes"
+    ],
+    "runtimeEdits": false
+  }
+}

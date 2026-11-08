@@ -197,7 +197,9 @@ function sessionForm(target,label,lang,{danger=false,describedBy=''}={}){
   return '<form method="post" action="'+accountLink('/account/sessions/',lang)+'"><input type="hidden" name="target" value="'+e(target)+'"><button type="submit" class="'+(danger?'danger':'secondary')+'"'+(describedBy?' aria-describedby="'+describedBy+'"':'')+'>'+e(label)+'</button></form>';
 }
 
-export function accountSettingsPage({account,lang='de',notice='',error='',mailEnabled=false}){
+export {shell as accountShell,field as accountField,escapeHTML as accountEscape,accountLink};
+
+export function accountSettingsPage({account,lang='de',notice='',error='',mailEnabled=false,federationEnabled=false,federationLabel=''}){
   const locale=authLanguage(lang),w=accountWords(locale),zone=timeZone(account.timeZone);
   const accessLabel=Object.hasOwn(w.roles,account.role)?w.roles[account.role]:'',statusLabel=Object.hasOwn(w.statuses,account.status)?w.statuses[account.status]:'';
   const meta='<div class="account-meta"><p>'+e(w.managedAccess)+'</p><dl>'+(accessLabel?'<dt>'+e(w.roleLabel)+'</dt><dd>'+e(accessLabel)+'</dd>':'')+(statusLabel?'<dt>'+e(w.statusLabel)+'</dt><dd>'+e(statusLabel)+'</dd>':'')+'</dl></div>';
@@ -220,7 +222,7 @@ export function accountSettingsPage({account,lang='de',notice='',error='',mailEn
   const formatNumber=new Intl.NumberFormat(locale),sessionTotal=Number.isSafeInteger(account.sessionCount)&&account.sessionCount>=records.length?formatNumber.format(account.sessionCount):'…';
   const sessions='<section id="sessions" class="card" aria-labelledby="sessions-title"><h2 id="sessions-title">'+e(w.sessions)+'</h2><p>'+e(w.sessionsIntro)+'</p><p class="help">'+e(w.sessionZone)+': '+e(zone)+'</p>'+(sessionsLimited?'<p class="info">'+e(w.sessionsLimited.replace('{count}',formatNumber.format(records.length)).replace('{total}',sessionTotal))+'</p>':'')+sessionList+(records.length||sessionsLimited?'<div class="form-actions session-actions">'+(sessionsLimited||records.some(session=>!session.current)?sessionForm('others',w.sessionsOthers,locale):'')+sessionForm('all',w.sessionsAll,locale,{danger:true,describedBy:'sessions-all-help'})+'</div><p id="sessions-all-help" class="help">'+e(w.sessionsAllHint)+'</p>':'')+'</section>';
   return shell({lang:locale,title:w.settingsTitle,intro:w.settingsIntro,backPath:accountLink('/konto/',locale),backLabel:w.backWorkspace,error,
-    content:'<div class="account-layout"><aside class="account-side"><nav class="section-nav" aria-label="'+e(w.sections)+'"><a href="#profile">'+e(w.profile)+'</a><a href="#security">'+e(w.security)+'</a><a href="#sessions">'+e(w.sessions)+'</a></nav>'+meta+'</aside><main class="account-main" id="account-main" tabindex="-1">'+message(error,{error:true})+message(notice)+profile+security+sessions+'</main></div>'});
+    content:'<div class="account-layout"><aside class="account-side"><nav class="section-nav" aria-label="'+e(w.sections)+'"><a href="#profile">'+e(w.profile)+'</a><a href="#security">'+e(w.security)+'</a><a href="#sessions">'+e(w.sessions)+'</a>'+(federationEnabled?'<a href="'+accountLink('/account/erp-link/',locale)+'">'+e(federationLabel)+'</a>':'')+'</nav>'+meta+'</aside><main class="account-main" id="account-main" tabindex="-1">'+message(error,{error:true})+message(notice)+profile+security+sessions+'</main></div>'});
 }
 
 export function accountRecoveryPage({lang='de',sent=false,error='',mailEnabled=false}={}){

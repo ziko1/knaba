@@ -121,10 +121,10 @@ export function v4HttpStatus(code:string):number{
  if(code==='NEEDS_REAUTH')return 401;
  if(code==='ACCESS_DENIED')return 403;
  if(code==='NOT_FOUND_SAFE')return 404;
- if(['INVALID_STATE','VERSION_CONFLICT','IDEMPOTENCY_CONFLICT'].includes(code))return 409;
+ if(['INVALID_STATE','VERSION_CONFLICT','IDEMPOTENCY_CONFLICT','FEDERATION_CONFLICT','FEDERATION_GENERATION','FEDERATION_RECONCILING'].includes(code))return 409;
  if(['MISSING_CONFIGURATION','NEEDS_APPROVAL'].includes(code))return 422;
  if(code==='RATE_LIMITED')return 429;
- if(code==='PROVIDER_UNAVAILABLE')return 503;
+ if(['PROVIDER_UNAVAILABLE','FEDERATION_UNAVAILABLE'].includes(code))return 503;
  return code==='INTERNAL_ERROR'?500:400;
 }
 export function v4HttpError(error:unknown):{status:number;body:{code:string;details:Data}}{

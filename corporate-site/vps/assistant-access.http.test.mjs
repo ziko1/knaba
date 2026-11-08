@@ -25,12 +25,12 @@ async function fixture(work,{boundary=null,target='',onlyCursor=false,guestId=''
     if(boundary){
       const wrapper=join(directory,'boundary-worker.mjs');
       await writeFile(wrapper,`import worker from ${JSON.stringify(workerPath)};
-import {DatabaseSync} from 'node:sqlite';
+import {openLocalDatabase} from ${JSON.stringify(new URL('./database.mjs',import.meta.url).href)};
 export default {fetch(request,env,ctx){
   const url=new URL(request.url);
   if(url.pathname!==${JSON.stringify(target)}||(${JSON.stringify(onlyCursor)}&&!url.searchParams.has('cursor')))return worker.fetch(request,env,ctx);
   const boundary=${JSON.stringify(boundary)},original=env.DB,sources=new WeakMap();let changed=false;
-  function revoke(){if(changed)return;changed=true;const db=new DatabaseSync(${JSON.stringify(dbPath)});try{const guestId=${JSON.stringify(guestId)};if(guestId)db.prepare("UPDATE assistant_conversations SET token_hash='' WHERE id=?").run(guestId);else db.exec('DELETE FROM vps_sessions');}finally{db.close();}}
+  function revoke(){if(changed)return;changed=true;const {db}=openLocalDatabase(${JSON.stringify(dbPath)},{allowMigrations:false});try{const guestId=${JSON.stringify(guestId)};if(guestId)db.prepare("UPDATE assistant_conversations SET token_hash='' WHERE id=?").run(guestId);else db.exec('DELETE FROM vps_sessions');}finally{db.close();}}
   const wrap=(statement,sql)=>{
     const result={
       bind:(...values)=>wrap(statement.bind(...values),sql),

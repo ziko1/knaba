@@ -282,6 +282,16 @@ async function setRole(request: Request,env: WorkerEnv,s: PortalSession) {
   if(targetId===s.user!.id||normalizeEmail(str(target!.email))===normalizeEmail(env.OWNER_EMAIL||'')||
     (Boolean(env.DEVELOPER_EMAIL)&&normalizeEmail(str(target!.email))===normalizeEmail(env.DEVELOPER_EMAIL!)))
     fail(403,'owner_protected','Geschützte Verwaltungsidentitäten können hier nicht geändert werden.');
+  if(typeof env.COORDINATE_PROFILE_ACCESS==='function'){
+    try{await env.COORDINATE_PROFILE_ACCESS({userId:targetId,role:body.role as string|null,status:body.status as 'approved'|'suspended',version});}
+    catch(error){
+      const code=(error as {code?:string})?.code;
+      if(code==='NEEDS_REAUTH')fail(403,'reauth_required','Bitte bestätigen Sie Ihr Passwort unter Kontoeinstellungen → ERP-Konto erneut.');
+      if(code==='FEDERATION_CONFLICT')fail(409,'conflict','Der Datensatz wurde inzwischen geändert. Bitte aktualisieren Sie die Ansicht.');
+      fail(503,code==='REENTRY_REQUIRED'?'change_not_applied':'federation_pending','Die Änderung ist noch nicht global bestätigt. Bitte prüfen Sie den Status, bevor Sie erneut handeln.');
+    }
+    return response({profile:profile((await db.prepare('SELECT * FROM profiles WHERE id=?').bind(targetId).first<Row>())!)});
+  }
   const time=iso(),mutation=id();
   const results=await db.batch([
     db.prepare('UPDATE profiles SET role=?,status=?,updated_at=?,version=version+1,last_mutation=? WHERE id=? AND version=?').bind(body.role,body.status,time,mutation,targetId,version),
