@@ -50,6 +50,7 @@ class ErpConsoleActivity : Activity() {
     private var screen = 0L
     private var actor: JSONObject? = null
     private var demoMode = false
+    private var selectedWorkspace: RoleWorkspaceRouting.Workspace? = null
     private var busy = false
     private var mutation = false
     private var uncertain = false
@@ -308,7 +309,7 @@ class ErpConsoleActivity : Activity() {
         refreshRead?.invoke()
     }
     private fun showLogin() {
-        actor = null; pendingRecovery = null
+        actor = null; pendingRecovery = null; selectedWorkspace = null
         heading(getString(R.string.erp_title), getString(R.string.erp_login_intro))
         button(getString(R.string.language_label) + " · " + resources.configuration.locales[0].getDisplayLanguage(resources.configuration.locales[0])) { chooseLanguage() }
         val connectionPanel = panel().apply { background = shape(KnabaTheme.soft) }
@@ -431,7 +432,7 @@ class ErpConsoleActivity : Activity() {
                     label(getString(R.string.erp_role), 17f, ink, chooser)
                     route.workspaces.forEach { workspace ->
                         button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }, parent = chooser) {
-                            // Current ERP dashboard remains permission-filtered on every selection.
+                            selectedWorkspace = workspace
                             showDashboard()
                         }
                     }
@@ -488,7 +489,16 @@ class ErpConsoleActivity : Activity() {
         }
     }
     private fun renderModules(parent: LinearLayout, counts: JSONObject?, query: String = "") {
-        val visible = modules.filter { it.permissions.any(::permitted) && getString(it.title).contains(query.trim(), ignoreCase = true) }
+        val workspaceKinds = when (selectedWorkspace) {
+            RoleWorkspaceRouting.Workspace.CLIENT -> setOf("site", "order", "lead", "quote", "change_order", "channel", "report", "report_version", "issue", "media_asset", "notification")
+            RoleWorkspaceRouting.Workspace.WORKER -> setOf("task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt")
+            RoleWorkspaceRouting.Workspace.PARTNER -> setOf("lead", "quote", "order", "site", "channel", "media_asset", "notification")
+            RoleWorkspaceRouting.Workspace.BAULEITER -> setOf("task", "site", "order", "crew_assignment", "employee", "shift", "timesheet", "defect", "worklog", "report", "report_version", "channel", "media_asset", "notification")
+            RoleWorkspaceRouting.Workspace.OWNER, null -> null
+        }
+        val visible = modules.filter { it.permissions.any(::permitted) &&
+            (workspaceKinds == null || it.kind in workspaceKinds) &&
+            getString(it.title).contains(query.trim(), ignoreCase = true) }
         if (visible.isEmpty()) { label(getString(R.string.erp_empty), color = muted, parent = parent); return }
         val columns = if (resources.configuration.screenWidthDp >= 390 && resources.configuration.fontScale <= 1.2f) 2 else 1
         visible.chunked(columns).forEach { group ->
