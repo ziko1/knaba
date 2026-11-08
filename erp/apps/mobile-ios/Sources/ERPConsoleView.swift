@@ -377,6 +377,18 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                     .accessibilityValue(preferences.language.name)
                     .accessibilityIdentifier("erpLanguageSelector")
                 }
+                if model.availableWorkspaces.count > 1 && model.selectedWorkspace != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            model.selectedWorkspace = nil
+                            selectedTab = 0
+                        } label: {
+                            Image(systemName: "square.grid.2x2")
+                        }
+                        .accessibilityLabel(model.text(.roles))
+                        .accessibilityIdentifier("switchWorkspace")
+                    }
+                }
                 if model.identity != nil {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(model.text(.signOut), systemImage: "rectangle.portrait.and.arrow.right") { Task { await model.signOut() } }
