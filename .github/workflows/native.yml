@@ -64,6 +64,18 @@ jobs:
         run: |
           set -euo pipefail
           bash scripts/package.sh prototype
+      - name: Install the Android emulator runtime library
+        working-directory: erp/apps/mobile-android
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/evidence/android-emulator
+          # The Ubuntu 24.04 runner lacks libpulse.so.0 required even with -no-audio.
+          # https://packages.ubuntu.com/noble/amd64/libpulse0/filelist
+          timeout --kill-after=10s 60s sudo apt-get update -qq
+          timeout --kill-after=10s 60s sudo env DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends libpulse0
+          dpkg-query -W -f='${Package}\t${Version}\n' libpulse0 > build/evidence/android-emulator/runtime-packages.txt
       - name: Install and launch the delivered APK on an isolated Android 35 emulator
         working-directory: erp/apps/mobile-android
         timeout-minutes: 10
@@ -154,7 +166,7 @@ jobs:
               device('shell', 'svc', 'data', 'disable')
               device('shell', 'input', 'keyevent', '82')
               stage = 'install'
-              installed = device('install', '--no-streaming', '-t', str(apk), timeout=60)
+              installed = device('install', '--no-streaming', str(apk), timeout=60)
               assert 'Success' in installed.stdout, 'Android installer did not report Success'
               details = device('shell', 'dumpsys', 'package', package).stdout
               code = re.search(r'\bversionCode=(\d+)\s+minSdk=(\d+)\s+targetSdk=(\d+)', details)
@@ -341,6 +353,8 @@ jobs:
               commands.append({'command': list(command), 'exitCode': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr})
               (evidence / 'simulator-launch-commands.json').write_text(json.dumps(commands, indent=2) + '\n')
               result.check_returncode()
+          # XCTest used this bundle as its host; remove its synthetic app sandbox before launch evidence.
+          run('xcrun', 'simctl', 'uninstall', udid, metadata['CFBundleIdentifier'])
           run('xcrun', 'simctl', 'install', udid, str(bundle))
           for appearance in ['light', 'dark']:
               run('xcrun', 'simctl', 'ui', udid, 'appearance', appearance)
@@ -363,7 +377,7 @@ jobs:
               'bundleId': metadata['CFBundleIdentifier'],
               'version': metadata['CFBundleShortVersionString'],
               'build': str(metadata['CFBundleVersion']),
-              'scope': 'SIMULATOR_INSTALL_LAUNCH_AND_SCREENSHOT_CAPTURE_ONLY',
+              'scope': 'SIMULATOR_RESET_SANDBOX_INSTALL_LAUNCH_AND_SCREENSHOT_CAPTURE_ONLY',
               'installAndLaunch': 'PASS',
               'screenshots': screenshots,
               'bundleFiles': before,

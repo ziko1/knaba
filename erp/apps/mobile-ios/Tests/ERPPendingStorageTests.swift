@@ -1,4 +1,5 @@
 import XCTest
+import CryptoKit
 @testable import KNABADE
 
 private final class ERPTestJournalKeyStore: ERPJournalKeyStoring, @unchecked Sendable {
@@ -100,5 +101,41 @@ final class ERPPendingStorageTests: XCTestCase {
         let old = try command(createdAt: Date(timeIntervalSince1970: 1))
         try store.insert(old)
         XCTAssertEqual(try store.load(), old)
+    }
+
+    private func legacyCredential(_ name: String, input: [String: Any]) throws -> ERPPendingCommand {
+        let key = UUID().uuidString
+        return ERPPendingCommand(schemaVersion: 1, origin: "https://erp.knaba.test", companyId: "company-a", userId: "user-a",
+                                 command: name, idempotencyKey: key, expectedVersion: nil,
+                                 body: try JSONSerialization.data(withJSONObject: ["idempotency_key": key, "input": input]), createdAt: Date())
+    }
+
+    func testCredentialInsertFailsBeforeCreatingFileOrEncryptionKey() throws {
+        let file = try directory().appendingPathComponent("erp-pending-command-v1.aesgcm"), keys = ERPTestJournalKeyStore()
+        let store = ERPEncryptedPendingCommandStore(file: file, keys: keys)
+        let unsafe = try legacyCredential("user.password.rotate", input: ["currentPassword": "synthetic-old", "newPassword": "synthetic-new"])
+        XCTAssertThrowsError(try store.insert(unsafe)) { XCTAssertEqual($0 as? ERPFailure, .pendingStorage) }
+        XCTAssertFalse(FileManager.default.fileExists(atPath: file.path))
+        XCTAssertNil(try keys.read()); XCTAssertEqual(keys.writeCount(), 0)
+    }
+
+    func testEncryptedLegacyCredentialAndNestedSecretJournalCannotLoadOrBeReplaced() throws {
+        let records: [(String, [String: Any])] = [
+            ("user.password.rotate", ["currentPassword": "synthetic-old", "newPassword": "synthetic-new"]),
+            ("task.submit", ["details": [["Access-Token": "synthetic-token"]]])
+        ]
+        for (name, input) in records {
+            let file = try directory().appendingPathComponent("erp-pending-command-v1.aesgcm"), keys = ERPTestJournalKeyStore()
+            let key = Data(repeating: 7, count: 32); try keys.write(key)
+            let record = try legacyCredential(name, input: input)
+            // Simulate a pre-fix encrypted record without going through today's validation.
+            let encrypted = try XCTUnwrap(AES.GCM.seal(JSONEncoder().encode(record), using: SymmetricKey(data: key)).combined)
+            try encrypted.write(to: file)
+            let store = ERPEncryptedPendingCommandStore(file: file, keys: keys)
+            XCTAssertThrowsError(try store.load()) { XCTAssertEqual($0 as? ERPFailure, .pendingStorage) }
+            XCTAssertThrowsError(try store.insert(self.command())) { XCTAssertEqual($0 as? ERPFailure, .pendingStorage) }
+            XCTAssertEqual(try Data(contentsOf: file), encrypted, "Do not silently overwrite an unresolved legacy record")
+            XCTAssertEqual(keys.writeCount(), 1)
+        }
     }
 }

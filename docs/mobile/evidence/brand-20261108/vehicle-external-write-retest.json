@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-11-08T14:59:37.029658+00:00",
+  "scope": "Real Engine with in-memory SQL transport double; no PostgreSQL or network",
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "/workspace/scratch/a3c43ba31037/vehicle-external-write-probe.mts"
+  ],
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "/workspace/scratch/a3c43ba31037/knaba/erp/packages/domain/core.ts:16\nexport function assert(condition:unknown,code:string,details:Data={}):asserts condition {if(!condition) throw new DomainError(code,details);}\n                                                                                                              ^\n\nDomainError: ACCESS_DENIED\n    at assert (/workspace/scratch/a3c43ba31037/knaba/erp/packages/domain/core.ts:16:111)\n    at requireInternalActor (/workspace/scratch/a3c43ba31037/knaba/erp/packages/domain/vehicle-trips.ts:8:54)\n    at Object.handler (/workspace/scratch/a3c43ba31037/knaba/erp/packages/domain/vehicle-trips.ts:67:7)\n    at <anonymous> (/workspace/scratch/a3c43ba31037/knaba/erp/apps/api/engine.ts:146:396)\n    at async <anonymous> (/workspace/scratch/a3c43ba31037/vehicle-external-write-probe.mts:12:15) {\n  code: 'ACCESS_DENIED',\n  details: {}\n}\n\nNode.js v24.22.1\n",
+  "expectedOutcome": "Original create attack now throws ACCESS_DENIED before distance/cancel are reached",
+  "expectedRejectionObserved": true,
+  "moduleSha256": "14d1a7703a7103b1262df88d054bf78de3d7c026311bf0b8e82944c97fd064df",
+  "probeSha256": "a3715b4fbd86317013e0802a9b3360f67afb0e67a5ff5f90ab0fe3f35f31bb1a"
+}

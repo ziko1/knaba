@@ -37,6 +37,10 @@ public final class ErpConsoleTransportTest {
         @Override public InputStream getInputStream() throws IOException { if (failRead) throw new IOException("PRIVATE_RESPONSE"); return new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8)); }
         @Override public InputStream getErrorStream() { return new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8)); }
         @Override public Map<String,List<String>> getHeaderFields() { return headers; }
+        @Override public String getHeaderField(String name) {
+            for (Map.Entry<String,List<String>> entry : headers.entrySet()) if (name.equalsIgnoreCase(entry.getKey()) && !entry.getValue().isEmpty()) return entry.getValue().get(0);
+            return null;
+        }
         JSONObject body() throws Exception { return new JSONObject(sent.toString("UTF-8")); }
     }
     static final class Queue implements ErpConsoleTransport.ConnectionFactory {
@@ -80,6 +84,9 @@ public final class ErpConsoleTransportTest {
         check(!me.getInstanceFollowRedirects() && me.getConnectTimeout() == 15000 && me.getReadTimeout() == 15000 && me.disconnected, "timeouts redirect block and cleanup");
         Fake denied = q.add("{\"code\":\"ACCESS_DENIED\"}"); denied.status = 403;
         check(!fails("ACCESS_DENIED", api::dashboard).outcomeUnknown && api.isSignedIn(), "403 preserves login");
+        Fake throttled = q.add("{\"code\":\"RATE_LIMITED\"}"); throttled.status = 429;
+        throttled.headers.put("Retry-After", List.of("300"));
+        check(fails("RATE_LIMITED", api::dashboard).retryAfterMillis == 300000, "Server read throttle reaches foreground scheduler without a retry");
         Fake unsafeError = q.add("{\"code\":\"private@email.invalid\"}"); unsafeError.status = 400;
         fails("HTTP_ERROR", api::dashboard);
         Fake expired = q.add("<html>private gateway page</html>"); expired.status = 401;

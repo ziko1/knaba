@@ -31,7 +31,9 @@ struct ERPPendingCommand: Codable, Equatable, Sendable {
               createdAt.timeIntervalSince1970.isFinite,
               !body.isEmpty, body.count <= Self.maximumBodyBytes,
               let envelope = try? JSONSerialization.jsonObject(with: body) as? [String: Any],
-              envelope["input"] is [String: Any],
+              let input = envelope["input"] as? [String: Any],
+              !ERPCredentialPolicy.isOneShot(command),
+              (try? ERPCredentialPolicy.containsSecret(input)) == false,
               envelope["idempotency_key"] as? String == idempotencyKey,
               Set(envelope.keys).isSubset(of: ["input", "idempotency_key", "expected_version"]) else {
             throw ERPFailure.pendingStorage

@@ -1,0 +1,27 @@
+[
+  {
+    "original": "android-discovery-busy-fix.patch",
+    "stored": "android-discovery-busy-fix.patch.json",
+    "sha256": "99e13dddc2d0ad6764001794852de2712d426f21d1454ab7f672b2a858fa9487"
+  },
+  {
+    "original": "credential-native-contracts.log",
+    "stored": "credential-native-contracts.log.json",
+    "sha256": "f32fbf03f80fe4bb224552813f740c79db39212acb2dd2605c8832eb5954aea7"
+  },
+  {
+    "original": "reconciliation-focused-tests.log",
+    "stored": "reconciliation-focused-tests.log.json",
+    "sha256": "2c7ad6a41b2937eec3fae764c5c4a325a0f5c4273e1f56afc2e0d4d857a3badf"
+  },
+  {
+    "original": "reconciliation-typecheck.log",
+    "stored": "reconciliation-typecheck.log.json",
+    "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+  },
+  {
+    "original": "vehicle-external-write-before.log",
+    "stored": "vehicle-external-write-before.log.json",
+    "sha256": "529be1000348c0f6f4c7eeb72bc98f2bee8c306990d6ce768969643012b9869f"
+  }
+]

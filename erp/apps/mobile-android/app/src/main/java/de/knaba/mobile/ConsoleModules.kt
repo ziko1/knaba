@@ -19,6 +19,7 @@ internal object ConsoleModules {
         module("shift", R.string.erp_shifts, "shift.read", "shift.manage", "timesheet.approve", "finance.accountant"),
         module("timesheet", R.string.erp_timesheets, "timesheet.read", "timesheet.approve", "finance.payroll", "finance.accountant"),
         module("trip", R.string.erp_trips, "trip.read", "trip.manage", "trip.approve"),
+        module("vehicle_trip", R.string.erp_vehicle_trips, "trip.read", "dispatch.manage", "trip.approve"),
         module("presence", R.string.erp_presence, "location.presence.read"),
         module("defect", R.string.erp_defects, "task.read", "task.review"),
         module("worklog", R.string.erp_worklogs, "task.read", "operations.read"),

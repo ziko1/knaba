@@ -1,0 +1,26 @@
+{
+  "author": "/root/release_capabilities",
+  "baseIndependentReview": "android-integration-independent-review-f60293da.json",
+  "fix": "Reschedule public discovery once per second while login is busy, only after existing foreground/ticket/destroy/in-flight guards pass",
+  "regression": "discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials",
+  "testScenario": "Hold a single login past the 60s discovery tick, fail it with NETWORK_ERROR, release; the next bounded discovery probe resumes while login count remains1, password is cleared and no authenticated dashboard read occurs",
+  "expectedNativeTotal": 60,
+  "nativeExecution": "NOT_RUN_ANDROID_SDK_UNAVAILABLE",
+  "diffCheck": "PASS",
+  "restoredOriginalMatchesBothFrozen59Hashes": true,
+  "files": [
+    {
+      "path": "erp/apps/mobile-android/app/src/main/java/de/knaba/mobile/ErpConsoleActivity.kt",
+      "frozen59Sha256": "0d6e5ed546e264bb5715f51921cae42c292abc0f1e569e0b0eb0277f541a8d40",
+      "currentSha256": "9760017df7c4998bfecc2bf48df28a7cca4fadc1e272b289d87fb61be0d1ce52"
+    },
+    {
+      "path": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+      "frozen59Sha256": "92c7c871eae0660ee3e439dc88809c2dcfda28af5a64ae79f75c523c083fe3ec",
+      "currentSha256": "2da6cb5add3392e71fe9a79e1541e74358babaf582f86729b6d85c12b3e4bfe5"
+    }
+  ],
+  "patchSha256": "99e13dddc2d0ad6764001794852de2712d426f21d1454ab7f672b2a858fa9487",
+  "independentReview": "PENDING_ROOT_REVIEW",
+  "published": false
+}

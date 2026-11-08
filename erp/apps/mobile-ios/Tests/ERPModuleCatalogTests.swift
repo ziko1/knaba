@@ -64,7 +64,16 @@ final class ERPModuleCatalogTests: XCTestCase {
     func testExplicitPermissionWildcardsHaveBoundedNamespaceMatching() {
         XCTAssertEqual(kinds([], ["inventory.*"]), kinds([], ["inventory.read"]))
         XCTAssertTrue(kinds(["OWNER"], ["financee.*"]).isEmpty)
-        XCTAssertEqual(kinds([], ["*"]).count, 39)
+        XCTAssertEqual(kinds([], ["*"]).count, 40)
         XCTAssertEqual(Set(ERPModuleCatalog.items.map(\.id)).count, ERPModuleCatalog.items.count)
+    }
+
+    func testSharedVehicleNavigationRequiresAnExplicitServerReadCapability() {
+        for permission in ["trip.read", "dispatch.manage", "trip.approve"] {
+            XCTAssertTrue(kinds(["EMPLOYEE"], [permission]).contains("vehicle_trip"), permission)
+        }
+        XCTAssertFalse(kinds(["EMPLOYEE"], ["trip.manage"]).contains("vehicle_trip"))
+        XCTAssertFalse(kinds(["CLIENT"], ["customer.portal"]).contains("vehicle_trip"))
+        XCTAssertFalse(kinds(["OWNER"], []).contains("vehicle_trip"))
     }
 }

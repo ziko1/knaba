@@ -1,5 +1,14 @@
 # KNABA DE project memory
 
+## 2026-11-08 — mobile0.6.0 style and safe concurrent feature reconciliation
+
+Current task remains KNABA: website-styled native iOS/Android and two customer-installable test files. Draft PR135 keeps PR133/F1/F2/F4/C08 ancestry. A divergent Android line at dc54f109 contained real discovery, foreground refresh, one-shot credential and shared-vehicle functionality; compatible pieces are forward-ported without replacing current backend request/device/federated guards. Android uses0.6.0/code9 because another issued candidate already usedcode8; iOS0.6.0/build8 keeps its current architecture.
+
+Narrow backend delta: vehicle_trip registry, personal-trip association checks, permission-specific visibility and fresh summary reads. Independent review reproduced and fixed external-role writes even with operational grants. Six added negative CPU regressions were RED before the guard and GREEN afterward;198 focused domain/Engine/operations/native-registry cases PASS with0 skip. Four genuine vehicle PostgreSQL cases and new combined native binaries are pending exact-source hosted acceptance. Telegram integration exact-replay fixture now resends original bytes; production collision equality is unchanged.
+
+Native credential inputs require a non-journaled one-shot path and fresh identity checks; platform source review and new native tests remain gates. See ../docs/mobile/MOBILE_BRAND_0.6.0_UK.md and ../docs/mobile/evidence/brand-20261108/. Original full V4/V3, company/live/physical acceptance and iOS owner signing remain OPEN/BLOCKED; no production, merge, provider or paid activation.
+
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.

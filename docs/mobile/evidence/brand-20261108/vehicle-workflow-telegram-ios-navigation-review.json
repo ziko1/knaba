@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/ios_brand",
+  "reviewKind": "INDEPENDENT_NARROW_DIFFERENTIAL_SOURCE_REVIEW",
+  "observedAt": "2026-11-08T15:01:07.853864+00:00",
+  "baselineGitSha": "0234895b0075b1bb7639fa27ded4c5168e519305",
+  "donorGitSha": "dc54f109c52e3b8f8a2e506821a6eb322b5417c4",
+  "reviewedState": "Uncommitted working-tree bytes bound by SHA-256; no claim these edits belong to baseline commit",
+  "sourceFiles": [
+    {
+      "path": "erp/packages/domain/vehicle-trips.ts",
+      "bytes": 10461,
+      "sha256": "14d1a7703a7103b1262df88d054bf78de3d7c026311bf0b8e82944c97fd064df",
+      "donorSha256": "138dc77b30ebcd82800bd4cec05595c1c5341006cbb4e83c995381b5d973c3b8",
+      "identicalToDonor": false
+    },
+    {
+      "path": "erp/tests/vehicle-trip-engine-authority.test.ts",
+      "bytes": 10543,
+      "sha256": "c4839b37716e1a92ac528fb415f8b3dc521613f210e00ed6b78414b01359fe21",
+      "donorSha256": "08c3bb97216724fdd829cf526872fbbf5c970fd7dddfca57d6f317b95b997b09",
+      "identicalToDonor": false
+    },
+    {
+      "path": "erp/tests/vehicle-trips.test.ts",
+      "bytes": 11120,
+      "sha256": "749f4d2b67dbca91483685ecf7f13ca6f4d213e8c294998356f6de45668c820d",
+      "donorSha256": "555043bddc805e017432a91e8847ef0d1cc8f2cd52e354f450dd03cd1083033b",
+      "identicalToDonor": false
+    },
+    {
+      "path": "erp/tests/vehicle-trips.integration.test.ts",
+      "bytes": 8362,
+      "sha256": "ee5da0328827976eb2ddf2a7797f579514a6245d8f5f9cef770dff9f0bd4e78d",
+      "donorSha256": "44ca0cf9e60308a012a01d969177e918c223bdcec9f17112bb6310c934914b90",
+      "identicalToDonor": false
+    },
+    {
+      "path": "erp/apps/api/engine.ts",
+      "bytes": 53019,
+      "sha256": "6e8c4a9ee2539dcce42b908e52931a583b982f38ec02d07ab5a3d3f69dab2c47"
+    },
+    {
+      "path": "erp/packages/domain/operations.ts",
+      "bytes": 114193,
+      "sha256": "0d09b0f98003d8121c079f8111fd2446cfb79ecd5410b5f163f8638b9236dfc4"
+    },
+    {
+      "path": ".github/workflows/native.yml",
+      "bytes": 27487,
+      "sha256": "a53471d25f109f99de909ab2b850bea1c640761a3cbae9fbd694ab137a5e704a"
+    },
+    {
+      "path": "erp/tests/telegram.integration.test.ts",
+      "bytes": 18803,
+      "sha256": "6b8d33a73b78268a7da5bfbecd8f04da99ec688d76ca38676650445bc218a22e"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPModuleCatalog.swift",
+      "bytes": 6656,
+      "sha256": "a8582b9823771967ceaad7f7cc2c22441bf7c5a1de869c4da33738d5c99e0658"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Sources/ERPStrings.swift",
+      "bytes": 37928,
+      "sha256": "e490fe45509158b1ca6d18777da979f3e21c0e7ea85adf15c28f8ef1b490a7cd"
+    },
+    {
+      "path": "erp/apps/mobile-ios/Tests/ERPModuleCatalogTests.swift",
+      "bytes": 4997,
+      "sha256": "390590dd21cc50de26ffad2f3e4cd8eb42ad20e6f526765815b38495a0666a55"
+    }
+  ],
+  "unchangedProtectedDependencies": [
+    {
+      "path": "erp/apps/api/database.ts",
+      "bytes": 10345,
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/apps/api/request-authority.ts",
+      "bytes": 14384,
+      "sha256": "a46fdc6eccfa3427de5edaade0603edab7817b9c0a29ad01e747ac485b9c8189",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/apps/api/request-authority-interceptor.ts",
+      "bytes": 1314,
+      "sha256": "b3dfa560a94fe8ef3cde53c9148db0b9904c66f49bff75c7a29bc21f7410142b",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/apps/worker/runner.ts",
+      "bytes": 86481,
+      "sha256": "d2ffce6c9fae6d4cb441c317f0cda21e0c4454b264d499854cf4eb182b92544e",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/packages/domain/governance.ts",
+      "bytes": 25085,
+      "sha256": "6ae2f6c6f20ec4e6602a704d9b360ba86ac59ace3e685f466e81dadf650d14aa",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/packages/domain/core.ts",
+      "bytes": 2603,
+      "sha256": "fe077484bf21757c76ecf4fa1de6f54a2759cf93ea75598b7d733c0e10f1a32c",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/packages/domain/permissions.ts",
+      "bytes": 7977,
+      "sha256": "e45dd56367862aea98209446c6d207f3cbb5c60b226ef4a8a4857dc2fe28d63f",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/apps/api/telegram-ingress.ts",
+      "bytes": 1812,
+      "sha256": "83c8d88d1c5aa41ccf6c21c6343ef9e70d77a53ce6b294ea4f7c8ba6abc67fc6",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "erp/packages/integrations/telegram.ts",
+      "bytes": 6692,
+      "sha256": "51186eb4860a669f86a511eb25c4c3b1edd23ae08743f70c0cbe51e12e5af274",
+      "byteIdenticalToBaseline": true
+    }
+  ],
+  "verdict": "ACCEPTED_NARROW_SOURCE_SCOPE_AFTER_VERIFIED_AUTHORIZATION_CORRECTION",
+  "independence": {
+    "authoredReviewedDeltas": false,
+    "note": "Reviewer authored earlier iOS visual redesign at baseline; root authored the three iOS navigation deltas reviewed here. Reviewer did not author vehicle integration, external-role correction, workflow fixes, Telegram fixture or Android UI. No source edits in this review."
+  },
+  "scope": [
+    "vehicle_trip domain commands, per-permission Engine visibility and fresh-read handling, personal trip.start integration",
+    "tenant, internal-role, permission-specific delegation and route checks; current participants; time versus distance semantics; idempotency/version/transaction boundaries",
+    "Three vehicle test files/current local logs: domain, Engine and four PostgreSQL cases, including added negative tests",
+    "native.yml libpulse0 runtime dependency, Android normal APK install without -t, pinned simulator app-sandbox uninstall/install",
+    "Telegram exact-byte replay fixture repair only; production ingress code unchanged",
+    "root iOS vehicle module navigation, six translations and one regression test only"
+  ],
+  "findings": [
+    {
+      "id": "VEHICLE-AUTH-01",
+      "severity": "HIGH",
+      "status": "RESOLVED_IN_REVIEWED_BYTES",
+      "title": "External roles could mutate shared vehicle trips despite explicit read denial",
+      "attackerModel": "Authenticated user carrying an external role plus OPERATIONS_MANAGER or equivalent operational grants; this does not describe an unauthenticated attack.",
+      "exploitability": "MEDIUM: requires existing mixed-role or explicit operational authorization, but no company-wide grant or delegation is required.",
+      "entryPoints": [
+        "vehicle_trip.create",
+        "vehicle_trip.distance",
+        "vehicle_trip.cancel",
+        "trip.start with vehicleTripId"
+      ],
+      "originalEvidence": {
+        "realEngineProbe": "Using a current stored CLIENT + OPERATIONS_MANAGER actor with sites A/B and no manually injected permissions, create succeeded, estimated distance became 100 m, cancel succeeded, while Engine.visible returned false. In-memory SQL transport double only; no database/network.",
+        "rootRedTests": "vehicle-external-write-before.log shows 6 negative cases failed and 21 prior cases passed before guard correction."
+      },
+      "rootCause": "vehicleTripReadable denied external roles; create and scopedVehicle write paths did not apply the same deny.",
+      "fix": "requireInternalActor runs first in create and scopedVehicle. scopedVehicle is shared by distance, cancel and validateSharedVehicleTrip. It uses the same five-role external set as reads.",
+      "verification": "Re-executing the unchanged original probe against module SHA-256 14d1a7703a7103b1262df88d054bf78de3d7c026311bf0b8e82944c97fd064df now throws DomainError ACCESS_DENIED at create (expected process exit 1). Five Engine mixed-role tests reject all three commands and assert no receipts/vehicle mutations; a separate domain case rejects trip association before changing shift. Current focused log reports 198/198. A real PostgreSQL case was added and source-reviewed but not run by this reviewer."
+    }
+  ],
+  "reviewConclusions": {
+    "tenantIsolation": "entity helper checks company, list-based aggregation filters company, and the PgTransaction dependency remains baseline-identical and scopes SQL by company. Foreign user/reader negative cases exist. No cross-company authority expansion found in reviewed changes.",
+    "permissionAndDelegation": "Engine.visible calls scope(actor, exact permission) independently for trip.read, dispatch.manage and trip.approve; summary uses forPermission with fresh actor reads. It does not combine unrelated permission-site sets. OWNER alone is not a dispatch/approval grant. Current delegation grantor revocation is tested before cached receipt replay.",
+    "currentParticipants": "Creation validates active internal current users, uniqueness and route eligibility. Linking requires current actor to own shift and be planned driver/passenger, CAR transport, correct passenger role and origin/destination; rechecks current actor and driver, and denies a second personal trip for the same vehicle/person. Broad participant-role eligibility mirrors existing employee assignment helper; actual command actor still requires route scope.",
+    "timeDistance": "Person time sums actual TRAVELLING TimeSegments bound to the matching personal trip/shift/employee; private/service/wait segments do not become driving time. Distance is stored once on the vehicle with UNKNOWN or ESTIMATED provenance, never fabricated MEASURED evidence. Manual distances are bounded nonnegative integer meters. No payroll/invoicing side effects introduced. AC-43 arithmetic and break exclusion have domain tests.",
+    "transactionsAndReceipts": "trip.start validation precedes personal trip creation and changeActivity, while existing database company lock/serializable transaction controls remain unchanged. Version checks on distance/cancel use tx.save; summary is in freshReadCommands so ongoing time is recomputed on replay. Current actor/role/scope/delegation fingerprints remain in Engine receipt authority.",
+    "preservedControls": "Engine diff is exactly one import, one freshReadCommands item and one vehicle visibility branch. Operations diff is one import, replacement of the weak vehicle entity existence check with validateSharedVehicleTrip, and registry assignment. prepareSelfDispatchScopeExpansion and recordOwnDeviceRetirement remain present and otherwise unchanged. No replacement by older donor Engine/database/runtime code occurred.",
+    "androidRuntimeWorkflow": "libpulse0 is installed through the ephemeral Ubuntu 24.04 runner package manager, both update/install have timeout bounds, and actual package version is recorded. Job remains contents:read. adb install now omits -t, so a test-only APK cannot pass this normal-install smoke solely because the test-only override was enabled. Existing APK byte comparison after device pull remains in place.",
+    "iosSandboxWorkflow": "Uninstall targets only validated UDID and de.knaba.mobile after checking source SHA and iPhoneSimulator bundle type. It removes XCTest synthetic app sandbox before capturing launch; existing bundle hashes before/after remain. Nonzero commands fail pipeline. Receipt accurately excludes interactive/physical-device acceptance; uninstall is not proof that system Keychain or real customer state was exercised.",
+    "telegramFixture": "input() creates a Buffer whose message.date changes with wall clock seconds. Reconstructing a supposedly identical retry could trigger the production payload-equality conflict correctly. Reusing one original Buffer fixes that fixture; acceptTelegramWebhook only reads/parses bytes. Cross-company rejection, message uniqueness, operator impersonation and opt-out assertions remain. Production ingress is byte-identical to baseline.",
+    "iosNavigation": "New vehicle_trip discovery item uses exactly trip.read/dispatch.manage/trip.approve, matching Engine readable capabilities and Android item. All six language entries are nonempty. The test checks each capability, rejects trip.manage-only, customer.portal-only and OWNER-without-grants, and updates full catalog count from 39 to 40. Discovery is only UI availability; server still checks current role/route/participant. New XCTest has not executed in this working tree."
+  },
+  "validationObserved": [
+    {
+      "kind": "Source and differential inspection",
+      "result": "PASS_IN_NARROW_SCOPE",
+      "details": "Read full vehicle module, complete donor deltas, tests, exact Engine/operations diffs, narrow workflow diff, Telegram fixture/ingress, iOS catalog/translations/test and one-hop authority/time/database helpers."
+    },
+    {
+      "kind": "Original Engine exploit retest",
+      "result": "EXPECTED_ACCESS_DENIED_OBSERVED",
+      "artifact": "vehicle-external-write-retest.json",
+      "details": "Independent execution of original unchanged probe; no PostgreSQL or live systems."
+    },
+    {
+      "kind": "Focused local Vitest log",
+      "result": "198_PASSED_0_FAILED_0_SKIPPED",
+      "artifact": "brand-reconcile-focused-tests-final.log",
+      "breakdown": {
+        "vehicleDomain": 14,
+        "vehicleEngine": 13,
+        "operations": 45,
+        "nativeRegistry": 126
+      },
+      "executionBy": "root; reviewer independently read final log"
+    },
+    {
+      "kind": "TypeScript typecheck log",
+      "result": "NO_DIAGNOSTICS_OBSERVED",
+      "artifact": "brand-reconcile-typecheck-final.log",
+      "details": "Log contains tsc --noEmit with no compiler diagnostics. Reviewer did not rerun or infer an exit code absent a separate command receipt."
+    },
+    {
+      "kind": "PostgreSQL vehicle tests",
+      "result": "SOURCE_REVIEWED_EXECUTION_PENDING",
+      "count": 4
+    },
+    {
+      "kind": "New iOS navigation XCTest",
+      "result": "SOURCE_REVIEWED_EXECUTION_PENDING",
+      "newCount": 1
+    },
+    {
+      "kind": "Workflow runtime fixes",
+      "result": "SOURCE_REVIEWED_EXECUTION_PENDING",
+      "details": "No claim libpulse0, normal Android install or fresh iOS launch has passed on the next source until actual hosted CI receipts."
+    }
+  ],
+  "limitations": [
+    "This is not whole-product, live backend, physical Android/iPhone, owner signing or customer UAT certification.",
+    "The new shared summary scans company trip/time-segment collections using existing transaction APIs. No production-sized performance baseline or p95 assertion was measured.",
+    "Current personal Trip lifecycle remains the existing implementation; importing vehicle grouping does not certify the full target V4 trip/maps/payroll feature set.",
+    "Standalone normal APK install is a stronger simulator check than install -t, but not physical-device distribution, update, permission, recovery or signed-owner readiness.",
+    "The Android visual report remains bound to 0234895 intermediate host renders and cannot be relabeled as evidence for these subsequent Android changes.",
+    "iOS credential safety correction assigned to another agent is a separate pending review; no approval of that area is implied here.",
+    "ERPStrings.swift is bound to the reviewed root navigation snapshot only; the pending credential-copy edit must supersede its hash in the separate security review. The other root/backend/workflow files were reported frozen by root."
+  ],
+  "remainingReleaseGates": [
+    "Exact-source hosted PostgreSQL/ERP checks including four vehicle PG cases and Telegram fixture",
+    "Exact-source native compile/XCTest and Android test/lint/package checks",
+    "Actual workflow emulator/simulator install/launch receipts and independent review of resulting images",
+    "Separate independent review and validation of pending iOS credential safety correction",
+    "Owner signing and physical-device/customer acceptance remain outside this source review"
+  ],
+  "evidenceFiles": [
+    {
+      "path": "/workspace/scratch/a3c43ba31037/vehicle-external-write-probe.mts",
+      "bytes": 2532,
+      "sha256": "a3715b4fbd86317013e0802a9b3360f67afb0e67a5ff5f90ab0fe3f35f31bb1a"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/vehicle-external-write-retest.json",
+      "bytes": 1555,
+      "sha256": "51c283da90895b0ba755e203abe4134b54a1cd9d401a135231cb58f70e5ba7e4"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/vehicle-external-write-before.log",
+      "bytes": 7053,
+      "sha256": "529be1000348c0f6f4c7eeb72bc98f2bee8c306990d6ce768969643012b9869f"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-reconcile-focused-tests-final.log",
+      "bytes": 737,
+      "sha256": "2c7ad6a41b2937eec3fae764c5c4a325a0f5c4273e1f56afc2e0d4d857a3badf"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/brand-reconcile-typecheck-final.log",
+      "bytes": 143,
+      "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+    },
+    {
+      "path": "/workspace/scratch/a3c43ba31037/android-visual-review-0234895.json",
+      "bytes": 13019,
+      "sha256": "0394e1734bbba41aec2f7247062e1d82623576959af22f53bceddc627001635b"
+    }
+  ]
+}

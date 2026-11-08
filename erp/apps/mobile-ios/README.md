@@ -1,3 +1,9 @@
+## 0.6.0 credential-safe test candidate
+
+The shared website styling is complemented by40 scoped native module entries, including shared vehicle trips. Password rotation and MFA setup use an explicit one-shot path with fresh identity validation, secure text controls and exact password bytes. Credentials and nested secret-shaped inputs cannot enter durable command recovery. After a dispatched credential change, sign in again; a timeout is an unknown outcome and is never automatically retried. Unrelated unresolved commands remain intact.
+
+Source now contains91 XCTest methods including regression cases for credential storage, stale completion/new login races, secure fields and navigation. This source count is not a test result; consult the exact-source hosted receipt for actual execution. iOS17 remains the minimum target. Simulator artifacts cannot be installed on an iPhone; owner Apple team/signing/provisioning and registered customer devices are required for a separate signed device archive.
+
 ## Current iOS candidate — 0.6.0 / build 8
 
 Adapts the current KNABA website/workspace design to native SwiftUI: the exact compact wordmark, deep teal/lime identity, semantic light/dark surfaces, accessible cards, horizontally scrollable module tabs, readable forms/messages/recovery notices and the worker shift dashboard. All six languages, contextual commands, session/actor/version fences, encrypted pending-command recovery and explicit GPS consent remain in force. Domain/transport/storage source is unchanged from the accepted0.5.1 base.

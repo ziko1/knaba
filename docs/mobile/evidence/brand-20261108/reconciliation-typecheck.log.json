@@ -1,0 +1,8 @@
+{
+  "type": "VERBATIM_UTF8_EVIDENCE_ENVELOPE",
+  "originalFilename": "reconciliation-typecheck.log",
+  "originalSha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665",
+  "originalBytes": 143,
+  "text": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n\n> knaba-de@0.1.0 typecheck\n> tsc --noEmit\n\n",
+  "reason": "Preserve exact original output including meaningful patch context and trailing blank lines while keeping repository diff hygiene."
+}

@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "project": "KNABA_DE",
+  "task": "Native visual redesign customer test candidates",
+  "sourceGitSha": "0234895b0075b1bb7639fa27ded4c5168e519305",
+  "reviewer": "/root/ios_brand",
+  "independence": {
+    "authoredAndroidChanges": false,
+    "authoredIOSChanges": true,
+    "reviewScope": "Android only; read-only source/result/image inspection"
+  },
+  "conclusion": "ACCEPTED_INTERMEDIATE_HOST_RENDER_SCOPE_WITH_MINOR_OBSERVATION",
+  "evidenceScope": {
+    "renderer": "Robolectric Android Views Bitmap Canvas, as implemented in the exact-source tests",
+    "imagesVisuallyInspected": 11,
+    "imageSizes": [
+      "320x720 with Ukrainian font scale2",
+      "411x891 German",
+      "800x1280 Ukrainian"
+    ],
+    "screens": [
+      "login",
+      "dashboard",
+      "tasks",
+      "messages",
+      "worker shift"
+    ],
+    "nativeBuildMode": "Host rendering and JUnit result inspection; no emulator or physical-device operation performed by reviewer",
+    "backend": "Explicit synthetic demo/fixture values; no live ERP acceptance",
+    "appearance": "Light theme by explicit Theme.Material.Light.NoActionBar and forceDarkAllowed=false",
+    "candidateStatus": "Intermediate source023; later reconciled Android inputs require their own exact-source verification"
+  },
+  "criteria": [
+    {
+      "id": "AV01",
+      "criterion": "Website identity and visual consistency",
+      "status": "PASS_HOST_VISUAL_SCOPE",
+      "evidence": [
+        "all 11 PNGs",
+        "knaba-mobile-design-contract.md"
+      ]
+    },
+    {
+      "id": "AV02",
+      "criterion": "Visible phone labels, actions, cards and status remain readable",
+      "status": "PASS_HOST_VISUAL_SCOPE",
+      "evidence": [
+        "phone-login.png",
+        "phone-dashboard.png",
+        "phone-shift.png",
+        "phone-tasks.png"
+      ]
+    },
+    {
+      "id": "AV03",
+      "criterion": "Visible320px/font2 content wraps without overlapping or clipped action labels",
+      "status": "PASS_HOST_VISUAL_SCOPE",
+      "evidence": [
+        "narrow-*-uk-font2.png",
+        "ErpConsoleActivityTest assertControlBounds"
+      ]
+    },
+    {
+      "id": "AV04",
+      "criterion": "Worker screen retains explicit location-off and privacy language",
+      "status": "PASS_HOST_VISUAL_SCOPE",
+      "evidence": [
+        "phone-shift.png",
+        "narrow-shift-uk-font2.png",
+        "workerScreenStartsWithGpsOffAndLabelsEveryInput JUnit result"
+      ]
+    },
+    {
+      "id": "AV05",
+      "criterion": "Tablet dashboard and conversation layout",
+      "status": "PASS_HOST_VISUAL_SCOPE",
+      "evidence": [
+        "tablet-dashboard-uk.png",
+        "tablet-chat-uk.png"
+      ]
+    },
+    {
+      "id": "AV06",
+      "criterion": "Physical install, actual touch/keyboard navigation, TalkBack, GPS hardware and live company journeys",
+      "status": "NOT_RUN",
+      "evidence": []
+    }
+  ],
+  "findings": [
+    {
+      "id": "ANDROID-VISUAL-01",
+      "severity": "low",
+      "blocking": false,
+      "status": "OPEN_POLISH",
+      "file": "phone-dashboard.png",
+      "finding": "The first phone metric card is17px shorter than the other two when its label occupies one line.",
+      "measuredEvidence": {
+        "fillColumnGreen": 80,
+        "greenFillY": [
+          377,
+          489
+        ],
+        "fillColumnLilac": 200,
+        "lilacFillY": [
+          377,
+          506
+        ],
+        "fillColumnCoral": 320,
+        "coralFillY": [
+          377,
+          506
+        ]
+      },
+      "recommendation": "Align heights within a shared metric row using its measured content height; retain the stacked layout and unrestricted text growth at large fonts."
+    }
+  ],
+  "nonBlockingObservations": [
+    "The long enrollment field hint is horizontally clipped in phone-shift.png, but the separate visible label is complete. This is a single-line input hint, not a clipped action or missing accessible label.",
+    "Some synthetic names and original message bodies remain German/English when the interface is Ukrainian. The visible demo label makes this data scope explicit; this review does not assess complete business-content translation.",
+    "Initial large-font screenshots show only the top of each scrollable screen. Below-fold control reachability is supported by source scroll containers and host control-width/height/label checks, not by physical swipes or keyboard interaction."
+  ],
+  "junitObserved": {
+    "totalTests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "OBSERVED_PASS_36_OF_36",
+    "suites": [
+      {
+        "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+        "sha256": "2ec1351ab31adde9da796d83f767a327946967deeeeec262f3cab4540d08ab80",
+        "name": "de.knaba.mobile.ConsoleRecoveryJournalTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "timestamp": "2026-11-08T14:38:58.565Z"
+      },
+      {
+        "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+        "sha256": "2cd9b40e3bb07a62e3e8a7f0a8929be5834fb5c7903dac83e089d32614d497b7",
+        "name": "de.knaba.mobile.ErpConsoleActivityTest",
+        "tests": 31,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "timestamp": "2026-11-08T14:39:11.038Z"
+      }
+    ],
+    "testSourceNotes": "Exact-source screenshot helpers measure/layout/draw Views on a Bitmap Canvas. assertControlBounds checks width>0 and<=viewport, minimum48px target, and no ellipsized/overwide button text. It is not an emulator, physical interaction or screen-reader test."
+  },
+  "sourceFilesInspected": {
+    "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java": "2579bd6e26cabed4d192b830cebef834ed0bb8ee8a676e659c0c327799b31651",
+    "erp/apps/mobile-android/app/src/main/res/values/styles.xml": "124dc7d69852107d17a920e3ad7198e21728921155bf28d8540ce918add07dbc"
+  },
+  "images": [
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/narrow-chat-uk-font2.png",
+      "name": "narrow-chat-uk-font2.png",
+      "width": 320,
+      "height": 720,
+      "bytes": 55871,
+      "sha256": "79e38a28f903784375ee823556c73aef2f7f0dbb8ec08c7814d9442fed01c810",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Conversation title wraps cleanly and remains distinct from the localized messages heading.",
+        "Original German synthetic message content is preserved under the Ukrainian interface; composer lies below viewport."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/narrow-dashboard-uk-font2.png",
+      "name": "narrow-dashboard-uk-font2.png",
+      "width": 320,
+      "height": 720,
+      "bytes": 61420,
+      "sha256": "4bef1cfb35fa9d2ddf01aec3cd18c39c75d41cf141bdf559992da22663455ec3",
+      "inspectedWith": "view_image",
+      "observations": [
+        "DEMO notice and Ukrainian hero wrap without overlap.",
+        "Metrics switch to a stacked layout at large font; lower content is below the initial viewport."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/narrow-login-uk-font2.png",
+      "name": "narrow-login-uk-font2.png",
+      "width": 320,
+      "height": 720,
+      "bytes": 59991,
+      "sha256": "37d0c57981b7351b21f2102f1b883bfadc4b23d4e7b3c416d9be7ea1d761134b",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Ukrainian large-font heading and explanation wrap within the 320px viewport.",
+        "Language button text remains fully visible; form continues below viewport in the existing scroll container."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/narrow-shift-uk-font2.png",
+      "name": "narrow-shift-uk-font2.png",
+      "width": 320,
+      "height": 720,
+      "bytes": 68723,
+      "sha256": "9df5c192bc4eef861625347323697e3707f0ad35405ccc0e6df52ec4817e6223",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Back and language actions fit side by side with full labels.",
+        "Long shift/privacy text wraps fully within the hero; GPS-off status starts below it."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/narrow-tasks-uk-font2.png",
+      "name": "narrow-tasks-uk-font2.png",
+      "width": 320,
+      "height": 720,
+      "bytes": 53667,
+      "sha256": "1891035643708905ba3e07059b927fb465b6476d8e494e62c2581f93488cf945",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Back and refresh button labels remain complete at font scale2.",
+        "Ukrainian heading and scope copy wrap; search/tasks are below the initial viewport."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/phone-dashboard.png",
+      "name": "phone-dashboard.png",
+      "width": 411,
+      "height": 891,
+      "bytes": 65324,
+      "sha256": "83a4c99b58a0ca628bc6a18f40cea1374ebd52d78f038e15407a1831efb214ce",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Explicit DEMO notice remains conspicuous.",
+        "Pastel metrics, dark hero and two-column module cards match cabinet styling.",
+        "Minor alignment inconsistency: first metric card is shorter than adjacent cards."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/phone-login.png",
+      "name": "phone-login.png",
+      "width": 411,
+      "height": 891,
+      "bytes": 64680,
+      "sha256": "87f55eea3b13cc4343360cf7dfe407c930524447e7c0570f969d660487aa314b",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Canonical wordmark readable on paper background; dark teal hero and lime eyebrow match website.",
+        "Visible German labels, field boundaries and primary sign-in control are readable; login form remains single column."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/phone-shift.png",
+      "name": "phone-shift.png",
+      "width": 411,
+      "height": 891,
+      "bytes": 79437,
+      "sha256": "064dc3f59d7803d0cbccbebfd4192a01763cc63c3fc867de4edfc6fb6adc6e0c",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Status visibly says OFF; privacy copy states this screen does not activate GPS.",
+        "Back/language controls, sync action, enrollment labels and card hierarchy are readable.",
+        "Long one-time enrollment hint exceeds the single-line field; its complete visible label remains available."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/phone-tasks.png",
+      "name": "phone-tasks.png",
+      "width": 411,
+      "height": 891,
+      "bytes": 59727,
+      "sha256": "efab5b00018a478986c8e367e14a15e8c8f47a3b4c7b4481737a2a78549b130d",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Task titles, textual status pills and details buttons are legible.",
+        "Back, refresh and search controls are visibly distinct and contained."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/tablet-chat-uk.png",
+      "name": "tablet-chat-uk.png",
+      "width": 800,
+      "height": 1280,
+      "bytes": 61709,
+      "sha256": "a297551bc7717cfa972aadfe7c45e3a565da7d32ecd39c6d2cc957eb6516ef11",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Message card, timestamp, composer, send and refresh controls fit without overlap.",
+        "Primary send action has strong contrast; large unused lower area is expected for a short synthetic conversation."
+      ]
+    },
+    {
+      "file": "/workspace/scratch/a3c43ba31037/brand-ci-0234895/android/app/build/qa/tablet-dashboard-uk.png",
+      "name": "tablet-dashboard-uk.png",
+      "width": 800,
+      "height": 1280,
+      "bytes": 88311,
+      "sha256": "f7a4ebc1d6cd3f5a3897e0d6a9e77dac583ea289be4870fa12a78b2de9d1081c",
+      "inspectedWith": "view_image",
+      "observations": [
+        "Centered 720px content area, consistent margins and two-column module layout fit the 800px viewport.",
+        "All three metric cards align on tablet; allowed-actions and exit-demo controls are visible.",
+        "Server/fixture role display contains the unchanged English role name Operations manager."
+      ]
+    }
+  ],
+  "limitations": [
+    "No dark-mode Android acceptance claimed: the current Android style intentionally stays light.",
+    "No keyboard-up screenshot, interactive TalkBack session, physical install/update or hardware GPS result observed.",
+    "This report cannot retag the PNGs or JUnit results as proof for a later commit."
+  ]
+}

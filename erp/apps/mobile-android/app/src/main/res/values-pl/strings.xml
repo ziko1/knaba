@@ -271,4 +271,27 @@
     <string name="erp_sections">Obszary robocze</string>
     <string name="erp_metric_sites">Aktywne obiekty</string>
     <string name="erp_metric_decisions">Otwarte decyzje</string>
+
+    <string name="erp_server_connecting">Sprawdzanie połączenia z KNABA…</string>
+    <string name="erp_server_automatic">Adres serwera jest pobierany automatycznie z knaba.de. Użyj zatwierdzonego konta ERP.</string>
+    <string name="erp_server_connected">Serwer KNABA jest gotowy. Możesz się zalogować.</string>
+    <string name="erp_server_pending">Połączenie z ERP nie jest jeszcze skonfigurowane. Zostanie sprawdzone ponownie automatycznie.</string>
+    <string name="erp_server_invalid">Konfiguracja serwera jest nieprawidłowa. Skontaktuj się z KNABA.</string>
+    <string name="erp_server_not_ready">ERP nie jest jeszcze gotowy. Połączenie zostanie sprawdzone ponownie automatycznie.</string>
+    <string name="erp_server_unavailable">KNABA jest teraz niedostępna. Połączenie zostanie sprawdzone ponownie automatycznie.</string>
+    <string name="erp_server_retry">Sprawdź połączenie ponownie</string>
+    <string name="erp_server_wait">Logowanie będzie możliwe, gdy serwer KNABA będzie gotowy.</string>
+    <string name="erp_sync_updating">Aktualizowanie danych…</string>
+    <string name="erp_sync_waiting">Nie pobrano jeszcze danych.</string>
+    <string name="erp_sync_stale">Ostatnie dane z %1$s. Wyświetlane dane mogą być nieaktualne.</string>
+    <string name="erp_sync_updated">Zaktualizowano o %1$s · Automatyczne odświeżanie jest włączone</string>
+    <string name="erp_vehicle_trips">Wspólne przejazdy</string>
+    <string name="erp_account_change_once">Te dane logowania są wysyłane jeden raz i nie są zapisywane do ponownego wysłania. Następnie zaloguj się ponownie.</string>
+    <string name="erp_account_change_reauth">Zaloguj się ponownie, aby sprawdzić zmianę danych logowania.</string>
+    <string name="erp_sensitive_command">Ta operacja na danych logowania jest niedostępna w aplikacji mobilnej.</string>
+    <string name="erp_change_password">Zmień hasło</string>
+    <string name="erp_configure_mfa">Skonfiguruj logowanie dwuskładnikowe</string>
+    <string name="erp_current_password">Obecne hasło</string>
+    <string name="erp_new_password">Nowe hasło</string>
+    <string name="erp_mfa_secret">Klucz konfiguracji aplikacji uwierzytelniającej</string>
 </resources>

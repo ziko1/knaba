@@ -1,5 +1,12 @@
 # KNABA Mobile — budget fence
 
+## 2026-11-08 website-style mobile candidate reservation
+
+User-authorized iOS/Android design and installable test files use only the already verified public `ziko1/knaba` repository and standard Ubuntu/macOS runners. Reserve initial source023 plus one corrective/reconciliation source checkpoint (at most two native runs, 160 runner-minutes upper bound with existing30/50min job limits), including automatically triggered existing root/site/ERP/bridge checks. Eligible standard public-runner compute reservation EUR0; no claim about ChatGPT/account credit balance. No larger runner, paid service, store channel or production activation. Artifact retention14days supports test handoff; durable customer files are separate.
+
+Concrete correction: initial Android emulator lacked libpulse.so.0; repository ERP failed a clock-sensitive Telegram exact-replay fixture. Current reconciliation also preserves already implemented Android safety/discovery/autosync/vehicle capabilities from a divergent existing line; a wholesale branch replacement is prohibited. The next source requires fresh actual CI, not an unchanged blind rerun. Local ERP dependencies were restored from the existing npm cache with `npm ci --offline --ignore-scripts --no-audit --no-fund`, without a provider call. Apple distribution prerequisites remain external and unbudgeted.
+
+
 ## 2026-11-08 native/backend consolidation reservation
 
 C08 PR run 42483792274 and duplicate push 42483788861 are SUCCESS and independently accepted at e747fd94e219e09faffea96c2f9f84be15a6def1. Historical iOS 0.5.1 job in run 42467913707 accepted 67 XCTest; its Android peer failed before compilation on dependency HTTP504 and remains recorded as such. No unchanged manual rerun is requested.

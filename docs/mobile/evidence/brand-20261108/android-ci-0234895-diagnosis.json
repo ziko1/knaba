@@ -1,0 +1,167 @@
+{
+  "sourceGitSha": "0234895b0075b1bb7639fa27ded4c5168e519305",
+  "runId": 42490594108,
+  "androidJobId": 128761868818,
+  "artifactId": 13621511989,
+  "artifactZipSha256": "02adb48c8f52f6f161140ca344085530b4a947d95727cc3c0a5ab7778530832f",
+  "jobConclusion": "FAILURE",
+  "packagingStep": "SUCCESS",
+  "junit": {
+    "counts": {
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ConsoleRecoveryJournalTest.xml",
+        "sha256": "2ec1351ab31adde9da796d83f767a327946967deeeeec262f3cab4540d08ab80",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "actualTestcaseElements": 5
+      },
+      {
+        "path": "app/build/test-results/testDebugUnitTest/TEST-de.knaba.mobile.ErpConsoleActivityTest.xml",
+        "sha256": "2cd9b40e3bb07a62e3e8a7f0a8929be5834fb5c7903dac83e089d32614d497b7",
+        "tests": 31,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "actualTestcaseElements": 31
+      }
+    ]
+  },
+  "images": [
+    {
+      "path": "app/build/qa/narrow-chat-uk-font2.png",
+      "sha256": "79e38a28f903784375ee823556c73aef2f7f0dbb8ec08c7814d9442fed01c810",
+      "width": 320,
+      "height": 720,
+      "bytes": 55871,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/narrow-dashboard-uk-font2.png",
+      "sha256": "4bef1cfb35fa9d2ddf01aec3cd18c39c75d41cf141bdf559992da22663455ec3",
+      "width": 320,
+      "height": 720,
+      "bytes": 61420,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/narrow-login-uk-font2.png",
+      "sha256": "37d0c57981b7351b21f2102f1b883bfadc4b23d4e7b3c416d9be7ea1d761134b",
+      "width": 320,
+      "height": 720,
+      "bytes": 59991,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/narrow-shift-uk-font2.png",
+      "sha256": "9df5c192bc4eef861625347323697e3707f0ad35405ccc0e6df52ec4817e6223",
+      "width": 320,
+      "height": 720,
+      "bytes": 68723,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/narrow-tasks-uk-font2.png",
+      "sha256": "1891035643708905ba3e07059b927fb465b6476d8e494e62c2581f93488cf945",
+      "width": 320,
+      "height": 720,
+      "bytes": 53667,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/phone-dashboard.png",
+      "sha256": "83a4c99b58a0ca628bc6a18f40cea1374ebd52d78f038e15407a1831efb214ce",
+      "width": 411,
+      "height": 891,
+      "bytes": 65324,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/phone-login.png",
+      "sha256": "87f55eea3b13cc4343360cf7dfe407c930524447e7c0570f969d660487aa314b",
+      "width": 411,
+      "height": 891,
+      "bytes": 64680,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/phone-shift.png",
+      "sha256": "064dc3f59d7803d0cbccbebfd4192a01763cc63c3fc867de4edfc6fb6adc6e0c",
+      "width": 411,
+      "height": 891,
+      "bytes": 79437,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/phone-tasks.png",
+      "sha256": "efab5b00018a478986c8e367e14a15e8c8f47a3b4c7b4481737a2a78549b130d",
+      "width": 411,
+      "height": 891,
+      "bytes": 59727,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/tablet-chat-uk.png",
+      "sha256": "a297551bc7717cfa972aadfe7c45e3a565da7d32ecd39c6d2cc957eb6516ef11",
+      "width": 800,
+      "height": 1280,
+      "bytes": 61709,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    },
+    {
+      "path": "app/build/qa/tablet-dashboard-uk.png",
+      "sha256": "f7a4ebc1d6cd3f5a3897e0d6a9e77dac583ea289be4870fa12a78b2de9d1081c",
+      "width": 800,
+      "height": 1280,
+      "bytes": 88311,
+      "evidenceScope": "ROBOLECTRIC_RENDER_ONLY"
+    }
+  ],
+  "emulator": {
+    "failure": {
+      "stage": "sdk-and-avd",
+      "errorType": "CalledProcessError",
+      "message": "Command '['/usr/local/lib/android/sdk/emulator/emulator', '-version']' returned non-zero exit status 127.",
+      "sourceGitSha": "0234895b0075b1bb7639fa27ded4c5168e519305",
+      "apkSha256": "cebcfb90d9e3d68a1aa0def74fd8680b443deafd21d943f24cadec34495539ad",
+      "completion": "FAILED",
+      "physicalDeviceInstall": "NOT_RUN"
+    },
+    "failedCommand": {
+      "command": [
+        "/usr/local/lib/android/sdk/emulator/emulator",
+        "-version"
+      ],
+      "exitCode": 127,
+      "stdout": "",
+      "stderr": "/usr/local/lib/android/sdk/emulator/qemu/linux-x86_64/qemu-system-x86_64: error while loading shared libraries: libpulse.so.0: cannot open shared object file: No such file or directory\n"
+    },
+    "emulatorPngCount": 0,
+    "install": "NOT_RUN",
+    "launch": "NOT_RUN"
+  },
+  "proposedFix": {
+    "file": ".github/workflows/native.yml",
+    "sha256": "6225ef322e4beb20dd5a89bf8a53f8819daf61e67955927f2d6ee53c2b124de4",
+    "change": "Install Ubuntu libpulse0 with bounded apt commands on ephemeral runner before emulator invocation; preserve pinned app toolchain",
+    "primaryPackageEvidence": "https://packages.ubuntu.com/noble/amd64/libpulse0/filelist",
+    "localValidation": {
+      "yaml": "PASS",
+      "bashBlocks": 12,
+      "pythonBlocks": 5,
+      "diffCheck": "PASS"
+    },
+    "executedOnNewCandidate": false,
+    "independentWorkflowReview": "PENDING_PARENT_REVIEW"
+  },
+  "phoneInstall": "NOT_RUN",
+  "upgradeAndDataRetention": "NOT_RUN",
+  "liveBackendJourney": "NOT_RUN"
+}

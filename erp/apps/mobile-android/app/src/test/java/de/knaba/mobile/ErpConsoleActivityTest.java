@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Looper;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import org.xmlpull.v1.XmlPullParser;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -76,8 +78,15 @@ public class ErpConsoleActivityTest {
         RuntimeEnvironment.setFontScale(1f);
     }
     private void launch() {
-        controller = Robolectric.buildActivity(ErpConsoleActivity.class).setup();
+        launch(new ErpServerDiscovery() {
+            @Override String discover() { return "https://fixture.invalid"; }
+        });
+    }
+    private void launch(ErpServerDiscovery discovery) {
+        controller = Robolectric.buildActivity(ErpConsoleActivity.class);
         activity = controller.get();
+        ReflectionHelpers.setField(activity, "discovery", discovery);
+        controller.setup();
         Shadows.shadowOf(Looper.getMainLooper()).idle();
     }
     private ViewGroup root() { return activity.findViewById(android.R.id.content); }
@@ -150,6 +159,254 @@ public class ErpConsoleActivityTest {
     private void openTasks() throws Exception { click(R.string.erp_tasks); settled(); }
     private void openChat() throws Exception {
         click(R.string.erp_messages); settled(); click("DEMO · Team Atrium"); settled();
+    }
+
+    private void advance(long seconds) { Shadows.shadowOf(Looper.getMainLooper()).idleFor(Duration.ofSeconds(seconds)); }
+
+    @Test public void serverConfigurationIsAutomaticAndNoAddressInputIsExposed() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport);
+        assertEquals("https://fixture.invalid",transport.configuredOrigin);
+        assertEquals(1,transport.loginCalls.get());
+        assertEquals(1,transport.dashboardReads.get());
+        assertFalse(views(root()).stream().anyMatch(v -> v instanceof EditText e && activity.getString(R.string.erp_server).contentEquals(e.getHint())));
+        assertNull(Shadows.shadowOf(RuntimeEnvironment.getApplication()).getNextStartedService());
+    }
+
+    @Test public void unconfiguredServerNeverSubmitsCredentialsOrFallsBackToDemo() throws Exception {
+        launch(new ErpServerDiscovery() {
+            @Override String discover() throws Exception { throw new ErpConsoleTransport.Failure(0,"SERVER_NOT_CONFIGURED",false); }
+        });
+        ControlledTransport transport = new ControlledTransport(); inject(transport);
+        await(() -> text().contains(activity.getString(R.string.erp_server_pending)));
+        assertFalse(views(root()).stream().anyMatch(v -> v instanceof EditText e && activity.getString(R.string.erp_server).contentEquals(e.getHint())));
+        screenshot("phone-login-server-pending.png",411,891);
+        edit(R.string.erp_email).setText("synthetic@example.invalid"); edit(R.string.erp_password).setText("synthetic-only");
+        click(R.string.erp_sign_in);
+        assertEquals(0,transport.loginCalls.get()); assertFalse(hasButton(R.string.erp_exit_demo));
+        assertTrue(text().contains(activity.getString(R.string.erp_server_wait)));
+    }
+
+    @Test public void automaticTaskRefreshPreservesSearchAndShowsNewServerData() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openTasks();
+        EditText search=edit(R.string.erp_search); search.setText("fixture"); search.requestFocus();
+        assertFalse(text().contains("New fixture task")); transport.newTask=true;
+        int before=transport.taskReads.get(); advance(30);
+        await(() -> transport.taskReads.get()>before&&!busy());
+        assertSame(search,edit(R.string.erp_search)); assertEquals("fixture",search.getText().toString());
+        assertTrue(text().contains("New fixture task")); assertTrue(search.hasFocus());
+    }
+
+    @Test public void automaticAndManualMessageRefreshPreserveDraftWithoutSending() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openChat();
+        EditText draft=edit(R.string.erp_message); draft.setText("Unsent private draft");
+        transport.demo.sendMessage(DemoConsoleTransport.CHANNEL,"New server message","DE","remote-fixture-key");
+        int before=transport.messageReads.get(); advance(15);
+        await(() -> transport.messageReads.get()>before&&!busy());
+        assertTrue(text().contains("New server message")); assertSame(draft,edit(R.string.erp_message));
+        assertEquals("Unsent private draft",draft.getText().toString()); assertEquals(0,transport.sendCalls.get());
+        click(R.string.erp_refresh); settled();
+        assertSame(draft,edit(R.string.erp_message)); assertEquals("Unsent private draft",draft.getText().toString());
+    }
+
+    @Test public void foregroundRefreshStopsWhileHiddenAndResumesAutomatically() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openTasks();
+        int before=transport.taskReads.get(); controller.pause().stop(); advance(120);
+        assertEquals(before,transport.taskReads.get());
+        controller.start().resume(); Shadows.shadowOf(Looper.getMainLooper()).idle();
+        await(() -> transport.taskReads.get()>before&&!busy());
+    }
+
+    @Test public void serverDiscoveryWaitsForFirstStartAndResumesWithoutSubmittingCredentials() throws Exception {
+        AtomicInteger probes=new AtomicInteger(); CountDownLatch entered=new CountDownLatch(1);
+        controller=Robolectric.buildActivity(ErpConsoleActivity.class); activity=controller.get();
+        ReflectionHelpers.setField(activity,"discovery",new ErpServerDiscovery() {
+            @Override String discover() { probes.incrementAndGet(); entered.countDown(); return "https://fixture.invalid"; }
+        });
+        controller.create(); Shadows.shadowOf(Looper.getMainLooper()).idle();
+        assertFalse("Public discovery must wait for the first onStart",entered.await(150,TimeUnit.MILLISECONDS));
+        ControlledTransport transport=new ControlledTransport(); inject(transport);
+        controller.start().resume().visible();
+        await(() -> text().contains(activity.getString(R.string.erp_server_connected)));
+        assertEquals(1,probes.get());
+        edit(R.string.erp_email).setText("synthetic@example.invalid"); edit(R.string.erp_password).setText("synthetic-only");
+        controller.pause().stop(); advance(120); assertEquals(1,probes.get());
+        controller.start().resume();
+        await(() -> probes.get()==2&&!ReflectionHelpers.<Boolean>getField(activity,"discoveryBusy"));
+        assertEquals(0,transport.loginCalls.get()); assertEquals("synthetic-only",edit(R.string.erp_password).getText().toString());
+    }
+
+    @Test public void delayedLoginAfterStopDefersAuthenticatedReadsUntilForeground() throws Exception {
+        launch(); CountDownLatch loginEntered=new CountDownLatch(1),loginRelease=new CountDownLatch(1);
+        AtomicInteger authorityReads=new AtomicInteger();
+        ControlledTransport transport=new ControlledTransport() {
+            @Override JSONObject login(String email,String password,String otp) throws Exception {
+                loginEntered.countDown(); if(!loginRelease.await(4,TimeUnit.SECONDS))throw new AssertionError("Unreleased login fixture");
+                return super.login(email,password,otp);
+            }
+            @Override JSONObject me() throws Exception { authorityReads.incrementAndGet(); return super.me(); }
+        };
+        inject(transport); await(() -> text().contains(activity.getString(R.string.erp_server_connected)));
+        edit(R.string.erp_email).setText("synthetic@example.invalid"); edit(R.string.erp_password).setText("synthetic-only");
+        try {
+            click(R.string.erp_sign_in); assertTrue(loginEntered.await(2,TimeUnit.SECONDS));
+            controller.pause().stop(); loginRelease.countDown();
+            await(() -> hasButton(R.string.erp_logout)&&!busy()); advance(120);
+            assertEquals("No new authority read may start after onStop",0,authorityReads.get());
+            assertEquals("No new dashboard read may start after onStop",0,transport.dashboardReads.get());
+            controller.start().resume();
+            await(() -> transport.dashboardReads.get()==1&&!busy());
+            assertEquals(1,authorityReads.get()); assertEquals(1,transport.loginCalls.get()); assertEquals(0,transport.sendCalls.get());
+        } finally { loginRelease.countDown(); }
+    }
+
+    @Test public void resumedReadRevalidatesCurrentAuthorityBeforeFetchingPrivateRecords() throws Exception {
+        launch(); ControlledTransport transport=new ControlledTransport(); signInFixture(transport); openTasks();
+        int before=transport.taskReads.get(); controller.pause().stop(); transport.changedScope=true; advance(120);
+        assertEquals(before,transport.taskReads.get()); controller.start().resume();
+        await(() -> hasButton(R.string.erp_sign_in)&&!busy());
+        assertEquals("Changed site scope must prevent a new private data read",before,transport.taskReads.get());
+        assertFalse(text().contains("DEMO · Fenster reinigen")); assertEquals(0,transport.sendCalls.get());
+    }
+
+    @Test public void recreatedSessionLoadsDashboardImmediatelyOnFirstStart() throws Exception {
+        launch(); ControlledTransport transport=new ControlledTransport(); signInFixture(transport);
+        int before=transport.dashboardReads.get(); controller.recreate(); activity=controller.get();
+        await(() -> transport.dashboardReads.get()==before+1&&!busy());
+        assertTrue(hasButton(R.string.erp_logout)); assertEquals(1,transport.loginCalls.get());
+    }
+
+    @Test public void connectionLossRetainsReadDataAndRecoversWithBoundedBackoff() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openTasks();
+        transport.failTasks=true; int before=transport.taskReads.get(); advance(30);
+        await(() -> transport.taskReads.get()>before&&!busy());
+        assertTrue(text().contains("DEMO · Fenster reinigen"));
+        assertTrue(text().contains(activity.getString(R.string.erp_connection_error)));
+        int failed=transport.taskReads.get(); transport.failTasks=false; transport.newTask=true;
+        advance(59); assertEquals(failed,transport.taskReads.get()); advance(14);
+        await(() -> transport.taskReads.get()>failed&&!busy());
+        assertTrue(text().contains("New fixture task"));
+        assertFalse(text().contains(activity.getString(R.string.erp_connection_error)));
+    }
+
+    @Test public void revokedReadAccessRemovesPrivateRecordsImmediately() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openTasks();
+        transport.denyTasks=true; advance(30); await(() -> hasButton(R.string.erp_sign_in)&&!busy());
+        assertFalse(text().contains("DEMO · Fenster reinigen")); assertFalse(hasButton(R.string.erp_tasks));
+    }
+
+    @Test public void changedSiteScopeRequiresReauthenticationBeforeAnotherDataRead() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openTasks();
+        int before=transport.taskReads.get(); transport.changedScope=true; advance(30);
+        await(() -> hasButton(R.string.erp_sign_in)&&!busy());
+        assertEquals(before,transport.taskReads.get()); assertFalse(text().contains("DEMO · Fenster reinigen"));
+    }
+
+    @Test public void uncertainMessageIsNeverAutomaticallyRepeatedOrOverwritten() throws Exception {
+        launch(); ControlledTransport transport = new ControlledTransport(); signInFixture(transport); openChat();
+        transport.unknownSend=true; edit(R.string.erp_message).setText("Uncertain submission"); click(R.string.erp_send); settled();
+        int reads=transport.messageReads.get(); advance(120);
+        assertEquals(1,transport.sendCalls.get()); assertEquals(reads,transport.messageReads.get());
+        controller.pause().stop(); advance(120); controller.start().resume(); advance(120);
+        assertEquals("Foreground resume must never repeat an uncertain mutation",1,transport.sendCalls.get());
+        assertEquals(reads,transport.messageReads.get());
+        assertEquals("Uncertain submission",edit(R.string.erp_message).getText().toString());
+        assertTrue(text().contains(activity.getString(R.string.erp_unknown_result)));
+    }
+
+    @Test public void latePublicConfigurationDoesNotReplaceAnExplicitDemoSession() throws Exception {
+        CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
+        launch(new ErpServerDiscovery() {
+            @Override String discover() throws Exception {
+                entered.countDown(); if (!release.await(4,TimeUnit.SECONDS)) throw new AssertionError("Blocked discovery fixture");
+                return "https://fixture.invalid";
+            }
+        });
+        assertTrue(entered.await(2,TimeUnit.SECONDS)); demo(); release.countDown(); settled();
+        assertTrue(hasButton(R.string.erp_exit_demo)); assertFalse(hasButton(R.string.erp_sign_in));
+        assertFalse(text().contains(activity.getString(R.string.erp_server_connected)));
+    }
+
+    @Test public void pendingServerIsRetriedAutomaticallyWithoutSubmittingTypedCredentials() throws Exception {
+        AtomicInteger probes=new AtomicInteger();
+        launch(new ErpServerDiscovery() {
+            @Override String discover() throws Exception {
+                if (probes.incrementAndGet()==1) throw new ErpConsoleTransport.Failure(0,"SERVER_NOT_CONFIGURED",false);
+                return "https://fixture.invalid";
+            }
+        });
+        ControlledTransport transport=new ControlledTransport(); inject(transport);
+        await(() -> text().contains(activity.getString(R.string.erp_server_pending)));
+        EditText password=edit(R.string.erp_password); password.setText("synthetic-only");
+        advance(60); await(() -> text().contains(activity.getString(R.string.erp_server_connected)));
+        assertEquals(2,probes.get()); assertEquals(0,transport.loginCalls.get());
+        assertSame(password,edit(R.string.erp_password)); assertEquals("synthetic-only",password.getText().toString());
+    }
+
+    @Test public void discoveryResumesAfterATimerOverlapsFailedLoginWithoutReplayingCredentials() throws Exception {
+        AtomicInteger probes=new AtomicInteger();
+        launch(new ErpServerDiscovery() {
+            @Override String discover() { probes.incrementAndGet(); return "https://fixture.invalid"; }
+        });
+        await(() -> text().contains(activity.getString(R.string.erp_server_connected)));
+        CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
+        ControlledTransport transport=new ControlledTransport() {
+            @Override JSONObject login(String email,String password,String otp) throws Exception {
+                loginCalls.incrementAndGet(); entered.countDown();
+                if(!release.await(4,TimeUnit.SECONDS))throw new AssertionError("Unreleased failed login fixture");
+                throw new Failure(0,"NETWORK_ERROR",false);
+            }
+        };
+        inject(transport);
+        edit(R.string.erp_email).setText("synthetic@example.invalid");
+        edit(R.string.erp_password).setText("synthetic-only");
+        try {
+            click(R.string.erp_sign_in); assertTrue(entered.await(2,TimeUnit.SECONDS));
+            advance(62);
+            assertEquals("Busy login must not start overlapping discovery",1,probes.get());
+            release.countDown();
+            await(() -> !busy()&&text().contains(activity.getString(R.string.erp_connection_error)));
+            advance(1);
+            await(() -> probes.get()==2&&!ReflectionHelpers.<Boolean>getField(activity,"discoveryBusy"));
+            assertEquals("Discovery must never replay login credentials",1,transport.loginCalls.get());
+            assertEquals("",edit(R.string.erp_password).getText().toString());
+            assertEquals(0,transport.dashboardReads.get());
+        } finally { release.countDown(); }
+    }
+
+    @Test public void aSlowRefreshNeverOverlapsAnotherDataRequest() throws Exception {
+        launch(); ControlledTransport transport=new ControlledTransport(); signInFixture(transport); openTasks();
+        int before=transport.taskReads.get(); transport.blockTasks=true; advance(30);
+        assertTrue(transport.entered.await(2,TimeUnit.SECONDS)); advance(30);
+        assertEquals(before+1,transport.taskReads.get());
+        assertTrue(edit(R.string.erp_search).isEnabled());
+        transport.release.countDown(); settled(); assertEquals(before+1,transport.taskReads.get());
+    }
+
+    @Test public void recordDetailsRefreshTheirServerVersionAndTitle() throws Exception {
+        launch(); ControlledTransport transport=new ControlledTransport(); signInFixture(transport); openTasks();
+        click(R.string.erp_view_details); settled(); transport.renamedTask=true;
+        int before=transport.taskReads.get(); advance(30); await(() -> transport.taskReads.get()>before&&!busy());
+        assertTrue(text().contains("Renamed server task"));
+        assertTrue(text().contains(activity.getString(R.string.erp_record_version,2)));
+    }
+
+    @Test public void commandFormDoesNotRefreshOrSubmitItself() throws Exception {
+        launch(); ControlledTransport transport=new ControlledTransport(); signInFixture(transport); openTasks();
+        edit(R.string.erp_search).setText("Eingangsbereich"); click(R.string.erp_view_details); settled(); click(R.string.erp_log_work);
+        EditText description=edit(activity.getString(R.string.erp_field_description)+" *"); description.setText("Unsent work form");
+        int before=transport.taskReads.get(); advance(120);
+        assertEquals(before,transport.taskReads.get()); assertSame(description,edit(activity.getString(R.string.erp_field_description)+" *"));
+        assertEquals("Unsent work form",description.getText().toString()); assertEquals(0,transport.sendCalls.get());
+    }
+
+    @Test public void serverRetryAfterIsHonoredAcrossForegroundAndManualRefresh() throws Exception {
+        launch(); ControlledTransport transport=new ControlledTransport(); signInFixture(transport); openTasks();
+        transport.rateLimitTasks=true; int before=transport.taskReads.get(); advance(30);
+        await(() -> transport.taskReads.get()>before&&!busy());
+        int failed=transport.taskReads.get(); transport.rateLimitTasks=false;
+        click(R.string.erp_refresh); assertEquals(failed,transport.taskReads.get());
+        controller.pause().stop().start().resume(); advance(299); assertEquals(failed,transport.taskReads.get());
+        advance(1); await(() -> transport.taskReads.get()>failed&&!busy());
     }
 
     @Test public void emptyLoginIsRejectedAndDoesNotStartGps() {
@@ -275,7 +532,7 @@ public class ErpConsoleActivityTest {
 
     private void signInFixture(ControlledTransport transport) throws Exception {
         inject(transport);
-        edit(R.string.erp_server).setText("https://fixture.invalid");
+        await(() -> !ReflectionHelpers.<Boolean>getField(activity, "discoveryBusy"));
         edit(R.string.erp_email).setText("synthetic@example.invalid");
         edit(R.string.erp_password).setText("synthetic-only");
         click(R.string.erp_sign_in); await(() -> hasButton(R.string.erp_logout) && !busy());
@@ -285,19 +542,35 @@ public class ErpConsoleActivityTest {
     private static class ControlledTransport extends ErpConsoleTransport {
         final DemoConsoleTransport demo = new DemoConsoleTransport();
         final CountDownLatch entered = new CountDownLatch(1), release = new CountDownLatch(1);
-        final AtomicInteger sendCalls = new AtomicInteger();
-        volatile boolean blockTasks, blockSend, expired, quantityDefault;
-        @Override void configure(String origin) { }
+        final AtomicInteger sendCalls = new AtomicInteger(), taskReads = new AtomicInteger(), messageReads = new AtomicInteger(), dashboardReads = new AtomicInteger(), loginCalls = new AtomicInteger();
+        volatile boolean blockTasks, blockSend, expired, quantityDefault, failTasks, denyTasks, newTask, unknownSend, changedScope, renamedTask, rateLimitTasks;
+        String configuredOrigin;
+        @Override void configure(String origin) { configuredOrigin = origin; }
         @Override String origin() { return "https://fixture.invalid"; }
         @Override void clear() { demo.clear(); }
-        @Override JSONObject login(String email, String password, String otp) throws Exception { return demo.login("", "", ""); }
-        @Override JSONObject me() throws Exception { if (expired) throw new Failure(401,"NEEDS_REAUTH",false); return demo.me(); }
-        @Override JSONObject dashboard() throws Exception { return demo.dashboard(); }
-        @Override JSONArray entities(String kind) throws Exception {
-            if (blockTasks && kind.equals("task")) { entered.countDown(); if (!release.await(4,TimeUnit.SECONDS)) throw new AssertionError("Unreleased task fixture"); }
-            return demo.entities(kind);
+        @Override JSONObject login(String email, String password, String otp) throws Exception { loginCalls.incrementAndGet(); return demo.login("", "", ""); }
+        @Override JSONObject me() throws Exception {
+            if (expired) throw new Failure(401,"NEEDS_REAUTH",false);
+            JSONObject result = demo.me();
+            if (changedScope) result.getJSONObject("actor").put("siteIds",new JSONArray());
+            return result;
         }
-        @Override JSONArray messages(String channel) throws Exception { return demo.messages(channel); }
+        @Override JSONObject dashboard() throws Exception { dashboardReads.incrementAndGet(); return demo.dashboard(); }
+        @Override JSONArray entities(String kind) throws Exception {
+            if (kind.equals("task")) {
+                taskReads.incrementAndGet();
+                if (failTasks) throw new Failure(0,"NETWORK_ERROR",false);
+                if (rateLimitTasks) throw new Failure(429,"RATE_LIMITED",false,300000);
+                if (denyTasks) throw new Failure(403,"ACCESS_DENIED",false);
+            }
+            if (blockTasks && kind.equals("task")) { entered.countDown(); if (!release.await(4,TimeUnit.SECONDS)) throw new AssertionError("Unreleased task fixture"); }
+            JSONArray items = demo.entities(kind);
+            if (renamedTask && kind.equals("task")) { items.getJSONObject(0).put("version",2).getJSONObject("data").put("name","Renamed server task"); }
+            if (newTask && kind.equals("task")) items.put(new JSONObject().put("id","new-server-record").put("kind","task").put("version",1)
+                .put("data",new JSONObject().put("name","New fixture task").put("state","ASSIGNED")));
+            return items;
+        }
+        @Override JSONArray messages(String channel) throws Exception { messageReads.incrementAndGet(); return demo.messages(channel); }
         @Override JSONArray catalog() throws Exception {
             JSONArray catalog = demo.catalog();
             if (quantityDefault) for (int i=0; i<catalog.length(); i++) {
@@ -308,6 +581,7 @@ public class ErpConsoleActivityTest {
         }
         @Override JSONObject sendMessage(String channel, String text, String language, String key) throws Exception {
             sendCalls.incrementAndGet();
+            if (unknownSend) throw new Failure(0,"NETWORK_ERROR",true);
             if (blockSend) { entered.countDown(); if (!release.await(4,TimeUnit.SECONDS)) throw new AssertionError("Unreleased send fixture"); }
             return demo.sendMessage(channel,text,language,key);
         }
@@ -435,7 +709,7 @@ public class ErpConsoleActivityTest {
         click(R.string.erp_payroll); settled(); click(R.string.erp_view_details); settled();
         assertTrue(text().contains("synthetic-payroll_calculation"));
         assertTrue(text().contains(activity.getString(R.string.erp_record_version, 7)));
-        assertEquals(List.of("payroll_calculation"), transport.requestedKinds);
+        assertEquals(List.of("payroll_calculation", "payroll_calculation"), transport.requestedKinds);
     }
 
     @Test public void customerCanOpenPublishedCommerceAndReportsWithoutInternalModules() throws Exception {
@@ -446,7 +720,7 @@ public class ErpConsoleActivityTest {
         assertFalse(hasButton(R.string.erp_people)); assertFalse(hasButton(R.string.erp_payroll)); assertFalse(hasButton(R.string.erp_crew));
         click(R.string.erp_quotes); settled(); click(R.string.erp_view_details); settled();
         assertTrue(text().contains("synthetic-quote"));
-        assertEquals(List.of("quote"), transport.requestedKinds);
+        assertEquals(List.of("quote", "quote"), transport.requestedKinds);
     }
 
     @Test public void warehouseAndProcurementModulesUseGrantedCapabilitiesAndFreshRevocation() throws Exception {
@@ -461,8 +735,9 @@ public class ErpConsoleActivityTest {
         transport.identity.getJSONObject("actor").put("permissions", new JSONArray().put("identity.self"));
         click(R.string.erp_refresh); settled();
         assertFalse(hasButton(R.string.erp_material_requests)); assertFalse(hasButton(R.string.erp_purchase_orders));
-        assertTrue(hasButton(R.string.erp_alerts));
-        assertEquals(List.of("material_request", "material_request"), transport.requestedKinds);
+        assertTrue("Changed authority requires reauthentication before showing another module",hasButton(R.string.erp_sign_in));
+        assertFalse(text().contains("Fixture material_request"));
+        assertEquals(List.of("material_request", "material_request", "material_request"), transport.requestedKinds);
     }
 
     @Test public void roleNameAloneDoesNotExposeFinanceGpsOrIdentityModules() throws Exception {
@@ -470,6 +745,57 @@ public class ErpConsoleActivityTest {
         assertTrue(hasButton(R.string.erp_sites)); assertTrue(hasButton(R.string.erp_alerts));
         assertFalse(hasButton(R.string.erp_payroll)); assertFalse(hasButton(R.string.erp_payouts));
         assertFalse(hasButton(R.string.erp_presence)); assertFalse(hasButton(R.string.erp_users));
+        assertFalse(hasButton(R.string.erp_vehicle_trips));
+    }
+
+    @Test public void vehicleTripReadNavigationUsesExistingGenericContractWithoutInventedActions() throws Exception {
+        launch(); RoleTransport transport=new RoleTransport("EMPLOYEE","trip.read","identity.self");
+        signInFixture(transport); click(R.string.erp_vehicle_trips); settled(); click(R.string.erp_view_details); settled();
+        assertEquals(List.of("vehicle_trip","vehicle_trip"),transport.requestedKinds);
+        assertTrue(text().contains("synthetic-vehicle_trip")); assertFalse(hasButton(R.string.erp_submit));
+    }
+
+    private RecordCommandTransport credentialTransport(boolean unknown) throws Exception {
+        RecordCommandTransport transport=new RecordCommandTransport("EMPLOYEE","user.password.rotate","identity.self","currentPassword","identity.self") {
+            @Override JSONObject command(String name,JSONObject input,Integer version,String key) throws Exception {
+                super.command(name,input,version,key);
+                if (unknown) throw new Failure(0,"NETWORK_ERROR",true);
+                return new JSONObject().put("ok",true).put("reauthenticationRequired",true);
+            }
+        };
+        JSONObject schema=transport.definition.getJSONObject("schema");
+        schema.getJSONObject("properties").put("newPassword",new JSONObject().put("type","string"));
+        schema.getJSONArray("required").put("newPassword");
+        return transport;
+    }
+
+    @Test public void credentialFormMasksAndClearsInputsThenRequiresANewLogin() throws Exception {
+        launch(); RecordCommandTransport transport=credentialTransport(false); signInFixture(transport);
+        click(R.string.erp_actions); settled(); click(R.string.erp_change_password); settled();
+        EditText current=edit(activity.getString(R.string.erp_current_password)+" *"),next=edit(activity.getString(R.string.erp_new_password)+" *");
+        assertEquals(InputType.TYPE_TEXT_VARIATION_PASSWORD,current.getInputType()&InputType.TYPE_MASK_VARIATION);
+        assertEquals(InputType.TYPE_TEXT_VARIATION_PASSWORD,next.getInputType()&InputType.TYPE_MASK_VARIATION);
+        assertFalse(current.isSaveEnabled()); assertFalse(next.isSaveEnabled());
+        current.setText(" synthetic-old-password "); next.setText(" synthetic-new-password ");
+        click(R.string.erp_submit); assertEquals("",current.getText().toString()); assertEquals("",next.getText().toString());
+        await(() -> hasButton(R.string.erp_sign_in)&&!busy());
+        assertEquals(" synthetic-old-password ",transport.submitted.getString("currentPassword"));
+        assertEquals(" synthetic-new-password ",transport.submitted.getString("newPassword"));
+        assertNull(ReflectionHelpers.getField(activity,"pendingRecovery")); assertFalse(hasButton(R.string.erp_retry_pending));
+        assertTrue(text().contains(activity.getString(R.string.erp_account_change_reauth))); assertEquals(1,transport.calls.get());
+    }
+
+    @Test public void unknownCredentialOutcomeCannotLeaveARecoveryOrRepeatAfterResume() throws Exception {
+        launch(); RecordCommandTransport transport=credentialTransport(true); signInFixture(transport);
+        click(R.string.erp_actions); settled(); click(R.string.erp_change_password); settled();
+        edit(activity.getString(R.string.erp_current_password)+" *").setText("synthetic-old-password");
+        edit(activity.getString(R.string.erp_new_password)+" *").setText("synthetic-new-password");
+        click(R.string.erp_submit); await(() -> hasButton(R.string.erp_sign_in)&&!busy());
+        assertNull(ReflectionHelpers.getField(activity,"pendingRecovery")); assertFalse(hasButton(R.string.erp_retry_pending));
+        assertTrue(text().contains(activity.getString(R.string.erp_unknown_result)));
+        controller.pause().stop(); advance(120); controller.start().resume(); advance(120);
+        assertEquals(1,transport.calls.get()); assertFalse(text().contains("synthetic-old-password"));
+        assertFalse(text().contains("synthetic-new-password")); assertFalse(hasButton(R.string.erp_retry_pending));
     }
 
     @Test public void siteSupervisorCanDiscoverOrdersThroughExistingSiteReadAuthority() throws Exception {
@@ -477,7 +803,7 @@ public class ErpConsoleActivityTest {
         signInFixture(transport);
         assertTrue(hasButton(R.string.erp_orders)); assertFalse(hasButton(R.string.erp_payroll));
         click(R.string.erp_orders); settled(); click(R.string.erp_view_details); settled();
-        assertEquals(List.of("order"), transport.requestedKinds);
+        assertEquals(List.of("order", "order"), transport.requestedKinds);
         assertTrue(text().contains("synthetic-order"));
     }
 
@@ -508,7 +834,7 @@ public class ErpConsoleActivityTest {
         };
         inject(recovered);
         assertFalse("Private pending payload must not appear before authentication",text().contains("Recovered private note"));
-        edit(R.string.erp_server).setText("https://fixture.invalid");
+        await(() -> !ReflectionHelpers.<Boolean>getField(activity, "discoveryBusy"));
         edit(R.string.erp_email).setText("synthetic@example.invalid"); edit(R.string.erp_password).setText("synthetic-only");
         click(R.string.erp_sign_in); await(() -> hasButton(R.string.erp_retry_pending) && !busy());
         assertTrue(text().contains("Recovered private note"));

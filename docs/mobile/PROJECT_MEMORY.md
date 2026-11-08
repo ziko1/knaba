@@ -1,5 +1,14 @@
 # KNABA Mobile — module memory
 
+## 2026-11-08 — branded native reconciliation checkpoint
+
+First brand source0234895: Android36/36 Robolectric and APK/AAB build succeeded; iOS74/74 XCTest and Simulator launch succeeded, with independently viewed native PNGs. Android emulator failed before install on missing libpulse.so.0; inherited Telegram exact-replay fixture failed in ERP CI (2968/2969). Both concrete corrections are prepared without weakening production equality.
+
+A divergent already-built Android0.5.0/code8 line at dc54f109 contains additional security/discovery/foreground-refresh/vehicle functionality. Current base F1/F2/F4/C08 remains; compatible Android and narrow vehicle backend pieces are reconciled into0.6.0/code9, preserving brand UI. iOS0.6.0/build8 adds vehicle navigation parity. New source needs its own complete CI; old build results are not transferred.198 focused worktree checks pass after independently discovered external-role vehicle-write rejection is fixed. All source/review hashes are recorded before publication.
+
+Next: exact-source native/repository runs, final artifact hashes/signature/ordinary APK install + launch, image review, customer instructions and durable files. Signed iPhone IPA and two installable-file delivery remain BLOCKED by owner Apple distribution prerequisites; full-product/physical/live/company acceptance remains open. No merge, production or provider activation.
+
+
 ## 08.11.2026 — Native0.6.0 brand continuation, candidate source
 
 User requested beautiful iOS/Android matching the KNABA website and two already-built customer-installable test files. Base is accepted PR133 `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2`; the current authenticated website teal/lime palette and exact compact wordmark are used. Android ERP/worker UI and SwiftUI login/overview/forms/shift are adapted without changing backend, auth/recovery/domain contracts or existing six-language scope. Both versions0.6.0/build8. [Acceptance and constraints](MOBILE_BRAND_0.6.0_UK.md).

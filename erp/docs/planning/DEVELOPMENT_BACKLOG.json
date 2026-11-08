@@ -4619,5 +4619,23 @@
     "evidence": "../../../docs/mobile/evidence/native-consolidation-20261108/verification.json",
     "original_criteria_promoted": false,
     "product_status": "NOT_READY"
+  },
+  "mobile_brand_continuation_20261108": {
+    "status": "CANDIDATE_RECONCILED_NATIVE_AND_POSTGRES_CI_PENDING",
+    "acceptanceDocument": "../../../docs/mobile/MOBILE_BRAND_0.6.0_UK.md",
+    "baseSource": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "parallelSourceReconciled": "dc54f109c52e3b8f8a2e506821a6eb322b5417c4",
+    "localFocusedChecks": {
+      "passed": 198,
+      "skipped": 0,
+      "scope": "worktree domain/Engine/operations/native registry, not physical/live"
+    },
+    "unclosed": [
+      "two customer-installable files",
+      "owner-signed iPhone IPA",
+      "new exact-source native and SQL acceptance",
+      "physical/live/company UAT",
+      "full original V4/V3 coverage"
+    ]
   }
 }

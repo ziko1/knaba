@@ -1,3 +1,9 @@
+## 0.6.0 test candidate — final reconciliation
+
+Android versionCode9 avoids the already issued divergent code8. On launch the app reads the official KNABA public release configuration, accepts only the reviewed HTTPS KNABA host policy, and checks ERP readiness before enabling account login. A missing/unready official configuration remains an explicit waiting/error state. Debug synthetic demo is available for UI/task/chat evaluation without a live account. Manual server entry is no longer the normal console flow; the separate shift companion still uses its existing device enrollment contract.
+
+The website theme is retained alongside the existing foreground-only refresh, bounded read retry, credential-safe one-shot password/MFA changes and shared vehicle-trip navigation. There are60 framework tests in source, pending execution for this reconciled build. Android12/API31 remains minimum; a fresh debug certificate does not upgrade an earlier APK signed with a different key. Never delete customer data to bypass that mismatch. Signed APK install/emulator evidence is recorded separately from physical and live-company acceptance.
+
 ## Current Android candidate — 0.6.0-test / versionCode8
 
 The native ERP workspace and employee tools now share the current KNABA website style: canonical compact wordmark, deep teal/lime identity, paper surfaces, pastel metrics, accessible controls and adaptive module cards. A scoped workspace search filters only authorized modules. At narrow widths or large text, metrics/navigation use one column; tablets retain a readable maximum content width. The light appearance is explicit, consistent with the current website and prior Android theme.

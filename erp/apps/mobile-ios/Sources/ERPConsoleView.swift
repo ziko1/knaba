@@ -29,8 +29,20 @@ import SwiftUI
     init(client: ERPConsoleClient = ERPConsoleClient()) { self.client = client }
     var hasPending: Bool { pendingCommandName != nil || recoveryBlocked }
     var sessionGeneration: Int { epoch }
-    func actionTitle(_ name: String, includeModule: Bool = false) -> String { ERPActionLabels.title(name, language: language, includeModule: includeModule) }
-    func fieldLabel(_ name: String) -> String { ERPActionLabels.field(name, language: language) }
+    func actionTitle(_ name: String, includeModule: Bool = false) -> String {
+        if name == "user.password.rotate" { return text(.changePassword) }
+        if name == "user.mfa.configure" { return text(.configureMFA) }
+        return ERPActionLabels.title(name, language: language, includeModule: includeModule)
+    }
+    func fieldLabel(_ name: String) -> String {
+        switch name {
+        case "currentPassword": return text(.currentPassword)
+        case "newPassword": return text(.newPassword)
+        case "secret": return text(.mfaSecret)
+        case "otp": return text(.credentialOtp)
+        default: return ERPActionLabels.field(name, language: language)
+        }
+    }
     func recordActions(_ record: ERPItem) -> [ERPCommand] {
         guard let actor = identity?.actor else { return [] }
         return commands.filter { ERPRecordActions.context(for: record, command: $0, actor: actor) != nil }
@@ -78,19 +90,25 @@ import SwiftUI
             await reloadPendingState()
         } catch { if ticket == epoch { await signOut(error) } }
     }
-    func signOut(_ error: Error? = nil) async {
+    private func clearSessionPresentation(_ error: Error? = nil) {
         epoch += 1
         identity = nil; items = []; commands = []; channels = []; messages = []; dashboard = nil
         commandAuthority = nil
         selectedChannel = ""; messageText = ""; password = ""; otp = ""
         pendingCommandName = nil; recoveryBlocked = false
         notice = ""; problem = error.map(describe) ?? ""; busy = false
+    }
+    func signOut(_ error: Error? = nil) async {
+        clearSessionPresentation(error)
         await client.logout()
     }
     private func failed(_ error: Error, ticket: Int) async {
         guard ticket == epoch else { return }
         if let failure = error as? ERPFailure {
             switch failure {
+            case .credentialReauthenticationRequired, .credentialOutcomeUnknown:
+                // The captured client session was already cleared by the one-shot path.
+                clearSessionPresentation(error); return
             case .expired, .accessChanged:
                 await signOut(error); return
             case .http(let status, _) where status == 401:
@@ -238,6 +256,11 @@ import SwiftUI
             let data = try ERPCommandInput.data(command: current, fields: fields, fixed: context?.fixedFields ?? [:])
             _ = try await client.execute(current, input: data, expectedVersion: version, authority: authority)
             guard epoch == ticket else { return false }
+            if ERPCredentialPolicy.isOneShot(current.name) {
+                clearSessionPresentation()
+                notice = text(.credentialReauth)
+                return true
+            }
             notice = text(.saved); applied = true
         } catch { await failed(error, ticket: ticket) }
         guard epoch == ticket else { return false }
@@ -636,7 +659,7 @@ private struct ERPRecordDetail: View {
                     }.disabled(model.busy)
                 }.listRowBackground(KNABATheme.surface)
                 Section(model.text(.fields)) {
-                    ForEach(item.data.keys.sorted(), id: \.self) { key in
+                    ForEach(item.data.keys.filter { !ERPCredentialPolicy.sensitiveKey($0) }.sorted(), id: \.self) { key in
                         VStack(alignment: .leading, spacing: 6) {
                             Text(model.fieldLabel(key)).font(.caption.weight(.semibold)).foregroundStyle(KNABATheme.muted)
                             Text(item.data[key].flatMap { ERPCommandInput.displayText($0, name: key) } ??
@@ -652,7 +675,7 @@ private struct ERPRecordDetail: View {
     }
 }
 
-private struct ERPCommandForm: View {
+struct ERPCommandForm: View {
     let command: ERPCommand
     @ObservedObject var model: ERPConsoleModel
     @State private var draft: [String: String]
@@ -676,6 +699,8 @@ private struct ERPCommandForm: View {
     private var required: Set<String> {
         Set(command.schema?.dictionary?["required"]?.list?.compactMap { $0.string } ?? [])
     }
+    private var oneShot: Bool { ERPCredentialPolicy.isOneShot(command.name) }
+    private var unsupportedSecrets: Bool { !oneShot && properties.contains { ERPCredentialPolicy.sensitiveKey($0.0) } }
     var body: some View {
         Form {
             Section {
@@ -686,12 +711,22 @@ private struct ERPCommandForm: View {
                     LabeledContent(model.text(.recordId), value: context.record.id)
                     LabeledContent(model.text(.version), value: String(context.record.version))
                 }
+                if oneShot { KNABAStatusNotice(text: model.text(.credentialOnce)) }
+                if unsupportedSecrets { KNABAStatusNotice(text: model.text(.errorSensitiveCommand), kind: .warning) }
                 ForEach(properties.map { $0.0 }, id: \.self) { key in
                     if let definition = properties.first(where: { $0.0 == key })?.1 {
                     let isRequired = required.contains(key)
                     let type = definition.dictionary?["type"]?.string ?? "string"
                     if let fixed = context?.fixedFields[key] {
                         LabeledContent(model.fieldLabel(key), value: fixed)
+                    } else if ERPCredentialPolicy.sensitiveKey(key) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            let title = model.fieldLabel(key) + (isRequired ? " *" : "")
+                            Text(title).font(.caption.weight(.semibold)).foregroundStyle(KNABATheme.muted)
+                            ERPCredentialField(title: title, key: key,
+                                               text: Binding(get: { draft[key] ?? "" }, set: { draft[key] = $0 }))
+                                .disabled(model.busy || unsupportedSecrets)
+                        }.padding(.vertical, 6)
                     } else if type == "boolean" {
                         Picker(model.fieldLabel(key) + (isRequired ? " *" : ""), selection: Binding(get: { draft[key] ?? "" }, set: { draft[key] = $0 })) {
                             Text(model.text(.choose)).tag("")
@@ -714,7 +749,7 @@ private struct ERPCommandForm: View {
                     }
                     }
                 }
-                if context == nil { TextField(model.text(.expectedVersion), text: $expectedVersion).keyboardType(.numberPad) }
+                if context == nil && !oneShot { TextField(model.text(.expectedVersion), text: $expectedVersion).keyboardType(.numberPad) }
             }.listRowBackground(KNABATheme.surface)
             Section {
                 if model.hasPending {
@@ -729,11 +764,13 @@ private struct ERPCommandForm: View {
                     if currentCommand?.highRisk == true { confirmation = true }
                     else { submit(confirmed: false) }
                 } label: { Label(model.text(.submit), systemImage: "checkmark.circle") }
-                .buttonStyle(KNABAButtonStyle()).disabled(model.busy || model.hasPending || sessionGeneration != model.sessionGeneration || currentCommand == nil)
+                .buttonStyle(KNABAButtonStyle()).disabled(model.busy || model.hasPending || unsupportedSecrets || sessionGeneration != model.sessionGeneration || currentCommand == nil)
             }.listRowBackground(KNABATheme.surface)
         }
         .knabaScreen().scrollDismissesKeyboard(.interactively)
         .navigationTitle(model.text(.actionTitle)).navigationBarTitleDisplayMode(.inline)
+        .onDisappear { clearSensitiveDraft() }
+        .onChange(of: model.sessionGeneration) { _, _ in clearSensitiveDraft() }
         .confirmationDialog(model.text(.confirmSensitive), isPresented: $confirmation) {
             Button(model.text(.confirm) + " · " + model.actionTitle(command.name), role: .destructive) {
                 submit(confirmed: true)
@@ -744,9 +781,29 @@ private struct ERPCommandForm: View {
     }
     private func submit(confirmed: Bool) {
         let values = draft, version = expectedVersion, record = context, generation = sessionGeneration
+        clearSensitiveDraft()
         Task {
             if await model.submit(command, fields: values, versionText: version, expectedSession: generation,
                                   context: record, confirmed: confirmed), generation == model.sessionGeneration { dismiss() }
         }
+    }
+    private func clearSensitiveDraft() {
+        if oneShot { draft.removeAll(); expectedVersion = "" }
+        else { draft = draft.filter { !ERPCredentialPolicy.sensitiveKey($0.key) } }
+    }
+}
+
+/// No show-password toggle or state restoration; the form owns this in-memory binding.
+struct ERPCredentialField: View {
+    let title: String
+    let key: String
+    @Binding var text: String
+    var body: some View {
+        SecureField(title, text: $text)
+            .textContentType(key == "otp" ? .oneTimeCode : key == "newPassword" ? .newPassword : key == "currentPassword" ? .password : nil)
+            .keyboardType(key == "otp" ? .numberPad : .default)
+            .textInputAutocapitalization(.never).autocorrectionDisabled()
+            .privacySensitive()
+            .accessibilityLabel(title).accessibilityIdentifier("erpCredential-" + key)
     }
 }

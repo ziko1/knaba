@@ -1,0 +1,267 @@
+{
+  "reviewer": "independent release_capabilities agent; not iOS source author",
+  "sourceGitSha": "0234895b0075b1bb7639fa27ded4c5168e519305",
+  "nativeRunId": 42490594108,
+  "scope": "INDEPENDENT_IOS_ARTIFACT_AND_CAPTURED_PRESENTATION_REVIEW_ONLY",
+  "result": "ACCEPTED_SCOPED_WITH_NONBLOCKING_OBSERVATIONS",
+  "excluded": "Reviewer-authored native workflow is not independently accepted by this review",
+  "artifact": {
+    "name": "KNABADE-simulator.app.zip",
+    "sha256": "f8e43a187ac019c41866399921da8458f912d62712758d13b9305336fafbafd4",
+    "bytes": 6979337,
+    "receiptDigestMatches": true,
+    "bundleFilesChecked": 48,
+    "allBundleFilesMatch": true,
+    "bundleId": "de.knaba.mobile",
+    "version": "0.6.0",
+    "build": "8",
+    "minimumOS": "17.0",
+    "platforms": [
+      "iPhoneSimulator"
+    ],
+    "machOArchitecture": "arm64",
+    "machOBuildPlatform": 7,
+    "installablePhoneIPA": false
+  },
+  "xctest": {
+    "result": "Passed",
+    "totalTestCount": 74,
+    "passedTests": 74,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "expectedFailures": 0
+  },
+  "xctestActualLogConfirmsSummary": true,
+  "simulatorLaunch": {
+    "result": "PASS",
+    "udid": "8865deb3-dc2f-48d4-b86f-da44e4855f40",
+    "commandCount": 9,
+    "allExitCodesZero": true,
+    "launchCount": 2,
+    "scope": "SIMULATOR_INSTALL_LAUNCH_AND_SCREENSHOT_CAPTURE_ONLY",
+    "pristineFreshInstall": "NOT_PROVEN_XCTEST_APP_SANDBOX_REUSED"
+  },
+  "imagesReviewed": [
+    {
+      "name": "login-pl-320-light",
+      "path": "086DDA4A-2A53-4F9C-B409-DF730C1C244A.png",
+      "sha256": "8cc11661a1f1ae448ed494bbcc4c25e04f23843f3cc4a3baf4982491d5cfec66",
+      "bytes": 107248,
+      "width": 320,
+      "height": 900,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-lt-320-light",
+      "path": "20500B7A-D1E0-429B-98D5-61C6BA92DAE5.png",
+      "sha256": "920cb452a950f336e75591e14b9cba6d92b537021bdf0ed98664ad5e6babf074",
+      "bytes": 110412,
+      "width": 320,
+      "height": 900,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "shift-empty-de-390-light",
+      "path": "380CB232-85F1-41D6-B902-2FD9365B5224.png",
+      "sha256": "c407f996fe82974259839ce7637b185f1ddaa439f222411cebe061fc53860568",
+      "bytes": 135541,
+      "width": 390,
+      "height": 1100,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-uk-320-light",
+      "path": "5CA1C7CC-17DE-44B3-8D22-27AEC952E7CD.png",
+      "sha256": "01d9d2a5bf1e3483d956f3f280438e9a752114d867f402e6ab58d91fd7982cf4",
+      "bytes": 115985,
+      "width": 320,
+      "height": 900,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-ru-320-light",
+      "path": "6C68B5C0-5D70-4C4B-B8C5-C11334B6B62B.png",
+      "sha256": "831a94a5114266b590f5daaae5e2e4370422c3aa3edbe6416553d6a3f4c608d8",
+      "bytes": 117861,
+      "width": 320,
+      "height": 900,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-de-320-light",
+      "path": "7247CC59-4955-425D-8175-71BEBCA46CD5.png",
+      "sha256": "ac3d844149baca0fae079b2e78f37e0977acdebdef9b757df36b650af7540585",
+      "bytes": 113737,
+      "width": 320,
+      "height": 900,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-uk-390-dark-accessibility",
+      "path": "9B8EDC13-D532-43D5-A611-BBB188A8A9D9.png",
+      "sha256": "dd6d3a38d6fa417f739ca2cce2290896698b61eb659ecd541512694f159ab16c",
+      "bytes": 149727,
+      "width": 390,
+      "height": 1000,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "navigation-de-320-dark-accessibility",
+      "path": "C168C3F9-8BB2-4558-A3CE-4EA356DCB8E4.png",
+      "sha256": "1f31570d881b19ca2103518752f9c3170f089b0e41c2b9b88586c11fd70c80a2",
+      "bytes": 12406,
+      "width": 320,
+      "height": 150,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "shift-summary-synthetic-uk-320-dark-accessibility",
+      "path": "DC34B798-DD3A-4D3E-9745-048E0B899EFA.png",
+      "sha256": "259b708a71b54941decc50d058b256d019ab0c03d4324063badb7de452402a9c",
+      "bytes": 152676,
+      "width": 320,
+      "height": 1300,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "shift-summary-synthetic-de-390-light",
+      "path": "E6433707-C2BD-42E1-A457-186F883B1EEB.png",
+      "sha256": "1d93cede443b1f8f8df12883edaa2722f7c41b38564fa312e27bd9990cc5c025",
+      "bytes": 78283,
+      "width": 390,
+      "height": 1000,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "overview-synthetic-uk-320-dark-accessibility",
+      "path": "E7FAAC23-EA36-4A03-944B-D017FFFB63B8.png",
+      "sha256": "1be55a7dd2e012fa120b0757cfc389863b76b446c2b95df96a567f748328f67b",
+      "bytes": 115566,
+      "width": 320,
+      "height": 1300,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "overview-synthetic-de-390-light",
+      "path": "F8090FA4-B631-4F6D-BAB4-CFAAABC8649C.png",
+      "sha256": "6967faef490a9272339721cd2398993e3ba08ca57a761d35b59f9115e236efa0",
+      "bytes": 123764,
+      "width": 390,
+      "height": 1100,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-en-320-light",
+      "path": "FC48F087-36FA-4991-8EFB-1F899CCACB9D.png",
+      "sha256": "130f7e4332a8b192ade3d41a16aa2edd528effe04075ac72daefcdc7deaf4298",
+      "bytes": 107949,
+      "width": 320,
+      "height": 900,
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-light",
+      "scope": "ACTUAL_SIMULATOR_LAUNCH_AFTER_XCTEST",
+      "path": "login-light.png",
+      "appearance": "light",
+      "width": 1179,
+      "height": 2556,
+      "bytes": 444974,
+      "sha256": "8f53bcb14f98fcaa689c02afea2f73f3ba9606345ce45eff066ed05287d010f3",
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    },
+    {
+      "name": "login-dark",
+      "scope": "ACTUAL_SIMULATOR_LAUNCH_AFTER_XCTEST",
+      "path": "login-dark.png",
+      "appearance": "dark",
+      "width": 1179,
+      "height": 2556,
+      "bytes": 475825,
+      "sha256": "3149bfb6616cafd5b7c68b5fdca4d9a8455d2e4972c969d8b985c9347a5f7d63",
+      "viewedWith": "view_image",
+      "visualResult": "NO_BLOCKING_DEFECT_IN_CAPTURED_AREA"
+    }
+  ],
+  "visualFindings": [
+    {
+      "severity": "NONBLOCKING_POLISH",
+      "evidence": "shift-summary-synthetic-uk-320-dark-accessibility",
+      "finding": "Raw ISO server timestamp wraps within the time at large accessibility size; a localized display would be easier to scan."
+    },
+    {
+      "severity": "EVIDENCE_SCOPE",
+      "evidence": "login-light and login-dark actual simulator captures",
+      "finding": "ERP origin is https://erp.knaba.test left by successful XCTest sign-in via UserDefaults; this proves post-test launch appearance, not pristine fresh-install defaults."
+    },
+    {
+      "severity": "EVIDENCE_SCOPE",
+      "evidence": "Fixed-height accessibility component captures and horizontal navigation",
+      "finding": "Images show only visible areas; vertical/horizontal scrolling, keyboard, VoiceOver and customer interaction were not exercised by this visual review."
+    },
+    {
+      "severity": "NONBLOCKING",
+      "evidence": "German and Russian narrow login captures",
+      "finding": "Long optional 2FA placeholder truncates, while its persistent label remains fully visible."
+    }
+  ],
+  "positiveObservations": [
+    "Canonical wordmark is legible in all captured themes and locales",
+    "Light and dark surfaces retain brand hierarchy and readable persistent labels",
+    "Large text wraps without observed overlapping labels; metrics switch to one column",
+    "Empty shift explicitly distinguishes missing data from zero time and shows GPS OFF",
+    "Authenticated presentation data is explicitly synthetic and is not live backend proof"
+  ],
+  "openGates": {
+    "physicalIPhoneInstall": "NOT_RUN",
+    "customerLoginJourney": "NOT_RUN",
+    "liveBackend": "NOT_RUN",
+    "GPSBatteryBackground": "NOT_RUN",
+    "ownerSigningProvisioning": "BLOCKED_AVAILABLE_ACCESS",
+    "wholeProductAcceptance": "NOT_RUN"
+  },
+  "evidenceFiles": [
+    {
+      "path": "evidence/native-receipt.json",
+      "sha256": "b04f33c14105e39f2c2c017d68363bf6b8fa10eaddeb1cbedce38a31ab257d71"
+    },
+    {
+      "path": "evidence/xctest-summary.json",
+      "sha256": "f10032df72d7520d74db710553f2eadb2157847cc3f76af7eb1341c583b1cffe"
+    },
+    {
+      "path": "evidence/ios-tests.log",
+      "sha256": "4f979f09ef646b303b2a0705046b5039ac7ce400d93df87f500c80982aaa05ff"
+    },
+    {
+      "path": "evidence/simulator-launch-smoke.json",
+      "sha256": "e653649094114ef1a989eeaf0c1722f8d05bbeea4288c9baf591dd91cfe880e3"
+    },
+    {
+      "path": "evidence/simulator-launch-commands.json",
+      "sha256": "d45da9ed6117eaac315bdd925d2851b69c437a1ec679dd84afa4d2e4f8563786"
+    },
+    {
+      "path": "evidence/xctest-presentation-images.json",
+      "sha256": "70e09170030613bc09c68a477caa1e515c464578e6576a8a137adc5ec2eaf56a"
+    },
+    {
+      "path": "evidence/visual/manifest.json",
+      "sha256": "e88266f6ba8fe29afcde06721a8e208748b9351c2b89316792daa78088bedb5f"
+    }
+  ]
+}
