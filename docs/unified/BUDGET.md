@@ -1,5 +1,13 @@
 # KnaBa — окремий бюджет і квоти
 
+## 08.11.2026 — F4-C1 reserved source verification; C08-C reconciled
+
+C08-C завершено одним source checkpoint4e6ac099: PR42491574791 та duplicate push42491540824 SUCCESS attempt1,0 native runs,0 reruns/corrections. Обидва automatic runs збережено як окремі спостереження; вони не додають case counts одного source.
+
+Для F4-C1 на прийнятій базі4e6ac099 зарезервовано один source checkpoint і максимум одну correction лише за конкретним finding/failure; максимум4 automatic repository runs (push + PR на кожен source),0 запланованих native runs. Змінені paths не збігаються з native workflow triggers. Локально — focused identity/governance cases, final TypeScript/root; actual PostgreSQL виконується існуючим required CI без skip. Unchanged runs не перезапускаються для косметичних receipts.
+
+Нові paid/larger runners, model APIs, live providers, production, DNS, signing/store upload і live-data changes не активуються. Existing public standard hosted workflow не змінюється. Фактичний model balance/remaining quota UNKNOWN; цей source/test ліміт не є твердженням про доступний грошовий баланс. Витрати й виконання паралельного PR135 не приписуються цьому checkpoint. Спроба окремого read-only privacy auditor завершилася context-window error без результату; її не записано як виконаний audit. Design/source review виконує чинний /root/knaba_prompt_review; root перевіряє незалежно написані SQL cases.
+
 ## 08.11.2026 — C08-B reconciliation; KN-C08-C reservation
 
 C08-B source d76bb939c83103fcbf4ed4374a48f4ea85b920d2: automatic push42489215508 і PR42489218942 SUCCESS, all4 mandatory jobs і independent review ACCEPT. Використано один source checkpoint/two repository runs, без native або unchanged manual reruns.

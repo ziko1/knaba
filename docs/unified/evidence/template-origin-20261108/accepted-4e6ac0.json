@@ -1,0 +1,92 @@
+{
+  "status": "ACCEPT_TEMPLATE_ORIGIN_ACTUAL_CI",
+  "source_sha": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+  "tree_sha": "3d7f7615ac4cf21b9dd2a6f5cfa12c1cf958105c",
+  "parent_sha": "d76bb939c83103fcbf4ed4374a48f4ea85b920d2",
+  "pr": 136,
+  "run_id": 42491574791,
+  "url": "https://github.com/ziko1/knaba/actions/runs/42491574791",
+  "attempt": 1,
+  "duplicate_push_run": 42491540824,
+  "duplicate_push_status": "SUCCESS",
+  "all_required_jobs": "SUCCESS",
+  "conditional_failure_summary": "SKIPPED_AS_EXPECTED",
+  "logs": {
+    "erp": {
+      "job_id": 128764896874,
+      "status": "SUCCESS",
+      "file": "template-origin-42491574791-erp.log",
+      "bytes": 112023,
+      "sha256": "f8bf9bd9ee1adcfce2d940f963c056cf1f1ecb7b87c443f18b4f86c3b03f24be"
+    },
+    "bridge": {
+      "job_id": 128764896627,
+      "status": "SUCCESS",
+      "file": "template-origin-42491574791-bridge.log",
+      "bytes": 105613,
+      "sha256": "91d8fd651d43e049303217b6db4041a0215c41ca2175037392e7aecc9fab58c3"
+    },
+    "site": {
+      "job_id": 128764896793,
+      "status": "SUCCESS",
+      "file": "template-origin-42491574791-site.log",
+      "bytes": 141974,
+      "sha256": "e336a1cb47c65bf36fbdb57347933a6a0ed81e1f739375c888fd2e40ece17ad2"
+    },
+    "root": {
+      "job_id": 128764896775,
+      "status": "SUCCESS",
+      "file": "template-origin-42491574791-root.log",
+      "bytes": 41681,
+      "sha256": "9beb5fbf2ddd5d110261b03fddfe9c2f7906d0e255284acb3d4a3ac571652292"
+    }
+  },
+  "results": {
+    "erp": {
+      "tests": 3144,
+      "files": 126,
+      "template_origin_cpu": 19,
+      "notification_policy_integration": 21,
+      "new_postgresql_cases": 7,
+      "telegram_integration": 13
+    },
+    "bridge": {
+      "tests": 82
+    },
+    "site": {
+      "vitest": 732,
+      "node_other": [
+        37,
+        35,
+        10,
+        8
+      ],
+      "vps": 297
+    },
+    "root": {
+      "tests": 30
+    }
+  },
+  "acceptance_skips": 0,
+  "source_inputs": 17,
+  "inherited_subtrees": 7,
+  "manifest_sha256": "204d758b6a26f78b8c40bae4b1140c3749aef2ab7a742a08fe168d51eba9827e",
+  "source_audit": {
+    "file": "template-origin-source-audit.log",
+    "bytes": 409,
+    "sha256": "2d74d778392d159f7173a591e14d5996f34d1f03592c6b5b8c98a215e049abed"
+  },
+  "independent_review": "ACCEPT",
+  "independent_reviewer": "/root/knaba_prompt_review",
+  "root_verification": "Exact committed source, all raw log hashes, ERP/Bridge/Root case totals independently checked; Site raw text compared by every Unicode chunk",
+  "scope": "Validate TEMPLATE public origin before SENDING/attempts/provider calls; pin validated raw URL in claim snapshot; project terminal failure and preserve TEXT/WEB compatibility",
+  "excluded": [
+    "Whole-product V4/V3 acceptance",
+    "F3 issuance and remaining F4 policy/privacy",
+    "Full TPL01–18 website template catalog",
+    "Live Meta/provider delivery",
+    "Native rebuild: accepted artifacts remain source-bound to bb223af; concurrent PR1350.6.0 is separate",
+    "Physical/signing/store/company/legal/load/restore acceptance",
+    "Merge, production or live data changes"
+  ]
+}

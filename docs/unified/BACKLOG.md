@@ -1,5 +1,13 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — C08-C прийнято; F4-C1 identity privacy export
+
+C08-C прийнято на `4e6ac0990ddd73bed142ab05b5f7579d8ed3048a` / [PR136](https://github.com/ziko1/knaba/pull/136), [CI42491574791](https://github.com/ziko1/knaba/actions/runs/42491574791), attempt1: ERP3144/126 файлів, notification-policy PostgreSQL21 включно з7 новими cases, template-origin19; bridge82, site732+37+35+10+8+297, root30. Усі4 mandatory jobs SUCCESS, acceptance skips0, independent source/raw-log ACCEPT. [Receipt](evidence/template-origin-20261108/accepted-4e6ac0.json). Duplicate push42491540824 SUCCESS; correction не знадобилась.
+
+F4-C1 додає окремо погоджуваний `knaba-dsar-v2` для власної ERP-local identity history у PROFILE. Initial actual-builder RED відтворив відсутність exact legal-approval revision guard; новий код перевіряє reviewed revision і збережену request projection. Legacy approved без поля лишається v1; canonical v1 bytes та вже створені artifacts збережено. Reader працює в поточній company transaction, виключає proof/credential hashes і непідтверджені чужі preview identities, відхиляє overflow/invalid lineage до artifact write. Початково97 CPU PASS; після незалежного review scope-mutation RED→GREEN фінальні36 нових +62 governance =98 PASS. Final TypeScript exit0 і root30 PASS;12 незалежно написаних PostgreSQL cases прийняті root на рівні source, локально NOT_RUN. Exact-source CI нового кандидата ще NOT_RUN. [Контракт](IDENTITY_PRIVACY_EXPORT_2026-11-08_UK.md).
+
+F3 issuance, F4 identity retention/erasure/restore/background policy, TPL01–18 та specialist/device/company/provider/load gates залишаються OPEN. Паралельний mobile branding0.6.0 у PR135 має власний source/CI; прийняті bb223af0.5.x packages не називаються найновішими. Whole product NOT_READY; original72 V4/475 V3 не перепозначено.
+
 ## 08.11.2026 — KN-C08-B прийнято; template delivery consumer
 
 KN-C08-B прийнято на `d76bb939c83103fcbf4ed4374a48f4ea85b920d2` / [PR134](https://github.com/ziko1/knaba/pull/134), [CI42489218942](https://github.com/ziko1/knaba/actions/runs/42489218942): ERP3118/125 файлів, зокрема всі244 configuration cases; bridge82, site732+90+297, root30. Усі4 required jobs SUCCESS, acceptance skips0; independent source/raw-log ACCEPT. [Receipt](evidence/production-config-20261108/accepted-d76bb9.json). Native artifacts лишаються на окремому accepted bb223af.

@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "F4-C1: version-pinned self export of ERP-local site identity metadata",
+  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-identity-privacy-export-20261108",
+  "base_source_sha": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+  "base_tree_sha": "3d7f7615ac4cf21b9dd2a6f5cfa12c1cf958105c",
+  "commit_binding": "Current local proofs bind to the exact input hashes below. Reviewed staged tree and future immutable commit/actual hosted acceptance are recorded separately; historical C08-C inputs bind to Git4e6ac099, not this worktree.",
+  "inputs": [
+    {
+      "path": "erp/apps/api/engine.ts",
+      "bytes": 52905,
+      "sha256": "652a69574f7bb26ffc1549ede9c0bb94e86522ce2a75cf7714c9b4827d242323"
+    },
+    {
+      "path": "erp/apps/api/identity-privacy.ts",
+      "bytes": 2769,
+      "sha256": "a01af6ba61009bf270ead8c8420f9deee396f3f8f2f398b0f88d99286f906b9f"
+    },
+    {
+      "path": "erp/packages/domain/governance.ts",
+      "bytes": 26860,
+      "sha256": "801d1c94a92a870c558bea87c1b30fd805c549e5f77380bcf1c88d3def94642b"
+    },
+    {
+      "path": "erp/packages/domain/identity-privacy.ts",
+      "bytes": 4078,
+      "sha256": "4ae54dab7a059ec1cc12edd27ac489d1358ed37e4572e2bae49aa7824ffff458"
+    },
+    {
+      "path": "erp/tests/identity-privacy.test.ts",
+      "bytes": 17194,
+      "sha256": "b805d81bad1c70ad5f0979afe41e509406ccf65eac828c11478db651eb3e2813"
+    },
+    {
+      "path": "erp/tests/identity-privacy.integration.test.ts",
+      "bytes": 23282,
+      "sha256": "00894a33cd00eb60d3e7aadbf717813d4be05d5723c97483a91a5b37d1dda2b3"
+    },
+    {
+      "path": "erp/tests/governance.test.ts",
+      "bytes": 39082,
+      "sha256": "9bc90398d83cd28379a56833b276fe47a36bce6138d202efccbf6f2316aa3334"
+    },
+    {
+      "path": "erp/apps/api/database.ts",
+      "bytes": 10345,
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c"
+    },
+    {
+      "path": "erp/apps/api/registry.ts",
+      "bytes": 1158,
+      "sha256": "d2ac97aba6c3490f2c505840607af05dba96e49cd4ff96c915af7b487268a751"
+    },
+    {
+      "path": "erp/apps/api/http.ts",
+      "bytes": 46874,
+      "sha256": "a532d7338df89c6a0d8196d7037d3113a511751d56d718f15a1c20a669cedca6"
+    },
+    {
+      "path": "erp/apps/api/auth.ts",
+      "bytes": 19330,
+      "sha256": "401369d52363e0e71cae964b0588065e439c5de99dc21834bcebda402cf28b0c"
+    },
+    {
+      "path": "erp/apps/api/request-authority.ts",
+      "bytes": 14384,
+      "sha256": "a46fdc6eccfa3427de5edaade0603edab7817b9c0a29ad01e747ac485b9c8189"
+    },
+    {
+      "path": "erp/apps/api/site-session-authority.ts",
+      "bytes": 13976,
+      "sha256": "79a00d8377fbb3947b5c2c7c58ac65f5efd88deda3c5c43deb874865e8b01d45"
+    },
+    {
+      "path": "erp/apps/api/site-identity-bindings.ts",
+      "bytes": 12659,
+      "sha256": "a8fe76ee7400c950825c68cfb002349025f006fc78f7df85a854322e5d8d7457"
+    },
+    {
+      "path": "erp/packages/domain/core.ts",
+      "bytes": 2603,
+      "sha256": "fe077484bf21757c76ecf4fa1de6f54a2759cf93ea75598b7d733c0e10f1a32c"
+    },
+    {
+      "path": "erp/packages/domain/permissions.ts",
+      "bytes": 7977,
+      "sha256": "e45dd56367862aea98209446c6d207f3cbb5c60b226ef4a8a4857dc2fe28d63f"
+    },
+    {
+      "path": "erp/infra/001_init.sql",
+      "bytes": 37293,
+      "sha256": "b2f73af9a40672a2f756af013a57992aeb8ab0895fea0821bc1f65d0f8d2c7f5"
+    },
+    {
+      "path": "erp/package.json",
+      "bytes": 1208,
+      "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58"
+    },
+    {
+      "path": "erp/package-lock.json",
+      "bytes": 192043,
+      "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3"
+    },
+    {
+      "path": "erp/tsconfig.json",
+      "bytes": 459,
+      "sha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb"
+    },
+    {
+      "path": "erp/vitest.config.ts",
+      "bytes": 237,
+      "sha256": "be12dd7419a8543ba401b9d3344dea96acc287c165d757ca7802e47a39ce7078"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 9263,
+      "sha256": "f581ba87e0006916e540685bd48feac7a3215dc925a306b810b2721f284bde20"
+    },
+    {
+      "path": ".github/workflows/native.yml",
+      "bytes": 8762,
+      "sha256": "c8f24fb82e9b3a5a6783e14a9ec2146a2109c1af11e9b9d7db52c46b8d9a03db"
+    }
+  ],
+  "inherited_subtrees": {
+    "erp/apps/worker": "dfb3a98ee24232cfd09e8534d51841b91ab62998",
+    "erp/apps/mobile-android": "f103ef647cbc4f88566270b3d641b9867e8d5c7b",
+    "erp/apps/mobile-ios": "3791f12c9acf7720265ec53aa010fd5e2a0e617d",
+    "erp/apps/web": "5465ec595e5b7ff4e52f170f7b7e74ae6c860340",
+    "corporate-site": "ffd12bcd54ebf8352574e9e4997ea3a8e52d8e97",
+    "scripts/mobile": "efd75579e19286942c9c0c604f962547c5417084",
+    "erp/infra": "ef47bc0ad816eade4a87a2d09e6c0b2a1a63a5b5"
+  },
+  "review": {
+    "status": "ACCEPT_RUNTIME_AND_TEST_SOURCE",
+    "runtime_and_cpu_reviewer": "/root/knaba_prompt_review",
+    "sql_test_reviewer": "/root",
+    "changed_runtime_files": 4,
+    "changed_test_files": 2,
+    "closed_findings": [
+      "Mutable adapter scope argument: reproduced RED then passed private expected-envelope regression",
+      "CPU comment now limits new integration evidence to SQL/Engine/private-byte helper, not HTTP/browser"
+    ],
+    "blocking_findings": 0,
+    "final_staged_tree_review": "PENDING"
+  },
+  "local": {
+    "approval_revision_red": {
+      "path": "identity-privacy-red.log",
+      "bytes": 7587,
+      "sha256": "f270d086db362aebb2063516325a5f4c792fc73daea32d0829955231a0d7a3ac",
+      "exit_code": 1,
+      "failed": 1,
+      "deselected_by_name_filter": 1,
+      "baseline_source": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+      "scope": "Actual pre-fix domain builder accepted changed reviewed legal revision; explicit memory transaction, not SQL"
+    },
+    "initial_focused": {
+      "path": "identity-privacy-focused.log",
+      "bytes": 344,
+      "sha256": "3d284a33cbeada3eafef1f3bcbde077d49f7e2167f98254b97979ecc0acd7330",
+      "exit_code": 0,
+      "tests": 97,
+      "files": 2,
+      "scope": "Historical before the independently found reader scope correction; not added to final total"
+    },
+    "scope_mutation_red": {
+      "path": "identity-privacy-scope-red.log",
+      "bytes": 4189,
+      "sha256": "758046924add508b8663667f3f7d4746d1ee00317030d45fe6dd1ce31aa6d6db",
+      "exit_code": 1,
+      "failed": 1,
+      "deselected_by_name_filter": 35,
+      "scope": "Injected internal adapter changed expected subject; default SQL reader did not mutate scope; no external endpoint bypass claimed"
+    },
+    "final_focused": {
+      "path": "identity-privacy-focused-final.log",
+      "bytes": 345,
+      "sha256": "6fd1e8ed95db104ad6328dfe26c826ff92ed15b6322f600cca089292dcff6003",
+      "exit_code": 0,
+      "tests": 98,
+      "files": 2,
+      "breakdown": {
+        "identity_privacy": 36,
+        "governance": 62
+      },
+      "acceptance_skips": 0
+    },
+    "final_typecheck": {
+      "path": "identity-privacy-typecheck-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "observed_by": "/root",
+      "completed_exec_session": 66448,
+      "scope": "After all12 SQL tests and scope correction; empty log is not itself proof of exit"
+    },
+    "final_root": {
+      "path": "identity-privacy-root-final.log",
+      "bytes": 2748,
+      "sha256": "fa9b6b6de900e1d5c2c40ff12890f49ea432c59e6c30c919f6fe25b723affd36",
+      "exit_code": 0,
+      "tests": 30,
+      "failures": 0,
+      "skips": 0,
+      "cancelled": 0,
+      "todo": 0
+    }
+  },
+  "hosted": {
+    "status": "NOT_RUN_FOR_THIS_SOURCE",
+    "required": [
+      "All four mandatory repository jobs on exact clean source",
+      "Typecheck and immutable build/source guards",
+      "All ERP cases without skips including12 new real PostgreSQL cases",
+      "Independent source and raw-log review"
+    ],
+    "new_postgresql_cases": 12,
+    "native": "No changed trigger paths or native source; accepted bb223af artifacts and parallel PR135 have separate identities"
+  },
+  "historical_template_origin": {
+    "source_sha": "4e6ac0990ddd73bed142ab05b5f7579d8ed3048a",
+    "run_id": 42491574791,
+    "status": "ACCEPT",
+    "receipt": "../template-origin-20261108/accepted-4e6ac0.json",
+    "receipt_sha256": "d680d0fdb35d6ecac8fe3da2f00faaeb1cec05a8f41c007b41e4236c1f6fddab"
+  },
+  "coverage": {
+    "projection_versions": [
+      "knaba-dsar-v1",
+      "knaba-dsar-v2"
+    ],
+    "v1_bytes": "Preserved; already stored artifacts never rewritten",
+    "history_tables": [
+      "site_identity_bindings",
+      "site_auth_sessions",
+      "site_identity_challenges"
+    ],
+    "max_combined_records": 25000,
+    "new_sql_migration": false,
+    "identity_row_writes": false,
+    "new_api_routes": false,
+    "new_native_commands": false,
+    "full_legal_dsar_fulfillment": false
+  },
+  "budget": {
+    "max_source_checkpoints": 2,
+    "max_automatic_repository_runs": 4,
+    "planned_native_runs": 0,
+    "new_paid_activation_eur": 0,
+    "model_balance": "UNKNOWN"
+  },
+  "rollback": "Source-only return to4e6ac099; preserve all identity rows/artifacts. Old runtime refuses new v2 exports but can serve existing private immutable artifacts. Reintroduces historical missing legal-revision guard; not a production rollback acceptance.",
+  "open": [
+    "F3 browser issuance/token exchange",
+    "Remaining F4 identity retention/erasure/restore/background policy",
+    "Full TPL01–18 and specialist journeys",
+    "Physical devices, owner signing/stores, company/provider/legal/load/restore acceptance",
+    "Original72 V4/475 V3 whole-criterion acceptance"
+  ],
+  "activation": {
+    "merge": false,
+    "production": false,
+    "live_data": false,
+    "paid_services": false,
+    "signing_or_store_upload": false
+  }
+}
