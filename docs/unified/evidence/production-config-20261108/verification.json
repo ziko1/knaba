@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "project": "KNABA DE",
+  "date": "2026-11-08",
+  "scope": "KN-C08-B explicit production company and clean API/worker/BOT origins",
+  "status": "SOURCE_REVIEWED_LOCAL_VERIFIED_EXACT_SOURCE_HOSTED_PENDING",
+  "product_status": "NOT_READY",
+  "branch": "feat/knaba-production-config-guards-20261108",
+  "base_source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+  "base_tree_sha": "54de236e29601fdc5fe6315e42a8c8b5e67d2617",
+  "commit_binding": "Candidate inputs were executed locally as an uncommitted source snapshot. The eventual immutable commit/tree and its own hosted acceptance are recorded separately. Native bb223af artifacts and historical CI are not retagged.",
+  "inputs": {
+    ".github/workflows/ci.yml": {
+      "bytes": 9263,
+      "sha256": "f581ba87e0006916e540685bd48feac7a3215dc925a306b810b2721f284bde20"
+    },
+    ".github/workflows/native.yml": {
+      "bytes": 8762,
+      "sha256": "c8f24fb82e9b3a5a6783e14a9ec2146a2109c1af11e9b9d7db52c46b8d9a03db"
+    },
+    "erp/apps/api/database.ts": {
+      "bytes": 10345,
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c"
+    },
+    "erp/apps/api/main.ts": {
+      "bytes": 9953,
+      "sha256": "7065ae3a9deea8956e7785b0f0ec4f247e083e8628c05336c34611bbfbeb5420"
+    },
+    "erp/apps/runtime-config.d.mts": {
+      "bytes": 330,
+      "sha256": "e72ec016e721fb532c681a4788f9caa1addca9f3239cb91988c426e81316995f"
+    },
+    "erp/apps/runtime-config.mjs": {
+      "bytes": 1765,
+      "sha256": "d1e11e3d763b6dfea7543497ba478f91c1ae7eb44a384c0a5756513a98526e97"
+    },
+    "erp/apps/worker/main.ts": {
+      "bytes": 6041,
+      "sha256": "28ffd3029b9089cf4854ad8701a630640dc2c0f612600c2eb6bacb29607ba0bd"
+    },
+    "erp/apps/worker/runner.ts": {
+      "bytes": 86481,
+      "sha256": "d2ffce6c9fae6d4cb441c317f0cda21e0c4454b264d499854cf4eb182b92544e"
+    },
+    "erp/infra/Dockerfile": {
+      "bytes": 1980,
+      "sha256": "f4d82d65f827641c83738e82d227e6c72fd85a95b6a23c5d168b9080875287d7"
+    },
+    "erp/infra/Dockerfile.railway": {
+      "bytes": 1782,
+      "sha256": "22e0d010b16086d0896c8b1b2fa78e949e09431f1ca5a3a2a510ebe142fac16c"
+    },
+    "erp/package-lock.json": {
+      "bytes": 192043,
+      "sha256": "45898ff7e0b66c482c6982822d2ecd856e51bee6e8db72c35bf2ed8a43500da3"
+    },
+    "erp/package.json": {
+      "bytes": 1208,
+      "sha256": "d00fc973337a2b2e5dadebb37cc5b20f87e03d898b17a29f060274e77944df58"
+    },
+    "erp/packages/integrations/site-identity-protocol.mjs": {
+      "bytes": 7790,
+      "sha256": "15ce563492dd2a3d4a372b50f7b56c7f4a7e15e5fef0171af30154013edc3d5b"
+    },
+    "erp/scripts/bundle.mjs": {
+      "bytes": 2552,
+      "sha256": "a4e6ac8a341124880184618a9893e7a244c23a89a652357024aa06132c6fd093"
+    },
+    "erp/scripts/environment-check.mjs": {
+      "bytes": 4705,
+      "sha256": "3a55a8a222750755cd93fa249999576541acb42146b3fe2f19192359c9cf6fd5"
+    },
+    "erp/tests/fixtures/runtime-mode-traps.cjs": {
+      "bytes": 1878,
+      "sha256": "7cf39be6085158d6090087731bec82f2480b57df915dedf54d8e445f07385332"
+    },
+    "erp/tests/runtime-config.test.ts": {
+      "bytes": 4244,
+      "sha256": "abd3424412594f376c64af1d9d4e061233a05a8de95d805087e151430c475881"
+    },
+    "erp/tests/runtime-mode-entrypoints.test.ts": {
+      "bytes": 9215,
+      "sha256": "b65f41b45181d7b75a85a6e559d3c8591355e4c0d33a72a9343646d4f576ce11"
+    },
+    "erp/tests/runtime-mode.test.ts": {
+      "bytes": 9853,
+      "sha256": "8e9ab1b59f0190473fba2676fa104221fc6d21919c3cba58eba5566a1be5bbdd"
+    },
+    "erp/tests/telegram-preflight.test.ts": {
+      "bytes": 6649,
+      "sha256": "8e9737014426728d5120487444fa95a1b971d8e7f6e05a0b8b6ddaf6a4396ada"
+    },
+    "erp/tests/telegram-worker-config.test.ts": {
+      "bytes": 6504,
+      "sha256": "4bfb1fc009c9bb0f53c16344db9726d4f3a21a16342bb43c396475ca12331c0d"
+    },
+    "erp/tsconfig.json": {
+      "bytes": 459,
+      "sha256": "a5ae3e9000c8308aa438634333d115b2baba29bdcf1fca1427f09b599a87a9bb"
+    },
+    "erp/vitest.config.ts": {
+      "bytes": 237,
+      "sha256": "be12dd7419a8543ba401b9d3344dea96acc287c165d757ca7802e47a39ce7078"
+    }
+  },
+  "inherited_subtrees": {
+    "erp/apps/mobile-android": "f103ef647cbc4f88566270b3d641b9867e8d5c7b",
+    "erp/apps/mobile-ios": "3791f12c9acf7720265ec53aa010fd5e2a0e617d",
+    "erp/apps/web": "5465ec595e5b7ff4e52f170f7b7e74ae6c860340",
+    "erp/packages": "9ea7c2f5f8d1f3490fb756f784d53a99b980b106",
+    "corporate-site": "ffd12bcd54ebf8352574e9e4997ea3a8e52d8e97",
+    "scripts/mobile": "efd75579e19286942c9c0c604f962547c5417084"
+  },
+  "review": {
+    "status": "ACCEPT_LOCAL_RUNTIME_TEST_SOURCE",
+    "reviewer": "/root/knaba_prompt_review",
+    "changed_runtime_contract_packaging_files": 7,
+    "changed_test_files": 6,
+    "blocking_findings": 0,
+    "resolved_finding": "BOT URL normalization inconsistent between workerOptions and startWorker; strict shared grammar now applied before provider reads and in preflight",
+    "final_staged_tree_review": "PENDING"
+  },
+  "local": {
+    "node": "v24.22.1",
+    "initial_regression_red": {
+      "exit_code": 1,
+      "failed": 3,
+      "deselected": 19,
+      "source": "Pre-fix e747 runtime with added actual-main regression tests",
+      "reason": "Missing production company in API/worker and HTTP API origin reached PG_POOL instead of failing before construction",
+      "log": {
+        "file": "production-config-red.log",
+        "bytes": 7045,
+        "sha256": "44bd3ca447bb4769d206ec3d19e30596d7e2e77e6ad528cb4f9c1f948ede0dc2"
+      }
+    },
+    "initial_regression_green": {
+      "exit_code": 0,
+      "passed": 3,
+      "deselected": 19,
+      "scope": "Same three cases after runtime correction; prior to expanded matrix",
+      "log": {
+        "file": "production-config-green.log",
+        "bytes": 571,
+        "sha256": "902d4a1c057f707a05082adea25ed417092cc04651bf13719494dea07cf192cb"
+      }
+    },
+    "pre_bot_delta_focused": {
+      "exit_code": 0,
+      "passed": 238,
+      "failed": 0,
+      "skipped": 0,
+      "files": 5,
+      "breakdown": {
+        "compiled_entrypoints": 60,
+        "worker": 70,
+        "shared_contract": 47,
+        "telegram_config": 22,
+        "preflight": 39
+      },
+      "scope": "Pre-BOT-correction snapshot. Overlaps later targeted run; never add counts.",
+      "command": "node node_modules/vitest/vitest.mjs run tests/runtime-config.test.ts tests/runtime-mode.test.ts tests/runtime-mode-entrypoints.test.ts tests/telegram-worker-config.test.ts tests/telegram-preflight.test.ts --maxWorkers=1",
+      "cwd": "erp",
+      "log": {
+        "file": "production-config-focused.log",
+        "bytes": 5582,
+        "sha256": "9fa5317342585cf273aa3962ff55431521a81b79e9310a8128503bdd4989af36"
+      }
+    },
+    "bot_regression_red": {
+      "exit_code": 1,
+      "passed": 7,
+      "failed": 7,
+      "deselected": 53,
+      "reason": "BOT normalized paths and empty delimiters were accepted before the shared spelling guard; Proxy proved later provider configuration was read",
+      "log": {
+        "file": "production-config-website-red.log",
+        "bytes": 9116,
+        "sha256": "296f58c06a489d4c61fd276bd92701aff4502ab0b5071b58922b9a9710e24a08"
+      }
+    },
+    "final_affected_suites": {
+      "exit_code": 0,
+      "passed": 137,
+      "failed": 0,
+      "skipped": 0,
+      "files": 3,
+      "breakdown": {
+        "worker": 70,
+        "telegram_config": 28,
+        "preflight": 39
+      },
+      "command": "node node_modules/vitest/vitest.mjs run tests/runtime-mode.test.ts tests/telegram-worker-config.test.ts tests/telegram-preflight.test.ts --maxWorkers=1",
+      "cwd": "erp",
+      "log": {
+        "file": "production-config-website-green.log",
+        "bytes": 605,
+        "sha256": "5bfc8d5f47eff9b9f3ae83bf03c3b7b4975f5325a0b9a4ec304a9631d50aa1c4"
+      }
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "cwd": "erp",
+      "log": {
+        "file": "production-config-typecheck-final.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "root": {
+      "exit_code": 0,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "command": "npm test",
+      "cwd": ".",
+      "log": {
+        "file": "production-config-root.log",
+        "bytes": 2751,
+        "sha256": "955f3a0f53d7d93e64d3a86358513f527b5cac4fb3a117ae9841c773cccda08a"
+      }
+    },
+    "standalone_preflight_packaging": {
+      "exit_code": 0,
+      "layouts": 2,
+      "scenarios_each": 3,
+      "scope": "SIMULATED_FINAL_COPY_LAYOUT_NOT_DOCKER_BUILD; actual final COPY declarations, isolated copied .mjs files and plain Node; no SQL or providers",
+      "script": {
+        "file": "production-config-packaging-smoke.py",
+        "bytes": 2709,
+        "sha256": "e7de0079ed8d6b1fa0aebca19d1a71adb41af71f7b7a03645094f8cf1e39363c"
+      },
+      "log": {
+        "file": "production-config-packaging-smoke.log",
+        "bytes": 254,
+        "sha256": "a8b5d5e04496f818fdb54bbf81415820276567424b131e8305d76f8dfd05e456"
+      }
+    },
+    "diff_check": "PASS",
+    "boundary_scope": "Actual API/worker entrypoints compiled with pinned esbuild, plain Node and child-only PG/network/interval traps. Canonical peer comparison permits only an explicit GPS query double then stops at identity schema access. Not real PostgreSQL, successful application startup, live acceptance or a release artifact."
+  },
+  "hosted": {
+    "status": "NOT_RUN_FOR_THIS_SOURCE",
+    "required": [
+      "All four mandatory repository jobs on exact clean commit",
+      "Built source identity",
+      "Skip-free actual PostgreSQL/SQLite/HTTP acceptance",
+      "Independent source/log review"
+    ],
+    "native": "Not requested: native input trees and native workflow paths unchanged; bb223af retains separate accepted artifacts"
+  },
+  "historical_native": {
+    "source_sha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "repository_run": 42486326925,
+    "native_run": 42486326902,
+    "status": "ACCEPT",
+    "receipt": "../../../mobile/evidence/native-consolidation-20261108/accepted-bb223af.json"
+  },
+  "coverage": [
+    "Production company explicit, non-demo, bounded; malformed explicit values never default",
+    "DEMO/TEST missing environment company remains demo; injected options always explicit",
+    "Configured API production origin HTTPS/root; spelling checked before URL normalization",
+    "API canonical origin matches trusted peer with or without final slash; mismatched company/origin still denied",
+    "Worker jobs without links keep optional API-only secrets; exact raw origin ticket binding preserved",
+    "BOT HTTPS/.invalid/priority and provider opt-ins preserved with shared strict syntax",
+    "Invalid configuration fails before database, runner, provider reads or timers",
+    "C08 exact runtime mode and API production prerequisites preserved",
+    "Standalone preflight dependency explicitly included in both runtime Docker layers"
+  ],
+  "budget": {
+    "max_source_checkpoints": 2,
+    "max_automatic_repository_runs": 4,
+    "planned_native_runs": 0,
+    "new_paid_activation_eur": 0,
+    "model_balance": "UNKNOWN"
+  },
+  "rollback": "No schema migration; restore accepted source bb223af only with explicitly verified mode/company/origins retained in operator configuration. No production action is authorized by this source checkpoint.",
+  "open": [
+    "WorkerRunner template placeholder-origin consumer gap",
+    "F3 browser-bound issuance and remaining F4 privacy/retention/background policy",
+    "GIT_SHA placeholder/API-preflight parity audit is outside current scope",
+    "Full V4/V3 and specialist/company acceptance",
+    "Physical devices, owner signing/stores, provider/legal/load/restore acceptance"
+  ],
+  "activation": {
+    "main_merge": false,
+    "production": false,
+    "live_data": false,
+    "providers": false,
+    "paid_services": false,
+    "native_source_changes": false,
+    "original_criteria_promoted": false
+  }
+}

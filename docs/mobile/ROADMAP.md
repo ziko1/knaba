@@ -1,5 +1,13 @@
 # KNABA Mobile — roadmap
 
+## 08.11.2026 — спільний source і native CI прийнято
+
+Source `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2`, [PR133](https://github.com/ziko1/knaba/pull/133). Native run [42486326902](https://github.com/ziko1/knaba/actions/runs/42486326902): Android 0.5.0-test/code6 — 32 JUnit PASS, lint 0 errors/20 warnings, hosted signature/AAB integrity; iOS 0.5.1/build7 — 67 actual XCTest PASS на iPhone 16/iOS 18.5/arm64, Xcode 16.4. Repository run [42486326925](https://github.com/ziko1/knaba/actions/runs/42486326925): ERP2969, bridge82, site732+90+297, root30; усі required jobs SUCCESS без acceptance skips.
+
+Незалежно звірено artifact bytes, 53 Android source files, 48 compiled iOS bundle files, 65 consolidation inputs і raw logs. [Повний receipt](evidence/native-consolidation-20261108/accepted-bb223af.json). Підготовчий iOS NOT_RUN збережено як історичний стан; фактичні 67 XCTest доведено completed summary/log.
+
+M1 identity issuance, повні M2/M3 role journeys і M4 signing/physical/company handover залишаються OPEN. Android DEBUG_EVALUATION_ONLY; iOS unsigned simulator, без installable signed IPA. Debug certificate може відрізнятися від старого пакета: не видаляти pending journal чи дані задля update. Whole product NOT_READY. Наступний backend-only KN-C08-B має власний source/CI і не переприв’язує ці артефакти.
+
 ## 08.11.2026 — native completion execution
 
 MOBILE-004/011/012 now have active implementation: 39 permission-based modules, Android contextual record actions, iOS durable recovery/session fencing, canonical icons and verified packaging. Current candidate 0.5.0 / build6 is awaiting exact-source native CI and owner/device gates. M1 shared identity, all specialist M2/M3 lifecycle journeys, partner integration and M4 signing/handover are still open; this increment does not replace the full system scope.

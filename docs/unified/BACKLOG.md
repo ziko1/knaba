@@ -1,5 +1,13 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — зведений native/backend кандидат прийнято; KN-C08-B
+
+Спільний source `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2` / [PR133](https://github.com/ziko1/knaba/pull/133) прийнято незалежно: [repository CI42486326925](https://github.com/ziko1/knaba/actions/runs/42486326925) — ERP 2969/124 файли, bridge 82, site 732+90+297, root 30; [native CI42486326902](https://github.com/ziko1/knaba/actions/runs/42486326902) — Android 32 JUnit, lint 0 errors/20 warnings, APK/AAB; iOS 67 XCTest на iPhone 16/iOS 18.5 Simulator. Усі required jobs SUCCESS, acceptance skips 0. [Source-bound receipt](../mobile/evidence/native-consolidation-20261108/accepted-bb223af.json). Це debug Android і unsigned iOS simulator; owner signing/device/store gates відкриті.
+
+На цій прийнятій базі ізольовано реалізовано KN-C08-B: explicit production company, strict/canonical API origin, optional raw worker origin, узгоджені BOT/preflight guards і runtime Docker dependency. Локально initial focused 238 PASS; після вузького BOT grammar RED→GREEN — final affected 137 PASS, TypeScript PASS. Ці overlapping runs не підсумовуються. Exact-source hosted acceptance нового source ще PENDING. [Контракт](PRODUCTION_CONFIG_GUARDS_2026-11-08_UK.md), [input evidence](evidence/production-config-20261108/verification.json).
+
+F3 issuer, решта F4 privacy/retention/background policy, template-origin consumer gap, повні specialist/device/company/provider/load/restore acceptance залишаються OPEN. Whole product NOT_READY; вихідні 72 V4 / 475 V3 критерії не перепозначені.
+
 ## 08.11.2026 — C08 accepted; current native/backend source consolidation
 
 C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.
@@ -53,12 +61,12 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
 | KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | PR123 authority fixes, F1 storage та F2 dual-consent actual SQL/HTTP verified; F4-A local session/device fence actual HTTP/PostgreSQL accepted; F4-B federated authority candidate, combined SQL acceptance pending; [контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). F3–F5 session exchange, shared revocation і acceptance OPEN |
+| KN-C04 / KN-U09 | P0 | F1/F2 і F4-A/F4-B source-bound SQL/HTTP acceptance прийнято; current signed site authority та terminal revocation перевірено, повторно на bb223af. F3 issuance, решта F4 privacy/background policy та F5 browser/device/company acceptance OPEN. [Контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md) |
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
-| KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
+| KN-C06 | P0 | iOS 0.5.1 recovery/session/contextual actions: source і 67 XCTest прийнято на bb223af; physical device та live ERP/UAT OPEN. [Receipt](../mobile/evidence/native-consolidation-20261108/accepted-bb223af.json) |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |
 | KN-C08 | P1 | ACCEPT на e747fd94… / CI42483792274: явний APP_MODE і injected worker/Engine guards. Whole product не закрито. [Evidence](evidence/explicit-runtime-mode-20261108/verification.json) |
-| KN-C08-B | P1 | OPEN: production COMPANY_ID та PUBLIC_ORIGIN boundary validation; [read-only audit](PRODUCTION_CONFIGURATION_AUDIT_2026-11-08_UK.md), реалізація ще NOT_RUN |
+| KN-C08-B | P1 | IMPLEMENTED_CANDIDATE: production COMPANY_ID/PUBLIC_ORIGIN/BOT guards; локальний RED→GREEN, independent review та exact-source hosted acceptance перед закриттям. [Контракт](PRODUCTION_CONFIG_GUARDS_2026-11-08_UK.md) |
 | KN-C09 | P0 | Actual role UI→API→SQL V4 scenarios, tenant/RBAC negative journeys, no mock acceptance |
 | KN-C10 | P1 | Перевірені recovery mail/OIDC/voice/WhatsApp/Telegram, outbound disabled до дозволу |
 | KN-C11 | P0 | Backup/restore + migration rollback + load baseline + physical Android/iOS + company UAT |

@@ -1,5 +1,13 @@
 # KNABA Mobile — module memory
 
+## 08.11.2026 — спільний source і native CI прийнято
+
+Source `bb223af67af9eae5f11e7ca225f89ddf97a8e4e2`, [PR133](https://github.com/ziko1/knaba/pull/133). Native run [42486326902](https://github.com/ziko1/knaba/actions/runs/42486326902): Android 0.5.0-test/code6 — 32 JUnit PASS, lint 0 errors/20 warnings, hosted signature/AAB integrity; iOS 0.5.1/build7 — 67 actual XCTest PASS на iPhone 16/iOS 18.5/arm64, Xcode 16.4. Repository run [42486326925](https://github.com/ziko1/knaba/actions/runs/42486326925): ERP2969, bridge82, site732+90+297, root30; усі required jobs SUCCESS без acceptance skips.
+
+Незалежно звірено artifact bytes, 53 Android source files, 48 compiled iOS bundle files, 65 consolidation inputs і raw logs. [Повний receipt](evidence/native-consolidation-20261108/accepted-bb223af.json). Підготовчий iOS NOT_RUN збережено як історичний стан; фактичні 67 XCTest доведено completed summary/log.
+
+M1 identity issuance, повні M2/M3 role journeys і M4 signing/physical/company handover залишаються OPEN. Android DEBUG_EVALUATION_ONLY; iOS unsigned simulator, без installable signed IPA. Debug certificate може відрізнятися від старого пакета: не видаляти pending journal чи дані задля update. Whole product NOT_READY. Наступний backend-only KN-C08-B має власний source/CI і не переприв’язує ці артефакти.
+
 ## 08.11.2026 — iOS 0.5.1 accepted; consolidation with current backend pending
 
 Accepted iOS source `65f341e76749a03fc62997da5a77e17b84caf8ba`: CI42467913707, iOS job128691606881, 67/67 actual XCTest, iPhone 16 / iOS 18.5 Simulator / Xcode 16.4. Parallel Android dependency HTTP504 occurred before compilation; Android retains its separate accepted fb4be719 artifact proof. Native receipt and actual XCTest summary are preserved under `evidence/ios-context-actions-20261108/`.

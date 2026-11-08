@@ -20,8 +20,11 @@ import {validationInputBudgetMiddleware} from './validation-budget.ts';
 import {SiteIdentityFlow} from './site-identity-flow.ts';
 import {parsePeerConfig,parseSessionAuthorityEnabled} from '../../packages/integrations/site-identity-protocol.mjs';
 import {installSiteIdentityPages} from './site-identity-pages.ts';
-const env=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().default('knaba-demo'),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().url().optional()}).parse(process.env);
-if(env.APP_MODE==='PRODUCTION'&&(!env.AUTH_ENCRYPTION_KEY||!env.PUBLIC_ORIGIN||!env.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
+import {resolveCompanyId,parsePublicOrigin} from '../runtime-config.mjs';
+const parsedEnv=z.object({APP_MODE:z.enum(['DEMO','TEST','PRODUCTION']),DATABASE_URL:z.string().min(1),PORT:z.coerce.number().int().min(1).max(65535).default(3000),COMPANY_ID:z.string().optional(),GIT_SHA:z.string().regex(/^[a-f0-9]{40}$/).optional(),AUTH_ENCRYPTION_KEY:z.string().min(32).optional(),PUBLIC_ORIGIN:z.string().optional()}).parse(process.env);
+if(parsedEnv.APP_MODE==='PRODUCTION'&&(!parsedEnv.AUTH_ENCRYPTION_KEY||!parsedEnv.PUBLIC_ORIGIN||!parsedEnv.GIT_SHA))throw new Error('PRODUCTION_AUTH_OR_RELEASE_CONFIGURATION_MISSING');
+const env={...parsedEnv,COMPANY_ID:resolveCompanyId(parsedEnv.APP_MODE,parsedEnv.COMPANY_ID),
+  PUBLIC_ORIGIN:parsePublicOrigin(parsedEnv.APP_MODE,parsedEnv.PUBLIC_ORIGIN,parsedEnv.APP_MODE==='PRODUCTION')?.origin};
 const db=new Database();
 await assertGpsStorageSafe(db,env.COMPANY_ID);
 if(env.APP_MODE==='PRODUCTION')await db.transaction(env.COMPANY_ID,'PRODUCTION_READINESS',tx=>assertProductionRetentionMatrix(tx));

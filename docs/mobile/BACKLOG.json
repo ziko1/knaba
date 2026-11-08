@@ -148,7 +148,9 @@
         "sourceGitSha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
         "nativeRun": 42467913707,
         "iosJob": 128691606881,
-        "currentConsolidatedAcceptance": "NOT_RUN"
+        "currentConsolidatedAcceptance": "PASS_67_OF_67",
+        "currentConsolidatedSource": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+        "currentConsolidatedRun": 42486326902
       }
     }
   ],
@@ -156,10 +158,15 @@
     "branch": "feat/knaba-native-backend-consolidation-20261108",
     "backendSource": "e747fd94e219e09faffea96c2f9f84be15a6def1",
     "nativeSource": "65f341e76749a03fc62997da5a77e17b84caf8ba",
-    "status": "SOURCE_CONSOLIDATED_LOCAL_CONTRACTS_PASSED_HOSTED_PENDING",
+    "status": "ACCEPT_EXACT_SOURCE_NATIVE_AND_REPOSITORY_CI",
     "contract": "../unified/NATIVE_CONSOLIDATION_2026-11-08_UK.md",
     "productStatus": "NOT_READY",
     "physicalDevices": "NOT_RUN",
-    "originalCriteriaPromoted": false
+    "originalCriteriaPromoted": false,
+    "sourceGitSha": "bb223af67af9eae5f11e7ca225f89ddf97a8e4e2",
+    "repositoryRun": 42486326925,
+    "nativeRun": 42486326902,
+    "independentReview": "ACCEPT",
+    "evidence": "evidence/native-consolidation-20261108/accepted-bb223af.json"
   }
 }

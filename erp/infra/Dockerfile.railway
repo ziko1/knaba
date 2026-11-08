@@ -27,6 +27,7 @@ COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/infra ./infra
 COPY --from=build --chown=node:node /app/packages ./packages
 COPY --from=build --chown=node:node /app/apps/api ./apps/api
+COPY --from=build --chown=node:node /app/apps/runtime-config.mjs ./apps/runtime-config.mjs
 COPY --from=build --chown=node:node /app/scripts ./scripts
 RUN mkdir -p /app/private && chown node:node /app/private
 USER node
