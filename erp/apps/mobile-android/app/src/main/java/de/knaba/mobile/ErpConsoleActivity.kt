@@ -379,7 +379,7 @@ class ErpConsoleActivity : Activity() {
                 actor = response.optJSONObject("actor")
                 readRetryAt = 0
                 password.setText(""); code.setText(""); recoverPending()
-                if (pendingRecovery != null) showPendingRecovery() else showDashboard()
+                if (pendingRecovery != null) showPendingRecovery() else routeWorkspace()
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
@@ -408,6 +408,30 @@ class ErpConsoleActivity : Activity() {
         return (0 until permissions.length()).any {
             val value = permissions.optString(it)
             value == "*" || value == permission || value == permission.substringBefore('.') + ".*"
+        }
+    }
+    private fun routeWorkspace() {
+        if (demoMode) { showDashboard(); return }
+        val current = actor ?: run { showLogin(); return }
+        fun values(key: String): List<String> {
+            val list = current.optJSONArray(key) ?: return emptyList()
+            return (0 until list.length()).map { list.optString(it) }
+        }
+        when (val destination = RoleWorkspaceRouting.route(values("roles"), values("permissions"))) {
+            is RoleWorkspaceRouting.Destination.NoAccess -> {
+                heading(getString(R.string.erp_access_denied), getString(R.string.erp_server_scope))
+                button(getString(R.string.erp_logout)) { signOut() }
+            }
+            is RoleWorkspaceRouting.Destination.Open -> showDashboard()
+            is RoleWorkspaceRouting.Destination.Choose -> {
+                heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
+                destination.workspaces.forEach { workspace ->
+                    button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }) {
+                        showDashboard()
+                    }
+                }
+                button(getString(R.string.erp_logout)) { signOut() }
+            }
         }
     }
     private fun showDashboard() {
