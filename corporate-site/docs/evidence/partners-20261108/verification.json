@@ -1,0 +1,111 @@
+{
+  "task": "KNABA-PARTNERS-20261108",
+  "base_sha": "d03e72b8c5030390c635f3aac9133d977078dedf",
+  "branch": "fix/knaba-partners-20261108",
+  "time_utc": "2026-11-08T06:06:56.980378+00:00",
+  "scope": "Add two confirmed partners to existing DE/EN/UK/RU public template components. Source/build verification only; no production release.",
+  "tested_source_binding": "Exact changed-file hashes in source-manifest.json; all executable/test changes reviewed independently. Final Git tree and remote SHA are recorded by the PR.",
+  "source_manifest_sha256": "ff1bb0b21946fd580b81d52c81c85de50ac3aa189636d62863084460c366fe76",
+  "checks": [
+    {
+      "command": "npm test (repository root)",
+      "status": "PASS",
+      "exit_code": 0,
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run check (corporate-site)",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "warnings": 0,
+      "existing_hints": 8
+    },
+    {
+      "command": "npm test (corporate-site)",
+      "status": "PASS",
+      "exit_code": 0,
+      "vitest_passed": 730,
+      "node_passed": 90,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node --test tests/verify-public-live.test.mjs",
+      "status": "PASS",
+      "exit_code": 0,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "independent_reviewer_repeated": true
+    },
+    {
+      "command": "KNABA_RELEASE_MODE=official ASTRO_TELEMETRY_DISABLED=1 npm run build",
+      "status": "PASS",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run i18n:extract; KNABA_RELEASE_MODE=official npm run verify:build",
+      "status": "PASS",
+      "exit_code": 0,
+      "source_units": 1102,
+      "source_digest": "97faf07ebc8be050a4b6ee80846904be933e63452044426da7a52d0d97b83230"
+    },
+    {
+      "command": "npm run test:vps",
+      "status": "PASS",
+      "exit_code": 0,
+      "passed": 172,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "Direct parse5 inspection of compiled home/company/directory pages",
+      "status": "PASS",
+      "pages": 12,
+      "partners_per_page": 7,
+      "official_links_per_directory": 2
+    },
+    {
+      "command": "KNABA_TEST_URL=http://127.0.0.1:18868 KNABA_PLAYWRIGHT_MODULE=/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright npm run test:logo:browser",
+      "status": "BLOCKED",
+      "exit_code": 2,
+      "reason": "NO_USABLE_BROWSER: Chromium, WebKit and Firefox binaries unavailable; no installs or policy changes attempted"
+    }
+  ],
+  "build": {
+    "scope": "production-build-static-validation",
+    "pages": 161,
+    "internalLinks": "PASS",
+    "metadata": "PASS",
+    "indexMode": "OFFICIAL",
+    "externalImageScriptRequests": "NONE_IN_HTML",
+    "externalPartnerImagesInMarkup": 0,
+    "cssGzip": 40930,
+    "allEmittedJsGzip": 225019,
+    "artifactSha256": "bc0b095c7a0d30db1889ed7324f6e9fa9bcbb7c506e05fdf1cf6c500d4d5f74b",
+    "fieldWebVitals": "NOT_RUN",
+    "networkTransfer": "NOT_MEASURED"
+  },
+  "independent_review": {
+    "agent": "/root/partner_verification",
+    "status": "ACCEPT",
+    "scope": "Official-source research, original logo bytes, four-language descriptions, preserved prior partners, diff, SVG complete fetch, seven-image tests and translation catalog"
+  },
+  "resolved_findings": [
+    "SVG verifier formerly requested only 128 bytes; now requests complete size-bounded SVG and tests actual originals with expected headers.",
+    "Browser count and decode loop updated from five to seven.",
+    "Built-HTML exact-order/exact-asset arrays updated with both additions."
+  ],
+  "verification_attempts": [
+    "First build-verification invocation omitted KNABA_RELEASE_MODE=official and rejected the official-origin artifact. Repeated with matching mode.",
+    "The subsequent build gate identified old five-partner expected arrays; corrected exact lists and final gate passed."
+  ],
+  "production": "NOT_DEPLOYED",
+  "merge": "NOT_PERFORMED",
+  "dns": "UNCHANGED",
+  "field_web_vitals": "NOT_RUN",
+  "rollback": "Revert this content candidate commit; no dependencies, migrations, live records or new services are involved."
+}

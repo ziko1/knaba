@@ -1,5 +1,15 @@
 # KnaBa corporate-site roadmap
 
+## 08.11.2026 — KNABA-PARTNERS-20261108
+
+User request: add the confirmed partners https://www.tm-ausbau.eu/ and https://www.brueninghoff.de/ to the existing KNABA DE template.
+Base: `d03e72b8c5030390c635f3aac9133d977078dedf` (Draft PR #123); isolated branch `fix/knaba-partners-20261108`. Existing worktrees and ERP changes remain separate.
+
+- [x] P01 — Append TM Ausbau and Brüninghoff Group after the existing five companies; preserve original partner IDs and assets.
+- [x] P02 — Original local SVG logos, intrinsic aspect ratios, official website links and factual DE/EN/UK/RU company descriptions in the existing components.
+- [x] P03 — Update existing seven-partner acceptance gates and translation source catalog; run relevant tests, required build checks and independent review. Browser acceptance BLOCKED: no available local engine; no live claim.
+- P04 — Draft candidate publication: final remote SHA/tree/CI are recorded in PR metadata. Main merge, production, DNS and live-data changes are outside this request. External paid-service budget EUR0; runtime billing unknown.
+
 ## 08.11.2026 continuation
 
 Implemented candidate: source recovery, fail-closed/atomic Studio publish, new-lead outbox with opt-in manual ERP publisher. Current evidence: `../docs/unified/evidence/completion-20261108/verification.json`.
