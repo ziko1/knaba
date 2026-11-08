@@ -1,5 +1,13 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 2026-11-08 — PR123: спільна ідентичність і відкликання
+
+Продовження чинної гілки `feat/knaba-integrated-completion-20261108` від `d03e72b8c5030390c635f3aac9133d977078dedf`. [Детальне зіставлення та контракт](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [source-bound evidence](evidence/identity-20261108/verification.json). Історичний run42430003249 не є перевіркою цього патча.
+
+Виправлено OIDC linking після відкликання початкової VPS session, owner subject binding і поточну авторизацію захищених SQL/API операцій сайту; ERP перевіряє чинний contact proof/device, повний scope membership administration, єдиний current-membership predicate та атомарну фіналізацію login після password/MFA rotation. Legacy subject aliases підтримуються без створення другого активного grant. Наявний intake bridge і його міграції не змінені.
+
+**Спільний site↔ERP login/SSO NOT_IMPLEMENTED; весь продукт NOT_READY.** Наступний KN-C04 / KN-U09 slice: F1–F4 з dual-session proof, trusted company mapping, окремими entitlements і актуальним revocation channel. Явний `OWNER_USER_ID` потрібен для стабільного owner pin між VPS restart; hosted Sites без нього зберігає legacy email fallback. Перевірки і результати прив'язані до конкретних sources; local doubles не є PostgreSQL/browser/device acceptance. Production, DNS, реальні дані, paid activation і merge не виконувалися.
+
 ## 2026-11-08 — актуальний аудит і продовження
 
 **NOT_READY_FOR_CLIENT_DELIVERY.** База `557838e23356cb463f273803099ab6321e675019` (PR120, містить PR119/118), окрема гілка `feat/knaba-completion-audit-20261108`. Актуальний повний [план](COMPLETION_PLAN_2026-11-08_UK.md), [114 рядків вимог](REQUIREMENTS_TRACEABILITY.csv), [докази](evidence/completion-20261108/verification.json). Попередні записи нижче датовані й не є статусом цього кандидата.

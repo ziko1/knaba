@@ -61,6 +61,23 @@ async function patch(requestId:string,person:Person,payload:unknown) {
 beforeEach(()=>{db=new SqliteD1();env={DB:db,OWNER_EMAIL:'owner@example.test'};});
 afterEach(()=>db.sql.close());
 
+describe('explicit stable owner subject binding',()=>{
+  it('the same email from another authenticated subject grants no owner access',async()=>{
+    env.OWNER_USER_ID=identities.owner[0];
+    expect((await (await call('/api/portal/session','owner')).json()).role).toBe('owner');
+    const otherSubject={'oai-authenticated-user-id':'different-owner-subject'};
+    expect((await (await call('/api/portal/session','owner','GET',undefined,otherSubject)).json()).role).toBe('pending');
+    const denied=await call('/api/portal/roles','owner','POST',{userId:'target',role:'admin',status:'approved',version:1},otherSubject);
+    expect(denied.status).toBe(403);
+    expect(db.sql.prepare('SELECT count(*) AS n FROM portal_audit').get()?.n).toBe(0);
+  });
+  it('an explicitly unbound owner identity fails closed until trusted enrollment',async()=>{
+    env.OWNER_USER_ID='';
+    expect((await (await call('/api/portal/session','owner')).json()).role).toBe('pending');
+    expect((await call('/api/studio/templates','owner')).status).toBe(403);
+  });
+});
+
 describe('durable site-to-ERP intake queue',()=>{
   it.each(['de','en','pl','lt','ru','uk'])('atomically saves one %s request/outbox/audit and real bounded attribution',async locale=>{
     const body=lead();const referer=`${origin}/${locale}/kontakt/?utm_campaign=winter&ref=card_1&token=private-token#secret`;

@@ -1,5 +1,11 @@
 # KnaBa corporate-site roadmap
 
+## 08.11.2026 — актуальний identity slice у Draft PR123
+
+OIDC original-session proof, owner subject binding і current-session API/SQL fences реалізовано та перевірено в ізольованому VPS/SQLite scope. [Evidence](../docs/unified/evidence/identity-20261108/verification.json), [контракт federation](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md).
+
+Далі: explicit durable owner configuration; trusted site/ERP principal/company mapping; dual-session link/unlink UI і scoped token exchange; спільне відкликання, потім provider/browser/device/company acceptance. Site profiles і ERP users досі окремі; lead outbox не дає user login. Не закривати whole-product gates за кількістю технічних тестів.
+
 ## 08.11.2026 continuation
 
 Implemented candidate: source recovery, fail-closed/atomic Studio publish, new-lead outbox with opt-in manual ERP publisher. Current evidence: `../docs/unified/evidence/completion-20261108/verification.json`.

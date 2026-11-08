@@ -377,7 +377,7 @@ describe('bounded customer assistant tools with actual commerce handlers', () =>
     const f = await fixture(), before = f.tx.snapshot(); await expect(dispatch(f, [inaccessible])).rejects.toMatchObject({ code: 'NOT_FOUND_SAFE' });
     expect(f.tx.snapshot()).toEqual(before);
   });
-  it.each([{ active: false }, { revokedAt: NOW }, { expiresAt: NOW }, { permissions: ['REPORT_ACK'] }, { siteIds: ['site-b'] }])('rechecks changed membership %j on reads, Issue creation and replay', async changes => {
+  it.each([{ active: false }, { revokedAt: NOW }, { expiresAt: NOW }, { permissions: ['REPORT_ACK'] }, { siteIds: ['site-b'] }, { revoked_at: NOW }, { expiresAt: '2027-01-01T00:00:00.000Z', expires_at: NOW }, { starts_at: '2027-01-01T00:00:00.000Z' }, { user_id: 'other-client' }])('rechecks changed membership %j on reads, Issue creation and replay', async changes => {
     const f = await fixture(), issueCall = call('createOwnIssueDraft', { siteId: 'site-a', locationId: 'location-a', description: 'Own issue' }, 'issue-replay');
     await dispatch(f, [issueCall]); await update(f, 'customer_membership', 'membership', changes); const before = f.tx.snapshot();
     for (const currentCall of [call('getOwnOrderStatus', { customerId: 'customer-a', orderId: 'order-a' }), call('getOwnPublishedReport', { customerId: 'customer-a', reportVersionId: 'report-a-v1' }), issueCall]) await expect(dispatch(f, [currentCall])).rejects.toMatchObject({ code: 'NOT_FOUND_SAFE' });

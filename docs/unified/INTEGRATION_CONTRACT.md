@@ -2,9 +2,11 @@
 
 ## Чинний контракт кандидата — 08.11.2026
 
+У продовженні PR123 окремо перевірено [фактичну авторизацію, виправлення та запропонований контракт спільної ідентичності](IDENTITY_RECONCILIATION_2026-11-08_UK.md). Спільного login/SSO цей intake transport не створює; нова черга або другий endpoint не додаються.
+
 Нижче збережено історичну пропозицію24.10, **вона не визначає реалізований endpoint або HMAC**. Реальний контракт: `POST /api/v1/integrations/knaba_site/events`, envelope `schema_version:'1'`, `event_type:'lead.upsert'`, `source:'knaba_site'`, стабільний `event_id` і `external_id`; headers `x-knaba-key-id`, `x-knaba-timestamp`, `x-knaba-signature`; HMAC-SHA256 від `timestamp+'.'+rawBody`. Компанію визначають серверні credentials ERP. Існуючі ERP inbox/audit/ACID semantics збережені.
 
-Сайтова заявка, audit і reference-only outbox0013 записуються транзакційно. Вимкнений за замовчуванням ручний publisher має lease, незмінні payload/destination digests, bounded retries, receipt validation і UNKNOWN для невизначеного результату. Повний [операторський контракт і rollback](SITE_ERP_BRIDGE_2026-11-08_UK.md). Реальні джерела: `corporate-site/worker/api.ts`, `corporate-site/vps/erp-bridge.mjs`, `erp/packages/domain/integrations.ts`.
+Сайтова заявка, audit і reference-only outbox0014 записуються транзакційно. Вимкнений за замовчуванням ручний publisher має lease, незмінні payload/destination digests, bounded retries, receipt validation і UNKNOWN для невизначеного результату. Повний [операторський контракт і rollback](SITE_ERP_BRIDGE_2026-11-08_UK.md). Реальні джерела: `corporate-site/worker/api.ts`, `corporate-site/vps/erp-bridge.mjs`, `erp/packages/domain/integrations.ts`.
 
 Двосторонні owner/guest conversations уже реалізовані в `corporate-site/worker/assistant.ts` та `assistant-threads.ts`; історичне «не двосторонній chat» стосується старого PublicAssistant checkpoint. Єдина site/ERP identity, assistant→ERP bridge та зовнішні delivery providers не прийняті. Source tests не замінюють actual HTTPS/edge, owner і privacy/UAT acceptance.
 

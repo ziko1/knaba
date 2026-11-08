@@ -1,5 +1,11 @@
 # KnaBa corporate-site memory
 
+## 08.11.2026 — PR123 identity/revocation checkpoint
+
+Від d03e72b додано original-session hash binding для OIDC linking, повторні current-session fences біля body/SQL/private API response та stable owner subject pin через `OWNER_USER_ID`. Same-email linking не створює owner/admin. Additive VPS auth column мігрує лише за чинним migration gate; Drizzle/intake SQL незмінні. Legacy unbound linking states fail closed.
+
+Локально повний VPS suite197/197, цільові portal/account/hosting Vitest71/71, check/build пройшли; runtime/input hashes та актуальний CI в [єдиному evidence](../docs/unified/evidence/identity-20261108/verification.json). Незалежний review site scope завершений. Явний owner ID необхідний для pin між restart; hosted Sites з undefined binding має legacy email fallback. [Повне зіставлення](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md). Спільний ERP SSO, живі OIDC providers, browser/device/UAT залишаються відкритими. Production/DNS/data не змінені.
+
 ## 08.11.2026 — completion candidate
 
 New source checkpoint: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`; evidence `../docs/unified/evidence/completion-20261108/verification.json`. Restored owner contacts/footer/favicon from verified server Git history; removed only overwritten unconditional CSS declarations to preserve the existing40KiB gzip ceiling. Studio validates the entire draft against trusted bounded raw HTML before publication, rechecks current VPS session/authority inside its transaction, and atomically claims publication history. SSR reuses its parsed tree; partial mapping is rejected, not silently applied. Stable IDs/template packaging remain future work.

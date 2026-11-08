@@ -301,7 +301,7 @@ describe('strict-self minimized privacy exports', () => {
     expect(built.snapshot.messages).toEqual([]);
   });
 
-  it('rechecks customer VIEW, internal/task site scope, history cutoff and message deletion in a combined export', async () => {
+  it.each([{ permissions: [] }, { revoked_at: NOW }, { expiresAt: FUTURE, expires_at: NOW }, { starts_at: FUTURE }, { user_id: 'other-worker' }])('rechecks customer membership %j, internal/task site scope, history cutoff and deletion in a combined export', async membershipPatch => {
     const f = await fixture();
     await seedPrivateData(f);
     await edit(f.tx, 'site', 'site-a', { customerId: 'customer-a' });
@@ -318,7 +318,7 @@ describe('strict-self minimized privacy exports', () => {
     const request = await reviewedRequest(f, 'ACCESS', ['MESSAGES']), initial = await buildPrivacyExport(f.tx, f.worker, request.id, NOW);
     expect(initial.snapshot.messages.map((row: Data) => row.id).sort()).toEqual(['client-own-message', 'own-message', 'site-own-message', 'task-own-message']);
     expect(initial.bytes.toString('utf8')).not.toContain('BEFORE_HISTORY_CUTOFF_CANARY');
-    await edit(f.tx, 'customer_membership', 'worker-customer-view', { permissions: [] });
+    await edit(f.tx, 'customer_membership', 'worker-customer-view', membershipPatch);
     await edit(f.tx, 'user', 'worker', { siteIds: [] });
     await edit(f.tx, 'message', 'own-message', { deleted_at: NOW });
     const currentActor = { ...f.worker, siteIds: [] }, after = await buildPrivacyExport(f.tx, currentActor, request.id, NOW);

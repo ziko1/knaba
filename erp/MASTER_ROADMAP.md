@@ -1,5 +1,11 @@
 # KNABA DE master roadmap
 
+## 2026-11-08 — актуальна authorisation reconciliation
+
+KN-C04 / KN-U09: чинні proofs/devices, customer scope і session issuance посилено в Draft PR123; єдиний current-membership predicate захищає API/domain/stream/delivery projections. [Докази](../docs/unified/evidence/identity-20261108/verification.json) і [детальний контракт](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md) відокремлюють local doubles, actual SQL і зовнішнє приймання.
+
+Наступні залежні кроки: canonical company+subject bindings, complete dual-session linking, scoped session exchange та спільне revocation з in-flight/file/worker/subscription checks. Existing invitations/permissions/customer memberships залишаються джерелом entitlements; email не є account join. SSO і whole-product acceptance відкриті; intake bridge не дублювати, історичні V3/V4 результати не переписувати.
+
 ## 2026-11-08 audited continuation
 
 Seed fail-closed + website intake bridge + Android recovery implemented as an integrated candidate. Full cross-module dependencies and114-row V4/templates overview: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`. Preserve `docs/requirements/requirements.json` and all original V3 criteria in addition to72 V4 targets. Next: unified scoped identity/assistant intake, iOS durable unknown-write handling, actual UI→API→PostgreSQL business lifecycle and load/restore, then company/device/provider acceptance. Runtime default APP_MODE audit stays distinct from the seed fix.

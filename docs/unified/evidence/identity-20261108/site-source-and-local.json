@@ -1,0 +1,64 @@
+{
+  "receipt": {
+    "task": "AUTH-SITE",
+    "base": "d03e72b8c5030390c635f3aac9133d977078dedf",
+    "source": "working-tree candidate",
+    "checked_at": "2026-11-08T06:11:42.028261+00:00",
+    "source_manifest_sha256": "31b4f5e22e45a28065d737b7bf92a723177045feac2d16c6795cd97f46e9b702",
+    "mismatches": [],
+    "final_vps": {
+      "command": "npm run test:vps",
+      "exit_code": 0,
+      "tests": 197,
+      "pass": 197,
+      "fail": 0,
+      "skipped": 0
+    },
+    "final_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "astro_errors": 0,
+      "astro_warnings": 0,
+      "astro_hints": 7,
+      "svelte_errors": 0,
+      "svelte_warnings": 0
+    },
+    "targeted_vitest": {
+      "command": "node node_modules/vitest/vitest.mjs run tests/portal.test.ts tests/account-access.test.ts tests/hosting-auth.test.ts",
+      "exit_code": 0,
+      "tests": 71,
+      "tool_chunk_id": "9ed153"
+    },
+    "build": {
+      "command": "npm run build",
+      "exit_code": 0,
+      "note": "Worker source unchanged since build; subsequent edits limited to VPS runtime/tests."
+    },
+    "logs": {
+      "site-auth-final-vps.log": "047d594ed750b0777f540e11a7d139a9c37473baf4f9752174e57d3577cee00b",
+      "site-auth-final-check.log": "daae683c8c60bcdccec30525934faf85605446d28d4ba90bf879dc6562150c7b",
+      "site-auth-candidate-build.log": "331e001eef91fce0d8e78c86b95fda3614c21cdad841d7bd0289017199c7ea46",
+      "site-oidc-regression-red.log": "cebeea4219c98b167f5dbb03e0449ccc5f1610954d1ef04cefb65500e541e834",
+      "site-auth-candidate-vps.log": "ebf6b8c94b80b4e04ab8c73c35628dc2b55f6d28cf26d9541fdbb901569cc6c0",
+      "site-auth-repeat-vps-audit-fixture-failure.log": "d6f7f589501865489018c480b9249d2dd5f52167fc1a279346afac290684e3d3"
+    }
+  },
+  "source_manifest": {
+    "base": "d03e72b8c5030390c635f3aac9133d977078dedf",
+    "files": {
+      "corporate-site/tests/portal.test.ts": "c5a2b2c9b6fa3482eba1708d724fc2c35151072b24eccf21cb1b658d4eedc8da",
+      "corporate-site/vps/admin-access.mjs": "732434cad363ea15a0974ba7c064bcad5fef88daf81075548b2944b9b12b0dc4",
+      "corporate-site/vps/database.mjs": "6975dbb4e69699ecf57b19fc82e2d2157ae1d86a0e4d52fba099e0e9efa9d33d",
+      "corporate-site/vps/oidc-migration.test.mjs": "5b7d54d39659714443488eb9e8f29e9455a2b7dace6546beae8cc07f8db54209",
+      "corporate-site/vps/oidc.http.test.mjs": "f9aa8296f339d214b0c305228bf0c3d7543e817046c92cded42ba597ded97d9e",
+      "corporate-site/vps/oidc.mjs": "d000b75b86ffd224d6924289b205ca356837f1f8e2d95991e9532e66bba5978f",
+      "corporate-site/vps/oidc.test.mjs": "9a58bab17c2f2d4cea5b50e3ea76ce2bc659d6de3f4b258aff3d898f8c9a8b39",
+      "corporate-site/vps/portal-session-revocation.http.test.mjs": "505947699fcbbcf462d30743ac1ff44d2af09e3026735a47d19a13b6f5d7682c",
+      "corporate-site/vps/role-destination.mjs": "d3a9f899859db1b349eb1399ac0473d62a671d65b75241959dcd549732bb7431",
+      "corporate-site/vps/server.mjs": "76cc744d87b54bf9a0bfdc70e8b7211cedc304354824db8c564f29b6cf69b93a",
+      "corporate-site/vps/session-database.test.mjs": "f23886c2508d1ea58cfd8b651076ebc5b4e8186520d5466e63ddf6b014e2ab0b",
+      "corporate-site/worker/api.ts": "602b8ab3dd4098b975216c5c13ec211e3a2987cf0ed90a7fefe2603d5c32b398",
+      "corporate-site/worker/types.ts": "1c8c76b573a6d2c0acc2c410cc8d283d007aed7605a2f6e04c3454eebcbe2ef2"
+    }
+  }
+}

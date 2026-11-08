@@ -52,7 +52,16 @@ function transaction(db,work){
   db.exec('BEGIN IMMEDIATE');
   try{const r=work();db.exec('COMMIT');return r;}catch(e){db.exec('ROLLBACK');throw e;}
 }
-export function beginOidc(db,{provider,config,origin,intent='client',privacyAccepted,linkUserId=null,now=Date.now()}){
+function liveLinkSession(db,userId,sessionHash,now){
+  return typeof userId==='string'&&userId.length>0&&/^[a-f0-9]{64}$/.test(sessionHash||'')&&
+    Boolean(db.prepare('SELECT 1 FROM vps_sessions s JOIN vps_users u ON u.id=s.user_id WHERE s.token_hash=? AND s.user_id=? AND s.expires_at>? AND u.disabled=0')
+      .get(sessionHash,userId,Math.floor(now/1000)));
+}
+function requireLinkSession(db,state,now){
+  if(state.link_user_id&&!liveLinkSession(db,state.link_user_id,state.link_session_hash,now))
+    throw new OidcError('invalid_state');
+}
+export function beginOidc(db,{provider,config,origin,intent='client',privacyAccepted,linkUserId=null,linkSessionToken=null,now=Date.now()}){
   const p=config[provider];
   if(!p)throw new OidcError('disabled');
   if(!['client','partner'].includes(intent)||privacyAccepted!==true||!Number.isSafeInteger(now))
@@ -64,9 +73,12 @@ export function beginOidc(db,{provider,config,origin,intent='client',privacyAcce
     scope:'openid email profile',state,nonce,code_challenge:codeChallenge(verifier),code_challenge_method:'S256'
   }).toString();
   transaction(db,()=>{
+    const sessionHash=linkUserId&&statePattern.test(linkSessionToken||'')?hash(linkSessionToken):null;
+    if(linkUserId&&!liveLinkSession(db,linkUserId,sessionHash,now))throw new OidcError('invalid_state');
+    if(!linkUserId&&linkSessionToken)throw new OidcError('invalid_state');
     db.prepare('DELETE FROM vps_oidc_states WHERE expires_at<=?').run(now);
-    db.prepare('INSERT INTO vps_oidc_states(state_hash,provider,nonce,verifier,intent,link_user_id,issued_at,expires_at) VALUES (?,?,?,?,?,?,?,?)')
-      .run(hash(state),provider,nonce,verifier,intent,linkUserId,now,now+ttlMs);
+    db.prepare('INSERT INTO vps_oidc_states(state_hash,provider,nonce,verifier,intent,link_user_id,issued_at,expires_at,link_session_hash) VALUES (?,?,?,?,?,?,?,?,?)')
+      .run(hash(state),provider,nonce,verifier,intent,linkUserId,now,now+ttlMs,sessionHash);
   });
   return {redirect:authorize.href,state};
 }
@@ -124,7 +136,8 @@ export function verifyIdToken(idToken,jwks,{provider,nonce,now=Math.floor(Date.n
   const name=typeof claims.name==='string'&&claims.name.trim().length>=2?claims.name.trim().slice(0,80):'Neuer Kontakt';
   return {issuer:claims.iss,subject:claims.sub,email,name};
 }
-export async function completeOidc(db,{provider,config,origin,code,state,cookie,now=Date.now(),fetchImpl=fetch}){
+export async function completeOidc(db,{provider,config,origin,code,state,cookie,now=Date.now(),fetchImpl=fetch,ownerEmail='',developerEmail=''}){
+  const startedAt=Date.now(),currentTime=()=>now+Math.max(0,Date.now()-startedAt);
   const p=config[provider];
   if(!p)throw new OidcError('disabled');
   if(!statePattern.test(state||'')||!stateCookieMatches(cookie,state)||typeof code!=='string'||
@@ -133,6 +146,7 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
     const r=db.prepare('SELECT * FROM vps_oidc_states WHERE state_hash=?').get(hash(state));
     db.prepare('DELETE FROM vps_oidc_states WHERE state_hash=?').run(hash(state));
     if(!r||r.provider!==provider||r.expires_at<=now)throw new OidcError('invalid_state');
+    requireLinkSession(db,r,now);
     return r;
   });
   const form=new URLSearchParams({
@@ -146,8 +160,12 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
     if(typeof token.id_token!=='string')throw new OidcError('invalid_identity');
     jwksReply=await fetchImpl(p.jwksEndpoint,{method:'GET',signal:AbortSignal.timeout(8000),redirect:'error'});
     const identity=verifyIdToken(token.id_token,await boundedJSON(jwksReply,80000),
-      {provider:p,nonce:consumed.nonce,now:Math.floor(now/1000)});
+      {provider:p,nonce:consumed.nonce,now:Math.floor(currentTime()/1000)});
     return transaction(db,()=>{
+      // Binding survives a cross-site callback without weakening the Strict session cookie.
+      // Logout, rotation, disable or expiry of the initiating session cancels the link.
+      if(consumed.expires_at<=currentTime())throw new OidcError('invalid_state');
+      requireLinkSession(db,consumed,currentTime());
       const existingLink=db.prepare('SELECT user_id FROM vps_oidc_links WHERE issuer=? AND subject=?')
         .get(identity.issuer,identity.subject);
       let user;
@@ -162,7 +180,8 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
           .run(identity.issuer,identity.subject,user.id,new Date(now).toISOString());
       }else{
         // Existing account (especially owner/developer) can only link while signed in with its own credential.
-        if(db.prepare('SELECT 1 FROM vps_users WHERE email=?').get(identity.email))
+        const protectedAddresses=[ownerEmail,developerEmail].filter(Boolean).map(normalizeEmail);
+        if(protectedAddresses.includes(identity.email)||db.prepare('SELECT 1 FROM vps_users WHERE email=?').get(identity.email))
           throw new OidcError('link_required');
         user=createCredentialsUser(db,identity.email,random());
         const iso=new Date(now).toISOString(),mutation=randomBytes(18).toString('base64url');
@@ -173,7 +192,8 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
         db.prepare('INSERT INTO vps_oidc_links(issuer,subject,user_id,linked_at) VALUES (?,?,?,?)')
           .run(identity.issuer,identity.subject,user.id,iso);
       }
-      return {userId:user.id,newAccount:!existingLink&&!consumed.link_user_id};
+      return {userId:user.id,newAccount:!existingLink&&!consumed.link_user_id,
+        linkSessionHash:consumed.link_user_id?consumed.link_session_hash:null,expiresAt:consumed.expires_at};
     });
   }catch(error){
     if(error instanceof OidcError)throw error;
@@ -183,4 +203,15 @@ export async function completeOidc(db,{provider,config,origin,code,state,cookie,
     await tokenReply?.body?.cancel?.().catch(()=>{});
     await jwksReply?.body?.cancel?.().catch(()=>{});
   }
+}
+
+/** Recheck once more at session issuance: response cleanup may yield after the
+ * identity-link transaction. This internal receipt never leaves the server. */
+export function createOidcSession(db,result,now=Date.now()){
+  return transaction(db,()=>{
+    if(result.expiresAt<=now||
+      (result.linkSessionHash!==null&&!liveLinkSession(db,result.userId,result.linkSessionHash,now)))
+      throw new OidcError('invalid_state');
+    return createSessionForUser(db,result.userId);
+  });
 }

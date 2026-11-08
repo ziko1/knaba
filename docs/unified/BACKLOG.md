@@ -7,7 +7,7 @@
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
 | KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | Stable subject/company/site mapping та revocation; site й ERP identity досі окремі |
+| KN-C04 / KN-U09 | P0 | Підтверджені local identity/revocation gaps виправлено в PR123; [контракт та F1–F5](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [evidence](evidence/identity-20261108/verification.json). Stable cross-system binding/SSO і спільне revocation ще OPEN |
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |

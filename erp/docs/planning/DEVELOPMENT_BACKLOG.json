@@ -4535,5 +4535,32 @@
       "full UI/company/device acceptance"
     ],
     "original_criteria_promoted": false
+  },
+  "identity_reconciliation_20261108": {
+    "task_ids": [
+      "KN-C04",
+      "KN-U09"
+    ],
+    "status": "SCOPED_AUTHORITY_PATCH_FEDERATION_OPEN_PRODUCT_NOT_READY",
+    "base_sha": "d03e72b8c5030390c635f3aac9133d977078dedf",
+    "contract": "../../../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md",
+    "evidence": "../../../docs/unified/evidence/identity-20261108/verification.json",
+    "implemented": [
+      "Current contact/device authority and exact user/company checks",
+      "Customer/site scope for grant, replacement and revoke",
+      "Canonical current membership predicate across authority consumers",
+      "Atomic current-credential login issuance and TOTP rollback",
+      "VPS original-session OIDC linking and API SQL session fences"
+    ],
+    "next": [
+      "F1 canonical principal/company bindings",
+      "F2 complete dual-session link/unlink UI and protocol",
+      "F3 scoped session exchange",
+      "F4 shared revocation and in-flight/file/worker/subscription enforcement",
+      "F5 isolated provider/browser/device/company acceptance"
+    ],
+    "cross_system_sso": "NOT_IMPLEMENTED",
+    "original_criteria_promoted": false,
+    "production_changed": false
   }
 }

@@ -1,5 +1,11 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 08.11.2026 — KN-C04 / KN-U09: поточне посилення авторизації
+
+Підтверджені локальні розриви сайту/ERP виправляються в чинному Draft PR123; [контракт і точні межі](IDENTITY_RECONCILIATION_2026-11-08_UK.md), [перевірки](evidence/identity-20261108/verification.json). Це окремий source-bound checkpoint після d03e72b; попередні результати нижче зберігають власний SHA.
+
+Порядок наступного federation increment: F1 trusted principal/company registry → F2 dual-session link/unlink з обома UI → F3 scoped ERP session exchange → F4 authoritative revocation та file/worker/stream fences → F5 isolated browser/device/company acceptance. Кожний етап потребує негативних tenant/same-email/replay/race сценаріїв і незалежного review до залежного кроку. **SSO не реалізовано; загальний NOT_READY і всі незакриті V3/V4 acceptance збережені.** Чинний lead transport не дублювати.
+
 ## Актуальний порядок — 08.11.2026
 
 Детальні залежності й acceptance: [COMPLETION_PLAN_2026-11-08_UK.md](COMPLETION_PLAN_2026-11-08_UK.md). Поточний інкремент: source reconciliation → seed/Studio/Android correctness → сайтова черга та ERP idempotency → exact-source QA. G4 тепер **IMPLEMENTED_CANDIDATE / LIVE_NOT_ACTIVATED**, обмежений новими form leads; історичний рядок NOT_IMPLEMENTED нижче збережено як checkpoint. G5 domain audit виконано на рівні source/tests, повний UI/UAT не закрито.

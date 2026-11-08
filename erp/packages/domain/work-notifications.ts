@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 import type {Database,PgTransaction} from '../../apps/api/database.ts';
 import {assert,DomainError,type Actor,type Data,type Entity} from './core.ts';
+import {currentCustomerMembership,customerMembershipUserId} from './customer-membership.ts';
 
 export interface WorkNotificationHost {
  actorIn(tx:PgTransaction,userId:string):Promise<Actor>;
@@ -69,7 +70,7 @@ export async function deriveWorkNotices(tx:PgTransaction,host:WorkNotificationHo
  const customers=async(source:Entity,logical:string,permission:string,bind:Data)=>{
   const customerId=source.data.customerId??source.data.snapshot?.customer?.id,siteId=source.data.siteId??source.data.snapshot?.site?.id;
   const memberships=await tx.list('customer_membership');assert(memberships.length<=10000,'INVALID_STATE');
-  for(const m of memberships)if(m.companyId===company&&m.data.active===true&&live(m.data,now)&&m.data.customerId===customerId&&(m.data.permissions??[]).includes('VIEW')&&(!ids(m.data.siteIds).length||ids(m.data.siteIds).includes(siteId)))await add(source,m.data.userId??m.data.user_id,logical,permission,'CUSTOMER',true,bind);
+  for(const m of memberships){const userId=customerMembershipUserId(m,company);if(userId&&currentCustomerMembership(m,{companyId:company,userId},now)&&m.data.customerId===customerId&&(m.data.permissions??[]).includes('VIEW')&&(!(m.data.siteIds??[]).length||m.data.siteIds.includes(siteId)))await add(source,userId,logical,permission,'CUSTOMER',true,bind);}
  };
  const d=event.data;
  if(['message.created','message.corrected'].includes(event.type)){
@@ -123,7 +124,7 @@ export async function deriveWorkNotices(tx:PgTransaction,host:WorkNotificationHo
    if(!acceptance||quote.data.status!=='ACCEPTED'||quote.data.orderId!==order.id||quote.data.customerId!==order.data.customerId||quote.data.quoteVersion!==order.data.quoteVersion||acceptance.data.orderId!==order.id||acceptance.data.quoteId!==quote.id||acceptance.data.quoteVersion!==quote.data.quoteVersion||acceptance.data.customerId!==order.data.customerId)return out;
    const recipientId=quote.data.portalPublication?.recipient?.ownerUserId??quote.data.ownerUserId;
    if(typeof recipientId==='string'&&recipientId===quote.data.ownerUserId){const target=await host.actorIn(tx,recipientId),memberships=await tx.list('customer_membership');assert(memberships.length<=10000,'INVALID_STATE');
-    if(target.roles.some(role=>['CLIENT','CUSTOMER','EXTERNAL_BAULEITER','GUEST'].includes(role))&&memberships.some(m=>m.companyId===company&&m.data.active===true&&live(m.data,now)&&m.data.customerId===order.data.customerId&&(m.data.userId??m.data.user_id)===recipientId&&(m.data.permissions??[]).includes('VIEW')&&(!ids(m.data.siteIds).length||ids(m.data.siteIds).includes(order.data.siteId))))await add(order,recipientId,'customer.order_cancelled','commerce.read','CUSTOMER',true,bind);
+    if(target.roles.some(role=>['CLIENT','CUSTOMER','EXTERNAL_BAULEITER','GUEST'].includes(role))&&memberships.some(m=>currentCustomerMembership(m,{companyId:company,userId:recipientId},now)&&m.data.customerId===order.data.customerId&&(m.data.permissions??[]).includes('VIEW')&&(!(m.data.siteIds??[]).length||m.data.siteIds.includes(order.data.siteId))))await add(order,recipientId,'customer.order_cancelled','commerce.read','CUSTOMER',true,bind);
    }
   }catch(error){if(!(error instanceof DomainError)||!['NOT_FOUND_SAFE','ACCESS_DENIED'].includes(error.code))throw error;}
  }else if(event.type==='report.approved'){

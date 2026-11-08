@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "task_ids": [
+    "KN-C04",
+    "KN-U09"
+  ],
+  "repository": "https://github.com/ziko1/knaba",
+  "pull_request": "https://github.com/ziko1/knaba/pull/123",
+  "branch": "feat/knaba-integrated-completion-20261108",
+  "base_commit": "d03e72b8c5030390c635f3aac9133d977078dedf",
+  "recorded_at": "2026-11-08T06:27:21.304156+00:00",
+  "source_state": "working-tree candidate; exact file binding in source-files.json",
+  "source_manifest_sha256": "90a0a10f15ffe0fc20bd9b2af25a046e3668e228207ae7d0890221e9cfa90154",
+  "product_status": "NOT_READY",
+  "cross_system_login": "NOT_IMPLEMENTED",
+  "production_changed": false,
+  "intake_transport_changed": false,
+  "original_acceptance_criteria_promoted": false,
+  "local": {
+    "runtime": {
+      "node": "24.22.1",
+      "postgres": "UNAVAILABLE",
+      "sqlite": "actual node:sqlite + loopback HTTP, isolated synthetic data",
+      "oidc_provider": "synthetic signer/responses; no real provider account"
+    },
+    "site": {
+      "vps": {
+        "command": "npm run test:vps",
+        "passed": 197,
+        "failed": 0,
+        "skipped": 0,
+        "exit_code": 0
+      },
+      "targeted_vitest": {
+        "passed": 71,
+        "failed": 0,
+        "skipped": 0,
+        "exit_code": 0
+      },
+      "check": {
+        "exit_code": 0,
+        "astro_errors": 0,
+        "astro_warnings": 0,
+        "astro_hints": 7
+      },
+      "build": {
+        "exit_code": 0,
+        "scope": "Worker/build inputs unchanged after this build; later site changes were VPS runtime/tests only"
+      }
+    },
+    "erp": {
+      "core_before_portal": {
+        "report": "erp-membership-final-core",
+        "passed": 194,
+        "failed": 0,
+        "postgres_not_run": 3
+      },
+      "portal_and_authority": {
+        "report": "customer-portal-scope-green",
+        "passed": 163,
+        "failed": 0,
+        "postgres_not_run": 4
+      },
+      "existing_dependents": {
+        "report": "customer-membership-dependent-green",
+        "passed": 613,
+        "failed": 0,
+        "scope": "Intermediate run before expanded negative tables and portal scope correction; final portal/authority suite and CI supersede affected inputs"
+      },
+      "expanded_consumer_negatives": {
+        "report": "erp-membership-final-consumers",
+        "passed": 36,
+        "failed": 0,
+        "unselected": 317
+      },
+      "login_cpu": {
+        "report": "login-green",
+        "passed": 37,
+        "failed": 0
+      },
+      "new_postgres_cases": {
+        "login": 4,
+        "membership_and_portal": 4,
+        "status": "NOT_RUN_LOCALLY"
+      },
+      "typecheck": {
+        "command": "env -u DATABASE_URL APP_MODE=TEST node_modules/.bin/tsc --noEmit",
+        "exit_code": 0,
+        "status": "PASS",
+        "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "cwd": "erp",
+        "exit_record": "498b30"
+      }
+    },
+    "root": {
+      "module_manifest": {
+        "command": "npm run verify:modules",
+        "exit_code": 0,
+        "record": "ca489d"
+      },
+      "policy_tests": {
+        "command": "npm test",
+        "passed": 28,
+        "failed": 0,
+        "skipped": 0,
+        "exit_code": 0,
+        "record": "1f9480"
+      },
+      "diff_check": {
+        "exit_code": 0
+      },
+      "clean_source_audit": "RUN_AFTER_COMMIT"
+    },
+    "evidence": "local-runs.json and site-source-and-local.json; overlapping suites are not summed"
+  },
+  "independent_review": {
+    "reviewer": "/root/test_environment",
+    "status": "ACCEPT_SOURCE_AND_LOCAL_SCOPE_CI_OPEN",
+    "accepted": [
+      "Original-session OIDC linking, session SQL/response fences and site owner subject boundary",
+      "Exact proof/device authority, strict revocation markers and legacy membership replacement",
+      "Canonical membership consumers and expiry-aware authority receipts",
+      "Scoped internal customer portal; independent Engine reproduction now denies foreign scope",
+      "Transactional current-credential login, CPU tests and actual PostgreSQL regression source",
+      "Proposed federation protocol and explicit residual limits"
+    ],
+    "cross_check": "/root/site_identity_audit independently verified normative portal scope contract, root checks and unchanged bridge/dependency/workflow paths",
+    "source_hash_review": "13 site files and final 21 ERP inputs matched; no mismatch",
+    "open_gates": [
+      "PostgreSQL and full aggregate CI on clean exact source",
+      "Browser, actual provider, physical device and company acceptance"
+    ],
+    "erp_final_input_manifest_sha256": "82be1dcfcf64d9afd41189eb31ba8c24d92f363192043342134e51923a9265a2"
+  },
+  "ci": {
+    "status": "NOT_RUN_FOR_THIS_CANDIDATE",
+    "historical_run_not_reused": 42430003249
+  },
+  "boundaries": [
+    "No second outbox/dispatcher/login gateway",
+    "No ERP SQL migration or business-data reassignment",
+    "VPS additive OIDC auth-state column requires existing explicit migration gate",
+    "Durable owner binding requires explicit OWNER_USER_ID; VPS auto pin lasts one process; hosted Sites undefined binding retains legacy email fallback",
+    "No universal ERP in-flight original-session fence; F4 remains open",
+    "No production/browser/provider/device/UAT or measured p95 claim"
+  ]
+}

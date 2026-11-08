@@ -12,8 +12,7 @@ import {hasOwnerAuthority} from './admin-access.mjs';
 import {authenticatedRole,roleDestination,workspaceLocale} from './role-destination.mjs';
 import {createDeveloperWorkspaceRegistry,developerRoles,isDeveloperIdentity,isGrantedDeveloper,
   readDeveloperRole,developerRoleCookie,clearDeveloperRoleCookie} from './developer-workspace.mjs';
-import {createSessionForUser} from './auth.mjs';
-import {oidcProviders,beginOidc,completeOidc,oidcStateCookie,clearOidcStateCookie,OidcError} from './oidc.mjs';
+import {oidcProviders,beginOidc,completeOidc,createOidcSession,oidcStateCookie,clearOidcStateCookie,OidcError} from './oidc.mjs';
 import { activateOwnerInvite, OwnerInviteError } from './owner-invite.mjs';
 import { issueAccountInvite, acceptAccountInvite, revokeAccountInvite, AccountInviteError } from './account-invite.mjs';
 import {authLanguage,authWords,accessWords} from './auth-locale.mjs';
@@ -370,18 +369,32 @@ function logoutPage(returnTo){
     '<form method="post" action="/logout/"><input type="hidden" name="return_to" value="'+escapeHTML(returnTo)+'"><button type="submit">Abmelden</button></form>');
 }
 export async function createKnabaVpsServer({
-  dbPath,staticRoot,workerPath,ownerEmail='',developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
+  dbPath,staticRoot,workerPath,ownerEmail='',ownerUserId,developerEmail='',turnstileSiteKey='',turnstileSecretKey='',port=8080,host='0.0.0.0',
   origin='https://knaba.de',localTest=false,oidcConfig=oidcProviders(),oidcFetch=fetch,releaseEnvironment=process.env,
   trustedProxyIps=process.env.KNABA_TRUSTED_PROXY_IPS??'',erpIntakeEnvironment=process.env,
   erpIntakeSchedulerFactory=createErpIntakeScheduler
 }){
   if(!dbPath||!staticRoot||!workerPath)throw Error('DB, static and worker artifacts are required.');
+  if(ownerUserId!==undefined&&(typeof ownerUserId!=='string'||ownerUserId.length>200||/[\u0000-\u001f\u007f]/.test(ownerUserId)))
+    throw Error('Invalid owner principal configuration.');
   if(developerEmail && (!ownerEmail || developerEmail.trim().toLowerCase()===ownerEmail.trim().toLowerCase()))throw Error('Developer requires a distinct owner identity.');
   const base=new URL(origin);
   if(base.protocol!=='https:'&&!localTest)throw Error('Production HTTPS origin required.');
   const publicHost=base.host.toLowerCase();
   const resolveClientIp=createClientIpResolver(trustedProxyIps);
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
+  // Pin the configured owner's provisioned principal, never a browser email.
+  // Deferred resolution permits the existing offline invite / trusted CLI bootstrap.
+  // Explicit OWNER_USER_ID also pins it across process restarts.
+  let pinnedOwnerId=ownerUserId??null;
+  const ownerPrincipal=()=>{
+    if(pinnedOwnerId!==null)return pinnedOwnerId;
+    const row=db.prepare("SELECT u.id FROM vps_users u WHERE u.email=? AND NOT EXISTS (SELECT 1 FROM profiles p JOIN vps_oidc_links l ON l.user_id=p.id WHERE p.id=u.id AND p.status<>'approved')")
+      .get(ownerEmail.trim().toLowerCase());
+    if(row)pinnedOwnerId=row.id;
+    return pinnedOwnerId??'';
+  };
+  ownerPrincipal();
   const {default:worker}=await import(workerPath);
   const root=resolve(staticRoot);
   if(typeof worker.fetch!=='function')throw Error('Worker entry unavailable.');
@@ -402,10 +415,10 @@ export async function createKnabaVpsServer({
       return new Response(bytes,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     }}};
   bindErpIntakeEnvironment(env,erpIntakeEnvironment);
-  const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}));
+  const operator=user=>Boolean(user&&hasOwnerAuthority(db,{userId:user.id,ownerEmail,ownerUserId:ownerPrincipal(),developerEmail}));
   const testWorkspaces=createDeveloperWorkspaceRegistry(dbPath);
   const destination=(user,target,lang)=>roleDestination(
-    authenticatedRole(db,user,{ownerEmail,developerEmail}),target,lang);
+    authenticatedRole(db,user,{ownerEmail,ownerUserId:ownerPrincipal(),developerEmail}),target,lang);
   const signedCookies=result=>{
     const cookie=sessionCookie(result.token,{secure:!localTest});
     return isGrantedDeveloper(db,result.user,ownerEmail,developerEmail)
@@ -428,7 +441,7 @@ export async function createKnabaVpsServer({
     const url=new URL(req.url||'/',origin);
     if(url.pathname==='/healthz' || url.pathname==='/readyz'){
       if(!allowed && !localTest)return send(res,421,'Wrong host');
-      const ready=Boolean(ownerEmail&&db.prepare('SELECT id FROM vps_users WHERE email=? AND disabled=0').get(ownerEmail.toLowerCase()));
+      const ready=Boolean(ownerPrincipal()&&hasOwnerAuthority(db,{userId:ownerPrincipal(),ownerEmail,ownerUserId:ownerPrincipal()}));
       return send(res,url.pathname==='/healthz'||ready?200:503,url.pathname==='/healthz'?'healthy':ready?'ready':'owner enrollment required');
     }
     if(publicHost==='knaba.de' && rawHost==='www.knaba.de'){
@@ -440,6 +453,17 @@ export async function createKnabaVpsServer({
     // Local service is accessible only behind trusted loopback proxy; never trust client-provided identity.
     if(!localTest && req.headers['x-forwarded-proto']!=='https')return send(res,421,'TLS proxy required');
     const accountUser=readSession(db,req.headers.cookie);
+    const sameAccountSession=()=>{
+      const current=readSession(db,req.headers.cookie);
+      return Boolean(current&&accountUser&&current.id===accountUser.id&&current.email===accountUser.email&&current.token===accountUser.token);
+    };
+    const readRequestBody=async limit=>{
+      const body=await readBody(req,limit);
+      if(accountUser&&!sameAccountSession()){
+        const error=new Error('Session no longer active');error.code='session_revoked';throw error;
+      }
+      return body;
+    };
     const testIdentity=isDeveloperIdentity(accountUser,developerEmail);
     const testGranted=isGrantedDeveloper(db,accountUser,ownerEmail,developerEmail);
     const testCookiePresent=String(req.headers.cookie||'').split(';').some(value=>value.trim().startsWith('__Host-knaba-workspace='));
@@ -458,7 +482,7 @@ export async function createKnabaVpsServer({
         if(!csrfOK(req,rawHost,effectiveOrigin)||req.headers['x-knaba-request']!=='portal-v1')return jsonReply(403,{error:{code:'origin'}});
         if(!String(req.headers['content-type']||'').toLowerCase().startsWith('application/json'))return jsonReply(415,{error:{code:'content_type'}});
         try{
-          const body=JSON.parse((await readBody(req,1024)).toString('utf8'));
+          const body=JSON.parse((await readRequestBody(1024)).toString('utf8'));
           if(!body||typeof body!=='object'||Array.isArray(body)||Object.keys(body).length!==1||!developerRoles.includes(body.role))
             return jsonReply(422,{error:{code:'validation'}});
           testWorkspaces.get(accountUser);
@@ -511,7 +535,7 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,4096)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(4096)).toString('utf8'));
         const keys=[...params.keys()];
         if((keys.length!==4&&keys.length!==5)||new Set(keys).size!==keys.length||
           ['name','email','intent','privacy'].some(k=>!params.has(k))||
@@ -546,7 +570,7 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,1024)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(1024)).toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==2||new Set(keys).size!==2||keys.some(k=>!['id','reviewed'].includes(k)))
           return send(res,422,'Invalid owner action');
@@ -593,16 +617,17 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,4096)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(4096)).toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==4||new Set(keys).size!==4||
            keys.some(k=>!['token','password','password_confirm','attested'].includes(k)))
           return send(res,422,'Invalid activation form');
-        activateOwnerInvite(db,{
+        const activated=activateOwnerInvite(db,{
           token:params.get('token')||'',email:purpose==='developer'?developerEmail:ownerEmail,purpose,
           password:params.get('password')||'',confirmed:params.get('password_confirm')||'',
           attested:params.get('attested')==='on'
         });
+        if(purpose==='owner'&&pinnedOwnerId===null)pinnedOwnerId=activated.id;
         return redirect(res,'/login/?return_to=%2Fstudio%2F',{'Referrer-Policy':'no-referrer'});
       }catch(error){
         if(error?.code==='too_large')return send(res,413,'Invalid activation form');
@@ -630,7 +655,7 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,6144)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(6144)).toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==6||new Set(keys).size!==6||
           keys.some(key=>!['token','email','name','password','password_confirm','privacy'].includes(key)))
@@ -657,7 +682,7 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(2048)).toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==1||keys[0]!=='email')return send(res,422,'Invalid revocation request');
         const revoked=revokeAccountInvite(db,{
@@ -688,7 +713,7 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(2048)).toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==3||new Set(keys).size!==3||
           keys.some(key=>!['email','role','identity_verified'].includes(key))||
@@ -723,7 +748,7 @@ export async function createKnabaVpsServer({
         if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
           return send(res,415,'Form required');
         try{
-          const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+          const params=new URLSearchParams((await readRequestBody(2048)).toString('utf8'));
           const keys=[...params.keys()];
           if(keys.length!==3||new Set(keys).size!==3||
              keys.some(k=>!['intent','privacy','mode'].includes(k)))return send(res,422,'Invalid login form');
@@ -733,7 +758,7 @@ export async function createKnabaVpsServer({
           if(link&&!logged)return send(res,401,'Sign in before linking');
           const start=beginOidc(db,{provider,config:oidcConfig,origin:base.origin,
             intent:params.get('intent'),privacyAccepted:params.get('privacy')==='on',
-            linkUserId:logged?.id||null});
+            linkUserId:logged?.id||null,linkSessionToken:logged?.token||null});
           return redirect(res,start.redirect,{'Set-Cookie':oidcStateCookie(start.state),
             'Referrer-Policy':'no-referrer'});
         }catch(error){
@@ -753,9 +778,9 @@ export async function createKnabaVpsServer({
           const result=await completeOidc(db,{
             provider,config:oidcConfig,origin:base.origin,
             code:url.searchParams.get('code'),state:url.searchParams.get('state'),
-            cookie:req.headers.cookie,fetchImpl:oidcFetch
+            cookie:req.headers.cookie,fetchImpl:oidcFetch,ownerEmail,developerEmail
           });
-          const signed=createSessionForUser(db,result.userId);
+          const signed=createOidcSession(db,result);
           return redirect(res,destination(signed.user,'',authLanguage(url.searchParams.get('lang'))),{'Set-Cookie':[cleared,...signedCookies(signed)],
             'Referrer-Policy':'no-referrer'});
         }catch(error){
@@ -782,7 +807,7 @@ export async function createKnabaVpsServer({
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))return send(res,415,'Form required');
       try{
-        const raw=await readBody(req,4096);
+        const raw=await readRequestBody(4096);
         const params=new URLSearchParams(raw.toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==3 || new Set(keys).size!==3 || keys.some(k=>!['email','password','return_to'].includes(k)))return send(res,422,'Invalid form');
@@ -814,7 +839,7 @@ export async function createKnabaVpsServer({
       if(!String(req.headers['content-type']||'').startsWith('application/x-www-form-urlencoded'))
         return send(res,415,'Form required');
       try{
-        const params=new URLSearchParams((await readBody(req,2048)).toString('utf8'));
+        const params=new URLSearchParams((await readRequestBody(2048)).toString('utf8'));
         const keys=[...params.keys()];
         if(keys.length!==3||new Set(keys).size!==3||
            keys.some(key=>!['current','new','confirm'].includes(key)))
@@ -838,7 +863,7 @@ export async function createKnabaVpsServer({
       if(req.method!=='POST')return send(res,405,'Method not allowed',{Allow:'GET,POST'});
       if(!csrfOK(req,rawHost,effectiveOrigin))return send(res,403,'Origin verification failed');
       try{
-        const raw=await readBody(req,1024);
+        const raw=await readRequestBody(1024);
         const target=returnPath(new URLSearchParams(raw.toString()).get('return_to'));
         destroySession(db,req.headers.cookie);
         return redirect(res,target,{'Set-Cookie':[expiredCookie({secure:!localTest}),clearDeveloperRoleCookie({secure:!localTest})]});
@@ -848,8 +873,8 @@ export async function createKnabaVpsServer({
       const valid=['GET','HEAD','POST','PUT','PATCH','DELETE'];
       if(!valid.includes(req.method))return send(res,405,'Method not allowed');
       let body;
-      try{body=['GET','HEAD'].includes(req.method)?undefined:await readBody(req,url.pathname==='/api/studio/templates/upload'?90_000:64*1024);}
-      catch(e){return send(res,e?.code==='too_large'?413:400,'Invalid request');}
+      try{body=['GET','HEAD'].includes(req.method)?undefined:await readRequestBody(url.pathname==='/api/studio/templates/upload'?90_000:64*1024);}
+      catch(e){return send(res,e?.code==='too_large'?413:e?.code==='session_revoked'?401:400,'Invalid request');}
       if(!accountUser&&testCookiePresent)return jsonReply(401,{error:{code:'unauthenticated'}});
       if(testIdentity&&!testGranted)return jsonReply(403,{error:{code:'forbidden'}});
       let workspace=null,testRole=null;
@@ -874,14 +899,14 @@ export async function createKnabaVpsServer({
       // Only the validated peer/header resolution may supply the Worker IP.
       headers.set('cf-connecting-ip',clientIp);
       const urlForWorker=effectiveOrigin+url.pathname+url.search;
-      let reply;
+      let reply,responseAuthorized;
       try{
         const workRequest=new Request(urlForWorker,{method:req.method,headers,body,signal:AbortSignal.timeout(16_000)});
         let scopedEnv=workspace?{
-          DB:workspace.d1,OWNER_EMAIL:workspace.people.owner.email,DEVELOPER_EMAIL:'',
+          DB:workspace.d1,OWNER_EMAIL:workspace.people.owner.email,OWNER_USER_ID:workspace.people.owner.id,DEVELOPER_EMAIL:'',
           TURNSTILE_REQUIRED:'0',ASSETS:env.ASSETS,ASSISTANT_NOTIFICATIONS_ENABLED:'0',
           STUDIO_AI_ENABLED:'0',STUDIO_AI_APPROVED:'0',KNABA_ERP_BRIDGE_ENABLED:'false',KNABA_ERP_TRANSFER_APPROVED:'false'
-        }:{...env};
+        }:{...env,OWNER_USER_ID:ownerPrincipal()};
         // Keep server settings live across asynchronous guards. Developer
         // workspaces deliberately never receive the primary bridge bindings.
         if(!workspace)bindErpIntakeEnvironment(scopedEnv,erpIntakeEnvironment);
@@ -889,18 +914,30 @@ export async function createKnabaVpsServer({
           const current=readSession(db,req.headers.cookie);
           if(!current||current.id!==accountUser?.id)return false;
           if(workspace)return testRole==='owner'&&isGrantedDeveloper(db,current,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,current)==='owner';
-          return hasOwnerAuthority(db,{userId:current.id,ownerEmail,developerEmail});
+          return hasOwnerAuthority(db,{userId:current.id,ownerEmail,ownerUserId:ownerPrincipal(),developerEmail});
         };
+        const currentAccountAllowed=()=>{
+          if(!sameAccountSession())return false;
+          if(workspace)return isGrantedDeveloper(db,accountUser,ownerEmail,developerEmail)&&readDeveloperRole(req.headers.cookie,accountUser)===testRole;
+          return true;
+        };
+        responseAuthorized=currentAccountAllowed;
+        const requestDb=accountUser?(workspace?.d1||d1).withAuthorization(currentAccountAllowed,db):(workspace?.d1||d1);
+        scopedEnv.DB=requestDb;
         // Publication transactions and later metadata responses both re-read
         // the actual current cookie; captured identity headers are not enough.
-        scopedEnv.STUDIO_PUBLICATION_BATCH=statements=>(workspace?.d1||d1).authorizedBatch(statements,currentOwnerAllowed,db);
+        scopedEnv.STUDIO_PUBLICATION_BATCH=statements=>requestDb.authorizedBatch(statements,currentOwnerAllowed,db);
         if(url.pathname==='/api/studio/templates'||url.pathname.startsWith('/api/studio/templates/')||url.pathname.replace(/\/$/,'')==='/api/portal/erp-intake'){
           scopedEnv.VERIFY_STUDIO_SESSION=currentOwnerAllowed;
         }
         reply=await worker.fetch(workRequest,scopedEnv,{waitUntil:promise=>{void Promise.resolve(promise).catch(()=>{});}});
       }catch{return send(res,503,'Service temporarily unavailable');}
+      const replyBytes=Buffer.from(await reply.arrayBuffer());
+      // Preserve the existing in-flight revocation contract (403); a request
+      // that starts without a live session still receives the normal 401.
+      if(accountUser&&!responseAuthorized()&&reply.status!==403)return jsonReply(403,{error:{code:'forbidden'}});
       res.writeHead(reply.status,Object.fromEntries(reply.headers.entries()));
-      return res.end(Buffer.from(await reply.arrayBuffer()));
+      return res.end(replyBytes);
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,405,'Method not allowed');
     try{
@@ -932,6 +969,7 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     staticRoot:process.env.KNABA_STATIC_ROOT||new URL('../dist/client/',import.meta.url).pathname,
     workerPath:new URL('../dist/server/index.js',import.meta.url).href,
     ownerEmail:process.env.OWNER_EMAIL||'',
+    ownerUserId:process.env.OWNER_USER_ID,
     developerEmail:process.env.KNABA_DEVELOPER_EMAIL||'',
     turnstileSiteKey:process.env.TURNSTILE_SITE_KEY||'',
     turnstileSecretKey:process.env.TURNSTILE_SECRET_KEY||'',

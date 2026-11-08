@@ -1,5 +1,13 @@
 # KNABA DE project memory
 
+## 2026-11-08 — PR123 identity authority checkpoint
+
+Продовження від d03e72b у чинній інтеграційній гілці. Виправлено current contact/device proof, customer/site scope при grant/replacement/revoke, узгоджено current customer membership у API/domain/delivery/authority fingerprints та фіналізацію login під company transaction. Scrypt лишається поза lock; current credentials/roles, TOTP consumption і session insert перевіряються атомарно, cookie після commit. Legacy user_id grant не залишається другим активним записом після canonical replacement.
+
+[Зіставлення та запропонований federation protocol](../docs/unified/IDENTITY_RECONCILIATION_2026-11-08_UK.md), [source/test/review evidence](../docs/unified/evidence/identity-20261108/verification.json). CPU fixtures не видаються за PostgreSQL acceptance; окремі справжні SQL cases включені до чинного CI. ERP SQL schema, signed intake endpoint, company credentials і канонічні V3/V4 критерії не змінені.
+
+Спільного site↔ERP SSO немає. Загальне скасування всіх already-authenticated ERP in-flight operations потребує окремого F4 session-proof fence; login race fix цього не доводить. **NOT_READY**, без production, DNS, клієнтських даних, merge або paid activation.
+
 ## 2026-11-08 — completion audit candidate
 
 Current integrated scope/evidence: `../docs/unified/COMPLETION_PLAN_2026-11-08_UK.md`, `../docs/unified/evidence/completion-20261108/verification.json`. Seed now rejects absent APP_MODE before DB access; explicit TEST fixtures added. The website publisher reuses existing `/api/v1/integrations/knaba_site/events`, `schema_version:'1'`, `lead.upsert`, timestamp+'.'+rawBody HMAC. No duplicate intake API, new company selector from browser, or destructive ERP migration. Four new real-PG tests exercise SQLite dispatcher→ERP transaction under lost ack, rollback, tampering and changed bytes; test transport is in-process, not public TLS.

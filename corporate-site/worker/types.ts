@@ -9,6 +9,8 @@ export interface D1Database { prepare(sql: string): D1Statement; batch<T = Recor
 export interface WorkerEnv {
   DB?: D1Database;
   OWNER_EMAIL?: string;
+  /** Stable server-configured owner subject; empty means owner enrollment is pending. */
+  OWNER_USER_ID?: string;
   /** Trusted Node VPS only: never sourced from a browser/header. */
   DELEGATED_OWNER_ID?: string;
   DEVELOPER_EMAIL?: string;

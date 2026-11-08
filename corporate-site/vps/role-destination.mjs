@@ -5,9 +5,9 @@ const locales=new Set(['de','en','pl','lt','ru','uk']);
 const roles=new Set(['client','partner','worker','bauleiter','admin']);
 export const workspaceLocale=value=>locales.has(value)?value:'de';
 
-export function authenticatedRole(db,user,{ownerEmail='',developerEmail=''}={}){
+export function authenticatedRole(db,user,{ownerEmail='',ownerUserId,developerEmail=''}={}){
   if(!user)return 'anonymous';
-  if(hasOwnerAuthority(db,{userId:user.id,ownerEmail,developerEmail}))return 'owner';
+  if(hasOwnerAuthority(db,{userId:user.id,ownerEmail,ownerUserId,developerEmail}))return 'owner';
   const profile=db.prepare('SELECT email,role,status FROM profiles WHERE id=?').get(user.id);
   if(!profile)return 'pending';
   if(profile.email.trim().toLowerCase()!==user.email.trim().toLowerCase())return 'suspended';

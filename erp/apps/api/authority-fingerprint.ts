@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { assert, DomainError, type Actor, type Data, type Entity } from '../../packages/domain/core.js';
 import type { EngineLike, SqlTransaction } from './auth.js';
+import { currentCustomerMembership } from '../../packages/domain/customer-membership.ts';
 
 const LIMIT = 2500;
 const fail = ():never => {throw new DomainError('ACCESS_DENIED', { reason: 'AUTHORITY_SNAPSHOT_INVALID' });};
@@ -31,8 +32,8 @@ export async function authorityFingerprint(tx:SqlTransaction,engine:EngineLike,a
     assert(scoped.userId===fresh.userId&&scoped.companyId===fresh.companyId&&scoped.permissions.includes(permission),'ACCESS_DENIED');
     return {permission,company:scoped.permissions.includes('scope.company'),siteIds:strings(scoped.siteIds),customerIds:strings(scoped.customerIds),warehouseIds:strings(scoped.warehouseIds)};
   });
-  const memberships=sorted((await tx.list('customer_membership')).filter(m=>m.companyId===fresh.companyId&&(m.data.userId??m.data.user_id)===fresh.userId&&current(m.data,now,true)).map(m=>({
-    id:text(m.id),customerId:text(m.data.customerId),siteIds:strings(m.data.siteIds??[]),permissions:strings(m.data.permissions??[]),startsAt:date(m.data.startsAt??m.data.starts_at),expiresAt:date(m.data.expiresAt??m.data.expires_at)
+  const memberships=sorted((await tx.list('customer_membership')).filter(m=>currentCustomerMembership(m,fresh,nowISO)).map(m=>({
+    id:text(m.id),customerId:text(m.data.customerId),siteIds:strings(m.data.siteIds??[]),permissions:strings(m.data.permissions??[]),startsAt:date(m.data.startsAt),starts_at:date(m.data.starts_at),expiresAt:date(m.data.expiresAt),expires_at:date(m.data.expires_at)
   })));
   const ownChannels=bounded((await tx.list('channel')).filter(c=>c.companyId===fresh.companyId&&Array.isArray(c.data.members)&&c.data.members.some((m:Data)=>m.user_id===fresh.userId&&current(m,now))));
   const channels=[];

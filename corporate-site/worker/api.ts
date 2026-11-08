@@ -60,7 +60,8 @@ async function session(request: Request,env: WorkerEnv): Promise<PortalSession> 
   }
   const row=await dbFor(env).prepare('SELECT * FROM profiles WHERE id=?').bind(userId).first<Row>();
   const p=row?profile(row):null;
-  const owner=(Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!)) ||
+  const owner=(Boolean(env.OWNER_EMAIL?.trim()) && normalizeEmail(email)===normalizeEmail(env.OWNER_EMAIL!) &&
+      (env.OWNER_USER_ID===undefined||Boolean(env.OWNER_USER_ID&&env.OWNER_USER_ID===userId))) ||
     (Boolean(env.DELEGATED_OWNER_ID) && env.DELEGATED_OWNER_ID===userId &&
       Boolean(env.DEVELOPER_EMAIL) && normalizeEmail(email)===normalizeEmail(env.DEVELOPER_EMAIL!));
   // An identity email change never transfers a previously approved profile.
