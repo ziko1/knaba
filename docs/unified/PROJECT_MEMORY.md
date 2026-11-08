@@ -1,5 +1,11 @@
 # KnaBa — інтегрована пам'ять продукту
 
+## 08.11.2026 — C08 accepted; current native/backend source consolidation
+
+C08 прийнято на `e747fd94e219e09faffea96c2f9f84be15a6def1`, [PR132](https://github.com/ziko1/knaba/pull/132), [CI42483792274](https://github.com/ziko1/knaba/actions/runs/42483792274): ERP 2905/124 файли, bridge 82, site 732+90+297, root 30, усі required jobs SUCCESS, independent ACCEPT. Ці результати належать саме e747.
+
+Ізольоване зведення переносить прийняті iOS 0.5.1 source changes з `65f341e…` до цієї backend-бази. Android, API/worker та сайт збережені. Локально 126 native registry contracts, TypeScript і 30 root checks PASS; combined exact-source/native CI ще NOT_RUN. [Контракт зведення](NATIVE_CONSOLIDATION_2026-11-08_UK.md). COMPANY_ID/origin audit стоїть окремо в черзі. Whole product NOT_READY; original V4/V3 criteria не перепозначені.
+
 ## 08.11.2026 — F4-B accepted; KN-C08 explicit runtime mode
 
 F4-B прийнято на e740ef969e2a6a261f0e7ba613b741ed889ec0fe / [PR131](https://github.com/ziko1/knaba/pull/131) / [CI42481614075](https://github.com/ziko1/knaba/actions/runs/42481614075): ERP — 2832 тести у 122 файлах; bridge — 82 (усі 51 F4-B, upgrade та 17 self-dispatch); site — 732+90+297; root — 30; усі 4 jobs SUCCESS без acceptance skips, незалежний review ACCEPT. Початковий fixture FAIL збережено в [evidence](evidence/federated-session-authority-20261108/verification.json).

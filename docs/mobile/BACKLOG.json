@@ -126,14 +126,40 @@
       "id": "MOBILE-011",
       "description": "iOS unknown-write retries preserve idempotency and logout fences stale session responses",
       "acceptance": "Native XCTest and actual iPhone interrupted write/relogin/retry create one effect only",
-      "status": "IN_PROGRESS",
-      "scope": "Encrypted immutable pending write; same-origin/company/user recovery; explicit same-key retry; logout and response generation fences; six-language UI. Native XCTest and device acceptance remain separate."
+      "status": "SOURCE_AND_NATIVE_CI_VERIFIED_DEVICE_ACCEPTANCE_OPEN",
+      "scope": "Encrypted immutable pending write; same-origin/company/user recovery; explicit same-key retry; logout and response generation fences; six-language UI. Native XCTest and device acceptance remain separate.",
+      "evidence": "evidence/native-candidate-20261108/verification.json",
+      "sourceGitSha": "fb4be719fc6f777138cb93837fc41729f9104c09"
     },
     {
       "id": "MOBILE-012",
       "description": "Native ERP role navigation and verified APK/AAB packaging",
       "acceptance": "Server-scoped native records for customer, employee, operations, warehouse, procurement and accounting; permission-revocation navigation tests; APK and AAB hashes and matching signer; independent review and device journeys",
-      "status": "IN_PROGRESS"
+      "status": "SOURCE_AND_NATIVE_CI_VERIFIED_DEVICE_ACCEPTANCE_OPEN",
+      "evidence": "evidence/native-candidate-20261108/verification.json",
+      "sourceGitSha": "fb4be719fc6f777138cb93837fc41729f9104c09",
+      "scope": "Android0.5.0 verified; iOS0.5.1 adds61 contextual actions with immutable ID/version and quote/crew snapshot fields, current server permission/catalog checks, session authority fence and localized forms. Source and contract checks do not close physical/live acceptance.",
+      "iosContinuation": {
+        "version": "0.5.1",
+        "build": 7,
+        "sourceReview": "ACCEPTED_SOURCE_SNAPSHOT",
+        "nativeXCTest": "PASS_67_OF_67",
+        "evidence": "IOS_CONTEXT_ACTIONS_0.5.1_UK.md",
+        "sourceGitSha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+        "nativeRun": 42467913707,
+        "iosJob": 128691606881,
+        "currentConsolidatedAcceptance": "NOT_RUN"
+      }
     }
-  ]
+  ],
+  "sourceConsolidation20261108": {
+    "branch": "feat/knaba-native-backend-consolidation-20261108",
+    "backendSource": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+    "nativeSource": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+    "status": "SOURCE_CONSOLIDATED_LOCAL_CONTRACTS_PASSED_HOSTED_PENDING",
+    "contract": "../unified/NATIVE_CONSOLIDATION_2026-11-08_UK.md",
+    "productStatus": "NOT_READY",
+    "physicalDevices": "NOT_RUN",
+    "originalCriteriaPromoted": false
+  }
 }

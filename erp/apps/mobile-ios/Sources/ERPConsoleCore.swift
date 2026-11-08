@@ -99,7 +99,7 @@ indirect enum ERPAny: Codable, Sendable {
 }
 
 enum ERPFailure: Error, LocalizedError, Equatable {
-    case invalidOrigin, invalidPath, expired, invalidResponse, http(Int, String), tooLarge, accessChanged, invalidPayload
+    case invalidOrigin, invalidPath, expired, invalidResponse, http(Int, String), tooLarge, accessChanged, invalidPayload, confirmationRequired
     case pendingExists, pendingUnknown, pendingDifferentActor, pendingStorage, pendingChanged
     var errorDescription: String? {
         switch self {
@@ -110,6 +110,7 @@ enum ERPFailure: Error, LocalizedError, Equatable {
         case .tooLarge: return "Server response is too large."
         case .accessChanged: return "Access or server has changed. Sign in again."
         case .invalidPayload: return "Invalid command input."
+        case .confirmationRequired: return "Confirm the current sensitive action before submitting."
         case .http(let status, let code): return "KNABA server: \(code) (\(status))."
         case .pendingExists: return "Resolve the saved request before sending another change."
         case .pendingUnknown: return "The request may already have been applied. Retry the saved request only."
@@ -173,7 +174,7 @@ actor ERPConsoleClient {
     private var activeWrite: UUID?
     private(set) var identity: ERPIdentity?
 
-    private struct Authority {
+    struct Authority: Sendable {
         let generation: Int
         let origin: URL
         let companyId: String
@@ -204,6 +205,7 @@ actor ERPConsoleClient {
         guard let origin, let identity, cookie != nil, csrf != nil else { throw ERPFailure.expired }
         return Authority(generation: generation, origin: origin, companyId: identity.actor.companyId, userId: identity.actor.userId)
     }
+    func commandAuthority() throws -> Authority { try authority() }
     private func require(_ value: Authority) throws {
         guard value.generation == generation, value.origin == origin,
               value.companyId == identity?.actor.companyId, value.userId == identity?.actor.userId,
@@ -337,7 +339,8 @@ actor ERPConsoleClient {
         }
         throw ERPFailure.tooLarge
     }
-    func execute(_ command: ERPCommand, input: Data, expectedVersion: Int? = nil) async throws -> ERPField {
+    func execute(_ command: ERPCommand, input: Data, expectedVersion: Int? = nil, authority expected: Authority? = nil) async throws -> ERPField {
+        if let expected { try require(expected) }
         let current = try authority()
         guard activeWrite == nil else { throw ERPFailure.pendingExists }
         guard ERPCommandName.isValid(command.name), !command.permission.isEmpty, input.count <= 65536,

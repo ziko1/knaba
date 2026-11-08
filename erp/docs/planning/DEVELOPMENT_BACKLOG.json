@@ -4589,7 +4589,7 @@
   },
   "explicit_runtime_mode_20261108": {
     "task_id": "KN-C08",
-    "status": "IMPLEMENTED_CANDIDATE_EXACT_SOURCE_HOSTED_PENDING",
+    "status": "ACCEPT_EXPLICIT_RUNTIME_MODE_ACTUAL_CI",
     "base_source_sha": "e740ef969e2a6a261f0e7ba613b741ed889ec0fe",
     "contract": "../../../docs/unified/EXPLICIT_RUNTIME_MODE_2026-11-08_UK.md",
     "evidence": "../../../docs/unified/evidence/explicit-runtime-mode-20261108/verification.json",
@@ -4606,6 +4606,18 @@
       "COMPANY_ID default and production-origin enforcement alignment",
       "F3 session issuance and remaining F4 privacy/background policies",
       "Browser/device/provider/company and full V4/V3 acceptance"
-    ]
+    ],
+    "accepted_source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+    "accepted_ci_run": 42483792274,
+    "independent_review": "ACCEPT"
+  },
+  "native_backend_consolidation_20261108": {
+    "task": "Native/backend source consolidation",
+    "status": "LOCAL_CONTRACTS_VERIFIED_HOSTED_PENDING",
+    "backend_source_sha": "e747fd94e219e09faffea96c2f9f84be15a6def1",
+    "native_source_sha": "65f341e76749a03fc62997da5a77e17b84caf8ba",
+    "evidence": "../../../docs/mobile/evidence/native-consolidation-20261108/verification.json",
+    "original_criteria_promoted": false,
+    "product_status": "NOT_READY"
   }
 }
