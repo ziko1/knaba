@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "date": "2026-11-08",
+  "stage": "F4-A_LOCAL_ERP_SESSION_AUTHORITY_CANDIDATE",
+  "base_commit": "1a6e837de7a351a67bf4bef3bda00961aed19d83",
+  "candidate_inputs": {
+    "erp/apps/api/auth.ts": {
+      "sha256": "37e71f16003b937478dd12db0893fde3a9774f7042a4fb7e1c7a924a4796b987",
+      "bytes": 17266
+    },
+    "erp/apps/api/database.ts": {
+      "sha256": "fdabc57e05bc127d5894662fd0e7e8b02d15653f5e05e4695222f4fb7d2edc1c",
+      "bytes": 10345
+    },
+    "erp/apps/api/http.ts": {
+      "sha256": "8cce5742b73d6764709a20c03a791b3cd77ec7adf7a01f45975c135f55b64437",
+      "bytes": 46833
+    },
+    "erp/packages/domain/identity.ts": {
+      "sha256": "a13cc4f2fbeef7dc0f725df027e1528aadbb4f9b200875f675dd1218ca2f8b30",
+      "bytes": 16080
+    },
+    "erp/apps/api/request-authority.ts": {
+      "sha256": "e50a247bc4bb1e2562780396eab0152072dc95de728a15f796932c444e16a806",
+      "bytes": 8526
+    },
+    "erp/apps/api/request-authority-interceptor.ts": {
+      "sha256": "b3dfa560a94fe8ef3cde53c9148db0b9904c66f49bff75c7a29bc21f7410142b",
+      "bytes": 1314
+    },
+    "erp/tests/request-authority.test.ts": {
+      "sha256": "c858291831b54a0ff9ce3b74d97833bfee0136925fbed01e5896161e5ba18001",
+      "bytes": 9564
+    },
+    "erp/tests/request-authority.integration.test.ts": {
+      "sha256": "034c2278ccc12db7abce4b5acca20f872708d8499543b4ff7c7912d26dc80ade",
+      "bytes": 31467
+    },
+    "erp/packages/domain/operations.ts": {
+      "sha256": "1eb88aa6fa1603eae85528767de96de859883d9e56dad1e97ba40c272922de83",
+      "bytes": 114087
+    },
+    "docs/unified/REQUEST_AUTHORITY_2026-11-08_UK.md": {
+      "sha256": "5960e2584769c869024ab7579828c5a19c07fa3a177b4fafc721fdf922697039",
+      "bytes": 7835
+    }
+  },
+  "local": {
+    "typecheck": "PASS_EXIT_0_EXACT_PUBLICATION_INPUTS",
+    "cpu_guard_tests": {
+      "pass": 16,
+      "fail": 0,
+      "scope": "Explicit in-memory SQL/transaction doubles"
+    },
+    "existing_focused_erp": {
+      "pass": 114,
+      "fail": 0
+    },
+    "http_bootstrap": "PASS_ACTUAL_NEST_HTTP_EXPLICIT_SQL_ENGINE_DOUBLES",
+    "actual_postgresql_cases": {
+      "count": 22,
+      "status": "NOT_RUN_LOCAL_DATABASE_UNAVAILABLE"
+    },
+    "logs": {
+      "session-authority-typecheck-current.log": {
+        "bytes": 143,
+        "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+      },
+      "session-authority-cpu.log": {
+        "bytes": 397,
+        "sha256": "c00202a922ba85e5c387147a06eb99e535195b02c5ad4ecff30fcc875338eb3e"
+      },
+      "session-authority-existing-focused.log": {
+        "bytes": 512,
+        "sha256": "777f3d59bfd0195e632438b79d1179644105b5ec4c7e3e4718cbf51eb1307d92"
+      },
+      "session-authority-http-bootstrap.log": {
+        "bytes": 203,
+        "sha256": "04223c507b8199bca7f86bac1982b50a4bf23d7b51faf67d46c87cb93149a516"
+      },
+      "session-authority-retirement-focused.log": {
+        "bytes": 445,
+        "sha256": "70fc5547138faa70630ceaa2e23de7377490a1c9e3b11f359ae902413e3b8636"
+      },
+      "session-authority-typecheck-final.log": {
+        "bytes": 143,
+        "sha256": "125f99bc72d5d39aa9fe82c160b8aa37c668a4e2869ce3ef79952ac7662ad665"
+      }
+    },
+    "operations_regression": {
+      "pass": 45,
+      "fail": 0
+    },
+    "historical_cpu_log": "session-authority-cpu.log records the earlier 14-case pass; the current 16 guard +45 operations receipt is session-authority-retirement-focused.log. Do not add those counts together."
+  },
+  "review": {
+    "root_review_of_independent_integration_tests": "ACCEPT_SOURCE_ONLY",
+    "independent_runtime_review": "ACCEPT_CURRENT_INPUT_HASHES_AFTER_SSE_SLOT_AND_FINAL_MEDIA_COPY_CORRECTIONS",
+    "runtime_allowlist_delta": "Exact two explicit purpose allowlist checks accepted separately at request-authority.ts e50a247; no other runtime delta from previously reviewed ecb065.",
+    "integration_test_correction": "Express JSON errors may have a weak ETag: assert it differs from the positive-control raw file ETag, no Content-Disposition, exact 404/NOT_FOUND_SAFE JSON, and subsequent 200 client-copy bytes. Runtime unchanged.",
+    "native_unknown_outcome_contract": "Independent source review confirmed Android/iOS durable unknown-write journals are retained on post-commit 401; this is not live/device acceptance."
+  },
+  "hosted": "PENDING_EXACT_SOURCE",
+  "performance": "PRODUCTION_P95_NOT_MEASURED",
+  "federated_session_issuance": "NOT_IMPLEMENTED",
+  "product": "NOT_READY",
+  "production_changed": false
+}

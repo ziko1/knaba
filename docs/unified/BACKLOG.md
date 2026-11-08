@@ -1,5 +1,13 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 08.11.2026 — F4-A local authority candidate
+
+Реалізовано local ERP cookie/device transaction/response fences та збережено own-revocation/receipt contracts. Source review і локальні перевірки описано в [evidence](evidence/request-authority-20261108/verification.json);22 нові actual PostgreSQL/HTTP cases очікують hosted exact-source acceptance. Це prerequisite до F3, не закриття всього F4/KN-C04/KN-U09. F3 і cross-system policy/retention/background лишаються кодовими задачами; зовнішні browser/device/signing/provider/UAT gates окремі.
+
+## 08.11.2026 — F2 actual SQL/HTTP acceptance
+
+Source `1a6e837de7a351a67bf4bef3bda00961aed19d83`, tree `0bf71d43846899fd288c01b95a5f52f8a55d7977`: [CI42472941316](https://github.com/ziko1/knaba/actions/runs/42472941316), усі4 required jobs PASS; bridge31 (22 F2 +9 intake), ERP2782/120 files, site732+90+268, root30, без failed/skipped acceptance. Перший fixture failure40e31ac збережено, production runtime/schema при корекції не змінено. [Evidence](evidence/site-identity-dual-consent-20261108/verification.json). F3–F5 та whole product NOT_READY; F4 local-session fence є наступним independent code slice, спільних sessions ще немає.
+
 ## 08.11.2026 — F2 implementation candidate
 
 KN-C04 / KN-U09: F1 storage має окреме actual PostgreSQL acceptance. F2 dual-session linking/unlinking, current authority checks, recovery, same-user generations та UI реалізовано; local checks/source review пройдено, нові22 PostgreSQL bridge cases очікують CI на точному committed source. [Контракт і межі](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md), [evidence](evidence/site-identity-dual-consent-20261108/verification.json). F3 session exchange, F4 shared revocation/retention, F5 browser/device/provider/company acceptance — OPEN. Ці кроки не закривають весь KN-C04/KN-U09 або original V3/V4 criteria; SSO NOT_IMPLEMENTED, продукт NOT_READY.
@@ -15,7 +23,8 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 - [x] F1 source: explicit principal/trust contract, additive storage/repository and CPU checks.
 - [x] F1 independent source review: ACCEPT; exact reviewed input hashes recorded for the candidate.
 - [x] F1 actual PostgreSQL upgrade/isolation/revocation/concurrency/rollback acceptance: CI 42464719363, exact source 0fede54f; full SSO remains open.
-- [ ] F2–F5: dual-session UI/proof, session exchange, authoritative revocation, privacy integration, live/device acceptance.
+- [x] F2 source/actual SQL and HTTP: dual-session binding/unlink/recovery, CI42472941316 at1a6e837; live browser acceptance is separate.
+- [ ] F3–F5: session exchange, authoritative cross-system revocation, privacy integration, live/device acceptance.
 
 ## Поточна черга — 08.11.2026
 
@@ -24,7 +33,7 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
 | KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
-| KN-C04 / KN-U09 | P0 | PR123 authority fixes та F1 storage verified; F2 dual-consent source implemented, actual PostgreSQL CI pending; [контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). F3–F5 session exchange, shared revocation і acceptance OPEN |
+| KN-C04 / KN-U09 | P0 | PR123 authority fixes, F1 storage та F2 dual-consent actual SQL/HTTP verified; F4-A local session/device fence candidate, PostgreSQL acceptance pending; [контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). F3–F5 session exchange, shared revocation і acceptance OPEN |
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
 | KN-C06 | P0 | iOS write unknown-outcome recovery та logout/session fence + XCTest/device |
 | KN-C07 / TPL01–18 | P1 | Stable content IDs,3 trust-owned themes, declarative import/quarantine, preview, atomic activation/rollback, six locales |

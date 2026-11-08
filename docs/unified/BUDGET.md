@@ -1,5 +1,9 @@
 # KnaBa — окремий бюджет і квоти
 
+## F4-A local session authority reservation — 08.11.2026
+
+F2 reservation reconciled: implementation push/PR runs42472334327/42472337064 (bridge fixture failure), corrective push/PR42472937996/42472941316; corrective PR run completed all4 mandatory jobs successfully. No unchanged rerun or production activation. Reserve one F4-A local session/device fence checkpoint and at most one corrective checkpoint, maximum four automatically triggered standard public Ubuntu repository runs using existing timeouts. Native files and paid providers are outside this slice. New external paid activation remains EUR0; real model balance/quotas unknown. Local SQL remains NOT_RUN until hosted execution; no paid fallback, staging extension or device readiness claim.
+
 ## F2 dual-session source continuation — 08.11.2026
 
 F1 executable run42464719363 and documentation run42465549463 completed all four mandatory jobs. Reserve one F2 implementation checkpoint and at most one corrective checkpoint on the existing isolated identity branch: standard public Ubuntu repository jobs only, at most four automatic push/PR runs, existing timeouts unchanged. Local HTTP, SQLite and synthetic PostgreSQL fixtures use no real accounts or providers. New external paid activation remains EUR0; actual model credits/balances unknown. Browser policy, expired staging window, production/merge, signing and real recipient gates remain unchanged. No production federation configuration or credential is created by synthetic development.

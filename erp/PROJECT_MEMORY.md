@@ -1,5 +1,11 @@
 # KNABA DE project memory
 
+## 2026-11-08 — accepted F2 and F4-A request-authority candidate
+
+F2 accepted на exact source `1a6e837de7a351a67bf4bef3bda00961aed19d83`, [run42472941316](https://github.com/ziko1/knaba/actions/runs/42472941316): bridge31 (22 identity +9 intake), ERP2782/120 files, site732+90+268, root30, усі4 required jobs SUCCESS. Історичний40e31ac fixture failure збережено; виправлено тільки synthetic profiles.last_mutation.
+
+Наступний isolated candidate F4-A перевіряє original local cookie/device на transaction/response boundaries, впорядковує logout через company lock та зберігає exact committed own-revoke ACK. Уточнено media-copy policy і SSE cleanup.16 guard CPU +45 operations +114 existing focused tests PASS;22 нові actual HTTP/PostgreSQL cases ще NOT_RUN до hosted CI. [Контракт](../docs/unified/REQUEST_AUTHORITY_2026-11-08_UK.md), [evidence](../docs/unified/evidence/request-authority-20261108/verification.json). F3 issuance і повний cross-system F4/F5 не завершені; whole product NOT_READY, без production/merge/paid activation.
+
 ## 2026-11-08 — F2 site identity binding candidate
 
 Продовження KN-C04 / KN-U09 у Draft PR128, база `a670ff0be70abd1bb8f07065e237b5e3de8a7a84`: fresh password/MFA, первинна ERP cookie session, exact site subject, signed peer redemption, атомарні binding/challenge/audit, lost-ACK recovery, disabled-peer unlink та immutable relink generations. Адитивний SQL і rollback guards описано у [F2 contract](../docs/unified/SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md). ERP typecheck/build і114 focused CPU PASS; нові22 real PostgreSQL bridge cases ще NOT_RUN до exact-source CI. F1 має власний accepted source `0fede54f`; F2 source review не є SQL acceptance. F3–F5/SSO/whole product NOT_READY, без production migration/merge/deploy.
