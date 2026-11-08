@@ -219,6 +219,34 @@ pg('genuine PostgreSQL Telegram ingress and human claim (synthetic company, no p
    expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
  });
 
+ it('private /consent records the configured Telegram consent version without granting ERP roles',async()=>{
+   const f=await setup();
+   f.runner.options.telegramApprovedConsentVersion='TEST_NOTICE_2026_11';
+   await f.submit(305,'/consent');await f.drain();
+   const guest=(await f.list('user')).find(u=>u.data.guest)!;
+   expect(guest.data.roles).toEqual(['GUEST']);
+   const settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
+   expect(settings).toHaveLength(1);
+   expect(settings[0]!.data).toMatchObject({
+     telegram_consent:true,telegram_opted_out:false,telegram_consent_version:'TEST_NOTICE_2026_11'
+   });
+   const command=(await f.list('conversation_input')).find(i=>i.data.provider_event_id==='TELEGRAM:305');
+   expect(command?.data).toMatchObject({status:'PROCESSED',router_state:'TELEGRAM_OPT_IN'});
+   expect(await f.list('message')).toHaveLength(0);
+ });
+
+ it('private /consent without a configured consent version stays opted out and requires review',async()=>{
+   const f=await setup();
+   await f.submit(306,'/consent');await f.drain();
+   const guest=(await f.list('user')).find(u=>u.data.guest)!;
+   const settings=(await f.list('notification_setting')).filter(s=>s.data.user_id===guest.id);
+   expect(settings).toHaveLength(1);
+   expect(settings[0]!.data).toMatchObject({telegram_consent:false,telegram_opted_out:true});
+   const command=(await f.list('conversation_input')).find(i=>i.data.provider_event_id==='TELEGRAM:306');
+   expect(command?.data).toMatchObject({status:'MANUAL_REVIEW',router_state:'TELEGRAM_OPT_IN_BLOCKED',reason:'TELEGRAM_CONSENT_VERSION_REQUIRED'});
+   expect(await f.list('message')).toHaveLength(0);
+ });
+
  it('revoking the operator channel membership cancels an already queued Telegram reply',async()=>{
    const f=await setup();
    const {channel,reply}=await operatorReply(f,615);
