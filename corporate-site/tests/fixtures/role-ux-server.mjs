@@ -74,7 +74,7 @@ export async function createRoleUxFixture({releaseEnvironment={},localTest=false
       // Only isolated, server-owned synthetic transports are injected by QA.
       localTest,oidcConfig:{},releaseEnvironment,erpIntakeEnvironment:{},
       accountEmailEnvironment,accountMailerFactory,trustedProxyIps:'',
-      siteIdentitySessionsEnabled:false,
+      siteIdentityConfig:()=>null,siteIdentitySessionsEnabled:()=>false,
       erpIntakeSchedulerFactory:()=>({stop(){}})});
     const cookies={};
     for(const [role,user] of Object.entries(identities)){

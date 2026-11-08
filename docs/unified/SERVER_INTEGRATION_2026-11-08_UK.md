@@ -13,6 +13,20 @@ acceptance і не дає підстав обходити права досту�
 стан; його не використано для заміни чинних функцій. Exact-source CI, artifact
 hash і фактичний результат завантаження записуються окремими receipts.
 
+### Перший hosted CI та коригувальний checkpoint
+
+На published `1dcdbbe45fecaba25b5e7ecf673432604e0e8eec` repository run
+`42500497502` і native run `42500497556` виявили три несумісності test fixtures:
+browser identity option був boolean замість trusted callback; worker retention
+double рахував Lead Agent SELECT як outbox INSERT; Android anonymous class
+зв'язував latch зі своїм inherited field замість локальної змінної тесту.
+Виправлення обмежені fixtures/tests, production guards/runtime не послаблені.
+Локальний retention файл має RED→GREEN34/34; незалежний справжній HTTPS/SQLite
+fixture1/1; Java compiler proof демонструє правильний latch binding. Ці докази
+не замінюють повторний hosted browser/Android run. Початкове пакування
+зупинено до створення фінального TAR. Деталі й хеші:
+`evidence/server-integration-20261108/ci-correction.json`.
+
 ## Що зведено в коді
 
 | Частина | Походження та реалізація | Межі приймання |
@@ -74,7 +88,9 @@ Read-only audit фізичного `knaba` від08.11.2026 зафіксував
 `file_ops.writable_paths` порожній. Доступного привілейованого KNABA deployment
 helper не виявлено. Старий вимкнений `avenqo-sferahost` не використовується.
 
-Підтверджений механізм доставки — приватний upload-каталог SentinelX. Пакет
+Підтверджений механізм доставки — штатний upload-каталог SentinelX. Поточний
+каталог `/var/lib/sentinelx/uploads` має mode0755; owner-only filesystem
+privacy не заявляється, permissions кінцевого файла перевіряються після upload. Пакет
 потрібно завантажити з перевіркою SHA-256 і повторним hash-readback на сервері.
 Це не переключає чинний сайт. Activation, фактичний installed SHA, schema
 receipts, live restore та testing acceptance залишаються `BLOCKED_ACCESS` або

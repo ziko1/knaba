@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "firstHostedSource": "1dcdbbe45fecaba25b5e7ecf673432604e0e8eec",
+  "firstHostedRuns": {
+    "repository": 42500497502,
+    "native": 42500497556
+  },
+  "findings": [
+    {
+      "job": 128791980352,
+      "failure": "MISSING_CONFIGURATION in browser fixture",
+      "fix": "Trusted identity options use callable closures; ambient identity configuration isolated. Production validation unchanged.",
+      "verification": "Independent actual HTTPS/SQLite Node fixture 1/1 PASS; real browser rerun pending."
+    },
+    {
+      "job": 128791980501,
+      "failure": "Worker retention boundary double classified a lead cleanup SELECT as a scheduled outbox INSERT",
+      "fix": "Separate read/event trace, tenant/time assertion and ordering after purge before outbox claim. Production worker unchanged.",
+      "verification": "Actual test file RED 1 failed/33 passed; GREEN 34/34 PASS."
+    },
+    {
+      "job": 128791980376,
+      "failure": "Android anonymous class inherited latch fields shadowed local fixture latch names",
+      "fix": "Rename local latches; assertions and timeouts unchanged. Android runtime unchanged.",
+      "verification": "Extracted actual Java declaration/override compiler proof RED then GREEN; hosted Android/Robolectric rerun pending."
+    }
+  ],
+  "sourceFixtureFixes": {
+    "browserAuthorCommit": "4544cedc5de0b73d2543d710a5dccb4e0f7b0ae7",
+    "androidAuthorCommit": "3dcd9bc2f2ed682212682e303fc27f4808a0f903"
+  },
+  "nextCheckpoint": "One combined corrective source checkpoint; exact hosted PostgreSQL/browser/native gates required, no skipped acceptance substituted.",
+  "proofs": {
+    "worker_retention_red": {
+      "file": "docs/unified/evidence/server-integration-20261108/worker-retention-red.log",
+      "original_sha256": "99ed080d3a32ec07773cf811419dab118d5ea3c5f35ab6da59ad08e38e27fed9",
+      "original_bytes": 4915,
+      "stored_sha256": "d7cc057ee988cb9bc7ac33a9dc1620ee0fd480efe57215b52100da4c679a2ca0",
+      "stored_bytes": 4914,
+      "normalization": "trailing whitespace and final blank lines only"
+    },
+    "worker_retention_green": {
+      "file": "docs/unified/evidence/server-integration-20261108/worker-retention-green.log",
+      "original_sha256": "2fe76a11acb652fa96387435a28f92e52c4c23202821dc7a0711c487c541be11",
+      "original_bytes": 822,
+      "stored_sha256": "469417931675aaf59291d118f220bd8185f771d9b4199bf1e0d9ea8c7bb6c915",
+      "stored_bytes": 821,
+      "normalization": "trailing whitespace and final blank lines only"
+    },
+    "browser_fixture_independent": {
+      "file": "docs/unified/evidence/server-integration-20261108/browser-fixture-independent.log",
+      "original_sha256": "800a1f05089768214d2678ecce71f47abe055bdd3c347613c4298e93e485a766",
+      "original_bytes": 230,
+      "stored_sha256": "800a1f05089768214d2678ecce71f47abe055bdd3c347613c4298e93e485a766",
+      "stored_bytes": 230,
+      "normalization": "trailing whitespace and final blank lines only"
+    },
+    "android_binding_before": {
+      "file": "docs/unified/evidence/server-integration-20261108/android-binding-before.log",
+      "original_sha256": "182e84c316ac1856961cab3a28babd11515b695bbd7399c6fe525c1dceb1b518",
+      "original_bytes": 584,
+      "stored_sha256": "182e84c316ac1856961cab3a28babd11515b695bbd7399c6fe525c1dceb1b518",
+      "stored_bytes": 584,
+      "normalization": "trailing whitespace and final blank lines only"
+    },
+    "android_binding_after": {
+      "file": "docs/unified/evidence/server-integration-20261108/android-binding-after.log",
+      "original_sha256": "73f36b75a5f5ff4e19dc1fae25084317185679cee6dd788b197f8ccf3c2e36ad",
+      "original_bytes": 473,
+      "stored_sha256": "73f36b75a5f5ff4e19dc1fae25084317185679cee6dd788b197f8ccf3c2e36ad",
+      "stored_bytes": 473,
+      "normalization": "trailing whitespace and final blank lines only"
+    }
+  },
+  "firstPackageBuild": "Interrupted before archive creation after actual CI failures. No upload or activation claimed."
+}

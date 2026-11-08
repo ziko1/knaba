@@ -1,0 +1,70 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knaba-de@0.1.0 test
+> vitest run tests/worker-retention.test.ts
+
+
+ RUN  v4.1.11 /workspace/scratch/3b8559d3e692/knaba/erp
+
+ ❯ tests/worker-retention.test.ts (34 tests | 1 failed) 9981ms
+     ✓ unsafe legacy GPS storage prevents service account creation and all business writes 9ms
+     ✓ verified storage permits only the disabled-credential worker service account bootstrap 5ms
+     ✓ expires only this company in one bounded batch before scheduled reports or queued business effects 6ms
+     × retention failure prevents scheduling, outbox claims and success; next tick can recover 21ms
+     ✓ an overlapping tick cannot bypass a pending purge and stop prevents new retention/business work 2ms
+     ✓ production restoration requires an independent current ledger before touching the empty destination  411ms
+     ✓ production ledger 'RESTORE_ERASURE_LEDGER_MUST_BE_INDEPE…' is rejected before restoring any data  372ms
+     ✓ production ledger 'RESTORE_ERASURE_LEDGER_CHECKSUM_MISMA…' is rejected before restoring any data  434ms
+     ✓ production ledger 'RESTORE_ERASURE_LEDGER_NOT_CURRENT' is rejected before restoring any data  366ms
+     ✓ production ledger 'RESTORE_ERASURE_LEDGER_INVALID' is rejected before restoring any data  344ms
+     ✓ all restored companies require coverage by the authoritative current ledger  376ms
+     ✓ a later independently recorded erasure blocks an older backup without pretending to replay redaction  518ms
+     ✓ current canonical erasure manifest matching the restored durable ledger passes without external deletions  359ms
+     ✓ durable privacy content proof is checked even when table counts and dump checksum match 239ms
+     ✓ a transient permit appearing in the safety phase rolls back before any GPS purge or access success 249ms
+     ✓ synthetic bypass fails closed for 'RESTORE_SYNTHETIC_REQUIRES_ISOLATED_L…'  366ms
+     ✓ synthetic bypass fails closed for 'RESTORE_SYNTHETIC_PRIVACY_HISTORY_FOR…'  422ms
+     ✓ synthetic bypass fails closed for 'RESTORE_SYNTHETIC_PRIVACY_HISTORY_FOR…'  445ms
+     ✓ synthetic bypass fails closed for 'PRIVACY_TRANSIENT_PERMITS_NOT_EMPTY'  316ms
+     ✓ verifies original row/blob integrity before migration, drains bounded batches, then commits and reports success  317ms
+     ✓ unsafe restored legacy storage rolls back and never purges or announces success  426ms
+     ✓ invalid purge result null fails closed instead of committing restoration 124ms
+     ✓ invalid purge result -1 fails closed instead of committing restoration  472ms
+     ✓ invalid purge result 501 fails closed instead of committing restoration  484ms
+     ✓ invalid purge result NaN fails closed instead of committing restoration  300ms
+     ✓ invalid purge result 1.2 fails closed instead of committing restoration 200ms
+     ✓ a never-drained expiry backlog is bounded and rolls back without false success  357ms
+     ✓ original backup corruption 'RESTORED_TABLE_COUNTS_MISMATCH' prevents migration and safety-phase commit  350ms
+     ✓ original backup corruption 'RESTORED_PRIVATE_BLOB_CHECKSUM_MISMAT…' prevents migration and safety-phase commit  396ms
+     ✓ exports the consistent snapshot and explicitly excludes transient preimages while checksumming both durable ledgers  415ms
+     ✓ unsafe 'PRIVACY_TRANSIENT_PERMITS_NOT_EMPTY' aborts before any archive capture 240ms
+     ✓ unsafe 'PRIVACY_MANIFEST_INTEGRITY_FAILED' aborts before any archive capture 235ms
+     ✓ exports a fresh private independently hashable authority without any dump or transient data 241ms
+     ✓ never overwrites an existing authority export 156ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/worker-retention.test.ts > worker privacy gate orchestration (CPU boundary doubles) > retention failure prevents scheduling, outbox claims and success; next tick can recover
+AssertionError: expected [ { …(3) }, { …(3) } ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/worker-retention.test.ts:135:84
+    133|     boundary.purgeFails(false);
+    134|     await expect(boundary.runner.tick()).resolves.toEqual({ processed:…
+    135|     expect(boundary.trace.filter(t => t.operation === 'scheduled-busin…
+       |                                                                                    ^
+    136|     expect(boundary.trace.filter(t => t.operation === 'claim-outbox'))…
+    137|     expect(boundary.trace.filter(t => t.operation === 'finish-outbox')…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 33 passed (34)
+   Start at  17:39:58
+   Duration  14.46s (transform 2.77s, setup 0ms, import 4.08s, tests 9.98s, environment 0ms)

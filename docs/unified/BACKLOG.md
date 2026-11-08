@@ -80,7 +80,7 @@ Exact runtime/test source `0fede54f80895a425e72df1d921a643b40a4eaf0`, [CI 424647
 |---|---|---|
 | KN-C01 | P0 | Source reconciliation contacts/favicon: candidate; точні hashes + brand/contact regression у evidence |
 | KN-C02 | P0 | Seed explicit mode, Studio atomic/current-authority publish, Android durable recovery: implemented candidate; browser/device acceptance відкрите |
-| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0013→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
+| KN-C03 / KN-U07 | P0 | Нові form leads→reference outbox0014→існуючий ERP inbox: implemented candidate; exact SQL test і локальний retry, live transfer не активовано |
 | KN-C04 / KN-U09 | P0 | F1/F2 і F4-A/F4-B source-bound SQL/HTTP acceptance прийнято; current signed site authority та terminal revocation перевірено, повторно на bb223af. F3 issuance, решта F4 privacy/background policy та F5 browser/device/company acceptance OPEN. [Контракт F2](SITE_IDENTITY_DUAL_CONSENT_2026-11-08_UK.md) |
 | KN-C05 | P0 | Assistant conversation→ERP source-preserving mapping, capabilities lifecycle, pagination/receipt |
 | KN-C06 | P0 | iOS 0.5.1 recovery/session/contextual actions: source і 67 XCTest прийнято на bb223af; physical device та live ERP/UAT OPEN. [Receipt](../mobile/evidence/native-consolidation-20261108/accepted-bb223af.json) |

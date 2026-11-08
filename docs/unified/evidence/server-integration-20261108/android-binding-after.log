@@ -1,0 +1,8 @@
+{
+  "source_file": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+  "source_sha256": "2d7abdc65a321b154633240371cd42a2e8c65eaddccbdd738f5b71291022fd69",
+  "scope": "actual anonymous Java override and latch declaration extracted from Android test; Java name binding only",
+  "exit_code": 0,
+  "stdout": "localEntered=0, inheritedEntered=1\nPASS actual fixture latch binding; one login, no Android runtime claim\n",
+  "stderr": ""
+}

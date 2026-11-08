@@ -1,0 +1,8 @@
+{
+  "source_file": "erp/apps/mobile-android/app/src/test/java/de/knaba/mobile/ErpConsoleActivityTest.java",
+  "source_sha256": "a2663d04a51cb32ba5041074819626735166b7eed6d21c6accc9843ba6622c77",
+  "scope": "actual anonymous Java override and latch declaration extracted from Android test; Java name binding only",
+  "exit_code": 1,
+  "stdout": "localEntered=1, inheritedEntered=0\n",
+  "stderr": "Exception in thread \"main\" java.lang.AssertionError: Actual anonymous override did not signal the latch awaited by the test\n\tat LatchBindingProof.main(LatchBindingProof.java:36)\n"
+}
