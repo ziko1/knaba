@@ -133,6 +133,25 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
             let next = try await client.refresh()
             guard ticket == epoch, identity != nil else { return }
             guard storedOrigin == ERPOrigin.validate(origin)?.absoluteString else { await signOut(ERPFailure.accessChanged); return }
+            // A refreshed session must never silently cross user or company boundaries.
+            guard let previous = identity?.actor,
+                  previous.userId == next.actor.userId,
+                  previous.companyId == next.actor.companyId else {
+                await signOut(ERPFailure.accessChanged)
+                return
+            }
+            let authorityChanged = Set(previous.roles) != Set(next.actor.roles) ||
+                Set(previous.permissions) != Set(next.actor.permissions) ||
+                Set(previous.siteIds ?? []) != Set(next.actor.siteIds ?? []) ||
+                Set(previous.customerIds ?? []) != Set(next.actor.customerIds ?? [])
+            if authorityChanged {
+                // Cached lists and pending commands were loaded under the old grants.
+                items = []; channels = []; messages = []; commands = []; dashboard = nil
+                selectedChannel = ""; messageText = ""; selection = "task"
+                pendingCommandName = nil; recoveryBlocked = false
+                selectedWorkspace = nil
+                epoch += 1
+            }
             identity = next
             updateWorkspaceRoute(next.actor)
             await reloadPendingState()
