@@ -145,12 +145,9 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 Set(previous.siteIds ?? []) != Set(next.actor.siteIds ?? []) ||
                 Set(previous.customerIds ?? []) != Set(next.actor.customerIds ?? [])
             if authorityChanged {
-                // Cached lists and pending commands were loaded under the old grants.
-                items = []; channels = []; messages = []; commands = []; dashboard = nil
-                selectedChannel = ""; messageText = ""; selection = "task"
-                pendingCommandName = nil; recoveryBlocked = false
-                selectedWorkspace = nil
-                epoch += 1
+                // Never reuse pending command state or cached data under changed scopes.
+                await signOut(ERPFailure.accessChanged)
+                return
             }
             identity = next
             updateWorkspaceRoute(next.actor)
