@@ -7,6 +7,8 @@ const base = process.env.KNABA_TEST_URL || 'https://kneba.vsp.rest';
 const locales = [
   {prefix:'',lang:'de'},
   {prefix:'/en',lang:'en'},
+  {prefix:'/pl',lang:'pl'},
+  {prefix:'/lt',lang:'lt'},
   {prefix:'/uk',lang:'uk'},
   {prefix:'/ru',lang:'ru'},
 ];
@@ -19,7 +21,9 @@ const slugs = [
   const browser = await chromium.launch({headless:true,executablePath:process.env.KNABA_CHROME_PATH,args:['--no-sandbox']});
   try {
     for (const {prefix,lang} of locales) {
-      const widths = lang === 'de' ? [320,390,768,1280] : [390];
+      const regional = lang === 'pl' || lang === 'lt';
+      const detailPrefix = regional ? '' : prefix;
+      const widths = lang === 'de' || regional ? [320,390,768,1280] : [390];
       for (const width of widths) {
         const page = await browser.newPage({
           viewport:{width,height:width===320?700:850},
@@ -35,7 +39,13 @@ const slugs = [
         const hrefs = await page.locator('[data-carousel-slide] .slide-link').evaluateAll(
           links=>links.map(link=>link.getAttribute('href'))
         );
-        assert.deepEqual(hrefs,slugs.map(slug=>prefix+'/bauleistungen/'+slug+'/'));
+        assert.deepEqual(hrefs,slugs.map(slug=>detailPrefix+'/bauleistungen/'+slug+'/'));
+        assert.equal(await page.locator('html').getAttribute('lang'),lang);
+        if (regional) {
+          const labels=await page.locator('.slide-link').allTextContents();
+          assert.ok(labels.every(label=>label.includes('(DE)')),'German article fallback is disclosed');
+          assert.equal(await page.locator('.slide-link[hreflang="de"]').count(),8);
+        }
         const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
         assert.ok(overflow<=1,'no horizontal page overflow on '+lang+' '+width+': '+overflow);
         assert.equal(await page.locator('[data-carousel-prev]').isDisabled(),true,'previous disabled on first slide');
@@ -51,7 +61,7 @@ const slugs = [
         await page.waitForFunction(()=>document.querySelector('[data-carousel-status]')?.textContent?.trim()==='08 / 08');
         assert.equal(await page.locator('[data-carousel-next]').isDisabled(),true,'next disabled at final slide');
         await page.locator('[data-carousel-slide]').last().locator('.slide-link').click();
-        await page.waitForURL(base + prefix + '/bauleistungen/zusatzarbeiten/',{timeout:15000});
+        await page.waitForURL(base + detailPrefix + '/bauleistungen/zusatzarbeiten/',{timeout:15000});
         assert.equal(await page.locator('h1').count()>0,true,'target page is real');
         assert.deepEqual(errors,[],'no browser JS page errors');
         console.log('CAROUSEL_PASS',lang,width,hrefs.length,'slides');
