@@ -1,0 +1,43 @@
+{
+  "at": "2026-11-14T14:16:40.983372+00:00",
+  "environments": {
+    "production": {
+      "artifact": "fe5a0cb6708b687b5ccfac4a4afbbea36cf1938562dddc15b7e3c3d086040739",
+      "artifact_verified": true,
+      "configuration_sha256": "1f55a0bdfc54944616bd658bb031b1145484f842f82140483db7a5a696a1b56c",
+      "health": {
+        "status": 200,
+        "robots": null,
+        "bytes": 7
+      },
+      "ready": {
+        "status": 200,
+        "robots": null,
+        "bytes": 5
+      }
+    },
+    "testing": {
+      "artifact": "198400c15ae399f2e28445c47e12be7534a15c2bfd3366ab66ffd034e3767af3",
+      "artifact_verified": true,
+      "configuration_sha256": "437aecbfde3cac793176cd89d5ca14f58ae59f072033e5c9c63466bb1312367a",
+      "health": {
+        "status": 200,
+        "robots": null,
+        "bytes": 7
+      },
+      "ready": {
+        "status": 503,
+        "robots": null,
+        "bytes": 25
+      }
+    }
+  },
+  "testing_gateway": {
+    "status": 401,
+    "robots": "noindex, nofollow, noarchive, nosnippet",
+    "bytes": 13
+  }
+}
+{"path": "/pl/", "status": 200, "bytes": 42576, "sha256": "934904fc7dfdcd171be90a07103fe50cbfaeca510774a7482f193dfd21aae685", "cache_control": "no-cache", "cf_cache_status": "DYNAMIC", "carousel_count": 1}
+{"path": "/lt/", "status": 200, "bytes": 42735, "sha256": "3070a03de136d41ab90a3b835ea9fecaed2787108f99b30c4406a089f326da0b", "cache_control": "no-cache", "cf_cache_status": "DYNAMIC", "carousel_count": 1}
+{"path": "/_astro/ServiceCarousel.DfwA5yFS.css", "status": 200, "bytes": 6206, "sha256": "b4aae922903a14331a5320eab5c05a3b37b914d61b7afe050d4f8af285948e36", "cache_control": "public, max-age=31536000, immutable", "cf_cache_status": "MISS", "carousel_count": null}
