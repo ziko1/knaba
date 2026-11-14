@@ -5,6 +5,7 @@ import ServiceFinder from './ServiceFinder.vue';
 import CleaningChecklist from './CleaningChecklist.svelte';
 import Catalogue from './Catalogue';
 import ConstructionServiceIcon from './ConstructionServiceIcon.astro';
+import ServiceCarousel from './ServiceCarousel.astro';
 import {company} from '../data/company';
 import {constructionOffers} from '../data/construction-offers';
 import {regionalCopy} from '../data/regional-public-copy';
@@ -14,11 +15,14 @@ const t=regionalCopy[locale],prefix='/'+locale;
 const title=t.titles[page]+' | KnaBa Berlin';
 ---
 <Layout lang={locale} title={title} description={page==='contact'?t.contactIntro:t.intro} hasInlinePhone={page==='contact'} hasInlineEmail={page==='contact'}>
-  <section class="container regional-hero">
+  <section class:list={['container', 'regional-hero', {'regional-home-hero': page==='home'}]}>
+    <div class="regional-hero-copy">
     <p class="eyebrow">{t.kicker}</p>
     <h1>{page==='home'?<>{t.hero}<br/><span>{t.highlight}</span></>:t.titles[page]}</h1>
     <p class="regional-lead">{page==='contact'?t.contactIntro:page==='company'?t.about:t.intro}</p>
     {page!=='contact' && <div class="regional-actions"><a class="button button-dark" href={prefix+'/kontakt/'}>{t.request} ↗</a>{page==='home'&&<a class="button button-outline" href={prefix+'/leistungen/'}>{t.services} →</a>}</div>}
+    </div>
+    {page==='home' && <ServiceCarousel locale={locale} />}
   </section>
   {(page==='home'||page==='services')&&<section class="container regional-section" aria-labelledby="regional-services">
     <h2 id="regional-services">{t.titles.services}</h2>
@@ -36,5 +40,9 @@ const title=t.titles[page]+' | KnaBa Berlin';
   {(page==='home'||page==='faq')&&<section class="container regional-section regional-faq"><h2>{t.titles.faq}</h2>{t.faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}</section>}
 </Layout>
 <style>
+.regional-home-hero{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);align-items:center;gap:clamp(26px,4.5vw,70px)}
+.regional-hero-copy{min-width:0}
+.regional-hero.regional-home-hero h1{font-size:clamp(34px,5.5vw,70px);overflow-wrap:break-word}
+@media(max-width:880px){.regional-home-hero{grid-template-columns:1fr}}
 .regional-hero{padding-block:clamp(40px,7vw,90px)}.regional-hero h1{font-size:clamp(34px,5.5vw,76px);line-height:1.12;letter-spacing:-.04em;max-width:1000px}.regional-hero h1 span{color:#087d83}.regional-lead{max-width:760px;font-size:clamp(17px,2vw,22px);line-height:1.65}.regional-actions{display:flex;flex-wrap:wrap;gap:14px;margin-block:24px}.regional-section{padding-block:30px 55px}.regional-section h2{font-size:clamp(27px,3.5vw,46px);line-height:1.2;max-width:900px}.regional-section>p{max-width:800px;line-height:1.7}.regional-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:28px 0 45px}.regional-card{display:flex;flex-direction:column;gap:14px;padding:26px;border-radius:20px;border:1px solid #c7dfd4;background:#eff6ed;min-width:0}.regional-card>svg{width:36px;height:36px;color:#087d83}.regional-card h3{font-size:23px;line-height:1.2;margin:0}.regional-card p{line-height:1.7;margin:0}.regional-card a{font-size:14px;font-weight:700;line-height:1.5;text-decoration:underline;min-height:30px}.regional-highlight{background:#ddf2e5}.regional-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;padding:20px 20px 20px 25px}.regional-steps li{padding:14px;line-height:1.7;font-weight:650}.regional-checks{display:grid;gap:12px;padding-left:22px;line-height:1.6}.regional-contact{display:grid;grid-template-columns:1fr 1.5fr;gap:40px}.regional-contact dl{line-height:1.7}.regional-contact dt{font-weight:700;margin-top:18px}.regional-contact dd{margin-left:0}.regional-contact a{text-decoration:underline}.regional-account{border-top:1px solid #d7e4da}.regional-faq details{border-bottom:1px solid #c7d9d0;padding:20px 0}.regional-faq summary{font-weight:750;cursor:pointer;line-height:1.5}.regional-faq details p{line-height:1.7;max-width:860px}.regional-section a:focus-visible{outline:3px solid #087d83;outline-offset:4px}@media(max-width:820px){.regional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.regional-contact,.regional-steps{grid-template-columns:1fr}}@media(max-width:520px){.regional-grid{grid-template-columns:1fr}.regional-actions>.button{width:100%;justify-content:space-between}.regional-hero h1{overflow-wrap:anywhere}.regional-card{padding:22px}}
 </style>

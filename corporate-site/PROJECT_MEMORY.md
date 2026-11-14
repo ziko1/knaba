@@ -1,5 +1,13 @@
 # KnaBa corporate-site memory
 
+## 14.11.2026 — PL/LT carousel опублікований
+
+IMG-04/05 закриті у вузькому scope: production artifact `fe5a0cb6708b687b5ccfac4a4afbbea36cf1938562dddc15b7e3c3d086040739`, рівно 3 static files поверх verified a503 baseline. Live browser 14 scenarios PASS (без overrides), health/ready200, backup integrity ok, rollback prepared. [Докази та межі](docs/evidence/pl-lt-carousel-20261114/live/REPORT_UK.md). Source PR146 `799e8b8a`; повний PR141 не розгортався. Фізичний Opera/device NOT_RUN.
+
+## 14.11.2026 — картинки на польській і литовській головних
+
+IMG-01–03: спільний carousel із 8 наявними ілюстраціями підключений до PL/LT home, перекладені controls/ARIA/alt, німецькі detail links явно позначені (DE). Candidate source `bc919ecba405c71b22798f62e8023ec6aaa5c9f7` на PR141 base; [scope, докази й блокери](docs/evidence/pl-lt-carousel-20261114/REPORT_UK.md). Перевірки build161 HTML,749 Vitest+92 Node,406 VPS,36 root; source review незалежний. CSS feature budget40.5KiB обґрунтований measured317B aggregate increase. IMG-04 browser-after BLOCKED_ENV; IMG-05 deployment BLOCKED_ACCESS через порожній SentinelX allowlist. Production не змінено. Застосовано ai-team-orchestrator та ecc-frontend-mobile/i18n-sync у вузькому scope; no external paid providers. Наступне: preview interaction gate, точний server source/artifact і штатний release path.
+
 ## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
 
 Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../docs/unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.

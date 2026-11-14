@@ -1,0 +1,34 @@
+{
+  "build.log": {
+    "sha256": "dab3ffc22b917695ab77bc41aaf2270654a3908d39c745575238cbb871797220",
+    "bytes": 12995
+  },
+  "check.log": {
+    "sha256": "d094fd5ea55a89479bd66a6a72963dc44ce8808122a5d1417233f8834966e062",
+    "bytes": 13747
+  },
+  "site-tests.log": {
+    "sha256": "d04f2e4b04fc540320257eaf9769504a2a43d11f3df47b545d249aeeb57fc3fe",
+    "bytes": 9558
+  },
+  "vps-tests.log": {
+    "sha256": "2011020df6a923a40fe3a23533389f7bd6398dc2edf12ff4de4ec58e83f90b9e",
+    "bytes": 40386
+  },
+  "root-tests.log": {
+    "sha256": "6f04bb46ccc88a3a0b5f4806f041845920003496cc9744d99284fe479b421f6c",
+    "bytes": 3208
+  },
+  "source-snapshot.log": {
+    "sha256": "21bdee35a3bba98f7b82ec3a1446480dedf016d6e46bd257025c9d6dde1ff09a",
+    "bytes": 409
+  },
+  "verify-build.log": {
+    "sha256": "568fa109beb4db74f32903dc12523d0dec15991c5ece432f2da501b437365f69",
+    "bytes": 967
+  },
+  "verify-build-official.log": {
+    "sha256": "61cc69c06242d414cde51281e418bf2ffefcf34f281999a0681699ac51b0d393",
+    "bytes": 8426
+  }
+}

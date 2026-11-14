@@ -1,12 +1,14 @@
 ---
 import {getServiceCarouselSlides} from '../lib/service-carousel';
-import type {ConstructionLocale} from '../data/construction-offers';
+import type {PublishedSiteLocale} from '../lib/locale-catalog';
 
-const {locale = 'de'} = Astro.props as {locale: ConstructionLocale};
+const {locale = 'de'} = Astro.props as {locale: PublishedSiteLocale};
 const slides = getServiceCarouselSlides(locale);
 const ui = {
   de: {carousel:'Karussell der Bauleistungen',slide:'Folie',previous:'Vorherige Leistung',next:'Nächste Leistung',show:'Leistung anzeigen',details:'Leistung ansehen',core:'BAU + CLEAN',extra:'AUF ANFRAGE',hint:'Wischen oder mit den Pfeiltasten navigieren',image:'Illustration einer Reinigungskraft auf der Baustelle'},
   en: {carousel:'Construction service carousel',slide:'Slide',previous:'Previous service',next:'Next service',show:'Show service',details:'View service',core:'BUILD + CLEAN',extra:'BY ENQUIRY',hint:'Swipe or use the arrow keys to browse',image:'Illustration of a worker cleaning a construction site'},
+  pl: {carousel:'Karuzela usług budowlanych',slide:'Slajd',previous:'Poprzednia usługa',next:'Następna usługa',show:'Pokaż usługę',details:'Szczegóły usługi (DE)',core:'BUDOWA + SPRZĄTANIE',extra:'NA ZAPYTANIE',hint:'Przesuń palcem lub użyj klawiszy strzałek',image:'Ilustracja pracownika sprzątającego plac budowy'},
+  lt: {carousel:'Statybų paslaugų karuselė',slide:'Skaidrė',previous:'Ankstesnė paslauga',next:'Kita paslauga',show:'Rodyti paslaugą',details:'Paslaugos aprašymas (DE)',core:'STATYBA + VALYMAS',extra:'PAGAL UŽKLAUSĄ',hint:'Braukite pirštu arba naudokite rodyklių klavišus',image:'Statybvietę valančio darbuotojo iliustracija'},
   uk: {carousel:'Слайдер будівельних послуг',slide:'Слайд',previous:'Попередня послуга',next:'Наступна послуга',show:'Показати послугу',details:'Переглянути послугу',core:'БУДІВНИЦТВО + КЛІНІНГ',extra:'ЗА ЗАПИТОМ',hint:'Гортайте пальцем або клавішами зі стрілками',image:'Ілюстрація прибирання будівельного майданчика'},
   ru: {carousel:'Слайдер строительных услуг',slide:'Слайд',previous:'Предыдущая услуга',next:'Следующая услуга',show:'Показать услугу',details:'Подробнее об услуге',core:'СТРОЙКА + КЛИНИНГ',extra:'ПО ЗАПРОСУ',hint:'Листайте пальцем или клавишами со стрелками',image:'Иллюстрация уборки строительной площадки'},
 }[locale];
@@ -31,7 +33,7 @@ const ui = {
           <span class="slide-subline">BERLIN & BRANDENBURG</span>
           <h2>{slide.title}</h2>
           <p>{slide.description}</p>
-          <a class="slide-link" href={slide.href}>
+          <a class="slide-link" href={slide.href} hreflang={slide.hrefLang}>
             {ui.details}<span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -201,21 +203,14 @@ const ui = {
     .slide-body h2 { font-size:clamp(20px,5.4vw,25px); }
     .slide-body p { font-size:12px; line-height:1.5; }
     .slide-overline { font-size:10px; }
-    .carousel-controls { justify-content:flex-start; padding-right:54px; gap:6px; }
-    .carousel-dots { gap:0; }
-    .carousel-dot { min-width:13px; padding-inline:2px; }
     .carousel-dot[aria-current='true']::before { width:15px; }
-    .carousel-counter { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
-  }
-  /* Keep all eight touch targets and the live position readable on narrow screens.
-     The separate dot row leaves room for the existing 44px navigation arrows. */
-  @media (max-width:610px) {
-    .carousel-controls { display:grid; grid-template-columns:44px minmax(0,1fr) 44px; gap:6px 12px; padding:17px 8px 6px; }
+    /* Separate dot row keeps all eight targets and the position readable. */
+    .carousel-controls { display:grid; justify-content:flex-start; grid-template-columns:44px minmax(0,1fr) 44px; gap:6px 12px; padding:17px 8px 6px; }
     [data-carousel-prev] { grid-column:1; grid-row:1; }
     [data-carousel-next] { grid-column:3; grid-row:1; }
     .carousel-dots { grid-column:1 / -1; grid-row:2; justify-self:center; gap:4px; max-width:100%; }
     .carousel-dot { width:26px; min-width:26px; padding-inline:0; }
-    .carousel-counter { grid-column:2; grid-row:1; position:static; width:auto; height:auto; margin:0; overflow:visible; clip-path:none; text-align:center; font-size:12px; }
+    .carousel-counter { grid-column:2; grid-row:1; margin:0; text-align:center; font-size:12px; }
   }
   @media (prefers-reduced-motion:reduce) {
     .carousel-dot::before { transition:none; }
