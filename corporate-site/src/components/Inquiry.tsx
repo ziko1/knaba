@@ -222,7 +222,7 @@ export default function Inquiry(props: { locale?: PublicLocale } = {}) {
       queueMicrotask(() => heading?.focus());
     } catch (cause) {
       if (activeRequest !== controller) return;
-      setError(cause instanceof Error && cause.name !== "AbortError" ? (locale() === "ru" && (cause instanceof TypeError || cause instanceof SyntaxError) ? t("Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.") : t(cause.message)) : t("Die Verbindung hat zu lange gedauert. Sie können mit derselben Anfrage erneut versuchen oder uns direkt kontaktieren."));
+      setError(cause instanceof Error && cause.name !== "AbortError" ? (cause instanceof TypeError || cause instanceof SyntaxError ? t("Ihre Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.") : t(cause.message)) : t("Die Verbindung hat zu lange gedauert. Sie können mit derselben Anfrage erneut versuchen oder uns direkt kontaktieren."));
     } finally {
       clearTimeout(timer);
       if (activeRequest === controller) { activeRequest = null; setSending(false); }

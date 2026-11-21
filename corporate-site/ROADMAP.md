@@ -1,5 +1,13 @@
 # KnaBa corporate-site roadmap
 
+## 14.11.2026 — PL/LT carousel опублікований
+
+IMG-04/05 закриті у вузькому scope: production artifact `fe5a0cb6708b687b5ccfac4a4afbbea36cf1938562dddc15b7e3c3d086040739`, рівно 3 static files поверх verified a503 baseline. Live browser 14 scenarios PASS (без overrides), health/ready200, backup integrity ok, rollback prepared. [Докази та межі](docs/evidence/pl-lt-carousel-20261114/live/REPORT_UK.md). Source PR146 `799e8b8a`; повний PR141 не розгортався. Фізичний Opera/device NOT_RUN.
+
+## 14.11.2026 — PL/LT carousel
+
+IMG-01–03 SOURCE PASS: блок8 ілюстрацій і локалізація PL/LT, реальні detail links; [звіт](docs/evidence/pl-lt-carousel-20261114/REPORT_UK.md). IMG-04 browser-after BLOCKED_ENV; IMG-05 server publication BLOCKED_ACCESS. Candidate `bc919ecba405c71b22798f62e8023ec6aaa5c9f7`, live scope не закритий. Продовжити з доступного preview та read-only звірки server artifact перед rollout; не замінювати інші незавершені завдання.
+
 ## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
 
 Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../docs/unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.

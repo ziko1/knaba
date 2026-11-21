@@ -6,7 +6,7 @@
   "indexMode": "OFFICIAL",
   "externalImageScriptRequests": "NONE_IN_HTML",
   "externalPartnerImagesInMarkup": 0,
-  "cssGzip": 40930,
+  "cssGzip": 41247,
   "allEmittedJsGzip": 225210,
   "assets": [
     {
@@ -70,9 +70,9 @@
       "gzip": 1987
     },
     {
-      "name": "_astro/ConstructionHome.CgZrnpLX.css",
-      "bytes": 16615,
-      "gzip": 3668
+      "name": "_astro/ConstructionHome.CHQMZZXd.css",
+      "bytes": 9989,
+      "gzip": 2290
     },
     {
       "name": "_astro/ConstructionInfo.CEmfH-x0.css",
@@ -143,6 +143,11 @@
       "name": "_astro/PublicReviews.D5UQsOGV.js",
       "bytes": 8681,
       "gzip": 3331
+    },
+    {
+      "name": "_astro/ServiceCarousel.DfwA5yFS.css",
+      "bytes": 6206,
+      "gzip": 1695
     },
     {
       "name": "_astro/ServiceFinder.Uu-UihBX.js",
@@ -345,7 +350,7 @@
       "gzip": 190
     }
   ],
-  "artifactSha256": "8e9934e880f3fd489f40c1f3900bd72e4ec009c944fa828495bbe8eb0aa4f2f7",
+  "artifactSha256": "09fb3181e1a54b9d6187e97e546eefe6d5bfe2910652efd581d4214cde33efb5",
   "fieldWebVitals": "NOT_RUN",
   "networkTransfer": "NOT_MEASURED"
 }

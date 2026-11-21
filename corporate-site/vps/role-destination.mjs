@@ -32,7 +32,7 @@ export function roleDestination(role,requested='',language='de'){
   if(!target)return home.pathname+home.search;
   const path=target.pathname.replace(/\/+$/,'')||'/';
   if(path==='/konto'||path==='/ru/konto'){
-    for(const key of ['tab','status','q','conversation']){
+    for(const key of ['tab','status','q','conversation','request']){
       if(target.searchParams.has(key))home.searchParams.set(key,target.searchParams.get(key));
     }
     if(manager&&target.searchParams.has('tab'))home.searchParams.set('view','operations');
@@ -42,7 +42,7 @@ export function roleDestination(role,requested='',language='de'){
     const available=role==='owner'?['overview','operations','crm','messages','studio']:['overview','operations','crm'];
     const view=target.searchParams.get('view');
     if(available.includes(view))home.searchParams.set('view',view);
-    for(const key of ['tab','status','q','conversation']){
+    for(const key of ['tab','status','q','conversation','request']){
       if(target.searchParams.has(key))home.searchParams.set(key,target.searchParams.get(key));
     }
     return home.pathname+home.search;

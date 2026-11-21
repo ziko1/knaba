@@ -24,7 +24,7 @@ const erp = erpConsoleUrl(import.meta.env.KNABA_ERP_PUBLIC_ORIGIN);
       <h2>{words.subtitle}</h2>
       <p>{words.intro}</p>
       <div class="knaba-app-actions">
-        <a data-knaba-app-account class="button button-dark" href={"/konto/?lang="+lang}>{words.open} ↗</a>
+        <a data-knaba-app-account data-admin-href={"/admin/?lang="+lang} class="button button-dark" href={"/konto/?lang="+lang}>{words.open} ↗</a>
         <a class="button knaba-app-secondary" href={prefix+'/planer/'}>{words.order}</a>
         <a class="knaba-app-textlink" href={prefix+'/kontakt/'}>{words.contact} ↗</a>
       </div>
@@ -62,11 +62,13 @@ const erp = erpConsoleUrl(import.meta.env.KNABA_ERP_PUBLIC_ORIGIN);
       account.addEventListener('click',async event=>{
         event.preventDefault();
         account.setAttribute('aria-busy','true');
+        const portalTarget = account.getAttribute('href') || '/konto/';
+        const adminTarget = account.dataset.adminHref || '/admin/';
         try{
           const response = await fetch('/api/portal/session',{credentials:'same-origin',cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(8000)});
           const role = response.ok ? (await response.json() as {role?:string}).role : '';
-          location.assign(role==='owner'||role==='admin' ? '/admin/' : '/konto/');
-        }catch{location.assign('/konto/');}
+          location.assign(role==='owner'||role==='admin' ? adminTarget : portalTarget);
+        }catch{location.assign(portalTarget);}
       });
     }
     const install = document.querySelector<HTMLButtonElement>('[data-knaba-install]');

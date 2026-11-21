@@ -26,10 +26,12 @@ export function workspaceHref(current: string, values: Record<string, string | n
 
 /** Accept a same-origin path from a trusted API without allowing open redirects. */
 export function safeWorkspaceRedirect(value: unknown): string | null {
-  if (typeof value !== 'string' || value.length > 300 || /[\\\u0000-\u001f]/.test(value)) return null;
-  const url = new URL(value, 'https://knaba.invalid');
-  if (!value.startsWith('/') || value.startsWith('//') || url.origin !== 'https://knaba.invalid') return null;
-  return ['/admin/', '/konto/', '/ru/konto/'].includes(url.pathname) ? url.pathname + url.search : null;
+  if (typeof value !== 'string' || value.length > 300 || !value.startsWith('/') || value.startsWith('//') || /[\\\u0000-\u001f]/.test(value)) return null;
+  try {
+    const url = new URL(value, 'https://knaba.invalid');
+    if (url.origin !== 'https://knaba.invalid') return null;
+    return ['/admin/', '/konto/', '/ru/konto/'].includes(url.pathname) ? url.pathname + url.search : null;
+  } catch { return null; }
 }
 
 /** Keep local history inside the mounted cabinet; its document excludes Astro's page router. */

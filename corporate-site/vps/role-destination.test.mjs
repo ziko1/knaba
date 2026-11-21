@@ -23,3 +23,24 @@ test('untrusted redirects never choose a foreign origin, API, auth loop or highe
   }
   assert.equal(roleDestination('worker','/konto/?lang=bogus'),'/konto/?lang=de');
 });
+
+test('sign-in resumes the selected request conversation without copying unknown authority fields',()=>{
+  const target='/konto/?lang=pl&tab=conversations&request=request-123&role=owner&tenant=other&next=https://evil.example';
+  for(const role of ['client','partner','worker','bauleiter','pending','suspended']){
+    assert.equal(roleDestination(role,target),'/konto/?lang=pl&tab=conversations&request=request-123');
+  }
+  for(const role of ['owner','admin']){
+    assert.equal(roleDestination(role,target),'/admin/?lang=pl&tab=conversations&request=request-123&view=operations');
+  }
+});
+
+test('management request context survives sign-in only in the role-authorized workspace',()=>{
+  const target='/admin/?lang=lt&view=operations&tab=conversations&request=request-456&role=owner&tenant=other';
+  for(const role of ['owner','admin']){
+    assert.equal(roleDestination(role,target),'/admin/?lang=lt&view=operations&tab=conversations&request=request-456');
+  }
+  for(const role of ['client','partner','worker','bauleiter','pending','suspended']){
+    assert.equal(roleDestination(role,target),'/konto/?lang=lt');
+  }
+  assert.equal(roleDestination('admin','/admin/?lang=lt&view=studio&request=request-456'),'/admin/?lang=lt&request=request-456');
+});

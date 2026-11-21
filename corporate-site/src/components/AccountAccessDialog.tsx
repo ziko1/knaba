@@ -116,7 +116,9 @@ export default function AccountAccessDialog(props: {
     if (action === 'invite' && fields.get('password') !== fields.get('password_confirm')) { revealError(t().matches); return; }
     if (action === 'login') {
       for (const key of ['email','password']) values.set(key, String(fields.get(key) ?? ''));
-      values.set('return_to', `/konto/?lang=${props.locale}`);
+      const destination = new URL(safeWorkspaceRedirect(props.returnTo) ?? '/konto/', 'https://knaba.invalid');
+      destination.searchParams.set('lang', props.locale);
+      values.set('return_to', destination.pathname + destination.search);
     } else if (action === 'request') {
       for (const key of ['name','email','intent','privacy','website']) values.set(key, String(fields.get(key) ?? ''));
     } else if (action === 'invite') {

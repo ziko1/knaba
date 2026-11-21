@@ -34,6 +34,10 @@ describe('role workspace navigation', () => {
     }
   });
 
+  it.each(['//[', 'https://[', '//[::invalid', 'http://[::1'])('rejects malformed URL input without throwing: %s', value => {
+    expect(safeWorkspaceRedirect(value)).toBeNull();
+  });
+
   it('restores shell and embedded tabs together, and protects drafts during page navigation', () => {
     const browser = new EventTarget();
     const document = new EventTarget();

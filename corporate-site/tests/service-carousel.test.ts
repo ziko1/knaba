@@ -1,24 +1,43 @@
 import {describe, expect, it} from 'vitest';
 import {constructionOffers} from '../src/data/construction-offers';
-import type {ConstructionLocale} from '../src/data/construction-offers';
+import {PUBLISHED_SITE_LOCALES} from '../src/lib/locale-catalog';
+import {publishedPublicPaths} from '../src/lib/site-i18n';
 import {getServiceCarouselSlides} from '../src/lib/service-carousel';
 
 describe('KnaBa service hero carousel', () => {
-  const locales: ConstructionLocale[] = ['de', 'en', 'uk', 'ru'];
+  const locales = PUBLISHED_SITE_LOCALES;
 
   it.each(locales)('includes all eight published services and working locale paths: %s', locale => {
     const slides = getServiceCarouselSlides(locale);
-    const prefix = locale === 'de' ? '' : `/${locale}`;
+    const detailLocale = locale === 'pl' || locale === 'lt' ? 'de' : locale;
+    const prefix = detailLocale === 'de' ? '' : `/${detailLocale}`;
     expect(slides).toHaveLength(constructionOffers.length);
     expect(slides.map(slide => slide.slug)).toEqual(constructionOffers.map(offer => offer.slug));
     expect(slides.map(slide => slide.number)).toEqual(['01','02','03','04','05','06','07','08']);
     expect(new Set(slides.map(slide => slide.href)).size).toBe(slides.length);
     for (const slide of slides) {
       expect(slide.href).toBe(`${prefix}/bauleistungen/${slide.slug}/`);
+      expect(slide.hrefLang).toBe(detailLocale);
+      expect(publishedPublicPaths(detailLocale)).toContain(slide.href);
       expect(slide.title).toBeTruthy();
       expect(slide.description.length).toBeGreaterThan(15);
     }
     expect(slides.every(slide => !slide.href.includes('bueroreinigung'))).toBe(true);
+  });
+
+  it.each([
+    ['pl', 'Sprzątanie budowlane', 'zapytanie'],
+    ['lt', 'Statybų valymas', 'užklausa'],
+  ] as const)('uses translated regional copy without inventing article routes: %s', (locale, title, enquiry) => {
+    const slides = getServiceCarouselSlides(locale);
+    const german = getServiceCarouselSlides('de');
+    expect(slides[0].title).toBe(title);
+    for (const [index, slide] of slides.entries()) {
+      expect(slide.title).not.toBe(german[index].title);
+      expect(slide.description).not.toBe(german[index].description);
+      expect(slide.hrefLang).toBe('de');
+      if (!slide.core) expect(slide.title).toContain(enquiry);
+    }
   });
 
   it('keeps special building work enquiry-only and in the original catalogue order', () => {

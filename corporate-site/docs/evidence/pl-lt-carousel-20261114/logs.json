@@ -1,0 +1,42 @@
+{
+  "check.log.gz": {
+    "uncompressedSha256": "06d8032ae87a8ea1d3c5aa28fd156b3bf03aa2e3d10863b155e8dbaf1a1cef29",
+    "bytes": 13823,
+    "gzipSha256": "bb3ab331b6b9c593da435ae760b83a8e5da10405b355adcaf22473ebc4f31207"
+  },
+  "site-tests.log.gz": {
+    "uncompressedSha256": "9de989f7f1662308816fff9d431348dcb290ade590077eafd95e4125a937ec84",
+    "bytes": 9551,
+    "gzipSha256": "e8b53540ff6cd6f7a4bf35b680e3dc3a4931837c290a6705b187d094ef3664c9"
+  },
+  "root-tests.log.gz": {
+    "uncompressedSha256": "95c9dd706109c8f34f4b2ccfc432490396126d0004b5adad2ad1b3031a6eb8dc",
+    "bytes": 3212,
+    "gzipSha256": "212106893ac34ddf3eef27793faffa0567276625dbff145d044b32866ef44613"
+  },
+  "vps-tests.log.gz": {
+    "uncompressedSha256": "c6ec4b5fc19f57e5b89cea900fe3548812e2a750c65acc46642d18deaded2fce",
+    "bytes": 90127,
+    "gzipSha256": "d866d7263e451aaa2b77fb6134b5ff291fa9e4809d9cd77056715c2a34ff4b59"
+  },
+  "vps-tests-final.log.gz": {
+    "uncompressedSha256": "a473fe050da4968d8b27008fb1d14e55116e0992a19fdf478f2145f19643021e",
+    "bytes": 40353,
+    "gzipSha256": "7a0a5e490d677bb018785cc510d0b3265196d5c3e9f726f1d3534afc18820642"
+  },
+  "build-official.log.gz": {
+    "uncompressedSha256": "5d7b13206735382403f996e55a465c8dff56ab79215b28dbc2d569cb2d415ca2",
+    "bytes": 12924,
+    "gzipSha256": "b183209005bcdf12e2d9661c6d6c02a53a506ee014b0b771e3b957786599d1c7"
+  },
+  "verify-official.log.gz": {
+    "uncompressedSha256": "6e5e0feb6121e0928fa8448bcb384b0d3c1c618c22e07035b4259399b72ad088",
+    "bytes": 8426,
+    "gzipSha256": "d5c09b4cd2ed8c6ae7231569b8a2b2d37a83ed0878e0fa162297d7e721ffe372"
+  },
+  "browser-gate.log.gz": {
+    "uncompressedSha256": "8178c9898622f610dcfff65b14558d54a2e569e8e33761031a35cbe629e38ecf",
+    "bytes": 5108,
+    "gzipSha256": "b6808f3f6b3d95c8697b828f4f27842e3bb9434c623bc077cf22b7841b757980"
+  }
+}

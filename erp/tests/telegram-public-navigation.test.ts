@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {telegramPublicIntent,telegramPublicMenu,telegramRequestedLocale} from '../packages/integrations/telegram-public-navigation.ts';
+import {telegramPublicIntent,telegramPublicMenu,telegramPublicReply,telegramRequestedLocale} from '../packages/integrations/telegram-public-navigation.ts';
 
 describe('Telegram public-only menu and registration interest',()=>{
   it.each([
@@ -41,4 +41,15 @@ describe('Telegram explicit language switch does not imply channel consent',()=>
      expect(telegramRequestedLocale(text)).toBeUndefined();
      expect(telegramPublicIntent(text)).toBeUndefined();
    });
+});
+
+
+describe('Public replies do not falsely claim that requests were persisted or delivered',()=>{
+  it.each(['DE','UK','RU','EN','PL','LT'] as const)('uses actionable portal links for %s',language=>{
+    for(const intent of ['PARTNER','REGISTER','HUMAN'] as const){
+      const text=telegramPublicReply(intent,language,'https://kneba.vsp.rest/');
+      expect(text).toContain('https://kneba.vsp.rest/');
+      expect(text).not.toMatch(/request received|queued for a human|збережено|зафіксовано|передано для опрацювання|принята для проверки|записано|передано оператору|erfasst|eingegangen|wird geprüft|zapisano|czeka na osobistą|užregistruota|laukia žmogaus/i);
+    }
+  });
 });
