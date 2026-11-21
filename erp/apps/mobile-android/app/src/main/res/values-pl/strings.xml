@@ -312,4 +312,10 @@
     <string name="erp_role_guest">Gość</string>
     <string name="erp_role_service_account">Konto usługi</string>
     <string name="erp_role_unknown">Nieznana rola</string>
+    <string name="erp_role_partner">Partner</string>
+    <string name="erp_role_bauleiter">Kierownik budowy</string>
+    <string name="erp_workspace_staff">Panel specjalisty</string>
+    <string name="erp_workspace_choose">Wybierz panel</string>
+    <string name="erp_workspace_switch">Zmień panel</string>
+    <string name="erp_workspace_denied">To konto nie ma dostępu do żadnego panelu.</string>
 </resources>

@@ -53,4 +53,21 @@ public class RoleWorkspaceRoutingTest {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of("BAULEITER"), List.of("task.read")));
     }
+    @Test public void canonicalSupervisorsCanUseTheirOwnServerGrants() {
+        var result = new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.BAULEITER);
+        assertEquals(result, RoleWorkspaceRouting.INSTANCE.route(List.of("INTERNAL_BAULEITER"), List.of("task.assign")));
+        assertEquals(result, RoleWorkspaceRouting.INSTANCE.route(List.of("EXTERNAL_BAULEITER"), List.of("customer.portal")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("INTERNAL_BAULEITER"), List.of("customer.portal")));
+    }
+
+    @Test public void specialistRolesRequireTheirOwnGrantsAndShareOneStaffWorkspace() {
+        var result = new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.STAFF);
+        assertEquals(result, RoleWorkspaceRouting.INSTANCE.route(
+            List.of("ACCOUNTANT", "STOREKEEPER"), List.of("finance.accountant", "inventory.read")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("STOREKEEPER"), List.of("finance.accountant")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("GUEST", "SERVICE_ACCOUNT"), List.of("*")));
+    }
 }

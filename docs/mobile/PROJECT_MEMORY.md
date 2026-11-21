@@ -1,5 +1,10 @@
 # KNABA Mobile — module memory
 
+## 21.11.2026 — продовження задачі #142
+
+На старті обидві платформи вже містили маршрутизацію кабінетів у PR #143 на `057e9a78e1f875c6eb52bdc8b44011892aad4904`. Базові native та repository CI завершилися успішно. Перевірка точки входу виявила доступ до робочого каталогу або завантаження огляду до вибору кабінету. Поточний інкремент перевіряє поведінку з обмеженими правами і зберігає доступ для відомих внутрішніх ролей. [План](../unified/CONTINUATION_2026-11-21_UK.md) · [Промт](WORKSPACE_ENTRY_PROMPT_2026-11-21_UK.md)
+
+
 ## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
 
 Чинна інтеграція на131e582 додає сумісні акаунт/Lead Agent/поїздки/native0.6.0 build10 та перевірки backup/migration. [Точний scope і незакриті acceptance](../unified/SERVER_INTEGRATION_2026-11-08_UK.md). Native signing/device, full SSO, provider/browser/live acceptance не виводяться з source/tests. Combined exact-source acceptance і серверна доставка фіксуються окремими receipts; activation наразі BLOCKED_ACCESS.

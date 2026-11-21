@@ -633,7 +633,7 @@ public class ErpConsoleActivityTest {
         }
         @Override JSONObject login(String email, String password, String otp) throws Exception { return new JSONObject(identity.toString()); }
         @Override JSONObject me() throws Exception { return new JSONObject(identity.toString()); }
-        @Override JSONObject dashboard() throws Exception { return new JSONObject().put("counts", new JSONObject()); }
+        @Override JSONObject dashboard() throws Exception { dashboardReads.incrementAndGet(); return new JSONObject().put("counts", new JSONObject()); }
         @Override JSONArray entities(String kind) throws Exception {
             requestedKinds.add(kind);
             return new JSONArray().put(new JSONObject().put("id", "synthetic-" + kind).put("kind", kind).put("version", 7)
@@ -732,6 +732,67 @@ public class ErpConsoleActivityTest {
         assertEquals("synthetic-crew_assignment", transport.submitted.getString("id"));
         assertEquals("synthetic-employee-42", transport.submitted.getString("employeeId"));
         assertEquals(3, transport.submitted.getInt("scheduleVersion")); assertEquals(Integer.valueOf(7), transport.submittedVersion);
+    }
+
+    @Test public void unknownRoleWithWildcardCannotEnterDashboardOrDisplayPendingPayload() throws Exception {
+        launch();
+        RoleTransport transport = new RoleTransport("UNKNOWN", "*") {
+            @Override boolean hasPendingCommand() { return true; }
+            @Override JSONObject pendingCommand() throws Exception {
+                return new JSONObject().put("name", "task.worklog").put("input", new JSONObject().put("note", "private fixture"))
+                        .put("idempotency_key", "original-request");
+            }
+        };
+        signInFixture(transport);
+        assertTrue(text().contains(activity.getString(R.string.erp_workspace_denied)));
+        assertFalse(hasButton(R.string.erp_actions));
+        assertFalse(hasButton(R.string.erp_time_tools));
+        assertFalse(hasButton(R.string.erp_review_pending));
+        assertFalse(hasButton(R.string.erp_retry_pending));
+        assertFalse(text().contains("private fixture"));
+        controller.recreate(); activity = controller.get(); settled(); advance(120);
+        assertTrue(text().contains(activity.getString(R.string.erp_workspace_denied)));
+        assertFalse(hasButton(R.string.erp_retry_pending));
+        assertEquals(0, transport.dashboardReads.get());
+        assertTrue(transport.requestedKinds.isEmpty());
+        click(R.string.erp_logout);
+        ShadowAlertDialog.getLatestAlertDialog().getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+        assertTrue(hasButton(R.string.erp_sign_in));
+    }
+
+    @Test public void multiRoleAccountMustChooseBeforeReadsAndCanSwitchWithoutOldModules() throws Exception {
+        launch();
+        RoleTransport transport = new RoleTransport("CLIENT", "customer.portal", "quote.read", "task.read");
+        transport.identity.getJSONObject("actor").getJSONArray("roles").put("EMPLOYEE");
+        signInFixture(transport);
+        assertTrue(text().contains(activity.getString(R.string.erp_workspace_choose)));
+        assertTrue(hasButton(R.string.erp_role_client));
+        assertTrue(hasButton(R.string.erp_role_employee));
+        assertFalse(hasButton(R.string.erp_actions));
+        assertFalse(hasButton(R.string.erp_time_tools));
+        assertFalse(hasButton(R.string.erp_tasks));
+        assertFalse(hasButton(R.string.erp_quotes));
+        advance(120);
+        assertEquals(0, transport.dashboardReads.get());
+
+        click(R.string.erp_role_employee); settled();
+        assertTrue(hasButton(R.string.erp_tasks));
+        assertFalse(hasButton(R.string.erp_quotes));
+        int workerReads = transport.dashboardReads.get();
+        assertTrue(workerReads > 0);
+        click(R.string.erp_workspace_switch); settled();
+        assertFalse(hasButton(R.string.erp_tasks));
+        assertFalse(hasButton(R.string.erp_actions));
+        assertEquals(workerReads, transport.dashboardReads.get());
+        click(R.string.erp_role_client); settled();
+        assertTrue(hasButton(R.string.erp_quotes));
+        assertFalse(hasButton(R.string.erp_tasks));
+
+        int selectedReads = transport.dashboardReads.get();
+        controller.recreate(); activity = controller.get(); settled();
+        assertTrue(hasButton(R.string.erp_role_client));
+        assertFalse(hasButton(R.string.erp_quotes));
+        assertEquals(selectedReads, transport.dashboardReads.get());
     }
 
     @Test public void accountantCanReadPayrollAndReportsWithoutWarehouseOrLocationNavigation() throws Exception {

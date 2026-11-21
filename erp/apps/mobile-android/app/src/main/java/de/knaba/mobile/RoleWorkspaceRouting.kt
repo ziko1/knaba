@@ -5,37 +5,47 @@ package de.knaba.mobile
  * Unknown roles and absent permissions never produce an accessible workspace.
  */
 internal object RoleWorkspaceRouting {
-    enum class Workspace { CLIENT, WORKER, PARTNER, BAULEITER, OWNER }
+    enum class Workspace { CLIENT, WORKER, PARTNER, BAULEITER, OWNER, STAFF }
     sealed interface Destination {
         data object NoAccess : Destination
         data class Open(val workspace: Workspace) : Destination
         data class Choose(val workspaces: List<Workspace>) : Destination
     }
 
-    private val roleNames = mapOf(
-        "CLIENT" to Workspace.CLIENT, "CUSTOMER" to Workspace.CLIENT,
-        "WORKER" to Workspace.WORKER, "EMPLOYEE" to Workspace.WORKER, "TEAM_LEADER" to Workspace.WORKER,
-        "PARTNER" to Workspace.PARTNER,
-        "BAULEITER" to Workspace.BAULEITER, "SITE_MANAGER" to Workspace.BAULEITER,
-        "INTERNAL_BAULEITER" to Workspace.BAULEITER, "EXTERNAL_BAULEITER" to Workspace.BAULEITER,
-        "OWNER" to Workspace.OWNER, "DIRECTOR" to Workspace.OWNER
+    private class Rule(val workspace: Workspace, vararg val grants: String)
+    private val client = Rule(Workspace.CLIENT, "customer.portal", "quote.read")
+    private val worker = Rule(Workspace.WORKER, "task.read", "shift.read", "trip.read", "inventory.read",
+        "dispatch.acknowledge", "payroll.self", "identity.self")
+    private val bauleiter = Rule(Workspace.BAULEITER, "crew.assign", "dispatch.manage")
+    private val owner = Rule(Workspace.OWNER, "identity.manage", "operations.read", "site.read")
+    private val rules = mapOf(
+        "CLIENT" to client, "CUSTOMER" to client,
+        "WORKER" to worker, "EMPLOYEE" to worker, "TEAM_LEADER" to worker,
+        "PARTNER" to Rule(Workspace.PARTNER, "lead.manage_own", "customer.portal"),
+        "BAULEITER" to bauleiter, "SITE_MANAGER" to bauleiter,
+        "INTERNAL_BAULEITER" to Rule(Workspace.BAULEITER, *bauleiter.grants, "site.read", "task.assign"),
+        "EXTERNAL_BAULEITER" to Rule(Workspace.BAULEITER, *bauleiter.grants, "customer.portal"),
+        "OWNER" to owner, "DIRECTOR" to owner,
+        "OPERATIONS_MANAGER" to Rule(Workspace.STAFF, "operations.read"),
+        "DISPATCHER" to Rule(Workspace.STAFF, "dispatch.manage"),
+        "QUALITY_CONTROL" to Rule(Workspace.STAFF, "quality.manage"),
+        "STOREKEEPER" to Rule(Workspace.STAFF, "inventory.read"),
+        "PROCUREMENT" to Rule(Workspace.STAFF, "procurement.read", "procurement.manage"),
+        "ACCOUNTANT" to Rule(Workspace.STAFF, "finance.accountant", "finance.payroll", "timesheet.read"),
+        "BOT_ADMIN" to Rule(Workspace.STAFF, "bot.manage"),
+        "AUDITOR" to Rule(Workspace.STAFF, "audit.read"),
+        "DEVELOPER_SUPPORT" to Rule(Workspace.STAFF, "integration.status")
     )
-    private val required = mapOf(
-        Workspace.CLIENT to listOf("customer.portal"),
-        Workspace.WORKER to listOf("task.read", "shift.read"),
-        Workspace.PARTNER to listOf("lead.manage_own", "customer.portal"),
-        Workspace.BAULEITER to listOf("crew.assign", "dispatch.manage"),
-        Workspace.OWNER to listOf("identity.manage", "operations.read")
-    )
+
     private fun permitted(grants: Set<String>, permission: String): Boolean =
-        grants.any { it == "*" || it == permission ||
-            (it.endsWith(".*") && permission.startsWith(it.dropLast(1))) }
+        "*" in grants || permission in grants || (permission.substringBefore('.') + ".*") in grants
 
     fun destinations(roles: Collection<String>, permissions: Collection<String>): List<Workspace> {
         val grants = permissions.toSet()
-        return roles.mapNotNull { roleNames[it.trim().uppercase(java.util.Locale.ROOT)] }
-            .distinct()
-            .filter { workspace -> required.getValue(workspace).any { permitted(grants, it) } }
+        val available = roles.mapNotNull { rules[it.trim().uppercase(java.util.Locale.ROOT)] }
+            .filter { rule -> rule.grants.any { permitted(grants, it) } }
+            .map { it.workspace }.toSet()
+        return Workspace.entries.filter { it in available }
     }
 
     fun route(roles: Collection<String>, permissions: Collection<String>): Destination {

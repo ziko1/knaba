@@ -2,19 +2,43 @@ import SwiftUI
 
 /// Role labels select presentation only. The ERP remains the authority for all data/actions.
 enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
-    case client, worker, partner, bauleiter, owner
+    case client, worker, partner, bauleiter, owner, staff
     var id: String { rawValue }
+    var title: ERPText {
+        switch self {
+        case .client: return .roleClient
+        case .worker: return .roleEmployee
+        case .partner: return .rolePartner
+        case .bauleiter: return .workspaceSiteSupervisor
+        case .owner: return .roleOwner
+        case .staff: return .workspaceStaff
+        }
+    }
+
     static func available(_ actor: ERPActor) -> [Self] {
-        let roles = Set(actor.roles.map { $0.uppercased() })
-        let permissions = actor.permissions
-        func has(_ names: [String]) -> Bool { ERPModuleCatalog.permits(permissions, anyOf: names) }
+        let roles = Set(actor.roles.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() })
+        func matches(_ names: [String], _ permissions: [String]) -> Bool {
+            !roles.isDisjoint(with: names) && ERPModuleCatalog.permits(actor.permissions, anyOf: permissions)
+        }
         return allCases.filter { workspace in
             switch workspace {
-            case .client: return !roles.isDisjoint(with: ["CLIENT", "CUSTOMER"]) && has(["customer.portal"])
-            case .worker: return !roles.isDisjoint(with: ["WORKER", "EMPLOYEE", "TEAM_LEADER"]) && has(["task.read", "shift.read"])
-            case .partner: return roles.contains("PARTNER") && has(["lead.manage_own", "customer.portal"])
-            case .bauleiter: return !roles.isDisjoint(with: ["BAULEITER", "SITE_MANAGER", "INTERNAL_BAULEITER", "EXTERNAL_BAULEITER"]) && has(["crew.assign", "dispatch.manage"])
-            case .owner: return !roles.isDisjoint(with: ["OWNER", "DIRECTOR"]) && has(["identity.manage", "operations.read"])
+            case .client: return matches(["CLIENT", "CUSTOMER"], ["customer.portal", "quote.read"])
+            case .worker:
+                return matches(["WORKER", "EMPLOYEE", "TEAM_LEADER"], [
+                    "task.read", "shift.read", "trip.read", "inventory.read", "dispatch.acknowledge", "payroll.self", "identity.self"
+                ])
+            case .partner: return matches(["PARTNER"], ["lead.manage_own", "customer.portal"])
+            case .bauleiter:
+                return matches(["BAULEITER", "SITE_MANAGER", "INTERNAL_BAULEITER", "EXTERNAL_BAULEITER"], ["crew.assign", "dispatch.manage"]) ||
+                    matches(["INTERNAL_BAULEITER"], ["site.read", "task.assign"]) || matches(["EXTERNAL_BAULEITER"], ["customer.portal"])
+            case .owner: return matches(["OWNER", "DIRECTOR"], ["identity.manage", "operations.read", "site.read"])
+            case .staff:
+                return matches(["OPERATIONS_MANAGER"], ["operations.read"]) || matches(["DISPATCHER"], ["dispatch.manage"]) ||
+                    matches(["QUALITY_CONTROL"], ["quality.manage"]) || matches(["STOREKEEPER"], ["inventory.read"]) ||
+                    matches(["PROCUREMENT"], ["procurement.read", "procurement.manage"]) ||
+                    matches(["ACCOUNTANT"], ["finance.accountant", "finance.payroll", "timesheet.read"]) ||
+                    matches(["BOT_ADMIN"], ["bot.manage"]) || matches(["AUDITOR"], ["audit.read"]) ||
+                    matches(["DEVELOPER_SUPPORT"], ["integration.status"])
             }
         }
     }
@@ -30,10 +54,10 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     @Published var otp = ""
     @Published var identity: ERPIdentity?
     @Published var availableWorkspaces: [ERPWorkspaceRoute] = []
-    @Published var selectedWorkspace: ERPWorkspaceRoute?
+    @Published private(set) var selectedWorkspace: ERPWorkspaceRoute?
     @Published var dashboard: ERPDashboard?
     @Published var commands: [ERPCommand] = []
-    @Published var selection = "task"
+    @Published var selection = ""
     @Published var items: [ERPItem] = []
     @Published var channels: [ERPItem] = []
     @Published var messages: [ERPItem] = []
@@ -70,24 +94,20 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         return commands.filter { ERPRecordActions.context(for: record, command: $0, actor: actor) != nil }
     }
     var modules: [ERPModule] {
-        guard let actor = identity?.actor else { return [] }
-        // A visible tab is not an authorization grant: ERP always performs its own scope validation.
+        guard let actor = identity?.actor, let workspace = selectedWorkspace else { return [] }
         let permitted = ERPModuleCatalog.visible(to: actor)
-        // The chooser prevents navigation without selection. Keep the existing
-        // catalog projection available to isolated presentation tests and legacy callers.
-        guard let workspace = selectedWorkspace else { return permitted }
         // Presentation-only subsets. ERP still validates every read/write on the server.
         let kinds: Set<String>
         switch workspace {
         case .client:
             kinds = ["site", "order", "lead", "quote", "change_order", "channel", "report", "report_version", "issue", "media_asset", "notification"]
         case .worker:
-            kinds = ["task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt"]
+            kinds = ["task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt", "material", "material_request", "payroll_calculation", "payout"]
         case .partner:
             kinds = ["lead", "quote", "order", "site", "channel", "media_asset", "notification"]
         case .bauleiter:
             kinds = ["task", "site", "order", "crew_assignment", "employee", "shift", "timesheet", "defect", "worklog", "report", "report_version", "channel", "media_asset", "notification"]
-        case .owner:
+        case .owner, .staff:
             return permitted
         }
         return permitted.filter { kinds.contains($0.kind) }
@@ -101,6 +121,21 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         availableWorkspaces = next
         if let selectedWorkspace, next.contains(selectedWorkspace) { return }
         selectedWorkspace = next.count == 1 ? next[0] : nil
+        selection = modules.first?.kind ?? ""
+    }
+    func selectWorkspace(_ workspace: ERPWorkspaceRoute?) {
+        guard identity != nil, !busy, selectedWorkspace != workspace else { return }
+        if let workspace {
+            guard availableWorkspaces.contains(workspace) else { return }
+        } else {
+            guard availableWorkspaces.count > 1 else { return }
+        }
+        // Discard responses and navigation initiated in the previous workspace.
+        epoch += 1
+        selectedWorkspace = workspace
+        selection = modules.first?.kind ?? ""
+        items = []; commands = []; channels = []; messages = []; dashboard = nil
+        selectedChannel = ""; messageText = ""; notice = ""; problem = ""
     }
     func signIn() async {
         guard !busy else { return }
@@ -120,7 +155,8 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
             UserDefaults.standard.set(storedOrigin, forKey: "knaba-erp-origin")
             notice = text(.connected)
             busy = false
-            await loadOverview()
+            if selectedWorkspace != nil { await loadOverview() }
+            else { await reloadPendingState() }
         } catch {
             guard ticket == epoch else { return }
             problem = describe(error); identity = nil; commandAuthority = nil; busy = false
@@ -129,26 +165,12 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     func reloadSession() async {
         guard identity != nil, !busy else { return }
         let ticket = epoch
+        busy = true
+        defer { if ticket == epoch { busy = false } }
         do {
             let next = try await client.refresh()
             guard ticket == epoch, identity != nil else { return }
             guard storedOrigin == ERPOrigin.validate(origin)?.absoluteString else { await signOut(ERPFailure.accessChanged); return }
-            // A refreshed session must never silently cross user or company boundaries.
-            guard let previous = identity?.actor,
-                  previous.userId == next.actor.userId,
-                  previous.companyId == next.actor.companyId else {
-                await signOut(ERPFailure.accessChanged)
-                return
-            }
-            let authorityChanged = Set(previous.roles) != Set(next.actor.roles) ||
-                Set(previous.permissions) != Set(next.actor.permissions) ||
-                Set(previous.siteIds ?? []) != Set(next.actor.siteIds ?? []) ||
-                Set(previous.customerIds ?? []) != Set(next.actor.customerIds ?? [])
-            if authorityChanged {
-                // Never reuse pending command state or cached data under changed scopes.
-                await signOut(ERPFailure.accessChanged)
-                return
-            }
             identity = next
             updateWorkspaceRoute(next.actor)
             await reloadPendingState()
@@ -156,7 +178,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     }
     private func clearSessionPresentation(_ error: Error? = nil) {
         epoch += 1
-        identity = nil; availableWorkspaces = []; selectedWorkspace = nil
+        identity = nil; availableWorkspaces = []; selectedWorkspace = nil; selection = ""
         items = []; commands = []; channels = []; messages = []; dashboard = nil
         commandAuthority = nil
         selectedChannel = ""; messageText = ""; password = ""; otp = ""
@@ -176,7 +198,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 clearSessionPresentation(error); return
             case .expired, .accessChanged:
                 await signOut(error); return
-            case .http(let status, _) where status == 401:
+            case .http(let status, _) where status == 401 || status == 403:
                 await signOut(error); return
             default: break
             }
@@ -197,7 +219,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         }
     }
     func retryPending() async {
-        guard identity != nil, !busy, pendingCommandName != nil else { return }
+        guard selectedWorkspace != nil, !busy, pendingCommandName != nil else { return }
         let ticket = epoch
         busy = true; problem = ""; notice = ""
         do {
@@ -223,7 +245,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         if !hasPending { await loadOverview() }
     }
     func loadOverview() async {
-        guard identity != nil else { return }
+        guard selectedWorkspace != nil, !busy else { return }
         busy = true; problem = ""
         let ticket = epoch
         do {
@@ -239,7 +261,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         if epoch == ticket { await reloadPendingState() }
     }
     func loadKind(_ kind: String) async {
-        guard identity != nil, !busy else { return }
+        guard !busy, modules.contains(where: { $0.kind == kind }) else { return }
         busy = true; problem = ""; selection = kind; items = []
         let ticket = epoch
         do {
@@ -253,7 +275,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         if epoch == ticket { busy = false }
     }
     func refreshActions() async {
-        guard identity != nil, !busy else { return }
+        guard selectedWorkspace != nil, !busy else { return }
         let ticket = epoch
         busy = true; problem = ""
         do {
@@ -265,7 +287,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         if ticket == epoch { busy = false }
     }
     func loadChannels() async {
-        guard identity != nil else { return }
+        guard !busy, modules.contains(where: { $0.kind == "channel" }) else { return }
         busy = true; problem = ""
         let ticket = epoch
         do {
@@ -277,7 +299,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         if epoch == ticket { busy = false; if !selectedChannel.isEmpty { await loadMessages() } }
     }
     func loadMessages() async {
-        guard !selectedChannel.isEmpty, identity != nil else { return }
+        guard !selectedChannel.isEmpty, modules.contains(where: { $0.kind == "channel" }) else { return }
         let ticket = epoch, channel = selectedChannel
         do {
             let rows = try await client.messages(channel)
@@ -285,7 +307,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         } catch { await failed(error, ticket: ticket) }
     }
     func sendMessage() async {
-        guard !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard selectedWorkspace != nil, !selectedChannel.isEmpty, !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         busy = true; problem = ""; let ticket = epoch
         do {
             try await client.sendMessage(channelId: selectedChannel, text: messageText, language: language.rawValue.uppercased())
@@ -298,7 +320,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     @discardableResult
     func submit(_ command: ERPCommand, fields: [String: String], versionText: String,
                 expectedSession: Int, context: ERPRecordActionContext? = nil, confirmed: Bool = false) async -> Bool {
-        guard !busy, expectedSession == epoch, identity != nil, let authority = commandAuthority else { return false }
+        guard !busy, expectedSession == epoch, selectedWorkspace != nil, let authority = commandAuthority else { return false }
         busy = true; problem = ""; notice = ""; let ticket = epoch
         var applied = false
         do {
@@ -353,23 +375,15 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 if model.identity == nil { ERPLoginScreen(model: model) }
                 else if model.availableWorkspaces.isEmpty {
                     VStack(spacing: 16) {
-                        Text(model.text(.errorAccess)).font(.headline)
+                        Text(model.text(.workspaceNoAccess)).font(.headline)
                         Button(model.text(.signOut)) { Task { await model.signOut() } }
                     }.padding()
                 } else if model.selectedWorkspace == nil {
                     ScrollView {
                         VStack(spacing: 16) {
-                            Text(model.text(.title)).font(.title2.bold())
+                            Text(model.text(.workspaceChoose)).font(.title2.bold()).accessibilityAddTraits(.isHeader)
                             ForEach(model.availableWorkspaces) { workspace in
-                                Button(model.text({ () -> ERPText in
-                                    switch workspace {
-                                    case .client: return .roleClient
-                                    case .worker: return .roleEmployee
-                                    case .partner: return .roleClient
-                                    case .bauleiter: return .roleExternalBauleiter
-                                    case .owner: return .roleOwner
-                                    }
-                                }())) { model.selectedWorkspace = workspace }
+                                Button(model.text(workspace.title)) { model.selectWorkspace(workspace) }
                                     .buttonStyle(KNABAButtonStyle())
                                     .accessibilityIdentifier("workspace-\(workspace.rawValue)")
                             }
@@ -398,13 +412,13 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 if model.availableWorkspaces.count > 1 && model.selectedWorkspace != nil {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            model.selectedWorkspace = nil
-                            selectedTab = 0
+                            model.selectWorkspace(nil)
                         } label: {
                             Image(systemName: "square.grid.2x2")
                         }
-                        .accessibilityLabel(model.text(.roles))
+                        .accessibilityLabel(model.text(.workspaceChoose))
                         .accessibilityIdentifier("switchWorkspace")
+                        .disabled(model.busy)
                     }
                 }
                 if model.identity != nil {
@@ -416,6 +430,10 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
             }
         }
         .id(model.sessionGeneration)
+        .onChange(of: model.sessionGeneration) { _, _ in
+            selectedTab = 0
+            actionSearch = ""
+        }
         .onChange(of: preferences.localeSelection, initial: true) { _, _ in
             model.language = preferences.language
             model.problem = ""; model.notice = ""

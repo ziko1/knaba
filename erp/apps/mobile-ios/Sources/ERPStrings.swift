@@ -9,6 +9,7 @@ enum ERPText: String, CaseIterable {
     case roleOwner, roleDirector, roleOperationsManager, roleDispatcher, roleInternalBauleiter, roleTeamLeader
     case roleEmployee, roleStorekeeper, roleProcurement, roleAccountant, roleClient, roleExternalBauleiter
     case roleBotAdmin, roleQualityControl, roleAuditor, roleDeveloperSupport, roleGuest, roleServiceAccount
+    case rolePartner, workspaceSiteSupervisor, workspaceStaff, workspaceChoose, workspaceNoAccess
     case roleUnknown
     case crew, employees, shifts, presence, customers, messages, notifications
     case users, automation, actions, signOut, presenceNotice, empty, message
@@ -39,6 +40,11 @@ enum ERPStrings {
         .credentialReauth: ["Melden Sie sich erneut an, um die Änderung Ihrer Zugangsdaten zu prüfen.", "Sign in again to check your credential change.", "Zaloguj się ponownie, aby sprawdzić zmianę danych logowania.", "Prisijunkite iš naujo ir patikrinkite prisijungimo duomenų pakeitimą.", "Войдите снова, чтобы проверить изменение данных входа.", "Увійдіть знову, щоб перевірити зміну даних входу."],
         .credentialUnknown: ["Die Zugangsdaten könnten bereits geändert sein. Melden Sie sich erneut an, um dies zu prüfen. Die Anfrage wird nicht wiederholt.", "The credentials may already have changed. Sign in again to check. The request will not be retried.", "Dane logowania mogły już zostać zmienione. Zaloguj się ponownie, aby to sprawdzić. Żądanie nie zostanie ponowione.", "Prisijungimo duomenys galėjo būti pakeisti. Prisijunkite iš naujo ir patikrinkite. Užklausa nebus kartojama.", "Данные входа могли уже измениться. Войдите снова и проверьте. Запрос не будет повторён.", "Дані входу могли вже змінитися. Увійдіть знову та перевірте. Запит не буде повторено."],
         .errorSensitiveCommand: ["Diese Aktion mit Zugangsdaten ist in der mobilen App nicht verfügbar. Verwenden Sie die sicheren Kontoeinstellungen von KNABA.", "This credential action is not available in the mobile app. Use KNABA’s secure account settings.", "To działanie dotyczące danych logowania nie jest dostępne w aplikacji. Użyj bezpiecznych ustawień konta KNABA.", "Šis prisijungimo duomenų veiksmas programėlėje negalimas. Naudokite saugius KNABA paskyros nustatymus.", "Это действие с данными входа недоступно в приложении. Используйте безопасные настройки аккаунта KNABA.", "Ця дія з даними входу недоступна в застосунку. Скористайтеся захищеними налаштуваннями облікового запису KNABA."],
+        .rolePartner: ["Partner", "Partner", "Partner", "Partneris", "Партнёр", "Партнер"],
+        .workspaceSiteSupervisor: ["Bauleitung", "Site supervisor", "Kierownik budowy", "Statybos vadovas", "Руководитель объекта", "Керівник об’єкта"],
+        .workspaceStaff: ["Fachpersonal", "Specialist staff", "Specjaliści", "Specialistai", "Специалисты", "Фахівці"],
+        .workspaceChoose: ["Arbeitsbereich auswählen", "Choose a workspace", "Wybierz obszar roboczy", "Pasirinkite darbo sritį", "Выберите рабочую область", "Оберіть робочий простір"],
+        .workspaceNoAccess: ["Für dieses Konto ist kein Arbeitsbereich verfügbar.", "No workspace is available for this account.", "Dla tego konta nie ma dostępnego obszaru roboczego.", "Šiai paskyrai nėra prieinamos darbo srities.", "Для этой учётной записи нет доступной рабочей области.", "Для цього облікового запису немає доступного робочого простору."],
         .roleOwner: ["Inhaber", "Owner", "Właściciel", "Savininkas", "Владелец", "Власник"],
         .roleDirector: ["Geschäftsleitung", "Director", "Dyrektor", "Direktorius", "Директор", "Директор"],
         .roleOperationsManager: ["Betriebsleitung", "Operations manager", "Kierownik operacyjny", "Veiklos vadovas", "Операционный руководитель", "Операційний керівник"],
@@ -236,11 +242,13 @@ enum ERPStrings {
         case "DISPATCHER": key = .roleDispatcher
         case "INTERNAL_BAULEITER", "FOREMAN": key = .roleInternalBauleiter
         case "TEAM_LEADER", "TEAM_LEAD": key = .roleTeamLeader
-        case "EMPLOYEE": key = .roleEmployee
+        case "EMPLOYEE", "WORKER": key = .roleEmployee
         case "STOREKEEPER", "WAREHOUSE": key = .roleStorekeeper
         case "PROCUREMENT": key = .roleProcurement
         case "ACCOUNTANT": key = .roleAccountant
-        case "CLIENT": key = .roleClient
+        case "CLIENT", "CUSTOMER": key = .roleClient
+        case "PARTNER": key = .rolePartner
+        case "BAULEITER", "SITE_MANAGER": key = .workspaceSiteSupervisor
         case "EXTERNAL_BAULEITER": key = .roleExternalBauleiter
         case "BOT_ADMIN": key = .roleBotAdmin
         case "QUALITY_CONTROL": key = .roleQualityControl

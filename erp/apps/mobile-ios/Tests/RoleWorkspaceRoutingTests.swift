@@ -29,6 +29,24 @@ final class RoleWorkspaceRoutingTests: XCTestCase {
         XCTAssertTrue(ERPWorkspaceRoute.available(actor(["WORKER"], ["chat.read"])).isEmpty)
     }
 
+    func testSpecialistsAndBauleiterReachPermissionScopedWorkspaces() {
+        let specialists = [("OPERATIONS_MANAGER", "operations.read"), ("DISPATCHER", "dispatch.manage"),
+            ("QUALITY_CONTROL", "quality.manage"), ("STOREKEEPER", "inventory.read"), ("PROCUREMENT", "procurement.read"),
+            ("ACCOUNTANT", "finance.accountant"), ("BOT_ADMIN", "bot.manage"), ("AUDITOR", "audit.read"),
+            ("DEVELOPER_SUPPORT", "integration.status")]
+        for (role, grant) in specialists {
+            XCTAssertEqual(ERPWorkspaceRoute.available(actor([role], [grant])), [.staff], role)
+            XCTAssertTrue(ERPWorkspaceRoute.available(actor([role], [])).isEmpty, role)
+        }
+        XCTAssertEqual(ERPWorkspaceRoute.available(actor(["INTERNAL_BAULEITER"], ["site.read"])), [.bauleiter])
+        XCTAssertEqual(ERPWorkspaceRoute.available(actor(["EXTERNAL_BAULEITER"], ["customer.portal"])), [.bauleiter])
+        XCTAssertTrue(ERPWorkspaceRoute.available(actor(["GUEST", "SERVICE_ACCOUNT"], ["*"])).isEmpty)
+        for language in NativeLanguage.allCases {
+            let titles = ERPWorkspaceRoute.allCases.map { ERPStrings.text($0.title, language) }
+            XCTAssertEqual(Set(titles).count, titles.count, language.rawValue)
+        }
+    }
+
     @MainActor func testModelReconcilesSelectionAfterPermissionChange() {
         let model = ERPConsoleModel()
         model.updateWorkspaceRoute(actor(["CLIENT"], ["customer.portal"]))

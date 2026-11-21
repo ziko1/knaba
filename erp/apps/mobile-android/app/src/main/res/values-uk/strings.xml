@@ -312,4 +312,10 @@
     <string name="erp_role_guest">Гість</string>
     <string name="erp_role_service_account">Службовий обліковий запис</string>
     <string name="erp_role_unknown">Невідома роль</string>
+    <string name="erp_role_partner">Партнер</string>
+    <string name="erp_role_bauleiter">Керівник об’єкта</string>
+    <string name="erp_workspace_staff">Кабінет фахівця</string>
+    <string name="erp_workspace_choose">Виберіть кабінет</string>
+    <string name="erp_workspace_switch">Змінити кабінет</string>
+    <string name="erp_workspace_denied">Для цього облікового запису немає доступного кабінету.</string>
 </resources>

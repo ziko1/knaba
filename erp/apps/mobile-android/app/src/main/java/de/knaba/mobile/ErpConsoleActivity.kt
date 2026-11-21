@@ -93,7 +93,7 @@ class ErpConsoleActivity : Activity() {
         val retained = lastNonConfigurationInstance as? RetainedSession
         if (retained != null) {
             api = retained.transport; discovery = retained.discovery; actor = retained.actor; demoMode = retained.demo; pendingRecovery = retained.pending
-            if (actor != null) { if (pendingRecovery != null && api.hasPendingCommand()) showPendingRecovery() else routeWorkspace() }
+            if (actor != null) routeWorkspace()
             else showLogin()
         } else showLogin()
     }
@@ -380,7 +380,7 @@ class ErpConsoleActivity : Activity() {
                 actor = response.optJSONObject("actor")
                 readRetryAt = 0
                 password.setText(""); code.setText(""); recoverPending()
-                if (pendingRecovery != null) showPendingRecovery() else routeWorkspace()
+                routeWorkspace()
             }
         }
         label(getString(R.string.erp_privacy), 13f, muted)
@@ -411,56 +411,60 @@ class ErpConsoleActivity : Activity() {
             value == "*" || value == permission || value == permission.substringBefore('.') + ".*"
         }
     }
-    private fun routeWorkspace() {
-        // Server grants remain authoritative; workspace choice only changes navigation.
-        selectedWorkspace = null
-        if (!demoMode) {
-            val current = actor
-            val roles = current?.optJSONArray("roles") ?: JSONArray()
-            val grants = current?.optJSONArray("permissions") ?: JSONArray()
-            val result = RoleWorkspaceRouting.route(
-                (0 until roles.length()).map { roles.optString(it) },
-                (0 until grants.length()).map { grants.optString(it) }
-            )
-            if (result is RoleWorkspaceRouting.Destination.Open) {
-                selectedWorkspace = result.workspace
-            }
-        }
-        // Legacy specialist roles retain the existing permission-scoped ERP dashboard.
-        showDashboard()
+    private fun workspaceLabel(workspace: RoleWorkspaceRouting.Workspace): String = getString(when (workspace) {
+        RoleWorkspaceRouting.Workspace.CLIENT -> R.string.erp_role_client
+        RoleWorkspaceRouting.Workspace.WORKER -> R.string.erp_role_employee
+        RoleWorkspaceRouting.Workspace.PARTNER -> R.string.erp_role_partner
+        RoleWorkspaceRouting.Workspace.BAULEITER -> R.string.erp_role_bauleiter
+        RoleWorkspaceRouting.Workspace.OWNER -> R.string.erp_role_owner
+        RoleWorkspaceRouting.Workspace.STAFF -> R.string.erp_workspace_staff
+    })
+
+    private fun actorValues(key: String): List<String> {
+        val values = actor?.optJSONArray(key) ?: return emptyList()
+        return (0 until values.length()).map { values.optString(it) }
     }
-    private fun showDashboard() {
-        heading(getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
-        val roles = actor?.optJSONArray("roles") ?: JSONArray()
-        label(getString(R.string.erp_role) + ": " + (0 until roles.length()).joinToString(", ") { roleLabel(roles.optString(it)) }, 13f, muted)
-        if (!demoMode) {
-            val current = actor
-            val rolesList = current?.optJSONArray("roles") ?: JSONArray()
-            val permissionsList = current?.optJSONArray("permissions") ?: JSONArray()
-            val roles = (0 until rolesList.length()).map { rolesList.optString(it) }
-            val grants = (0 until permissionsList.length()).map { permissionsList.optString(it) }
-            when (val route = RoleWorkspaceRouting.route(roles, grants)) {
-                is RoleWorkspaceRouting.Destination.Choose -> {
-                    val chooser = panel()
-                    label(getString(R.string.erp_role), 17f, ink, chooser)
-                    if (selectedWorkspace != null) {
-                        button(getString(R.string.erp_role), parent = chooser) {
-                            selectedWorkspace = null
-                            showDashboard()
-                        }
-                    }
-                    if (selectedWorkspace == null) {
-                        route.workspaces.forEach { workspace ->
-                            button(workspace.name.lowercase(java.util.Locale.ROOT).replaceFirstChar { it.titlecase(java.util.Locale.ROOT) }, parent = chooser) {
-                                selectedWorkspace = workspace
-                                showDashboard()
-                            }
-                        }
-                    } else {
-                        label(selectedWorkspace!!.name, 15f, muted, chooser)
+
+    private fun routeWorkspace() = renderWorkspace(openPending = true)
+    private fun showDashboard() = renderWorkspace(openPending = false)
+
+    private fun renderWorkspace(openPending: Boolean) {
+        val roles = actorValues("roles")
+        val route = if (demoMode) null else RoleWorkspaceRouting.route(roles, actorValues("permissions"))
+        selectedWorkspace = when (route) {
+            is RoleWorkspaceRouting.Destination.Open -> route.workspace
+            is RoleWorkspaceRouting.Destination.Choose -> selectedWorkspace?.takeIf { it in route.workspaces }
+            else -> null
+        }
+
+        val workspace = selectedWorkspace
+        if (!demoMode && workspace == null) {
+            val title = if (route is RoleWorkspaceRouting.Destination.Choose) R.string.erp_workspace_choose else R.string.erp_workspace_denied
+            heading(getString(title), showPending = false)
+            label(getString(R.string.erp_role) + ": " + roles.joinToString(", ") { roleLabel(it) }, 13f, muted)
+            if (route is RoleWorkspaceRouting.Destination.Choose) {
+                val chooser = panel()
+                route.workspaces.forEach { choice ->
+                    button(workspaceLabel(choice), parent = chooser) {
+                        selectedWorkspace = choice
+                        routeWorkspace()
                     }
                 }
-                else -> Unit
+            }
+            button(getString(R.string.erp_logout)) { signOut() }
+            return
+        }
+
+        if (openPending && pendingRecovery != null && api.hasPendingCommand()) {
+            showPendingRecovery()
+            return
+        }
+        heading(workspace?.let(::workspaceLabel) ?: getString(R.string.erp_home), getString(R.string.erp_workspace_intro))
+        label(getString(R.string.erp_role) + ": " + roles.joinToString(", ") { roleLabel(it) }, 13f, muted)
+        if (route is RoleWorkspaceRouting.Destination.Choose) {
+            button(getString(R.string.erp_workspace_switch)) {
+                selectedWorkspace = null
+                showDashboard()
             }
         }
         val summary = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
@@ -514,10 +518,10 @@ class ErpConsoleActivity : Activity() {
     private fun renderModules(parent: LinearLayout, counts: JSONObject?, query: String = "") {
         val workspaceKinds = when (selectedWorkspace) {
             RoleWorkspaceRouting.Workspace.CLIENT -> setOf("site", "order", "lead", "quote", "change_order", "channel", "report", "report_version", "issue", "media_asset", "notification")
-            RoleWorkspaceRouting.Workspace.WORKER -> setOf("task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt")
+            RoleWorkspaceRouting.Workspace.WORKER -> setOf("task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt", "material", "material_request", "payroll_calculation", "payout")
             RoleWorkspaceRouting.Workspace.PARTNER -> setOf("lead", "quote", "order", "site", "channel", "media_asset", "notification")
             RoleWorkspaceRouting.Workspace.BAULEITER -> setOf("task", "site", "order", "crew_assignment", "employee", "shift", "timesheet", "defect", "worklog", "report", "report_version", "channel", "media_asset", "notification")
-            RoleWorkspaceRouting.Workspace.OWNER, null -> null
+            RoleWorkspaceRouting.Workspace.OWNER, RoleWorkspaceRouting.Workspace.STAFF, null -> null
         }
         val visible = modules.filter { it.permissions.any(::permitted) &&
             (workspaceKinds == null || it.kind in workspaceKinds) &&
@@ -964,11 +968,13 @@ class ErpConsoleActivity : Activity() {
         "DISPATCHER" -> R.string.erp_role_dispatcher
         "INTERNAL_BAULEITER", "FOREMAN" -> R.string.erp_role_internal_bauleiter
         "TEAM_LEADER", "TEAM_LEAD" -> R.string.erp_role_team_leader
-        "EMPLOYEE" -> R.string.erp_role_employee
+        "EMPLOYEE", "WORKER" -> R.string.erp_role_employee
         "STOREKEEPER", "WAREHOUSE" -> R.string.erp_role_storekeeper
         "PROCUREMENT" -> R.string.erp_role_procurement
         "ACCOUNTANT" -> R.string.erp_role_accountant
-        "CLIENT" -> R.string.erp_role_client
+        "CLIENT", "CUSTOMER" -> R.string.erp_role_client
+        "PARTNER" -> R.string.erp_role_partner
+        "BAULEITER", "SITE_MANAGER" -> R.string.erp_role_bauleiter
         "EXTERNAL_BAULEITER" -> R.string.erp_role_external_bauleiter
         "BOT_ADMIN" -> R.string.erp_role_bot_admin
         "QUALITY_CONTROL" -> R.string.erp_role_quality_control

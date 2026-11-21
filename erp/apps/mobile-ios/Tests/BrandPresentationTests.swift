@@ -118,10 +118,11 @@ final class BrandPresentationTests: XCTestCase {
     @MainActor private func overviewFixture(language: NativeLanguage) -> ERPConsoleModel {
         let model = ERPConsoleModel()
         model.language = language
-        model.identity = ERPIdentity(actor: ERPActor(userId: "synthetic-user", companyId: "synthetic-company", roles: ["SYNTHETIC TEAM"],
+        model.identity = ERPIdentity(actor: ERPActor(userId: "synthetic-user", companyId: "synthetic-company", roles: ["OWNER"],
                                                      permissions: ["task.read", "site.read", "chat.read"], siteIds: [], customerIds: []),
                                      user: ERPUser(id: "synthetic-user", name: "SYNTHETIC · KNABA", email: nil),
                                      csrfToken: "NOT_AN_AUTHENTICATED_SESSION", mode: "TEST")
+        model.updateWorkspaceRoute(model.identity!.actor)
         model.dashboard = ERPDashboard(counts: ["task": 4, "site": 2], openDecisions: nil, activeSites: nil, activeShifts: 1)
         return model
     }
