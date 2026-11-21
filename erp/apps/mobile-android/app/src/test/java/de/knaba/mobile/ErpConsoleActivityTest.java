@@ -757,6 +757,7 @@ public class ErpConsoleActivityTest {
         assertTrue(transport.requestedKinds.isEmpty());
         click(R.string.erp_logout);
         ShadowAlertDialog.getLatestAlertDialog().getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+        Shadows.shadowOf(Looper.getMainLooper()).idle();
         assertTrue(hasButton(R.string.erp_sign_in));
     }
 
