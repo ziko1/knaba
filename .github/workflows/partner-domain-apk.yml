@@ -1,0 +1,79 @@
+name: KNABA partner domain Android APK
+on:
+  pull_request:
+    branches: ['feat/partner-cabinet-runtime-20261125']
+    paths: ['.github/workflows/partner-domain-apk.yml']
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SOURCE_SHA: 2b979d794b2323ab576bcc86eb7a62caaed288b8
+      PARTNER_HOST: partner.knaba.de
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+          cache-read-only: true
+      - name: Build and verify partner package
+        working-directory: erp/apps/mobile-android
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" 'platforms;android-36' 'build-tools;35.0.0'
+          # Set package metadata at configuration time without modifying the checkout.
+          cat > "$RUNNER_TEMP/partner-version.gradle" <<'GROOVY'
+          beforeProject { project ->
+              project.pluginManager.withPlugin('com.android.application') {
+                  def components = project.extensions.getByName('androidComponents')
+                  components.finalizeDsl { dsl ->
+                      if (dsl.defaultConfig.versionCode != 12) throw new GradleException('Unexpected source version')
+                      dsl.defaultConfig.versionCode = 13
+                  }
+              }
+          }
+          GROOVY
+          flags=(--no-daemon --console=plain --init-script "$RUNNER_TEMP/partner-version.gradle" -PknabaParallelPartnerTest=true "-PknabaPartnerDiscoveryHost=$PARTNER_HOST")
+          gradle "${flags[@]}" :app:assembleDebug
+          sdk_tools="$ANDROID_HOME/build-tools/35.0.0"
+          out="$RUNNER_TEMP/knaba-partner-apk"
+          mkdir "$out"
+          apk="$out/knaba-partner-build14.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "$apk"
+          "$sdk_tools/apksigner" verify --verbose --print-certs "$apk" | tee "$out/signature.txt"
+          "$sdk_tools/zipalign" -c -P 16 4 "$apk"
+          "$sdk_tools/aapt" dump badging "$apk" > "$out/manifest.txt"
+          grep -F "package: name='de.knaba.mobile.partner.test' versionCode='14' versionName='0.6.2-test.1'" "$out/manifest.txt"
+          rules=app/build/generated/source/buildConfig/debug/de/knaba/mobile/BuildConfig.java
+          grep -F "PARTNER_DISCOVERY_HOST = \"$PARTNER_HOST\"" "$rules"
+          grep -F 'PARTNER_TEST_ONLY = true' "$rules" || grep -F 'PARTNER_TEST_ONLY = Boolean.parseBoolean("true")' "$rules"
+          python3 - "$apk" "$PARTNER_HOST" <<'PY'
+          import sys, zipfile
+          with zipfile.ZipFile(sys.argv[1]) as archive:
+              dex = b''.join(archive.read(n) for n in archive.namelist() if n.startswith('classes') and n.endswith('.dex'))
+          assert sys.argv[2].encode() in dex and b'partner-test.knaba.de' not in dex, 'Unexpected embedded partner host'
+          PY
+          git diff --exit-code HEAD
+          (cd "$out" && sha256sum knaba-partner-build14.apk | tee SHA256SUMS)
+          printf '%s\n' "$SOURCE_SHA" "$PARTNER_HOST" > "$out/source.txt"
+      - name: Upload the verified APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: knaba-partner-domain-build14
+          path: ${{ runner.temp }}/knaba-partner-apk/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Run variant unit tests and lint
+        working-directory: erp/apps/mobile-android
+        run: gradle --no-daemon --console=plain --init-script "$RUNNER_TEMP/partner-version.gradle" -PknabaParallelPartnerTest=true "-PknabaPartnerDiscoveryHost=$PARTNER_HOST" :app:testDebugUnitTest :app:lintDebug
