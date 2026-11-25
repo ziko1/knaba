@@ -312,4 +312,10 @@
     <string name="erp_role_guest">Guest</string>
     <string name="erp_role_service_account">Service account</string>
     <string name="erp_role_unknown">Unknown role</string>
+    <string name="erp_role_partner">Partner</string>
+    <string name="erp_role_bauleiter">Site supervisor</string>
+    <string name="erp_workspace_staff">Staff workspace</string>
+    <string name="erp_workspace_choose">Choose a workspace</string>
+    <string name="erp_workspace_switch">Switch workspace</string>
+    <string name="erp_workspace_denied">No workspace is available for this account.</string>
 </resources>

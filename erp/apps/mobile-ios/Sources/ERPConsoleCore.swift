@@ -291,7 +291,9 @@ actor ERPConsoleClient {
             snapshot = try ERPCredentialPolicy.authoritySnapshot(data)
         }
         catch { if epoch == generation { reset() }; throw ERPFailure.accessChanged }
-        guard result.actor.companyId == expected.companyId, result.actor.userId == expected.userId else {
+        // A role, grant or tenant-scope change invalidates every previously presented workspace.
+        guard result.actor.companyId == expected.companyId, result.actor.userId == expected.userId,
+              identityAuthority == nil || identityAuthority == snapshot else {
             if epoch == generation { reset() }; throw ERPFailure.accessChanged
         }
         identityAuthority = snapshot

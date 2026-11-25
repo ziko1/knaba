@@ -312,4 +312,10 @@
     <string name="erp_role_guest">Гость</string>
     <string name="erp_role_service_account">Сервисная учётная запись</string>
     <string name="erp_role_unknown">Неизвестная роль</string>
+    <string name="erp_role_partner">Партнёр</string>
+    <string name="erp_role_bauleiter">Руководитель объекта</string>
+    <string name="erp_workspace_staff">Кабинет специалиста</string>
+    <string name="erp_workspace_choose">Выберите кабинет</string>
+    <string name="erp_workspace_switch">Сменить кабинет</string>
+    <string name="erp_workspace_denied">Для этой учётной записи нет доступного кабинета.</string>
 </resources>

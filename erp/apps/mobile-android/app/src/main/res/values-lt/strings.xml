@@ -312,4 +312,10 @@
     <string name="erp_role_guest">Svečias</string>
     <string name="erp_role_service_account">Paslaugos paskyra</string>
     <string name="erp_role_unknown">Nežinomas vaidmuo</string>
+    <string name="erp_role_partner">Partneris</string>
+    <string name="erp_role_bauleiter">Statybos vadovas</string>
+    <string name="erp_workspace_staff">Specialisto darbo sritis</string>
+    <string name="erp_workspace_choose">Pasirinkite darbo sritį</string>
+    <string name="erp_workspace_switch">Pakeisti darbo sritį</string>
+    <string name="erp_workspace_denied">Šiai paskyrai nėra prieinamos darbo srities.</string>
 </resources>

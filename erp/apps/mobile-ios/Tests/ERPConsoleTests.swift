@@ -23,6 +23,7 @@ final class ERPConsoleTests: XCTestCase {
             actor: ERPActor(userId: "synthetic-user", companyId: "synthetic-company", roles: roles,
                             permissions: permissions, siteIds: [], customerIds: []),
             user: ERPUser(id: "synthetic-user", name: "Synthetic user", email: nil), csrfToken: nil, mode: "TEST")
+        model.updateWorkspaceRoute(model.identity!.actor)
         let visibleModules = model.modules.map(\.id)
         let expected: [NativeLanguage: [String]] = [
             .de: ["Inhaber", "Geschäftsleitung", "Betriebsleitung", "Disposition", "Interne Bauleitung", "Teamleitung", "Mitarbeiter", "Lagerverwaltung", "Einkauf", "Buchhaltung", "Kunde", "Externe Bauleitung", "Bot-Administration", "Qualitätskontrolle", "Prüfung", "Technischer Support", "Gast", "Dienstkonto"],

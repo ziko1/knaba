@@ -1,5 +1,10 @@
 # KnaBa — implementation backlog, 2026-10-24
 
+## 21.11.2026 — мобільний вхід і вибір кабінету
+
+KN-C09 та MOBILE-012 продовжуються у draft #143. Етап 1 охоплює Android/iOS, рольові стани після входу і запити даних до вибору. Наступний залежний тест охоплює справжні ERP API та PostgreSQL для двох компаній. [План і критерії](CONTINUATION_2026-11-21_UK.md)
+
+
 ## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
 
 Зведено акаунт/пароль/сесії з auth migration002, guest expiry/revoke з Drizzle0015, Lead Agent, vehicle trips, native0.6.0 build10, партнерів та private backup guards на базі131e582 без заміни чинних F2/F4/C08. Виявлено й виправлено routine deploy guard для VPS SQL. [Обсяг, міграція, фактичні обмеження і відкрита черга](SERVER_INTEGRATION_2026-11-08_UK.md); [source/independent/server evidence](evidence/server-integration-20261108/). Exact combined CI і upload receipts записуються після виконання. Серверний upload дозволено користувачем; activation блокується доступом до /srv/knaba. Whole product NOT_READY; первинні V3/V4 критерії не перепозначено.

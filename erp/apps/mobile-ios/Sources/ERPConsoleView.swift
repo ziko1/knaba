@@ -1,5 +1,50 @@
 import SwiftUI
 
+/// Role labels select presentation only. The ERP remains the authority for all data/actions.
+enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
+    case client, worker, partner, bauleiter, owner, staff
+    var id: String { rawValue }
+    var title: ERPText {
+        switch self {
+        case .client: return .roleClient
+        case .worker: return .roleEmployee
+        case .partner: return .rolePartner
+        case .bauleiter: return .workspaceSiteSupervisor
+        case .owner: return .roleOwner
+        case .staff: return .workspaceStaff
+        }
+    }
+
+    static func available(_ actor: ERPActor) -> [Self] {
+        let roles = Set(actor.roles.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() })
+        func matches(_ names: [String], _ permissions: [String]) -> Bool {
+            !roles.isDisjoint(with: names) && ERPModuleCatalog.permits(actor.permissions, anyOf: permissions)
+        }
+        return allCases.filter { workspace in
+            switch workspace {
+            case .client: return matches(["CLIENT", "CUSTOMER"], ["customer.portal", "quote.read"])
+            case .worker:
+                return matches(["WORKER", "EMPLOYEE", "TEAM_LEADER"], [
+                    "task.read", "shift.read", "trip.read", "inventory.read", "dispatch.acknowledge", "payroll.self", "identity.self"
+                ])
+            // ERP has no canonical PARTNER actor. Never infer one from portal permissions.
+            case .partner: return false
+            case .bauleiter:
+                return matches(["BAULEITER", "SITE_MANAGER", "INTERNAL_BAULEITER", "EXTERNAL_BAULEITER"], ["crew.assign", "dispatch.manage"]) ||
+                    matches(["INTERNAL_BAULEITER"], ["site.read", "task.assign"]) || matches(["EXTERNAL_BAULEITER"], ["customer.portal"])
+            case .owner: return matches(["OWNER", "DIRECTOR"], ["identity.manage", "operations.read", "site.read"])
+            case .staff:
+                return matches(["OPERATIONS_MANAGER"], ["operations.read"]) || matches(["DISPATCHER"], ["dispatch.manage"]) ||
+                    matches(["QUALITY_CONTROL"], ["quality.manage"]) || matches(["STOREKEEPER"], ["inventory.read"]) ||
+                    matches(["PROCUREMENT"], ["procurement.read", "procurement.manage"]) ||
+                    matches(["ACCOUNTANT"], ["finance.accountant", "finance.payroll", "timesheet.read"]) ||
+                    matches(["BOT_ADMIN"], ["bot.manage"]) || matches(["AUDITOR"], ["audit.read"]) ||
+                    matches(["DEVELOPER_SUPPORT"], ["integration.status"])
+            }
+        }
+    }
+}
+
 @MainActor final class ERPConsoleModel: ObservableObject {
     @Published var language: NativeLanguage = .de
     func text(_ key: ERPText) -> String { ERPStrings.text(key, language) }
@@ -9,9 +54,11 @@ import SwiftUI
     @Published var password = ""
     @Published var otp = ""
     @Published var identity: ERPIdentity?
+    @Published var availableWorkspaces: [ERPWorkspaceRoute] = []
+    @Published private(set) var selectedWorkspace: ERPWorkspaceRoute?
     @Published var dashboard: ERPDashboard?
     @Published var commands: [ERPCommand] = []
-    @Published var selection = "task"
+    @Published var selection = ""
     @Published var items: [ERPItem] = []
     @Published var channels: [ERPItem] = []
     @Published var messages: [ERPItem] = []
@@ -48,14 +95,49 @@ import SwiftUI
         return commands.filter { ERPRecordActions.context(for: record, command: $0, actor: actor) != nil }
     }
     var modules: [ERPModule] {
-        guard let actor = identity?.actor else { return [] }
-        // A visible tab is not an authorization grant: ERP always performs its own scope validation.
-        return ERPModuleCatalog.visible(to: actor)
+        guard let actor = identity?.actor, let workspace = selectedWorkspace else { return [] }
+        let permitted = ERPModuleCatalog.visible(to: actor)
+        // Presentation-only subsets. ERP still validates every read/write on the server.
+        let kinds: Set<String>
+        switch workspace {
+        case .client:
+            kinds = ["site", "order", "lead", "quote", "change_order", "channel", "report", "report_version", "issue", "media_asset", "notification"]
+        case .worker:
+            kinds = ["task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt", "material", "material_request", "payroll_calculation", "payout"]
+        case .partner:
+            kinds = ["lead", "quote", "order", "site", "channel", "media_asset", "notification"]
+        case .bauleiter:
+            kinds = ["task", "site", "order", "crew_assignment", "employee", "shift", "timesheet", "defect", "worklog", "report", "report_version", "channel", "media_asset", "notification"]
+        case .owner, .staff:
+            return permitted
+        }
+        return permitted.filter { kinds.contains($0.kind) }
     }
     var isOperator: Bool {
         ERPModuleCatalog.permits(identity?.actor.permissions ?? [], anyOf: ["decision.manage", "dispatch.manage", "crew.assign", "operations.read"])
     }
     var roleLabel: String { identity?.actor.roles.map { ERPStrings.role($0, language) }.joined(separator: " · ") ?? "" }
+    func updateWorkspaceRoute(_ actor: ERPActor) {
+        let next = ERPWorkspaceRoute.available(actor)
+        availableWorkspaces = next
+        if let selectedWorkspace, next.contains(selectedWorkspace) { return }
+        selectedWorkspace = next.count == 1 ? next[0] : nil
+        selection = modules.first?.kind ?? ""
+    }
+    func selectWorkspace(_ workspace: ERPWorkspaceRoute?) {
+        guard identity != nil, !busy, selectedWorkspace != workspace else { return }
+        if let workspace {
+            guard availableWorkspaces.contains(workspace) else { return }
+        } else {
+            guard availableWorkspaces.count > 1 else { return }
+        }
+        // Discard responses and navigation initiated in the previous workspace.
+        epoch += 1
+        selectedWorkspace = workspace
+        selection = modules.first?.kind ?? ""
+        items = []; commands = []; channels = []; messages = []; dashboard = nil
+        selectedChannel = ""; messageText = ""; notice = ""; problem = ""
+    }
     func signIn() async {
         guard !busy else { return }
         busy = true; problem = ""; notice = ""; epoch += 1
@@ -68,12 +150,14 @@ import SwiftUI
             guard epoch == ticket else { return }
             guard ERPOrigin.validate(origin)?.absoluteString == storedOrigin else { await signOut(ERPFailure.accessChanged); return }
             identity = result
+            updateWorkspaceRoute(result.actor)
             commandAuthority = authority
             password = ""; otp = ""
             UserDefaults.standard.set(storedOrigin, forKey: "knaba-erp-origin")
             notice = text(.connected)
             busy = false
-            await loadOverview()
+            if selectedWorkspace != nil { await loadOverview() }
+            else { await reloadPendingState() }
         } catch {
             guard ticket == epoch else { return }
             problem = describe(error); identity = nil; commandAuthority = nil; busy = false
@@ -82,17 +166,21 @@ import SwiftUI
     func reloadSession() async {
         guard identity != nil, !busy else { return }
         let ticket = epoch
+        busy = true
+        defer { if ticket == epoch { busy = false } }
         do {
             let next = try await client.refresh()
             guard ticket == epoch, identity != nil else { return }
             guard storedOrigin == ERPOrigin.validate(origin)?.absoluteString else { await signOut(ERPFailure.accessChanged); return }
             identity = next
+            updateWorkspaceRoute(next.actor)
             await reloadPendingState()
         } catch { if ticket == epoch { await signOut(error) } }
     }
     private func clearSessionPresentation(_ error: Error? = nil) {
         epoch += 1
-        identity = nil; items = []; commands = []; channels = []; messages = []; dashboard = nil
+        identity = nil; availableWorkspaces = []; selectedWorkspace = nil; selection = ""
+        items = []; commands = []; channels = []; messages = []; dashboard = nil
         commandAuthority = nil
         selectedChannel = ""; messageText = ""; password = ""; otp = ""
         pendingCommandName = nil; recoveryBlocked = false
@@ -111,7 +199,7 @@ import SwiftUI
                 clearSessionPresentation(error); return
             case .expired, .accessChanged:
                 await signOut(error); return
-            case .http(let status, _) where status == 401:
+            case .http(let status, _) where status == 401 || status == 403:
                 await signOut(error); return
             default: break
             }
@@ -132,7 +220,7 @@ import SwiftUI
         }
     }
     func retryPending() async {
-        guard identity != nil, !busy, pendingCommandName != nil else { return }
+        guard selectedWorkspace != nil, !busy, pendingCommandName != nil else { return }
         let ticket = epoch
         busy = true; problem = ""; notice = ""
         do {
@@ -158,7 +246,7 @@ import SwiftUI
         if !hasPending { await loadOverview() }
     }
     func loadOverview() async {
-        guard identity != nil else { return }
+        guard selectedWorkspace != nil, !busy else { return }
         busy = true; problem = ""
         let ticket = epoch
         do {
@@ -174,7 +262,7 @@ import SwiftUI
         if epoch == ticket { await reloadPendingState() }
     }
     func loadKind(_ kind: String) async {
-        guard identity != nil, !busy else { return }
+        guard !busy, modules.contains(where: { $0.kind == kind }) else { return }
         busy = true; problem = ""; selection = kind; items = []
         let ticket = epoch
         do {
@@ -188,7 +276,7 @@ import SwiftUI
         if epoch == ticket { busy = false }
     }
     func refreshActions() async {
-        guard identity != nil, !busy else { return }
+        guard selectedWorkspace != nil, !busy else { return }
         let ticket = epoch
         busy = true; problem = ""
         do {
@@ -200,7 +288,7 @@ import SwiftUI
         if ticket == epoch { busy = false }
     }
     func loadChannels() async {
-        guard identity != nil else { return }
+        guard !busy, modules.contains(where: { $0.kind == "channel" }) else { return }
         busy = true; problem = ""
         let ticket = epoch
         do {
@@ -212,7 +300,7 @@ import SwiftUI
         if epoch == ticket { busy = false; if !selectedChannel.isEmpty { await loadMessages() } }
     }
     func loadMessages() async {
-        guard !selectedChannel.isEmpty, identity != nil else { return }
+        guard !selectedChannel.isEmpty, modules.contains(where: { $0.kind == "channel" }) else { return }
         let ticket = epoch, channel = selectedChannel
         do {
             let rows = try await client.messages(channel)
@@ -220,7 +308,7 @@ import SwiftUI
         } catch { await failed(error, ticket: ticket) }
     }
     func sendMessage() async {
-        guard !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard selectedWorkspace != nil, !selectedChannel.isEmpty, !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         busy = true; problem = ""; let ticket = epoch
         do {
             try await client.sendMessage(channelId: selectedChannel, text: messageText, language: language.rawValue.uppercased())
@@ -233,7 +321,7 @@ import SwiftUI
     @discardableResult
     func submit(_ command: ERPCommand, fields: [String: String], versionText: String,
                 expectedSession: Int, context: ERPRecordActionContext? = nil, confirmed: Bool = false) async -> Bool {
-        guard !busy, expectedSession == epoch, identity != nil, let authority = commandAuthority else { return false }
+        guard !busy, expectedSession == epoch, selectedWorkspace != nil, let authority = commandAuthority else { return false }
         busy = true; problem = ""; notice = ""; let ticket = epoch
         var applied = false
         do {
@@ -286,7 +374,23 @@ import SwiftUI
         NavigationStack {
             Group {
                 if model.identity == nil { ERPLoginScreen(model: model) }
-                else { console }
+                else if model.availableWorkspaces.isEmpty {
+                    VStack(spacing: 16) {
+                        Text(model.text(.workspaceNoAccess)).font(.headline)
+                        Button(model.text(.signOut)) { Task { await model.signOut() } }
+                    }.padding()
+                } else if model.selectedWorkspace == nil {
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            Text(model.text(.workspaceChoose)).font(.title2.bold()).accessibilityAddTraits(.isHeader)
+                            ForEach(model.availableWorkspaces) { workspace in
+                                Button(model.text(workspace.title)) { model.selectWorkspace(workspace) }
+                                    .buttonStyle(KNABAButtonStyle())
+                                    .accessibilityIdentifier("workspace-\(workspace.rawValue)")
+                            }
+                        }.padding()
+                    }
+                } else { console }
             }
             .knabaScreen()
             .navigationTitle(model.identity == nil ? "" : model.text(.title))
@@ -306,6 +410,18 @@ import SwiftUI
                     .accessibilityValue(preferences.language.name)
                     .accessibilityIdentifier("erpLanguageSelector")
                 }
+                if model.availableWorkspaces.count > 1 && model.selectedWorkspace != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            model.selectWorkspace(nil)
+                        } label: {
+                            Image(systemName: "square.grid.2x2")
+                        }
+                        .accessibilityLabel(model.text(.workspaceChoose))
+                        .accessibilityIdentifier("switchWorkspace")
+                        .disabled(model.busy)
+                    }
+                }
                 if model.identity != nil {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(model.text(.signOut), systemImage: "rectangle.portrait.and.arrow.right") { Task { await model.signOut() } }
@@ -315,6 +431,10 @@ import SwiftUI
             }
         }
         .id(model.sessionGeneration)
+        .onChange(of: model.sessionGeneration) { _, _ in
+            selectedTab = 0
+            actionSearch = ""
+        }
         .onChange(of: preferences.localeSelection, initial: true) { _, _ in
             model.language = preferences.language
             model.problem = ""; model.notice = ""

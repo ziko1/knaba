@@ -312,4 +312,10 @@
     <string name="erp_role_guest">Gast</string>
     <string name="erp_role_service_account">Dienstkonto</string>
     <string name="erp_role_unknown">Unbekannte Rolle</string>
+    <string name="erp_role_partner">Partner</string>
+    <string name="erp_role_bauleiter">Bauleitung</string>
+    <string name="erp_workspace_staff">Fachbereich</string>
+    <string name="erp_workspace_choose">Arbeitsbereich auswählen</string>
+    <string name="erp_workspace_switch">Arbeitsbereich wechseln</string>
+    <string name="erp_workspace_denied">Für dieses Konto ist kein Arbeitsbereich verfügbar.</string>
 </resources>

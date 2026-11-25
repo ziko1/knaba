@@ -49,6 +49,7 @@ private actor ERPFixtureTransport: ERPTransport {
     private var company = "company-a"
     private var meOverride: Data?
     private var responseOrigin: URL?
+    private var roles = ["EMPLOYEE"]
     private var permissions = ["task.work", "chat.write"]
     private var catalogData = Data(#"{"items":[]}"#.utf8)
     private var failEntityReads = false
@@ -63,6 +64,7 @@ private actor ERPFixtureTransport: ERPTransport {
     func setActor(user: String = "user-a", company: String = "company-a") { self.user = user; self.company = company }
     func setMe(_ data: Data?) { meOverride = data }
     func setResponseOrigin(_ url: URL?) { responseOrigin = url }
+    func setRoles(_ roles: [String]) { self.roles = roles }
     func setPermissions(_ permissions: [String]) { self.permissions = permissions }
     func setCatalog(_ data: Data) { catalogData = data }
     func setEntityReadFailure(_ value: Bool) { failEntityReads = value }
@@ -75,7 +77,7 @@ private actor ERPFixtureTransport: ERPTransport {
     func persistenceChecks() -> [Bool] { storedBeforeWrite }
     func identityData() -> Data {
         try! JSONSerialization.data(withJSONObject: [
-            "actor": ["userId": user, "companyId": company, "roles": ["EMPLOYEE"], "permissions": permissions],
+            "actor": ["userId": user, "companyId": company, "roles": roles, "permissions": permissions],
             "user": ["id": user, "name": "Synthetic worker"], "csrfToken": "csrf_" + user, "mode": "TEST"
         ])
     }
@@ -123,7 +125,7 @@ private actor ERPFixtureTransport: ERPTransport {
             body = Data(#"{"counts":{},"activeShifts":0}"#.utf8)
         } else if path.hasSuffix("/commands") {
             body = catalogData
-        } else if path.contains("/entities/") {
+        } else if path.contains("/entities/") || path.hasSuffix("/messages") {
             body = entityPages.isEmpty ? Data(#"{"items":[],"has_more":false}"#.utf8) : entityPages.removeFirst()
             if failEntityReads { status = 503; body = Data(#"{"code":"DEPENDENCY_UNAVAILABLE"}"#.utf8) }
         }
@@ -455,6 +457,111 @@ final class ERPCommandRecoveryTests: XCTestCase {
         }
     }
 
+    @MainActor func testWorkspaceEntryDefersOperationalReadsUntilSelectionAndClearsRoleDataOnSwitch() async throws {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        await server.setRoles(["WORKER", "CLIENT"])
+        await server.setPermissions(["task.read", "customer.portal"])
+        let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+        model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+        await model.signIn()
+        XCTAssertNotNil(model.identity)
+        XCTAssertEqual(model.availableWorkspaces, [.client, .worker])
+        XCTAssertNil(model.selectedWorkspace)
+        XCTAssertTrue(model.modules.isEmpty)
+        model.selectWorkspace(.owner)
+        await model.loadOverview()
+        await model.loadKind("task")
+        let dashboardReads = await server.requests("/dashboard")
+        let catalogReads = await server.requests("/commands")
+        let prematureTaskReads = await server.requests("/entities/task")
+        XCTAssertTrue(dashboardReads.isEmpty && catalogReads.isEmpty && prematureTaskReads.isEmpty)
+
+        model.selectWorkspace(.worker)
+        await model.loadOverview()
+        XCTAssertNotNil(model.dashboard)
+        await server.setPages([Data(#"{"items":[{"id":"private-task","kind":"task","version":1,"data":{}}],"has_more":false,"next_cursor":null}"#.utf8)])
+        await model.loadKind("task")
+        XCTAssertEqual(model.items.first?.id, "private-task")
+        let previousSession = model.sessionGeneration
+        model.selectWorkspace(nil)
+        XCTAssertGreaterThan(model.sessionGeneration, previousSession)
+        XCTAssertTrue(model.items.isEmpty && model.modules.isEmpty)
+        XCTAssertNil(model.dashboard)
+        model.selectWorkspace(.client)
+        XCTAssertEqual(model.selection, "site")
+        await model.loadKind("task")
+        let taskReads = await server.requests("/entities/task")
+        XCTAssertEqual(taskReads.count, 1)
+        XCTAssertTrue(model.items.isEmpty)
+        await model.signOut()
+        XCTAssertNil(model.identity)
+    }
+
+    @MainActor func testDelayedMessageReadCannotRepopulateTheNextWorkspace() async {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        await server.setRoles(["WORKER", "CLIENT"])
+        await server.setPermissions(["task.read", "customer.portal", "chat.read"])
+        let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+        model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+        await model.signIn()
+        model.selectWorkspace(.worker)
+        let channel = "00000000-0000-4000-8000-000000000001"
+        model.selectedChannel = channel
+        let reached = expectation(description: "previous workspace requested messages")
+        let gate = ERPRaceGate(reached)
+        await server.hold("/api/v1/channels/\(channel)/messages", at: gate)
+        await server.setPages([Data(#"{"items":[{"id":"old-message","kind":"message","version":1,"data":{}}],"has_more":false,"next_cursor":null}"#.utf8)])
+        let old = Task { await model.loadMessages() }
+        await fulfillment(of: [reached], timeout: 2)
+        model.selectWorkspace(nil)
+        model.selectWorkspace(.client)
+        model.selectedChannel = channel
+        await gate.release()
+        await old.value
+        XCTAssertEqual(model.selectedWorkspace, .client)
+        XCTAssertTrue(model.messages.isEmpty)
+        XCTAssertTrue(model.problem.isEmpty)
+    }
+
+    @MainActor func testUnknownWorkspaceWithWildcardDoesNotFetchDashboardOrCommands() async {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        await server.setRoles(["UNKNOWN"]); await server.setPermissions(["*"])
+        let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+        model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+        await model.signIn()
+        XCTAssertNotNil(model.identity)
+        XCTAssertTrue(model.availableWorkspaces.isEmpty && model.modules.isEmpty)
+        model.selectWorkspace(.owner)
+        XCTAssertNil(model.selectedWorkspace)
+        await model.refreshActions()
+        let dashboardReads = await server.requests("/dashboard")
+        let catalogReads = await server.requests("/commands")
+        XCTAssertTrue(dashboardReads.isEmpty && catalogReads.isEmpty)
+        await model.signOut()
+        XCTAssertNil(model.identity)
+    }
+
+    @MainActor func testRefreshingActionsDiscardsARevokedWorkspaceBeforePublishingCatalog() async {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        await server.setRoles(["STOREKEEPER"]); await server.setPermissions(["inventory.read"])
+        let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+        model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
+        await model.signIn()
+        XCTAssertEqual(model.selectedWorkspace, .staff)
+        XCTAssertTrue(model.modules.contains { $0.kind == "material" })
+        await server.setPermissions([])
+        await model.refreshActions()
+        XCTAssertNil(model.identity)
+        XCTAssertNil(model.selectedWorkspace)
+        XCTAssertTrue(model.modules.isEmpty && model.commands.isEmpty)
+        let catalogReads = await server.requests("/commands")
+        XCTAssertEqual(catalogReads.count, 1, "Only the original authorized login fetches its catalog")
+    }
+
     private func quoteAction(_ highRisk: Bool = false) throws -> ERPCommand {
         let schema = try JSONDecoder().decode(ERPField.self, from: Data(#"{"type":"object","required":["id","quoteVersion"],"properties":{"id":{"type":"string"},"quoteVersion":{"type":"integer"},"acceptanceEvidence":{"type":"string"}}}"#.utf8))
         return ERPCommand(name: "quote.accept", permission: "quote.accept", highRisk: highRisk, schema: schema)
@@ -466,7 +573,8 @@ final class ERPCommandRecoveryTests: XCTestCase {
         Data((#"{"items":[{"name":"quote.accept","permission":"quote.accept","highRisk":HIGH_RISK,"schema":{"type":"object","required":["id","quoteVersion"],"properties":{"id":{"type":"string"},"quoteVersion":{"type":"integer"},"acceptanceEvidence":{"type":"string"}}}}]}"#).replacingOccurrences(of: "HIGH_RISK", with: highRisk ? "true" : "false").utf8)
     }
     @MainActor private func quoteModel(_ server: ERPFixtureTransport, journal: ERPMemoryJournal) async -> ERPConsoleModel {
-        await server.setPermissions(["quote.accept"])
+        await server.setRoles(["CLIENT"])
+        await server.setPermissions(["quote.accept", "quote.read"])
         await server.setCatalog(quoteCatalog())
         let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
         model.origin = origin; model.email = "synthetic@example.test"; model.password = "test"
