@@ -23,6 +23,12 @@ public class RoleWorkspaceRoutingTest {
         assertEquals(new RoleWorkspaceRouting.Destination.Choose(
             List.of(RoleWorkspaceRouting.Workspace.CLIENT, RoleWorkspaceRouting.Workspace.WORKER)), result);
     }
+    @Test public void proposedPartnerRoleCannotCreateUnverifiedWorkspace() {
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("PARTNER"), List.of("customer.portal", "lead.manage_own")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("PARTNER"), List.of("*")));
+    }
     @Test public void wildcardPermissionDoesNotInventRole() {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of(), List.of("*")));
