@@ -11,13 +11,25 @@ final class RoleWorkspaceRoutingTests: XCTestCase {
         XCTAssertEqual(ERPWorkspaceRoute.available(actor(["CLIENT"], ["customer.portal"])), [.client])
     }
 
+    func testScopedPartnerRequiresDedicatedCanonicalRoleAndExplicitGrant() {
+        XCTAssertEqual(ERPWorkspaceRoute.available(actor(["PARTNER"], ["partner.orders.read"])), [.partner])
+        for roles in [["PARTNER", "OWNER"], ["Partner"], [" PARTNER "], ["PARTNER", "PARTNER"]] {
+            XCTAssertTrue(ERPWorkspaceRoute.available(actor(roles, ["partner.orders.read", "identity.manage", "*"])).isEmpty)
+        }
+        XCTAssertTrue(ERPWorkspaceRoute.available(actor(["CLIENT"], ["partner.orders.read"])).isEmpty)
+        XCTAssertEqual(ERPWorkspaceRoute.available(actor(["DISPATCHER"], ["partner.orders.read", "dispatch.manage"])), [.staff])
+    }
+
     func testUnknownRoleDoesNotBecomeOwnerEvenWithWildcard() {
         XCTAssertTrue(ERPWorkspaceRoute.available(actor(["UNRECOGNIZED"], ["*"])).isEmpty)
     }
 
-    func testProposedPartnerRoleCannotCreateUnverifiedWorkspace() {
-        XCTAssertTrue(ERPWorkspaceRoute.available(actor(["PARTNER"], ["customer.portal", "lead.manage_own"])).isEmpty)
-        XCTAssertTrue(ERPWorkspaceRoute.available(actor(["PARTNER"], ["*"])).isEmpty)
+    func testMissingPartnerGrantCannotOpenAnyWorkspace() {
+        for roles in [["PARTNER"], ["partner"], ["PARTNER", "OWNER"]] {
+            for grants in [[], ["customer.portal"], ["lead.manage_own"], ["identity.manage"], ["*"]] {
+                XCTAssertTrue(ERPWorkspaceRoute.available(actor(roles, grants)).isEmpty)
+            }
+        }
     }
 
     func testMissingGrantCannotCreateOwnerWorkspace() {

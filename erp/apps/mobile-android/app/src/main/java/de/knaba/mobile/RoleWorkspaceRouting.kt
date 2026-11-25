@@ -21,7 +21,6 @@ internal object RoleWorkspaceRouting {
     private val rules = mapOf(
         "CLIENT" to client, "CUSTOMER" to client,
         "WORKER" to worker, "EMPLOYEE" to worker, "TEAM_LEADER" to worker,
-        // No canonical ERP PARTNER actor yet: fail closed until server role and scoped grants exist.
         "BAULEITER" to bauleiter, "SITE_MANAGER" to bauleiter,
         "INTERNAL_BAULEITER" to Rule(Workspace.BAULEITER, *bauleiter.grants, "site.read", "task.assign"),
         "EXTERNAL_BAULEITER" to Rule(Workspace.BAULEITER, *bauleiter.grants, "customer.portal"),
@@ -42,6 +41,11 @@ internal object RoleWorkspaceRouting {
 
     fun destinations(roles: Collection<String>, permissions: Collection<String>): List<Workspace> {
         val grants = permissions.toSet()
+        when (ErpConsoleTransport.PartnerAccess.from(roles, grants)) {
+            ErpConsoleTransport.PartnerAccess.ORDERS -> return listOf(Workspace.PARTNER)
+            ErpConsoleTransport.PartnerAccess.INVALID -> return emptyList()
+            else -> Unit
+        }
         val available = roles.mapNotNull { rules[it.trim().uppercase(java.util.Locale.ROOT)] }
             .filter { rule -> rule.grants.any { permitted(grants, it) } }
             .map { it.workspace }.toSet()

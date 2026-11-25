@@ -1,3 +1,4 @@
+import {PartnerCabinetAuthority} from './partner-cabinet.ts';
 import {SiteSessionAuthority} from './site-session-authority.ts';
 import {assertProductionRetentionMatrix} from '../../packages/domain/production-readiness.ts';
 import {parseIntegrationCredentials} from '../../packages/integrations/generic-events.ts';
@@ -40,7 +41,7 @@ await siteSessions.ready();
 const siteIdentity=new SiteIdentityFlow(db,engine,{companyId:env.COMPANY_ID,appMode:env.APP_MODE,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY},identityConfig);
 const globals=globalThis as any;
 const buildSha=globals.__KNABA_BUILD_SHA__??env.GIT_SHA??'0000000000000000000000000000000000000000';
-const app=await NestFactory.create(createApiModule({db,engine,siteIdentity,siteSessions,companyId:env.COMPANY_ID,appMode:env.APP_MODE,buildSha,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY,integrationCredentials:parseIntegrationCredentials(process.env.INTEGRATION_CREDENTIALS_JSON),cookieSecure:env.PUBLIC_ORIGIN?.startsWith('https:')}),{bodyParser:false,logger:['error','warn']});
+const app=await NestFactory.create(createApiModule({db,engine,siteIdentity,siteSessions,partnerCabinet:new PartnerCabinetAuthority(identityConfig,sessionsEnabled),companyId:env.COMPANY_ID,appMode:env.APP_MODE,buildSha,publicOrigin:env.PUBLIC_ORIGIN,encryptionKey:env.AUTH_ENCRYPTION_KEY,integrationCredentials:parseIntegrationCredentials(process.env.INTEGRATION_CREDENTIALS_JSON),cookieSecure:env.PUBLIC_ORIGIN?.startsWith('https:')}),{bodyParser:false,logger:['error','warn']});
 const server=app.getHttpAdapter().getInstance();server.set('trust proxy',1);
 const moduleLanding=z.enum(['lead-agent']).optional().parse(process.env.KNABA_MODULE_LANDING||undefined);
 if(moduleLanding){

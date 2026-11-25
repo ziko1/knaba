@@ -318,4 +318,17 @@
     <string name="erp_workspace_choose">Виберіть кабінет</string>
     <string name="erp_workspace_switch">Змінити кабінет</string>
     <string name="erp_workspace_denied">Для цього облікового запису немає доступного кабінету.</string>
+    <string name="erp_partner_order">Замовлення %1$s</string>
+    <string name="erp_partner_updated">Оновлено %1$s (Берлін)</string>
+    <string name="erp_partner_next">Наступна сторінка</string>
+    <string name="erp_partner_unavailable">Це замовлення недоступне.</string>
+    <string name="erp_partner_pending">Очікує на підготовку</string>
+    <string name="erp_partner_confirmed">Підтверджено</string>
+    <string name="erp_partner_scheduled">Заплановано</string>
+    <string name="erp_partner_submitted">Роботу здано</string>
+    <string name="erp_partner_review">Перевіряє клієнт</string>
+    <string name="erp_partner_closed">Закрито</string>
+    <string name="erp_partner_paused">Призупинено</string>
+    <string name="erp_partner_disputed">Оскаржується</string>
+    <string name="erp_partner_unknown">Статус невідомий</string>
 </resources>

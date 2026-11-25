@@ -9,6 +9,8 @@ enum ERPText: String, CaseIterable {
     case roleOwner, roleDirector, roleOperationsManager, roleDispatcher, roleInternalBauleiter, roleTeamLeader
     case roleEmployee, roleStorekeeper, roleProcurement, roleAccountant, roleClient, roleExternalBauleiter
     case roleBotAdmin, roleQualityControl, roleAuditor, roleDeveloperSupport, roleGuest, roleServiceAccount
+    case partnerNext, partnerBack, partnerEmpty, partnerUpdated, partnerForbidden, partnerUnavailable, partnerReadFailed
+    case partnerPending, partnerConfirmed, partnerScheduled, partnerInProgress, partnerSubmitted, partnerReview, partnerClosed, partnerPaused, partnerCancelled, partnerDisputed, partnerUnknown
     case rolePartner, workspaceSiteSupervisor, workspaceStaff, workspaceChoose, workspaceNoAccess
     case roleUnknown
     case crew, employees, shifts, presence, customers, messages, notifications
@@ -40,6 +42,24 @@ enum ERPStrings {
         .credentialReauth: ["Melden Sie sich erneut an, um die Änderung Ihrer Zugangsdaten zu prüfen.", "Sign in again to check your credential change.", "Zaloguj się ponownie, aby sprawdzić zmianę danych logowania.", "Prisijunkite iš naujo ir patikrinkite prisijungimo duomenų pakeitimą.", "Войдите снова, чтобы проверить изменение данных входа.", "Увійдіть знову, щоб перевірити зміну даних входу."],
         .credentialUnknown: ["Die Zugangsdaten könnten bereits geändert sein. Melden Sie sich erneut an, um dies zu prüfen. Die Anfrage wird nicht wiederholt.", "The credentials may already have changed. Sign in again to check. The request will not be retried.", "Dane logowania mogły już zostać zmienione. Zaloguj się ponownie, aby to sprawdzić. Żądanie nie zostanie ponowione.", "Prisijungimo duomenys galėjo būti pakeisti. Prisijunkite iš naujo ir patikrinkite. Užklausa nebus kartojama.", "Данные входа могли уже измениться. Войдите снова и проверьте. Запрос не будет повторён.", "Дані входу могли вже змінитися. Увійдіть знову та перевірте. Запит не буде повторено."],
         .errorSensitiveCommand: ["Diese Aktion mit Zugangsdaten ist in der mobilen App nicht verfügbar. Verwenden Sie die sicheren Kontoeinstellungen von KNABA.", "This credential action is not available in the mobile app. Use KNABA’s secure account settings.", "To działanie dotyczące danych logowania nie jest dostępne w aplikacji. Użyj bezpiecznych ustawień konta KNABA.", "Šis prisijungimo duomenų veiksmas programėlėje negalimas. Naudokite saugius KNABA paskyros nustatymus.", "Это действие с данными входа недоступно в приложении. Используйте безопасные настройки аккаунта KNABA.", "Ця дія з даними входу недоступна в застосунку. Скористайтеся захищеними налаштуваннями облікового запису KNABA."],
+        .partnerNext: ["Nächste Seite", "Next page", "Następna strona", "Kitas puslapis", "Следующая страница", "Наступна сторінка"],
+        .partnerBack: ["Zur Auftragsliste", "Back to orders", "Wróć do zleceń", "Grįžti prie užsakymų", "К списку заказов", "До списку замовлень"],
+        .partnerEmpty: ["Keine Aufträge vorhanden.", "There are no orders.", "Brak zleceń.", "Užsakymų nėra.", "Заказов пока нет.", "Замовлень поки немає."],
+        .partnerForbidden: ["Sie haben keinen Zugriff auf diese Aufträge.", "You do not have access to these orders.", "Nie masz dostępu do tych zleceń.", "Neturite prieigos prie šių užsakymų.", "У вас нет доступа к этим заказам.", "Ви не маєте доступу до цих замовлень."],
+        .partnerUnavailable: ["Dieser Auftrag ist nicht verfügbar.", "This order is unavailable.", "To zlecenie jest niedostępne.", "Šis užsakymas nepasiekiamas.", "Этот заказ недоступен.", "Це замовлення недоступне."],
+        .partnerReadFailed: ["Die Auftragsdaten konnten nicht geladen werden. Versuchen Sie es erneut.", "Order data could not be loaded. Try again.", "Nie udało się wczytać danych zleceń. Spróbuj ponownie.", "Nepavyko įkelti užsakymų duomenų. Bandykite dar kartą.", "Не удалось загрузить данные заказов. Попробуйте ещё раз.", "Не вдалося завантажити дані замовлень. Спробуйте ще раз."],
+        .partnerUpdated: ["Zuletzt geändert", "Last updated", "Ostatnia aktualizacja", "Atnaujinta", "Последнее обновление", "Останнє оновлення"],
+        .partnerPending: ["Wartet auf Bearbeitung", "Awaiting processing", "Oczekuje na obsługę", "Laukiama apdorojimo", "Ожидает обработки", "Очікує опрацювання"],
+        .partnerConfirmed: ["Bestätigt", "Confirmed", "Potwierdzone", "Patvirtinta", "Подтверждён", "Підтверджено"],
+        .partnerScheduled: ["Eingeplant", "Scheduled", "Zaplanowane", "Suplanuota", "Запланирован", "Заплановано"],
+        .partnerInProgress: ["In Bearbeitung", "In progress", "W realizacji", "Vykdoma", "В работе", "Виконується"],
+        .partnerSubmitted: ["Arbeit eingereicht", "Work submitted", "Praca przekazana", "Darbas pateiktas", "Работа сдана", "Роботу передано"],
+        .partnerReview: ["In Kundenprüfung", "Under client review", "Weryfikacja przez klienta", "Tikrina klientas", "На проверке у клиента", "На перевірці у клієнта"],
+        .partnerClosed: ["Abgeschlossen", "Closed", "Zamknięte", "Užbaigta", "Закрыт", "Закрито"],
+        .partnerPaused: ["Pausiert", "Paused", "Wstrzymane", "Pristabdyta", "Приостановлен", "Призупинено"],
+        .partnerCancelled: ["Storniert", "Cancelled", "Anulowane", "Atšaukta", "Отменён", "Скасовано"],
+        .partnerDisputed: ["Strittig", "Disputed", "Sporne", "Ginčijama", "Оспаривается", "Оскаржується"],
+        .partnerUnknown: ["Unbekannter Status", "Unknown status", "Status nieznany", "Nežinoma būsena", "Неизвестный статус", "Невідомий статус"],
         .rolePartner: ["Partner", "Partner", "Partner", "Partneris", "Партнёр", "Партнер"],
         .workspaceSiteSupervisor: ["Bauleitung", "Site supervisor", "Kierownik budowy", "Statybos vadovas", "Руководитель объекта", "Керівник об’єкта"],
         .workspaceStaff: ["Fachpersonal", "Specialist staff", "Specjaliści", "Specialistai", "Специалисты", "Фахівці"],

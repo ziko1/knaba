@@ -318,4 +318,17 @@
     <string name="erp_workspace_choose">Choose a workspace</string>
     <string name="erp_workspace_switch">Switch workspace</string>
     <string name="erp_workspace_denied">No workspace is available for this account.</string>
+    <string name="erp_partner_order">Order %1$s</string>
+    <string name="erp_partner_updated">Updated %1$s (Berlin)</string>
+    <string name="erp_partner_next">Next page</string>
+    <string name="erp_partner_unavailable">This order is unavailable.</string>
+    <string name="erp_partner_pending">Awaiting operations</string>
+    <string name="erp_partner_confirmed">Confirmed</string>
+    <string name="erp_partner_scheduled">Scheduled</string>
+    <string name="erp_partner_submitted">Work submitted</string>
+    <string name="erp_partner_review">Under client review</string>
+    <string name="erp_partner_closed">Closed</string>
+    <string name="erp_partner_paused">Paused</string>
+    <string name="erp_partner_disputed">Disputed</string>
+    <string name="erp_partner_unknown">Unknown status</string>
 </resources>

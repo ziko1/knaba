@@ -318,4 +318,17 @@
     <string name="erp_workspace_choose">Arbeitsbereich auswählen</string>
     <string name="erp_workspace_switch">Arbeitsbereich wechseln</string>
     <string name="erp_workspace_denied">Für dieses Konto ist kein Arbeitsbereich verfügbar.</string>
+    <string name="erp_partner_order">Auftrag %1$s</string>
+    <string name="erp_partner_updated">Aktualisiert am %1$s (Berlin)</string>
+    <string name="erp_partner_next">Nächste Seite</string>
+    <string name="erp_partner_unavailable">Dieser Auftrag ist nicht verfügbar.</string>
+    <string name="erp_partner_pending">In Vorbereitung</string>
+    <string name="erp_partner_confirmed">Bestätigt</string>
+    <string name="erp_partner_scheduled">Eingeplant</string>
+    <string name="erp_partner_submitted">Arbeit eingereicht</string>
+    <string name="erp_partner_review">In Prüfung durch den Kunden</string>
+    <string name="erp_partner_closed">Abgeschlossen</string>
+    <string name="erp_partner_paused">Pausiert</string>
+    <string name="erp_partner_disputed">Strittig</string>
+    <string name="erp_partner_unknown">Status unbekannt</string>
 </resources>

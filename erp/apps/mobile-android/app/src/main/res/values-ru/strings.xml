@@ -318,4 +318,17 @@
     <string name="erp_workspace_choose">Выберите кабинет</string>
     <string name="erp_workspace_switch">Сменить кабинет</string>
     <string name="erp_workspace_denied">Для этой учётной записи нет доступного кабинета.</string>
+    <string name="erp_partner_order">Заказ %1$s</string>
+    <string name="erp_partner_updated">Обновлено %1$s (Берлин)</string>
+    <string name="erp_partner_next">Следующая страница</string>
+    <string name="erp_partner_unavailable">Этот заказ недоступен.</string>
+    <string name="erp_partner_pending">Ожидает подготовки</string>
+    <string name="erp_partner_confirmed">Подтверждён</string>
+    <string name="erp_partner_scheduled">Запланирован</string>
+    <string name="erp_partner_submitted">Работа сдана</string>
+    <string name="erp_partner_review">На проверке у клиента</string>
+    <string name="erp_partner_closed">Закрыт</string>
+    <string name="erp_partner_paused">Приостановлен</string>
+    <string name="erp_partner_disputed">Оспаривается</string>
+    <string name="erp_partner_unknown">Статус неизвестен</string>
 </resources>

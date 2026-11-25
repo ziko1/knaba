@@ -16,6 +16,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     }
 
     static func available(_ actor: ERPActor) -> [Self] {
+        if actor.hasPartnerRole { return actor.usesPartnerOrders ? [.partner] : [] }
         let roles = Set(actor.roles.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() })
         func matches(_ names: [String], _ permissions: [String]) -> Bool {
             !roles.isDisjoint(with: names) && ERPModuleCatalog.permits(actor.permissions, anyOf: permissions)
@@ -27,7 +28,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 return matches(["WORKER", "EMPLOYEE", "TEAM_LEADER"], [
                     "task.read", "shift.read", "trip.read", "inventory.read", "dispatch.acknowledge", "payroll.self", "identity.self"
                 ])
-            // ERP has no canonical PARTNER actor. Never infer one from portal permissions.
+            // Only the dedicated partner branch above can select this workspace.
             case .partner: return false
             case .bauleiter:
                 return matches(["BAULEITER", "SITE_MANAGER", "INTERNAL_BAULEITER", "EXTERNAL_BAULEITER"], ["crew.assign", "dispatch.manage"]) ||
@@ -69,6 +70,13 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     @Published var notice = ""
     @Published var pendingCommandName: String?
     @Published var recoveryBlocked = false
+    @Published private(set) var partnerPage: ERPPartnerOrderPage?
+    @Published private(set) var partnerDetail: ERPPartnerOrder?
+    private(set) var partnerProblem: ERPText?
+    private var partnerPageAfter: String?
+    private var partnerRequest = 0
+    private var partnerVisible = true
+    var usesPartnerOrders: Bool { selectedWorkspace == .partner && identity?.actor.usesPartnerOrders == true }
     private let client: ERPConsoleClient
     private var epoch = 0
     private var commandAuthority: ERPConsoleClient.Authority?
@@ -95,7 +103,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         return commands.filter { ERPRecordActions.context(for: record, command: $0, actor: actor) != nil }
     }
     var modules: [ERPModule] {
-        guard let actor = identity?.actor, let workspace = selectedWorkspace else { return [] }
+        guard !usesPartnerOrders, let actor = identity?.actor, let workspace = selectedWorkspace else { return [] }
         let permitted = ERPModuleCatalog.visible(to: actor)
         // Presentation-only subsets. ERP still validates every read/write on the server.
         let kinds: Set<String>
@@ -105,7 +113,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         case .worker:
             kinds = ["task", "site", "crew_assignment", "shift", "timesheet", "trip", "vehicle_trip", "defect", "worklog", "channel", "notification", "official_payslip", "receipt", "material", "material_request", "payroll_calculation", "payout"]
         case .partner:
-            kinds = ["lead", "quote", "order", "site", "channel", "media_asset", "notification"]
+            return []
         case .bauleiter:
             kinds = ["task", "site", "order", "crew_assignment", "employee", "shift", "timesheet", "defect", "worklog", "report", "report_version", "channel", "media_asset", "notification"]
         case .owner, .staff:
@@ -133,6 +141,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         }
         // Discard responses and navigation initiated in the previous workspace.
         epoch += 1
+        clearPartnerOrders()
         selectedWorkspace = workspace
         selection = modules.first?.kind ?? ""
         items = []; commands = []; channels = []; messages = []; dashboard = nil
@@ -140,18 +149,20 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     }
     func signIn() async {
         guard !busy else { return }
+        clearPartnerOrders()
         busy = true; problem = ""; notice = ""; epoch += 1
         let ticket = epoch
         do {
             try await client.configure(origin)
             storedOrigin = ERPOrigin.validate(origin)?.absoluteString ?? ""
             let result = try await client.login(email: email, password: password, otp: otp)
-            let authority = try await client.commandAuthority()
+            let authority = result.actor.hasPartnerRole ? nil : try await client.commandAuthority()
             guard epoch == ticket else { return }
             guard ERPOrigin.validate(origin)?.absoluteString == storedOrigin else { await signOut(ERPFailure.accessChanged); return }
             identity = result
             updateWorkspaceRoute(result.actor)
             commandAuthority = authority
+            if result.actor.hasPartnerRole { email = "" }
             password = ""; otp = ""
             UserDefaults.standard.set(storedOrigin, forKey: "knaba-erp-origin")
             notice = text(.connected)
@@ -164,6 +175,10 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         }
     }
     func reloadSession() async {
+        if usesPartnerOrders {
+            await loadPartnerOrders(after: partnerPageAfter, orderID: partnerDetail?.id, recheckSession: true)
+            return
+        }
         guard identity != nil, !busy else { return }
         let ticket = epoch
         busy = true
@@ -179,6 +194,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     }
     private func clearSessionPresentation(_ error: Error? = nil) {
         epoch += 1
+        clearPartnerOrders()
         identity = nil; availableWorkspaces = []; selectedWorkspace = nil; selection = ""
         items = []; commands = []; channels = []; messages = []; dashboard = nil
         commandAuthority = nil
@@ -207,7 +223,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         problem = describe(error)
     }
     private func reloadPendingState() async {
-        guard identity != nil else { return }
+        guard let actor = identity?.actor, !actor.hasPartnerRole else { return }
         let ticket = epoch
         do {
             let pending = try await client.pendingCommand()
@@ -220,7 +236,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         }
     }
     func retryPending() async {
-        guard selectedWorkspace != nil, !busy, pendingCommandName != nil else { return }
+        guard !usesPartnerOrders, selectedWorkspace != nil, !busy, pendingCommandName != nil else { return }
         let ticket = epoch
         busy = true; problem = ""; notice = ""
         do {
@@ -245,7 +261,79 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         await reloadPendingState()
         if !hasPending { await loadOverview() }
     }
+    private func clearPartnerOrders() {
+        partnerRequest += 1
+        partnerProblem = nil
+        partnerPageAfter = nil
+        partnerPage = nil
+        partnerDetail = nil
+    }
+
+    func setPartnerVisibility(_ visible: Bool) {
+        guard visible != partnerVisible else { return }
+        partnerVisible = visible
+        if !visible && usesPartnerOrders {
+            clearPartnerOrders()
+            busy = false
+        }
+    }
+
+    func revalidatePartnerPresentation() async {
+        guard partnerPage != nil || partnerDetail != nil else { return }
+        await reloadSession()
+    }
+
+    func returnToPartnerPage() async {
+        guard partnerDetail != nil else { return }
+        await loadPartnerOrders(after: partnerPageAfter, recheckSession: true)
+    }
+
+    func loadPartnerOrders(after: String? = nil, orderID: String? = nil, recheckSession: Bool = false) async {
+        guard usesPartnerOrders, partnerVisible, !busy else { return }
+        if let orderID {
+            guard partnerPage?.items.contains(where: { $0.id.utf8.elementsEqual(orderID.utf8) }) == true ||
+                  (recheckSession && partnerDetail?.id.utf8.elementsEqual(orderID.utf8) == true) else { return }
+        }
+        if let after {
+            guard partnerPage?.nextAfter?.utf8.elementsEqual(after.utf8) == true ||
+                  (recheckSession && partnerPageAfter?.utf8.elementsEqual(after.utf8) == true) else { return }
+        }
+        let originatingPage = partnerPageAfter
+        clearPartnerOrders()
+        let ticket = epoch, read = partnerRequest
+        busy = true; problem = ""; notice = ""
+        defer { if ticket == epoch && read == partnerRequest { busy = false } }
+        do {
+            if recheckSession {
+                _ = try await client.refresh()
+                guard ticket == epoch && read == partnerRequest else { return }
+            }
+            if let orderID {
+                let detail = try await client.partnerOrder(id: orderID)
+                guard ticket == epoch && read == partnerRequest else { return }
+                partnerPageAfter = originatingPage
+                partnerDetail = detail
+            } else {
+                let page = try await client.partnerOrders(after: after)
+                guard ticket == epoch && read == partnerRequest else { return }
+                partnerPageAfter = after
+                partnerPage = page
+            }
+        } catch {
+            guard ticket == epoch && read == partnerRequest else { return }
+            switch error as? ERPFailure {
+            case .expired, .http(401, _): await signOut(ERPFailure.expired); return
+            case .accessChanged: await signOut(error); return
+            case .http(403, _): partnerProblem = .partnerForbidden
+            case .http(404, _): partnerProblem = .partnerUnavailable
+            default: partnerProblem = .partnerReadFailed
+            }
+            if let partnerProblem { problem = text(partnerProblem) }
+        }
+    }
+
     func loadOverview() async {
+        if usesPartnerOrders { await loadPartnerOrders(); return }
         guard selectedWorkspace != nil, !busy else { return }
         busy = true; problem = ""
         let ticket = epoch
@@ -276,7 +364,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         if epoch == ticket { busy = false }
     }
     func refreshActions() async {
-        guard selectedWorkspace != nil, !busy else { return }
+        guard !usesPartnerOrders, selectedWorkspace != nil, !busy else { return }
         let ticket = epoch
         busy = true; problem = ""
         do {
@@ -308,7 +396,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         } catch { await failed(error, ticket: ticket) }
     }
     func sendMessage() async {
-        guard selectedWorkspace != nil, !selectedChannel.isEmpty, !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard !usesPartnerOrders, selectedWorkspace != nil, !selectedChannel.isEmpty, !busy, !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         busy = true; problem = ""; let ticket = epoch
         do {
             try await client.sendMessage(channelId: selectedChannel, text: messageText, language: language.rawValue.uppercased())
@@ -321,7 +409,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     @discardableResult
     func submit(_ command: ERPCommand, fields: [String: String], versionText: String,
                 expectedSession: Int, context: ERPRecordActionContext? = nil, confirmed: Bool = false) async -> Bool {
-        guard !busy, expectedSession == epoch, selectedWorkspace != nil, let authority = commandAuthority else { return false }
+        guard !usesPartnerOrders, !busy, expectedSession == epoch, selectedWorkspace != nil, let authority = commandAuthority else { return false }
         busy = true; problem = ""; notice = ""; let ticket = epoch
         var applied = false
         do {
@@ -369,6 +457,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
     @StateObject private var model = ERPConsoleModel()
     @State private var selectedTab = 0
     @State private var actionSearch = ""
+    @State private var visible = false
     @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         NavigationStack {
@@ -390,7 +479,8 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                             }
                         }.padding()
                     }
-                } else { console }
+                } else if model.usesPartnerOrders { ERPPartnerOrdersView(model: model) }
+                else { console }
             }
             .knabaScreen()
             .navigationTitle(model.identity == nil ? "" : model.text(.title))
@@ -437,10 +527,21 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         }
         .onChange(of: preferences.localeSelection, initial: true) { _, _ in
             model.language = preferences.language
-            model.problem = ""; model.notice = ""
+            model.problem = model.partnerProblem.map(model.text) ?? ""
+            model.notice = ""
+        }
+        .onAppear {
+            visible = true
+            model.setPartnerVisibility(scenePhase == .active)
+            if scenePhase == .active && model.usesPartnerOrders { Task { await model.reloadSession() } }
+        }
+        .onDisappear {
+            visible = false
+            model.setPartnerVisibility(false)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active && model.identity != nil { Task { await model.reloadSession() } }
+            model.setPartnerVisibility(visible && phase == .active)
+            if phase == .active && visible && model.identity != nil { Task { await model.reloadSession() } }
         }
     }
     private var console: some View {

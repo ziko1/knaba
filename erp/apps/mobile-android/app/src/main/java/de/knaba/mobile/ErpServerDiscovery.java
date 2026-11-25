@@ -17,11 +17,31 @@ class ErpServerDiscovery {
     private static final int MAX_BYTES = 32768;
     private final ErpConsoleTransport.ConnectionFactory connections;
 
-    ErpServerDiscovery() { this(url -> (HttpURLConnection) url.openConnection()); }
-    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections) { this.connections = connections; }
+    private final boolean requireTestMode;
+    private final String configUrl;
+
+    ErpServerDiscovery() { this(false, null); }
+    ErpServerDiscovery(boolean requireTestMode, String partnerHost) {
+        this(url -> (HttpURLConnection) url.openConnection(), requireTestMode, partnerHost);
+    }
+    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections) { this(connections, false); }
+    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections, boolean requireTestMode) {
+        this(connections, requireTestMode, null);
+    }
+    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections, boolean requireTestMode, String partnerHost) {
+        this.connections = connections;
+        if (partnerHost == null) {
+            configUrl = CONFIG_URL;
+        } else {
+            if (!requireTestMode || !partnerHost.matches("[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.knaba\\.de"))
+                throw new IllegalArgumentException("INVALID_PARTNER_DISCOVERY_HOST");
+            configUrl = "https://" + partnerHost + "/api/public/release";
+        }
+        this.requireTestMode = requireTestMode;
+    }
 
     String discover() throws Exception {
-        JSONObject config = get(CONFIG_URL);
+        JSONObject config = get(configUrl);
         Object version = config.opt("schemaVersion");
         if (!(version instanceof Number) || ((Number) version).doubleValue() != 1 || !config.has("erpOrigin"))
             throw failure(0, "SERVER_CONFIG_INVALID");
@@ -36,7 +56,8 @@ class ErpServerDiscovery {
             if (!(host.equals("knaba.de") || host.endsWith(".knaba.de"))) throw new IllegalArgumentException();
         } catch (IllegalArgumentException invalid) { throw failure(0, "SERVER_CONFIG_INVALID"); }
         JSONObject ready = get(origin + "/ready");
-        if (!Boolean.TRUE.equals(ready.opt("ready")) || !"CONNECTED".equals(ready.opt("database")))
+        if (!Boolean.TRUE.equals(ready.opt("ready")) || !"CONNECTED".equals(ready.opt("database")) ||
+                (requireTestMode && !"TEST".equals(ready.opt("mode"))))
             throw failure(0, "SERVER_NOT_READY");
         return origin;
     }

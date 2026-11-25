@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +32,38 @@ class ErpConsoleTransport {
     private String actorScope = "";
     private String actorAuthority = "";
     private boolean sensitiveFlight;
+    private PartnerAccess partnerAccess = PartnerAccess.NONE;
+
+    enum PartnerAccess {
+        NONE, ORDERS, INVALID;
+
+        private static boolean roleSpace(char c) {
+            return Character.isWhitespace(c) || Character.isSpaceChar(c) || c == '\u0085';
+        }
+
+        private static boolean isPartnerRole(String role) {
+            int end = role.length();
+            int first = 0;
+            while (first < end && roleSpace(role.charAt(first))) first++;
+            while (end > first && roleSpace(role.charAt(end - 1))) end--;
+            return end - first == "PARTNER".length() && role.regionMatches(true, first, "PARTNER", 0, end - first);
+        }
+
+        static PartnerAccess from(Collection<String> roles, Collection<String> permissions) {
+            for (String role : roles) {
+                if (isPartnerRole(role))
+                    return roles.size() == 1 && "PARTNER".equals(role) && permissions.contains("partner.orders.read")
+                            ? ORDERS : INVALID;
+            }
+            return NONE;
+        }
+    }
+    private static List<String> actorValues(JSONObject actor, String field) throws Exception {
+        JSONArray values = actor.optJSONArray(field);
+        List<String> list = new ArrayList<>();
+        if (values != null) for (int i = 0; i < values.length(); i++) list.add(values.getString(i));
+        return list;
+    }
     private final ConnectionFactory connections;
     private final Journal journal;
 
@@ -89,7 +122,7 @@ class ErpConsoleTransport {
         if (!next.equals(origin)) clear();
         origin = next;
     }
-    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; actorScope = ""; actorAuthority = ""; sensitiveFlight = false; }
+    synchronized void clear() { epoch++; cookie = ""; csrf = ""; pending = null; actorScope = ""; actorAuthority = ""; partnerAccess = PartnerAccess.NONE; sensitiveFlight = false; }
     synchronized boolean isSignedIn() { return !cookie.isEmpty() && !csrf.isEmpty(); }
     synchronized String origin() { return origin; }
     synchronized boolean hasPendingCommand() { return pending != null; }
@@ -164,7 +197,16 @@ class ErpConsoleTransport {
         if (authenticated && (session.cookie.isEmpty() || session.csrf.isEmpty())) throw new Failure(0, "NEEDS_REAUTH", false);
         final byte[] bytes = body == null ? null : body.toString().getBytes(StandardCharsets.UTF_8);
         if (bytes != null && bytes.length > 65536) throw new Failure(0, "REQUEST_TOO_LARGE", false);
-        if (!detachedLogout) requireCurrent(session);
+        if (!detachedLogout) synchronized (this) {
+            requireCurrent(session);
+            if (authenticated) {
+                boolean orderRead = body == null && (path.startsWith("/api/v1/partner/orders?") ||
+                        path.startsWith("/api/v1/partner/orders/") || path.startsWith("/api/v1/partner/order?id="));
+                if (orderRead && partnerAccess != PartnerAccess.ORDERS ||
+                        !orderRead && partnerAccess != PartnerAccess.NONE && !(body == null && path.equals("/api/v1/me")))
+                    throw new Failure(0, "ACCESS_CHANGED", false);
+            }
+        }
         HttpURLConnection http = null;
         boolean submitted = false;
         try {
@@ -220,7 +262,12 @@ class ErpConsoleTransport {
                     if (nextCookie == null || !proof.matches("[A-Za-z0-9_-]{30,100}") || actor == null || actor.optString("userId").isEmpty() || actor.optString("companyId").isEmpty())
                         throw new Failure(status, "LOGIN_RESPONSE_INVALID", false);
                     cookie = nextCookie; csrf = proof;
-                    try { actorScope = scope(actor); actorAuthority = authority(actor); restorePending(); }
+                    try {
+                        actorScope = scope(actor);
+                        actorAuthority = authority(actor);
+                        partnerAccess = PartnerAccess.from(actorValues(actor, "roles"), actorValues(actor, "permissions"));
+                        if (partnerAccess == PartnerAccess.NONE) restorePending();
+                    }
                     catch (Exception error) { clear(); throw error; }
                 } else if (authenticated && result.has("csrfToken")) {
                     String proof = result.optString("csrfToken");
@@ -279,6 +326,57 @@ class ErpConsoleTransport {
         }
         return result;
     }
+    private static final int PARTNER_PAGE_SIZE = 50;
+
+    private static boolean validPartnerId(Object value) {
+        if (!(value instanceof String)) return false;
+        String id = (String) value;
+        return !id.isEmpty() && id.length() <= 100 && id.indexOf(0) < 0 && StandardCharsets.UTF_8.newEncoder().canEncode(id);
+    }
+
+    private static String partnerComponent(String id) throws Exception {
+        if (!validPartnerId(id)) throw new Failure(0, "INVALID_PARTNER_ORDER_ID", false);
+        // Keep an opaque ID in a single UTF-8 component, for paths and cursors alike.
+        return java.net.URLEncoder.encode(id, "UTF-8").replace("+", "%20").replace(".", "%2E");
+    }
+
+    private static void validatePartnerOrder(JSONObject order) throws Failure {
+        if (order == null || order.length() != 3 || !validPartnerId(order.opt("id"))
+                || !(order.opt("status") instanceof String) || order.optString("status").isEmpty()
+                || !(order.opt("updatedAt") instanceof String)) throw new Failure(0, "INVALID_RESPONSE", false);
+        try { java.time.Instant.parse(order.optString("updatedAt")); }
+        catch (java.time.format.DateTimeParseException error) { throw new Failure(0, "INVALID_RESPONSE", false); }
+    }
+
+    JSONObject partnerOrders(String after) throws Exception {
+        String path = "/api/v1/partner/orders?limit=" + PARTNER_PAGE_SIZE;
+        if (after != null) path += "&after=" + partnerComponent(after);
+        JSONObject page = call(path, null, true, false);
+        JSONArray items = page.optJSONArray("items");
+        if (page.length() != 2 || items == null || items.length() > PARTNER_PAGE_SIZE || !page.has("nextAfter"))
+            throw new Failure(0, "INVALID_RESPONSE", false);
+        java.util.Set<String> ids = new java.util.HashSet<>();
+        String last = null;
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject order = items.optJSONObject(i);
+            validatePartnerOrder(order);
+            last = order.getString("id");
+            if (!ids.add(last) || last.equals(after)) throw new Failure(0, "INVALID_RESPONSE", false);
+        }
+        if (!page.isNull("nextAfter") && (last == null || !last.equals(page.opt("nextAfter"))))
+            throw new Failure(0, "INVALID_RESPONSE", false);
+        return page;
+    }
+
+    JSONObject partnerOrder(String id) throws Exception {
+        String component = partnerComponent(id);
+        String path = (".".equals(id) || "..".equals(id)) ? "/api/v1/partner/order?id=" : "/api/v1/partner/orders/";
+        JSONObject order = call(path + component, null, true, false);
+        validatePartnerOrder(order);
+        if (!id.equals(order.opt("id"))) throw new Failure(0, "INVALID_RESPONSE", false);
+        return order;
+    }
+
     JSONObject dashboard() throws Exception { return call("/api/v1/dashboard", null, true, false); }
     JSONArray catalog() throws Exception { return call("/api/v1/commands", null, true, false).getJSONArray("items"); }
     JSONArray entities(String kind) throws Exception {
@@ -305,6 +403,10 @@ class ErpConsoleTransport {
         if (channel == null || !channel.matches("[a-zA-Z0-9-]{8,100}")) throw new Failure(0, "INVALID_CHANNEL", false);
         return pages("/api/v1/channels/" + channel + "/messages");
     }
+    private synchronized void requireCommandSession() throws Failure {
+        if (!isSignedIn()) throw new Failure(0, "NEEDS_REAUTH", false);
+        if (partnerAccess != PartnerAccess.NONE) throw new Failure(0, "ACCESS_CHANGED", false);
+    }
     JSONObject command(String name, JSONObject input, Integer expectedVersion) throws Exception {
         return command(name, input, expectedVersion, UUID.randomUUID().toString());
     }
@@ -317,7 +419,7 @@ class ErpConsoleTransport {
             ErpCommandSecrets.validateOneShot(name,payload);
             final Session session;
             synchronized (this) {
-                if (!isSignedIn()) throw new Failure(0,"NEEDS_REAUTH",false);
+                requireCommandSession();
                 if (sensitiveFlight) throw new Failure(0,"COMMAND_IN_PROGRESS",false);
                 if (pending != null) throw new Failure(0,"PENDING_COMMAND_REQUIRES_RETRY",true);
                 sensitiveFlight = true; session = capture();
@@ -331,7 +433,7 @@ class ErpConsoleTransport {
         body.put("idempotency_key", idempotencyKey);
         final PendingCommand attempt;
         synchronized (this) {
-            if (!isSignedIn()) throw new Failure(0, "NEEDS_REAUTH", false);
+            requireCommandSession();
             if (sensitiveFlight) throw new Failure(0,"COMMAND_IN_PROGRESS",false);
             if (pending != null && !pending.fingerprint.equals(fingerprint)) throw new Failure(0, "PENDING_COMMAND_REQUIRES_RETRY", true);
             if (pending == null) {

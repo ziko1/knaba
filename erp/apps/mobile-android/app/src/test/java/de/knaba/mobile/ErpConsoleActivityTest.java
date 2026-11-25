@@ -623,6 +623,89 @@ public class ErpConsoleActivityTest {
     }
 
     /** Explicit API fixture: these assertions cover native navigation, not SQL authorization. */
+    private static class PartnerTransport extends RoleTransport {
+        final List<String> pages = new ArrayList<>();
+        final List<String> details = new ArrayList<>();
+        String firstId = "private-order-A";
+        int errorStatus;
+        boolean empty, blockDetail, pendingCommand;
+        PartnerTransport() throws Exception { super("PARTNER", "partner.orders.read"); }
+        @Override boolean hasPendingCommand() { return pendingCommand; }
+        @Override JSONObject pendingCommand() {
+            return pendingCommand ? new JSONObject(java.util.Map.of("name","task.update","input",new JSONObject(),"idempotency_key","old-command-key")) : null;
+        }
+        JSONObject dto(String id) throws Exception {
+            return new JSONObject().put("id", id).put("status", "SCHEDULED").put("updatedAt", "2026-11-25T12:34:00.000Z");
+        }
+        @Override JSONObject partnerOrders(String after) throws Exception {
+            pages.add(after);
+            if (errorStatus != 0) throw new Failure(errorStatus, "TEST_READ_DENIED", false);
+            var rows = new JSONArray();
+            if (!empty) rows.put(dto(after == null ? firstId : "private-order-B"));
+            return new JSONObject().put("items", rows).put("nextAfter", empty || after != null ? JSONObject.NULL : firstId);
+        }
+        @Override JSONObject partnerOrder(String id) throws Exception {
+            details.add(id);
+            if (blockDetail) {
+                entered.countDown();
+                if (!release.await(4, TimeUnit.SECONDS)) throw new AssertionError("detail fixture timeout");
+            }
+            if (errorStatus != 0) throw new Failure(errorStatus, "TEST_READ_DENIED", false);
+            return dto(id);
+        }
+        @Override JSONObject dashboard() { throw new AssertionError("Generic dashboard on scoped partner login"); }
+        @Override JSONArray catalog() { throw new AssertionError("Command catalog on scoped partner login"); }
+        @Override JSONArray entities(String kind) { throw new AssertionError("Generic entity read on scoped partner login"); }
+    }
+
+    @Test public void dedicatedPartnerLoginListsPagesAndReadsDetailWithoutCommandsOrRecovery() throws Exception {
+        launch(); PartnerTransport transport = new PartnerTransport();
+        transport.pendingCommand = true;
+        signInFixture(transport);
+        assertEquals(1, transport.pages.size());
+        assertNull(transport.pages.get(0));
+        assertFalse(hasButton(R.string.erp_actions)); assertFalse(hasButton(R.string.erp_time_tools));
+        assertFalse(hasButton(R.string.erp_review_pending));
+        assertTrue(text().contains("private-order-A"));
+        click(R.string.erp_partner_next); settled();
+        assertEquals("private-order-A", transport.pages.get(1)); assertFalse(text().contains("private-order-A"));
+        click(activity.getString(R.string.erp_partner_order,"private-order-B")); settled();
+        assertEquals(List.of("private-order-B"),transport.details);
+        assertTrue(text().contains(activity.getString(R.string.erp_partner_scheduled)));
+        assertTrue(text().contains("2026")); assertFalse(hasButton(R.string.erp_partner_next));
+    }
+
+    @Test public void dedicatedPartnerDropsPreviousDataOnEmptyDenialOutageAndExpiry() throws Exception {
+        launch(); PartnerTransport transport = new PartnerTransport(); signInFixture(transport);
+        transport.empty = true; click(R.string.erp_refresh); settled();
+        assertTrue(text().contains(activity.getString(R.string.erp_empty))); assertFalse(text().contains("private-order-A"));
+        transport.empty = false;
+        for (int status : new int[]{503,403,404,409}) {
+            transport.errorStatus=0; click(R.string.erp_refresh); settled();
+            assertTrue(text().contains("private-order-A"));
+            transport.errorStatus=status; click(R.string.erp_refresh); settled();
+            assertFalse(text().contains("private-order-A")); assertFalse(hasButton(R.string.erp_partner_next));
+            assertTrue(hasButton(R.string.erp_refresh)); assertTrue(hasButton(R.string.erp_logout));
+        }
+        transport.errorStatus=401; click(R.string.erp_refresh); settled();
+        assertTrue(hasButton(R.string.erp_sign_in)); assertFalse(text().contains("private-order-A"));
+    }
+
+    @Test public void partnerBackgroundInvalidatesDelayedDetailAndReReadsListOnReturn() throws Exception {
+        launch(); PartnerTransport transport = new PartnerTransport(); signInFixture(transport);
+        transport.blockDetail=true;
+        try {
+            click(activity.getString(R.string.erp_partner_order,"private-order-A"));
+            assertTrue(transport.entered.await(2,TimeUnit.SECONDS));
+            controller.pause().stop();
+            assertFalse(text().contains("private-order-A"));
+            transport.firstId="current-order"; transport.release.countDown();
+            controller.start().resume(); Shadows.shadowOf(Looper.getMainLooper()).idle();
+            await(() -> text().contains("current-order") && !busy());
+            assertFalse(text().contains("private-order-A")); assertFalse(text().contains("2026"));
+        } finally {transport.release.countDown();}
+    }
+
     private static class RoleTransport extends ControlledTransport {
         final JSONObject identity;
         final List<String> requestedKinds = new ArrayList<>();

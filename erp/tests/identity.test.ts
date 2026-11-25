@@ -2,7 +2,9 @@ import { describe,it,expect } from 'vitest';
 import * as OTPAuth from 'otpauth';
 import type { Request,Response } from 'express';
 import { hashPassword,verifyPassword,hashToken,opaqueToken,csrfFor,parseCookies,requireCsrf,sealSecret,openSecret,validateTotp,AuthService,RateLimiter,type DatabaseLike,type EngineLike,type SqlTransaction } from '../apps/api/auth.js';
-import { identityCommands,activateInvitation,permissionsForRoles } from '../packages/domain/identity.js';
+import { Engine } from '../apps/api/engine.ts';
+import type { Database, PgTransaction } from '../apps/api/database.ts';
+import { identityCommands,activateInvitation,permissionsForRoles,roles } from '../packages/domain/identity.js';
 import { DomainError,type Actor,type Data,type Entity,type CommandContext } from '../packages/domain/core.js';
 class FixtureDb implements DatabaseLike,SqlTransaction {
  rows=new Map<string,Entity>();sessions:Data[]=[];siteSessions:Data[]=[];failSiteRevoke=false;credentials:Data[]=[];events:Data[]=[];seq=0;companyId='company';
@@ -150,3 +152,59 @@ describe('owner-reviewed messenger worker interest (source-only, no invitation i
 });
 
 it('rolls back local sessions and role changes if federated namespace revocation fails (explicit CPU fixture)',async()=>{const db=new FixtureDb();await db.add('user',{roles:['EMPLOYEE'],active:true,siteIds:[]},'worker');await db.add('role_assignment',{userId:'worker',role:'DISPATCHER',active:true},'assignment');db.sessions.push({user_id:'worker',company_id:'company'});db.siteSessions.push({user_id:'worker',company_id:'company'});db.failSiteRevoke=true;await expect(run(db,'user.roles',{userId:'worker',roles:['EMPLOYEE'],siteIds:[],reason:'Synthetic atomicity check'})).rejects.toThrow('SYNTHETIC_SITE_REVOKE_FAILURE');expect((await db.get('user','worker')).version).toBe(1);expect((await db.get('role_assignment','assignment')).data.active).toBe(true);expect(db.sessions[0]!.revoked_at).toBeUndefined();expect(db.siteSessions[0]!.revoked_at).toBeUndefined();});
+
+
+describe('dedicated partner authority',()=>{
+ const invite={name:'Partner A',email:'partner@example.test',roles:['PARTNER']};
+ it('activates an owner invitation as a separate canonical ERP actor',async()=>{
+  const db=new FixtureDb();
+  const issued=await run(db,'user.invite',invite);
+  const {userId}=await activateInvitation(db,'company',{token:issued.token,password:'Partner login fixture!'});
+  const api=new Engine(db as unknown as Database,'TEST');
+  const actor=await api.getActor(userId,'company');
+  expect(roles).toContain('PARTNER');
+  expect(actor).toEqual({userId,companyId:'company',roles:['PARTNER'],permissions:['partner.orders.read'],siteIds:[],warehouseIds:[],customerIds:[]});
+  expect(api.catalog(actor).commands.every(c=>c.permission==='partner.orders.read')).toBe(true);
+  expect(await db.list('partner_access')).toEqual([]);
+  expect(await db.list('customer_membership')).toEqual([]);
+ });
+ it.each([
+  {roles:['PARTNER','CLIENT']},{permissions:['bot.settings.manage']},{siteIds:['site-a']},{warehouseIds:['warehouse-a']}
+ ])('refuses expanded partner invitation or role replacement %j',async(input)=>{
+  const db=new FixtureDb();
+  await db.add('user',{active:true,roles:['EMPLOYEE']},'worker');
+  const grant={...invite,...input};
+  await expect(run(db,'user.invite',grant)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  const {name,email,...rolesAndScopes}=grant;
+  await expect(run(db,'user.roles',{siteIds:[],...rolesAndScopes,userId:'worker',reason:'Change roles'})).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect((await db.get('user','worker')).data.roles).toEqual(['EMPLOYEE']);
+  expect(await db.list('user_invitation')).toEqual([]);
+ });
+ it('rejects a stored expanded partner invitation before issuing credentials',async()=>{
+  const db=new FixtureDb(),issued=await run(db,'user.invite',invite);
+  const row=(await db.list('user_invitation'))[0];
+  await db.save(row,{...row.data,roles:['PARTNER','DIRECTOR']});
+  await expect(activateInvitation(db,'company',{token:issued.token,password:'Partner login fixture!'})).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  expect(db.credentials).toEqual([]);
+  expect(await db.list('user')).toEqual([]);
+ });
+ it('limits legacy explicit grants, memberships and generic entity surfaces',async()=>{
+  const db=new FixtureDb(),api=new Engine(db as unknown as Database,'TEST');
+  await db.add('user',{active:true,roles:['PARTNER'],permissions:['audit.read','identity.manage','scope.company'],siteIds:['s'],warehouseIds:['w']},'p');
+  await db.add('customer_membership',{userId:'p',customerId:'c',permissions:['VIEW'],active:true});
+  const actor=await api.getActor('p','company');
+  expect(actor.permissions).toEqual(['partner.orders.read']);
+  expect([actor.customerIds,actor.siteIds,actor.warehouseIds]).toEqual([[],[],[]]);
+  for(const kind of ['user','order','employee','payroll_calculation','notification','service','partner_access']){
+   const row=await db.add(kind,{employeeId:'p',userId:'p',ownerUserId:'p',active:true,salary:15});
+   expect(await api.visible(db as unknown as PgTransaction,actor,row)).toBe(false);
+   await expect(api.authorizeEntity(db as unknown as PgTransaction,'p',kind,row.id)).rejects.toMatchObject({code:'NOT_FOUND_SAFE'});
+  }
+  await expect(api.readEntities(actor,'order')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await expect(api.readEntitiesPage(actor,'order',{limit:1,snapshotAt:new Date().toISOString()})).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  await expect(api.execute(actor,'partner_registration_interest.inbox',{idempotency_key:'scope-check-1',input:{}})).rejects.toMatchObject({code:'ACCESS_DENIED'});
+  const user=await db.get('user','p');
+  await db.save(user,{...user.data,roles:['OWNER','PARTNER']});
+  await expect(api.getActor('p','company')).rejects.toMatchObject({code:'ACCESS_DENIED'});
+ });
+});

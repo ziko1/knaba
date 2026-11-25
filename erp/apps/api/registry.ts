@@ -1,6 +1,7 @@
 import {createMaterialRequestBatchCommands} from '../../packages/domain/material-request-batches.ts';
 import {integrationOutboundCommands} from '../../packages/domain/integration-outbound.ts';
 import {integrationCommands} from '../../packages/domain/integrations.ts';
+import {partnerAccessCommands} from '../../packages/domain/partner-access.ts';
 import {identityCommands} from '../../packages/domain/identity.ts';
 import {botChannelPolicyCommands} from '../../packages/domain/bot-channel-policy.ts';
 import {leadAgentCommands} from '../../packages/domain/lead-agent.ts';
@@ -10,4 +11,4 @@ import {resourcesCommands} from '../../packages/domain/resources.ts';
 import {communicationsCommands} from '../../packages/domain/communications.ts';
 import {governanceCommands} from '../../packages/domain/governance.ts';
 import {CommandRegistry} from '../../packages/domain/core.ts';
-export const registry:CommandRegistry={...integrationOutboundCommands,...integrationCommands,...identityCommands,...botChannelPolicyCommands,...leadAgentCommands,...operationsCommands,...commerceCommands,...resourcesCommands,...createMaterialRequestBatchCommands(resourcesCommands),...communicationsCommands,...governanceCommands};
+export const registry:CommandRegistry={...partnerAccessCommands,...integrationOutboundCommands,...integrationCommands,...identityCommands,...botChannelPolicyCommands,...leadAgentCommands,...operationsCommands,...commerceCommands,...resourcesCommands,...createMaterialRequestBatchCommands(resourcesCommands),...communicationsCommands,...governanceCommands};
