@@ -21,7 +21,7 @@ internal object RoleWorkspaceRouting {
     private val rules = mapOf(
         "CLIENT" to client, "CUSTOMER" to client,
         "WORKER" to worker, "EMPLOYEE" to worker, "TEAM_LEADER" to worker,
-        "PARTNER" to Rule(Workspace.PARTNER, "lead.manage_own", "customer.portal"),
+        // No canonical ERP PARTNER actor yet: fail closed until server role and scoped grants exist.
         "BAULEITER" to bauleiter, "SITE_MANAGER" to bauleiter,
         "INTERNAL_BAULEITER" to Rule(Workspace.BAULEITER, *bauleiter.grants, "site.read", "task.assign"),
         "EXTERNAL_BAULEITER" to Rule(Workspace.BAULEITER, *bauleiter.grants, "customer.portal"),
