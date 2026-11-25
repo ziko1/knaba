@@ -15,6 +15,11 @@ final class RoleWorkspaceRoutingTests: XCTestCase {
         XCTAssertTrue(ERPWorkspaceRoute.available(actor(["UNRECOGNIZED"], ["*"])).isEmpty)
     }
 
+    func testProposedPartnerRoleCannotCreateUnverifiedWorkspace() {
+        XCTAssertTrue(ERPWorkspaceRoute.available(actor(["PARTNER"], ["customer.portal", "lead.manage_own"])).isEmpty)
+        XCTAssertTrue(ERPWorkspaceRoute.available(actor(["PARTNER"], ["*"])).isEmpty)
+    }
+
     func testMissingGrantCannotCreateOwnerWorkspace() {
         XCTAssertTrue(ERPWorkspaceRoute.available(actor(["OWNER"], ["task.read"])).isEmpty)
     }
