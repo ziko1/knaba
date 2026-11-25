@@ -209,6 +209,8 @@ SOURCE_LOCAL_QA: owner invite revocation, 60-per-15m TCP-source login quota, pas
 
 ## KN-PARTNER-PORTAL-20261028 — власні запити партнерів
 
+- У кандидатові від 25.11 власник пов’язує погодженого партнера з контрагентом ERP через F2 та grant. Наступна перевірка на виділеному TEST — запрошення, схвалення сайтом, прив’язка, власне замовлення та відкликання для двох тестових компаній. [Контракт і критерії](PARTNER_CABINET_CONTRACT_UK.md).
+
 - SOURCE_QA_PASS_PREVIEW_NOT_DEPLOYED: partner requests reuse server-scoped client_id workflow and existing Portal; owner can review. DoD: approved only; create/list/cancel, replay safe; role revocation default-deny; IDOR/worker-note/CRM/admin negative tests; DE/EN/UK/RU and 320–1440px browser checks; no migration.
 - BLOCKED_EXTERNAL: company approval of partnership/business process, ERP customer/partner mapping, data processing/retention, provider-backed email recovery, owner live UAT, physical device screen-reader, official production cutover.
 

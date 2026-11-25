@@ -57,6 +57,21 @@ async function currentGrant(c: CommandContext, userId: string): Promise<Entity |
 
 // Responses acknowledge a specific command revision. Access always consults the current row.
 export const partnerAccessCommands: CommandRegistry = {
+  'partner.access.status': {
+    permission: 'partner.access.manage',
+    highRisk: true,
+    schema: z.object({ userId: id }).strict(),
+    async handler(c, { userId }) {
+      await requireOwner(c, userId);
+      const grant = await currentGrant(c, userId);
+      return {
+        userId,
+        active: grant?.data.active === true,
+        version: grant?.version ?? null,
+        customerId: typeof grant?.data.customerId === 'string' ? grant.data.customerId : null,
+      };
+    },
+  },
   'partner.access.grant': {
     permission: 'partner.access.manage',
     highRisk: true,

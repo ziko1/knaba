@@ -175,7 +175,10 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
         }
     }
     func reloadSession() async {
-        if usesPartnerOrders { await loadPartnerOrders(recheckSession: true); return }
+        if usesPartnerOrders {
+            await loadPartnerOrders(after: partnerPageAfter, orderID: partnerDetail?.id, recheckSession: true)
+            return
+        }
         guard identity != nil, !busy else { return }
         let ticket = epoch
         busy = true
@@ -277,7 +280,12 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
 
     func revalidatePartnerPresentation() async {
         guard partnerPage != nil || partnerDetail != nil else { return }
-        await loadPartnerOrders(after: partnerPageAfter, orderID: partnerDetail?.id, recheckSession: true)
+        await reloadSession()
+    }
+
+    func returnToPartnerPage() async {
+        guard partnerDetail != nil else { return }
+        await loadPartnerOrders(after: partnerPageAfter, recheckSession: true)
     }
 
     func loadPartnerOrders(after: String? = nil, orderID: String? = nil, recheckSession: Bool = false) async {
@@ -290,6 +298,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
             guard partnerPage?.nextAfter?.utf8.elementsEqual(after.utf8) == true ||
                   (recheckSession && partnerPageAfter?.utf8.elementsEqual(after.utf8) == true) else { return }
         }
+        let originatingPage = partnerPageAfter
         clearPartnerOrders()
         let ticket = epoch, read = partnerRequest
         busy = true; problem = ""; notice = ""
@@ -302,6 +311,7 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
             if let orderID {
                 let detail = try await client.partnerOrder(id: orderID)
                 guard ticket == epoch && read == partnerRequest else { return }
+                partnerPageAfter = originatingPage
                 partnerDetail = detail
             } else {
                 let page = try await client.partnerOrders(after: after)

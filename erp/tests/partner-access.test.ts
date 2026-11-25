@@ -69,6 +69,31 @@ describe('owner partner grant/revoke through the command engine', () => {
   });
   afterEach(() => db.close());
 
+  const status = (actor = owner) => engine.execute(actor, 'partner.access.status', {
+    input: { userId: 'partner' }, idempotency_key: 'read-same-status',
+  });
+
+  it('reads the current assignment across sessions without relying on an earlier command receipt', async () => {
+    const noGrant = { userId: 'partner', active: false, version: null, customerId: null };
+    expect(await status()).toEqual(noGrant);
+    await grant('grant-for-recovery');
+    const current = await status();
+    expect(current).toEqual({ userId: 'partner', active: true, version: 1, customerId: 'customer' });
+    expect(await status({ ...owner, companyId: 'B' })).toEqual(noGrant);
+
+    db.exec("UPDATE site_identity_bindings SET status='REVOKED' WHERE company_id='A'");
+    await revoke('revoke-recovered-version', current.version);
+    expect(await status()).toEqual({ userId: 'partner', active: false, version: 2, customerId: 'customer' });
+    expect(db.prepare("SELECT * FROM command_receipts WHERE command = 'partner.access.status'").all()).toEqual([]);
+  });
+
+  it('requires a current owner with fresh MFA to read an assignment', async () => {
+    await expect(status({ ...owner, mfaVerifiedAt: '2000-01-01' })).rejects.toMatchObject({ code: 'NEEDS_REAUTH' });
+    const user = await tx().get('user', 'owner');
+    await tx().save(user, { active: true, roles: ['DIRECTOR'], permissions: ['partner.access.manage'] });
+    await expect(status()).rejects.toMatchObject({ code: 'ACCESS_DENIED' });
+  });
+
   it('revokes target credentials in A, leaves equal IDs in B intact and records just one grant', async () => {
     const ack = await grant('grant-original');
     expect(ack).toEqual({ userId: 'partner', version: 1 });

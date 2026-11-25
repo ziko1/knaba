@@ -146,6 +146,46 @@ jobs:
           console.log('Passed ERP assertions:',report.numPassedTests);
           JS
 
+      - name: Rehearse encrypted ERP recovery on isolated partner data
+        timeout-minutes: 5
+        env:
+          KNABA_PG_TRANSPORT: container
+          KNABA_PG_CONTAINER: ${{ job.services.postgres.id }}
+          RESTORE_SYNTHETIC_ISOLATED: 'true'
+        run: |
+          set -euo pipefail
+          umask 077
+          db_name="knaba_backup_$(openssl rand -hex 8)"
+          backup_dir=$(mktemp -d "$RUNNER_TEMP/knaba-recovery-XXXXXXXX")
+          trap 'rm -rf -- "$backup_dir"' EXIT
+          # The job-scoped service removes both disposable databases even if the step fails.
+          for db in "$db_name" "${db_name}_restored"; do
+            docker exec "$KNABA_PG_CONTAINER" createdb -U knaba_test "$db"
+          done
+          export DATABASE_URL="${DATABASE_URL%/*}/$db_name"
+          export RESTORE_DATABASE_URL="${DATABASE_URL}_restored"
+          BACKUP_PASSPHRASE=$(openssl rand -hex 32)
+          export BACKUP_PASSPHRASE BACKUP_DIR="$backup_dir"
+          npm run migrate
+          node scripts/prepare-restore-fixture.mjs
+          docker exec -i "$KNABA_PG_CONTAINER" psql -X -U knaba_test -d "$db_name" -v ON_ERROR_STOP=1 <<'SQL'
+          INSERT INTO aggregates (company_id, kind, id, data) VALUES
+            ('knaba-restore-fixture', 'partner_access', 'partner-1',
+             '{"active":false,"userVersion":1,"customerId":"customer-1","bindingId":"00000000-0000-4000-8000-000000000001"}'),
+            ('knaba-restore-fixture', 'order', 'order-1', '{"customerId":"customer-1","status":"SCHEDULED"}'),
+            ('knaba-restore-second', 'order', 'order-1', '{"customerId":"customer-2","status":"CLOSED"}');
+          SQL
+          bash infra/backup.sh "$backup_dir/partner.tar.enc"
+          bash infra/restore.sh "$backup_dir/partner.tar.enc" --confirm-empty
+          for db in "$db_name" "${db_name}_restored"; do
+            docker exec "$KNABA_PG_CONTAINER" psql -XAt -U knaba_test -d "$db" -v ON_ERROR_STOP=1 -c \
+              "SELECT jsonb_build_array(company_id, kind, id, version, data) FROM aggregates
+               WHERE kind IN ('partner_access', 'order') ORDER BY company_id, kind, id" > "$backup_dir/$db.jsonl"
+          done
+          test "$(wc -l < "$backup_dir/$db_name.jsonl")" -eq 3
+          cmp "$backup_dir/$db_name.jsonl" "$backup_dir/${db_name}_restored.jsonl"
+          echo 'Verified three restored partner grant/order rows across two synthetic companies.'
+
   bridge:
     name: Site SQLite to ERP PostgreSQL HTTP acceptance
     runs-on: ubuntu-24.04
@@ -236,7 +276,7 @@ jobs:
           KNABA_ACCOUNT_QA_DIR: ${{ runner.temp }}/knaba-account-browser
           KNABA_QA_SOURCE_SHA: ${{ env.SOURCE_SHA }}
         run: node corporate-site/tests/account-settings-browser.mjs
-      - name: Render lead-agent UI with explicitly synthetic HTTP replies
+      - name: Render lead-agent and partner UI with explicitly synthetic HTTP replies
         env:
           E2E_BASE_URL: http://127.0.0.1:4381
           PLAYWRIGHT_JSON_OUTPUT_FILE: ${{ runner.temp }}/knaba-lead-ui.json
@@ -258,6 +298,7 @@ jobs:
           export PLAYWRIGHT_CHROMIUM_EXECUTABLE="$KNABA_CHROME_PATH"
           cd erp
           npm run test:e2e -- tests/lead-agent-ui.spec.ts --reporter=line,json --output="$RUNNER_TEMP/knaba-lead-ui"
+          PLAYWRIGHT_JSON_OUTPUT_FILE="$RUNNER_TEMP/knaba-partner-ui.json" npm run test:e2e -- tests/partner-web.spec.ts --reporter=line,json --output="$RUNNER_TEMP/knaba-partner-ui"
           kill -0 "$preview_pid"
       - name: Reject incomplete browser acceptance
         run: |
@@ -268,7 +309,9 @@ jobs:
           if(account.status!=='PASS'||account.sourceSha!==process.env.SOURCE_SHA||account.checks.length!==expected.length||expected.some(id=>account.checks.filter(c=>c.caseId===id&&c.status==='PASS').length!==1))throw Error('EXACT_ACCOUNT_BROWSER_ACCEPTANCE_REQUIRED');
           const lead=JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/knaba-lead-ui.json`,'utf8'));
           if(lead.stats.expected!==4||lead.stats.unexpected!==0||lead.stats.skipped!==0||lead.stats.flaky!==0||lead.errors.length!==0)throw Error('ALL_FOUR_LEAD_RENDERED_UI_CASES_MUST_PASS');
-          console.log('Account HTTPS/SQLite browser cases: 9; lead rendered HTTP-fixture cases: 4; source:',process.env.SOURCE_SHA);
+          const partner=JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/knaba-partner-ui.json`,'utf8'));
+          if(partner.stats.expected!==5||partner.stats.unexpected||partner.stats.skipped||partner.stats.flaky||partner.errors.length)throw Error('ALL_FIVE_PARTNER_RENDERED_UI_CASES_MUST_PASS');
+          console.log('Account HTTPS/SQLite cases: 9; rendered fixture cases: 4 lead, 5 partner; source:',process.env.SOURCE_SHA);
           JS
       - uses: actions/upload-artifact@v4
         if: always()
@@ -277,6 +320,8 @@ jobs:
           path: |
             ${{ runner.temp }}/knaba-account-browser
             ${{ runner.temp }}/knaba-lead-ui.json
+            ${{ runner.temp }}/knaba-partner-ui.json
+            ${{ runner.temp }}/knaba-partner-ui
             ${{ runner.temp }}/knaba-lead-preview.log
             ${{ runner.temp }}/knaba-lead-ui
           if-no-files-found: error

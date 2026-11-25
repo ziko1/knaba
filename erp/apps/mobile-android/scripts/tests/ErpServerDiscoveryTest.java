@@ -59,6 +59,36 @@ public final class ErpServerDiscoveryTest {
         Queue readyTest = new Queue();
         readyTest.add(config("https://erp.knaba.de")); readyTest.add("{\"ready\":true,\"database\":\"CONNECTED\",\"mode\":\"TEST\"}");
         check("https://erp.knaba.de".equals(new ErpServerDiscovery(readyTest, true).discover()), "test-only build accepts verified TEST");
+        String host = "partner-test.knaba.de";
+        Queue dedicated = new Queue();
+        dedicated.add(config("https://stage-erp.knaba.de"));
+        dedicated.add("{\"ready\":true,\"database\":\"CONNECTED\",\"mode\":\"TEST\"}");
+        check("https://stage-erp.knaba.de".equals(new ErpServerDiscovery(dedicated, true, host).discover()),
+              "Dedicated bootstrap accepts the delegated TEST ERP");
+        check(dedicated.urls.get(0).toString().equals("https://partner-test.knaba.de/api/public/release"),
+              "Uses only the fixed release path at the configured partner host");
+        check(dedicated.urls.get(1).toString().equals("https://stage-erp.knaba.de/ready"), "Probes the delegated origin");
+        Queue unconfigured = new Queue();
+        unconfigured.add(config(JSONObject.NULL));
+        try { new ErpServerDiscovery(unconfigured, true, host).discover(); throw new AssertionError("Unconfigured host accepted"); }
+        catch (ErpConsoleTransport.Failure expected) {
+            check(expected.code.equals("SERVER_NOT_CONFIGURED") && unconfigured.urls.size() == 1, "Dedicated build never falls back to the official manifest");
+        }
+        Queue wrongMode = new Queue();
+        wrongMode.add(config("https://stage-erp.knaba.de"));
+        wrongMode.add("{\"ready\":true,\"database\":\"CONNECTED\",\"mode\":\"PRODUCTION\"}");
+        try { new ErpServerDiscovery(wrongMode, true, host).discover(); throw new AssertionError("Non-TEST ERP accepted"); }
+        catch (ErpConsoleTransport.Failure expected) {
+            check(expected.code.equals("SERVER_NOT_READY"), "Dedicated manifest cannot approve a non-TEST ERP");
+        }
+        for (String invalid : List.of("", "knaba.de", "erp.knaba.de.example.test", "https://erp.knaba.de",
+                "x.knaba.de:443", "x.knaba.de/test", "x.knaba.de?x", "test@x.knaba.de", "-x.knaba.de",
+                "x-.knaba.de", "x.knaba.de.", " x.knaba.de", "x".repeat(64) + ".knaba.de")) {
+            try { new ErpServerDiscovery(dedicated, true, invalid); throw new AssertionError("Invalid host accepted"); }
+            catch (IllegalArgumentException expected) { check(expected.getMessage().equals("INVALID_PARTNER_DISCOVERY_HOST"), "Invalid host rejected"); }
+        }
+        try { new ErpServerDiscovery(dedicated, false, host); throw new AssertionError("Ordinary build accepted custom discovery"); }
+        catch (IllegalArgumentException expected) { check(dedicated.urls.size() == 2, "Ordinary clients reject partner overrides without a request"); }
         Queue q = new Queue(); Reply release = q.add(config("https://erp.knaba.de/"));
         Reply ready = q.add("{\"ready\":true,\"database\":\"CONNECTED\",\"mode\":\"TEST\"}");
         check("https://erp.knaba.de".equals(new ErpServerDiscovery(q).discover()),"Approved origin normalized");

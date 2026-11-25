@@ -6,6 +6,7 @@ import BotOperationsPanel,{botOperationsLabel,canManageBotChannels} from './BotO
 import LeadAgentPanel,{leadAgentLabel,canUseLeadAgent} from './LeadAgentPanel';
 import ClientRedactionPanel from './ClientRedactionPanel';
 import Activation from './Activation';
+import PartnerOrders, {partnerRoute} from './PartnerOrders';
 import MaterialScanner from './MaterialScanner';
 import IssueComposer from './IssueComposer';
 import LocationImport from './LocationImport';
@@ -72,11 +73,21 @@ export default function App(){const [language,setLanguage]=useState<Language>(()
  useEffect(()=>{document.documentElement.lang=language.toLowerCase();localStorage.setItem('knaba-language',language);},[language]);
  useEffect(()=>{api('/api/v1/me').then(setSession).catch(()=>setSession(null)).finally(()=>setChecking(false));api('/api/v1/public/config').then(setConfig).catch(()=>{});const update=()=>setOnline(navigator.onLine);const pop=()=>setRoute(location.pathname);window.addEventListener('online',update);window.addEventListener('offline',update);window.addEventListener('popstate',pop);if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});return()=>{window.removeEventListener('online',update);window.removeEventListener('offline',update);window.removeEventListener('popstate',pop);}},[]);
  const navigate=(path:string)=>{history.pushState({},'',path);setRoute(path);};const login=(value:Session)=>{setSession(value);const digest=new URLSearchParams(location.search).get('digest');navigate(route==='/app/lead-agent'&&canUseLeadAgent(value.actor)?'/app/lead-agent':'/console'+(digest?'?digest='+encodeURIComponent(digest):''))};
- async function logout(){const returnToModule=location.pathname==='/app/lead-agent';try{await api('/api/v1/auth/logout',{method:'POST',body:'{}'});}finally{setSession(null);clearSession();sessionStorage.clear();navigator.serviceWorker?.controller?.postMessage('CLEAR_PRIVATE_DATA');navigate(returnToModule?'/app/lead-agent':'/login')}}
+ function finishLogout(returnToModule:boolean){setSession(null);clearSession();sessionStorage.clear();navigator.serviceWorker?.controller?.postMessage('CLEAR_PRIVATE_DATA');navigate(returnToModule?'/app/lead-agent':'/login')}
+ async function logout(){const returnToModule=location.pathname==='/app/lead-agent';try{await api('/api/v1/auth/logout',{method:'POST',body:'{}'});}finally{finishLogout(returnToModule)}}
+ async function partnerLogout(){
+   try{await api('/api/v1/auth/logout',{method:'POST',body:'{}',signal:AbortSignal.timeout(10000)});}
+   catch(error){if(!(error instanceof ApiError && error.status===401))throw error;}
+   finishLogout(false);
+ }
  if(checking&&route!=='/')return <div className="startup"><Brand/><div className="skeleton wide"/><p>{t('loading')}</p></div>;
  if(route==='/activate')return <Activation t={t} onLogin={login}/>;
  if(route==='/'||route==='/contact')return <PublicEntry t={t} language={language} setLanguage={setLanguage} config={config} navigate={navigate} online={online}/>;
  if(!session)return <Login t={t} language={language} setLanguage={setLanguage} config={config} onLogin={login} navigate={navigate}/>;
+ const partner = partnerRoute(session.actor);
+ if (partner !== 'staff') return <PartnerOrders key={JSON.stringify([session.actor,session.csrfToken])}
+   allowed={partner === 'orders'} language={language} t={t} brand={<Brand/>}
+   languageSelect={<LanguageSelect language={language} setLanguage={setLanguage} t={t}/>} testNotice={session.mode === 'TEST' ? testWorkspaceNotice(language) : undefined} logout={partnerLogout}/>;
  return <Console key={JSON.stringify([session.actor,session.csrfToken])} session={session} t={t} language={language} setLanguage={setLanguage} logout={logout} online={online}/>;
 }
 function PublicEntry({t,language,setLanguage,config,navigate,online}:{t:Translate;language:Language;setLanguage:(l:Language)=>void;config:any;navigate:(p:string)=>void;online:boolean}){const [form,setForm]=useState(false);const [chatOpen,setChatOpen]=useState(new URLSearchParams(location.search).get('chat')==='1');const [busy,setBusy]=useState(false);const [error,setError]=useState<unknown>();const [saved,setSaved]=useState<any>();const [human,setHuman]=useState(false);const [contact,setContact]=useState({name:'',email:'',phone:'',text:''});

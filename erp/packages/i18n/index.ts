@@ -5,6 +5,18 @@ export const languages:Language[]=['DE','EN','PL','LT','RU','UK'];
 const translationColumns:Language[]=['DE','UK','RU','PL','LT','EN'];
 export const languageNames:Record<Language,string>={DE:'Deutsch',UK:'Українська',RU:'Русский',PL:'Polski',LT:'Lietuvių',EN:'English'};
 const rows:Record<string,string[]>={
+partnerLogoutFailed:['Der Server hat die Abmeldung nicht bestätigt. Bitte erneut abmelden.','Сервер не підтвердив вихід. Спробуйте вийти ще раз.','Сервер не подтвердил выход. Попробуйте выйти ещё раз.','Serwer nie potwierdził wylogowania. Spróbuj wylogować się ponownie.','Serveris nepatvirtino atsijungimo. Bandykite atsijungti dar kartą.','The server could not confirm sign-out. Please try signing out again.'],
+partnerOrders:["Meine Aufträge","Мої замовлення","Мои заказы","Moje zlecenia","Mano užsakymai","My orders"],
+partnerFirst:["Erste Seite","Перша сторінка","Первая страница","Pierwsza strona","Pirmas puslapis","First page"],
+partnerNext:["Nächste Seite","Наступна сторінка","Следующая страница","Następna strona","Kitas puslapis","Next page"],
+partnerUnavailable:["Dieser Auftrag ist nicht verfügbar.","Це замовлення недоступне.","Этот заказ недоступен.","To zlecenie jest niedostępne.","Šis užsakymas nepasiekiamas.","This order is unavailable."],
+partnerPending:["In Vorbereitung","Очікує на підготовку","Ожидает подготовки","Oczekuje na przygotowanie","Rengiamasi vykdyti","Awaiting operations"],
+partnerConfirmed:["Bestätigt","Підтверджено","Подтверждён","Potwierdzone","Patvirtinta","Confirmed"],
+partnerScheduled:["Eingeplant","Заплановано","Запланирован","Zaplanowane","Suplanuota","Scheduled"],
+partnerSubmitted:["Arbeit eingereicht","Роботу здано","Работа сдана","Praca zgłoszona","Darbas pateiktas","Work submitted"],
+partnerReview:["In Prüfung durch den Kunden","Перевіряє клієнт","На проверке у клиента","Weryfikacja przez klienta","Tikrina klientas","Under client review"],
+partnerClosed:["Abgeschlossen","Закрито","Закрыт","Zamknięte","Užbaigta","Closed"],
+partnerPaused:["Pausiert","Призупинено","Приостановлен","Wstrzymane","Pristabdyta","Paused"],
 ...internalAssistantCopy,
 crewOffers:['Persönliche Einsatzangebote','Особисті пропозиції роботи','Личные предложения работы','Osobiste propozycje pracy','Asmeniniai darbo pasiūlymai','Personal work offers'],
 crewOfferInfo:['Die Zusage bestätigt Ihre Verfügbarkeit. Arbeitszeit beginnt erst mit der Schicht.','Згода підтверджує вашу доступність. Робочий час починається лише зі зміни.','Согласие подтверждает доступность. Рабочее время начинается только со смены.','Zgoda potwierdza dostępność. Czas pracy zaczyna się dopiero ze zmianą.','Sutikimas patvirtina pasiekiamumą. Darbo laikas prasideda tik pradėjus pamainą.','Acceptance confirms your availability. Work time starts only with a shift.'],

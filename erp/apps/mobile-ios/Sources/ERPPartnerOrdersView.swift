@@ -19,7 +19,7 @@ import SwiftUI
                             Date.FormatStyle(date: .abbreviated, time: .shortened, locale: Locale(identifier: model.language.rawValue),
                                              timeZone: TimeZone(identifier: "Europe/Berlin") ?? .gmt)))
                     }
-                    Button(model.text(.partnerBack)) { Task { await model.loadPartnerOrders() } }
+                    Button(model.text(.partnerBack)) { Task { await model.returnToPartnerPage() } }
                         .buttonStyle(KNABAButtonStyle(emphasis: .secondary))
                 } else if let page = model.partnerPage {
                     if page.items.isEmpty {
@@ -45,7 +45,7 @@ import SwiftUI
             .frame(maxWidth: 840, alignment: .leading).padding(16).frame(maxWidth: .infinity)
         }
         .accessibilityIdentifier("partnerOrders")
-        .refreshable { await model.loadPartnerOrders() }
+        .refreshable { await model.reloadSession() }
         .task {
             // Check the displayed projection while visible; discard it immediately on lifecycle changes.
             while !Task.isCancelled {
@@ -56,7 +56,7 @@ import SwiftUI
     }
 
     private var refresh: some View {
-        Button { Task { await model.loadPartnerOrders() } } label: {
+        Button { Task { await model.reloadSession() } } label: {
             Label(model.text(.refresh), systemImage: "arrow.clockwise")
         }.buttonStyle(KNABAButtonStyle(emphasis: .secondary))
     }

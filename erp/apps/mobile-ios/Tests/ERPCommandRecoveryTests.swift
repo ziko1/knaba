@@ -566,6 +566,36 @@ final class ERPCommandRecoveryTests: XCTestCase {
         XCTAssertNil(model.partnerDetail)
     }
 
+    @MainActor func testPartnerRefreshAndBackKeepTheOriginatingPageUntilHidden() async {
+        let (model, server) = await partnerFixture()
+        let first = #"{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}"#
+        let second = #"{"id":"B","status":"SCHEDULED","updatedAt":"2026-11-25T01:02:03.000Z"}"#
+        let firstPage = Data(#"{"items":[\#(first)],"nextAfter":"A"}"#.utf8)
+        let secondPage = Data(#"{"items":[\#(second)],"nextAfter":null}"#.utf8)
+        await server.setPartnerResponses([(200, firstPage), (200, secondPage), (200, secondPage),
+                                          (200, Data(second.utf8)), (200, Data(second.utf8)), (200, secondPage), (200, firstPage)])
+        await model.signIn()
+        await model.loadPartnerOrders(after: "A")
+        await model.reloadSession()
+        XCTAssertEqual(model.partnerPage?.items.first?.id, "B")
+        await model.loadPartnerOrders(orderID: "B")
+        await model.reloadSession()
+        XCTAssertEqual(model.partnerDetail?.id, "B")
+        await model.returnToPartnerPage()
+        XCTAssertEqual(model.partnerPage?.items.first?.id, "B")
+        XCTAssertNil(model.partnerDetail)
+        model.setPartnerVisibility(false)
+        model.setPartnerVisibility(true)
+        await model.reloadSession()
+        XCTAssertEqual(model.partnerPage?.items.first?.id, "A")
+        let paths = await server.allPaths()
+        XCTAssertEqual(paths.filter { $0.hasPrefix("/api/v1/partner/") }, [
+            "/api/v1/partner/orders?limit=50", "/api/v1/partner/orders?limit=50&after=A",
+            "/api/v1/partner/orders?limit=50&after=A", "/api/v1/partner/orders/B", "/api/v1/partner/orders/B",
+            "/api/v1/partner/orders?limit=50&after=A", "/api/v1/partner/orders?limit=50"
+        ])
+    }
+
     @MainActor func testPartnerErrorsPurgeOrdersAndRetryStartsWithFreshPage() async {
         let (model, server) = await partnerFixture()
         let page = Data(#"{"items":[{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}],"nextAfter":null}"#.utf8)

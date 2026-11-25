@@ -1,3 +1,16 @@
+## Partner debug build with dedicated TEST discovery
+
+The optional Gradle property `knabaPartnerDiscoveryHost` pins the partner APK's discovery request to a single lowercase DNS label below `knaba.de`. The app fetches `https://<host>/api/public/release` and accepts the delegated company ERP only when its readiness response explicitly reports TEST mode and a connected database. Provision the selected TEST endpoint before using account credentials.
+
+For example, this command builds an APK for the proposed host `partner-test.knaba.de`. It does not provision the host.
+
+```sh
+cd erp/apps/mobile-android
+bash gradlew -PknabaParallelPartnerTest=true -PknabaPartnerDiscoveryHost=partner-test.knaba.de :app:assembleDebug
+```
+
+The dedicated version is `0.6.2-test.1` (13), package `de.knaba.mobile.partner.test`. The existing partner APK is `0.6.2-test` (12). Android requires a matching certificate to update it in place. Omitting the host retains official discovery at `https://knaba.de/api/public/release`. The standard debug and release builds retain their usual package, version and discovery endpoint.
+
 ## Current integrated source candidate — 0.6.0 / versionCode 10
 
 Combines the 0.6.0 website branding, official server discovery and credential-safe commands with six-language role labels. Display labels preserve canonical roles and permissions; unknown roles receive a localized fallback and grant no access. VersionCode 10 exceeds both divergent build-9 candidates. The package identity and signing requirements are unchanged; a larger version code alone does not make differently signed APKs compatible.

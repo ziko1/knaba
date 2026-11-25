@@ -156,7 +156,9 @@ async function tenant(db: Database, companyId: string, passwordHash: string, cle
   expect(grant.status,JSON.stringify(grant.body)).toBe(201);
   const identity = await login();
   const get = (path:string, as:Identity=identity) => request(origin,path,as);
-  return {companyId,userId,identity,initial,manage,get,login,firstKey,sqlite,
+  const status = (as: Identity = owner) => request(origin, 'commands/partner.access.status', as,
+    {input:{userId}, idempotency_key:'current-partner-status'});
+  return {companyId,userId,identity,initial,manage,status,get,login,firstKey,sqlite,
     unlink:()=>request(origin,'auth/site-links/unlink',identity,{id:bindingId,expectedVersion:1,password}),
     setSiteAvailable(value:boolean){siteAvailable=value;},
     beforeSecondCheck(change:()=>Promise<void>){
@@ -283,9 +285,15 @@ describe.skipIf(!databaseUrl)('partner cabinet HTTP on isolated PostgreSQL and t
     expect((await b.get('partner/orders')).status).toBe(200);
   });
   it('revokes issued cookies and keeps a replayed grant from reactivating access',async()=>{
-    const revoked=await a.manage('revoke',1);
+    const current = await a.status();
+    expect(current.status).toBe(201);
+    expect(current.body).toEqual({userId:a.userId, active:true, version:1, customerId:'same-customer'});
+    expect((await a.status(a.identity)).status).toBe(403);
+    const revoked=await a.manage('revoke',current.body.version);
     expect(revoked.status,JSON.stringify(revoked.body)).toBe(201);
     expect((await a.get('partner/orders')).status).toBe(401);
+    expect((await a.status()).body).toEqual({...current.body, active:false, version:2});
+    expect((await b.status()).body).toEqual(current.body);
     const replay=await a.manage('grant',undefined,a.firstKey);
     expect(replay.status,JSON.stringify(replay.body)).toBe(201);
     const fresh=await a.login();

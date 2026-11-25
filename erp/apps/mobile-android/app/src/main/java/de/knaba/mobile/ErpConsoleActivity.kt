@@ -29,7 +29,7 @@ import java.util.concurrent.Executors
 /** Native, server-authorized workspace. Demo data never enters a company session. */
 class ErpConsoleActivity : Activity() {
     private var api = ErpConsoleTransport()
-    private var discovery = ErpServerDiscovery(BuildConfig.PARTNER_TEST_ONLY)
+    private var discovery = ErpServerDiscovery(BuildConfig.PARTNER_TEST_ONLY, BuildConfig.PARTNER_DISCOVERY_HOST)
     private val worker = Executors.newSingleThreadExecutor()
     private val configWorker = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())

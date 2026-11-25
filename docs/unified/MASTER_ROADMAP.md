@@ -1,5 +1,9 @@
 # KnaBa — master roadmap до передачі замовнику
 
+## 25.11.2026 — приймання партнерського кабінету
+
+Для ролі PARTNER маршрут до приймання проходить через окремий TEST ERP, перевірений мобільний вхід та підтвердження KNABA на пристроях. Сайт, Android, iOS і вебклієнт мають використовувати те саме призначення контрагента. [Контракт](PARTNER_CABINET_CONTRACT_UK.md) · [Наскрізні критерії та етапи передачі](CONTINUATION_2026-11-21_UK.md).
+
 ## 08.11.2026 — спільний серверний кандидат, реалізації з паралельних гілок
 
 Зведено акаунт/пароль/сесії з auth migration002, guest expiry/revoke з Drizzle0015, Lead Agent, vehicle trips, native0.6.0 build10, партнерів та private backup guards на базі131e582 без заміни чинних F2/F4/C08. Виявлено й виправлено routine deploy guard для VPS SQL. [Обсяг, міграція, фактичні обмеження і відкрита черга](SERVER_INTEGRATION_2026-11-08_UK.md); [source/independent/server evidence](evidence/server-integration-20261108/). Exact combined CI і upload receipts записуються після виконання. Серверний upload дозволено користувачем; activation блокується доступом до /srv/knaba. Whole product NOT_READY; первинні V3/V4 критерії не перепозначено.
