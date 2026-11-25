@@ -115,10 +115,12 @@ jobs:
           export ANDROID_EMULATOR_HOME="$ANDROID_USER_HOME"
           export ANDROID_AVD_HOME="$ANDROID_USER_HOME/avd"
           export ANDROID_SERIAL=emulator-5554
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
           mkdir -p "$ANDROID_AVD_HOME"
           image='system-images;android-35;google_apis;x86_64'
           sdk="$ANDROID_HOME/cmdline-tools/latest/bin"
-          timeout 240 "$sdk/sdkmanager" --sdk_root="$ANDROID_HOME" emulator "$image"
+          timeout 240 "$sdk/sdkmanager" --sdk_root="$ANDROID_HOME" emulator platform-tools "$image"
+          test -x "$ANDROID_HOME/platform-tools/adb"
           "$ANDROID_HOME/emulator/emulator" -accel-check
           "$sdk/avdmanager" create avd -n partner14 -k "$image" -d pixel_6 -p "$ANDROID_AVD_HOME/partner14.avd" <<< no
           adb start-server
