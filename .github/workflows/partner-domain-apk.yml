@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   package:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -77,3 +78,108 @@ jobs:
       - name: Run variant unit tests and lint
         working-directory: erp/apps/mobile-android
         run: gradle --no-daemon --console=plain --init-script "$RUNNER_TEMP/partner-version.gradle" -PknabaParallelPartnerTest=true "-PknabaPartnerDiscoveryHost=$PARTNER_HOST" :app:testDebugUnitTest :app:lintDebug
+  smoke:
+    if: github.event.action == 'synchronize'
+    permissions:
+      actions: read
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Download the exact artifact delivered to the partner host
+        uses: actions/download-artifact@v4
+        with:
+          name: knaba-partner-domain-build14
+          path: delivered
+          run-id: '45580848017'
+          github-token: ${{ github.token }}
+      - name: Install and launch build 14 and observe public discovery
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          apk="$PWD/delivered/knaba-partner-build14.apk"
+          package=de.knaba.mobile.partner.test
+          digest=b36c045f9537807f66f4edbf5ceee4360b8bbf5b0a21fd133671b5509bbfd01c
+          printf '%s  %s\n' "$digest" "$apk" | sha256sum --check --strict
+          mkdir -p evidence
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" > evidence/signature.txt
+          grep -F 'c8b6c9e2ad43b88f68064fbd2479c03ab877fd9825d39b9b8c9f915400d802e5' evidence/signature.txt
+          if ! dpkg-query -W -f='${Status}' libpulse0 2>/dev/null | grep -q 'install ok installed'; then
+            timeout 75 sudo apt-get -qq update
+            timeout 60 sudo apt-get -y -qq install --no-install-recommends libpulse0
+          fi
+          test -c /dev/kvm
+          sudo chmod a+rw /dev/kvm
+          export ANDROID_USER_HOME="$RUNNER_TEMP/android-user"
+          export ANDROID_EMULATOR_HOME="$ANDROID_USER_HOME"
+          export ANDROID_AVD_HOME="$ANDROID_USER_HOME/avd"
+          export ANDROID_SERIAL=emulator-5554
+          mkdir -p "$ANDROID_AVD_HOME"
+          image='system-images;android-35;google_apis;x86_64'
+          sdk="$ANDROID_HOME/cmdline-tools/latest/bin"
+          timeout 240 "$sdk/sdkmanager" --sdk_root="$ANDROID_HOME" emulator "$image"
+          "$ANDROID_HOME/emulator/emulator" -accel-check
+          "$sdk/avdmanager" create avd -n partner14 -k "$image" -d pixel_6 -p "$ANDROID_AVD_HOME/partner14.avd" <<< no
+          adb start-server
+          "$ANDROID_HOME/emulator/emulator" -avd partner14 -port 5554 -no-window -no-audio -no-boot-anim -no-snapshot -no-metrics -gpu software -accel on -memory 2048 -cores 2 -camera-front none -camera-back none > "$RUNNER_TEMP/emulator.log" 2>&1 &
+          emu=$!
+          trap 'kill "$emu" 2>/dev/null || true' EXIT
+          timeout 240 bash -c 'until [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r")" = 1 ]; do sleep 2; done'
+          adb shell input keyevent 82
+          adb shell getprop ro.build.fingerprint | tee evidence/system.txt
+          test "$(adb shell getprop ro.build.version.sdk | tr -d '\r')" = 35
+          test -z "$(adb shell pm list packages "$package" | tr -d '\r')"
+          adb install --no-streaming "$apk" | tee evidence/install.txt
+          grep -F 'Success' evidence/install.txt
+          adb shell dumpsys package "$package" > evidence/package.txt
+          grep -F 'versionCode=14 minSdk=31 targetSdk=36' evidence/package.txt
+          installed=$(adb shell pm path "$package" | tr -d '\r' | sed -n 's/^package://p')
+          adb pull "$installed" "$RUNNER_TEMP/installed-base.apk"
+          printf '%s  %s\n' "$digest" "$RUNNER_TEMP/installed-base.apk" | sha256sum --check --strict | tee evidence/installed-hash-check.txt
+          sha256sum "$RUNNER_TEMP/installed-base.apk" | tee evidence/installed-sha256.txt
+          adb shell am start -W -S -n "$package/de.knaba.mobile.ErpConsoleActivity" | tee evidence/launch.txt
+          grep -Eq '^Status:[[:space:]]*ok' evidence/launch.txt
+          sleep 4
+          adb shell pidof "$package" | tee evidence/pid.txt
+          grep -Eq '[[:digit:]]+' evidence/pid.txt
+          adb shell dumpsys activity activities > "$RUNNER_TEMP/activities.txt"
+          grep -E "(topResumedActivity|mResumedActivity|ResumedActivity).*de.knaba.mobile.partner.test/" "$RUNNER_TEMP/activities.txt" | head -n 2 | tee evidence/resumed.txt
+          ready=false
+          until_time=$((SECONDS + 115))
+          until (( SECONDS >= until_time )); do
+            if adb shell uiautomator dump /sdcard/partner-login.xml >/dev/null 2>&1 && adb shell cat /sdcard/partner-login.xml > evidence/login.xml; then
+              if grep -Eq 'KNABA is ready\. You can sign in\.|KNABA ist bereit\. Sie können sich anmelden\.' evidence/login.xml; then
+                ready=true
+                break
+              fi
+            fi
+            sleep 3
+          done
+          adb exec-out screencap -p > evidence/login.png
+          python3 - <<'PY'
+          import json, urllib.request
+          expected = "https://partner.knaba.de"
+          for path in ["/api/public/release", "/ready"]:
+              url = expected + path
+              req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "KNABA-Android-Discovery/1"})
+              with urllib.request.urlopen(req, timeout=12) as reply:
+                  assert reply.geturl() == url and reply.status == 200
+                  assert reply.headers.get_content_type() == "application/json"
+                  body = json.load(reply)
+              if path == "/ready":
+                  assert body.get("ready") is True and body.get("database") == "CONNECTED" and body.get("mode") == "TEST"
+              else:
+                  assert body.get("schemaVersion") == 1 and body.get("erpOrigin") == expected
+              print("Verified expected public contract at", url)
+          PY
+          test "$ready" = true
+          printf '%s\n' 'Clean Android 35 install and launch succeeded. The app displayed discovery ready on the public partner origin.' | tee evidence/result.txt
+      - name: Preserve emulator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knaba-partner-build14-emulator-proof
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 7
