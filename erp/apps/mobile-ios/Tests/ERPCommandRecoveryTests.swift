@@ -6,10 +6,16 @@ private final class ERPMemoryJournal: ERPPendingCommandStoring, @unchecked Senda
     private var command: ERPPendingCommand?
     private var insertFailure = false
     private var inserts = 0
+    private var loads = 0
+    func loadCount() -> Int { lock.lock(); defer { lock.unlock() }; return loads }
     func failInsert() { lock.lock(); defer { lock.unlock() }; insertFailure = true }
     func insertCount() -> Int { lock.lock(); defer { lock.unlock() }; return inserts }
     func installLegacy(_ next: ERPPendingCommand) { lock.lock(); defer { lock.unlock() }; command = next }
-    func load() throws -> ERPPendingCommand? { lock.lock(); defer { lock.unlock() }; return command }
+    func load() throws -> ERPPendingCommand? {
+        lock.lock(); defer { lock.unlock() }
+        loads += 1
+        return command
+    }
     func insert(_ next: ERPPendingCommand) throws {
         lock.lock(); defer { lock.unlock() }
         inserts += 1
@@ -51,6 +57,9 @@ private actor ERPFixtureTransport: ERPTransport {
     private var responseOrigin: URL?
     private var roles = ["EMPLOYEE"]
     private var permissions = ["task.work", "chat.write"]
+    private var partnerResponses: [(Int, Data)] = []
+    func setPartnerResponses(_ values: [(Int, Data)]) { partnerResponses = values }
+    func allPaths() -> [String] { seen.map { $0.url!.path + ($0.url?.query.map { "?" + $0 } ?? "") } }
     private var catalogData = Data(#"{"items":[]}"#.utf8)
     private var failEntityReads = false
     private var entityPages: [Data] = []
@@ -121,6 +130,9 @@ private actor ERPFixtureTransport: ERPTransport {
                     if case .committedMalformedReceipt = outcome { body = Data("not-json".utf8) }
                 }
             }
+        } else if path.hasPrefix("/api/v1/partner/") {
+            guard !partnerResponses.isEmpty else { throw ERPFailure.invalidResponse }
+            (status, body) = partnerResponses.removeFirst()
         } else if path.hasSuffix("/dashboard") {
             body = Data(#"{"counts":{},"activeShifts":0}"#.utf8)
         } else if path.hasSuffix("/commands") {
@@ -457,6 +469,174 @@ final class ERPCommandRecoveryTests: XCTestCase {
         }
     }
 
+
+    @MainActor private func partnerFixture() async -> (ERPConsoleModel, ERPFixtureTransport) {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        let model = ERPConsoleModel(client: ERPConsoleClient(transport: server, pendingStore: journal))
+        await server.setRoles(["PARTNER"])
+        await server.setPermissions(["partner.orders.read"])
+        model.origin = origin; model.email = "partner@example.test"; model.password = "test"
+        return (model, server)
+    }
+
+    @MainActor func testEveryPartnerRoleClaimBlocksGenericTransportAndJournal() async {
+        let grants = ["partner.orders.read", "identity.manage", "*"]
+        let claims: [([String], [String], Bool)] = [
+            (["PARTNER"], [], false), (["PARTNER"], ["customer.portal"], false),
+            (["PARTNER"], ["lead.manage_own"], false), (["PARTNER"], ["*"], false),
+            (["PARTNER", "OWNER"], ["identity.manage"], false), (["PARTNER", "OWNER"], grants, false),
+            (["pArTnEr"], grants, false), ([" PARTNER "], grants, false), (["PARTNER"], grants, true)
+        ]
+        for (roles, permissions, mayReadOrders) in claims {
+            let journal = ERPMemoryJournal()
+            let server = ERPFixtureTransport(journal: journal)
+            let client = ERPConsoleClient(transport: server, pendingStore: journal)
+            let model = ERPConsoleModel(client: client)
+            await server.setRoles(roles)
+            await server.setPermissions(permissions)
+            await server.setPartnerResponses([(200, Data(#"{"items":[],"nextAfter":null}"#.utf8))])
+            model.origin = origin; model.email = "partner@example.test"; model.password = "test"
+            await model.signIn()
+            XCTAssertNotNil(model.identity)
+            XCTAssertEqual(model.selectedWorkspace, mayReadOrders ? .partner : nil)
+            XCTAssertTrue(model.modules.isEmpty)
+            XCTAssertFalse(model.hasPending)
+            await expect(.accessChanged) { _ = try await client.commandAuthority() }
+            await expect(.accessChanged) { _ = try await client.dashboard() }
+            await expect(.accessChanged) { _ = try await client.catalog() }
+            await expect(.accessChanged) { _ = try await client.entities("order") }
+            await expect(.accessChanged) { _ = try await client.pendingCommand() }
+            await expect(.accessChanged) { _ = try await client.retryPendingCommand() }
+            await expect(.accessChanged) { _ = try await client.execute(self.command, input: self.input) }
+            var expectedPaths = ["/api/v1/auth/login", "/api/v1/me"]
+            if mayReadOrders {
+                expectedPaths.append("/api/v1/partner/orders?limit=50")
+                XCTAssertEqual(model.partnerPage?.items.count, 0)
+            } else {
+                await expect(.accessChanged) { _ = try await client.partnerOrders() }
+                await expect(.accessChanged) { _ = try await client.partnerOrder(id: "A") }
+            }
+            let paths = await server.allPaths()
+            XCTAssertEqual(paths, expectedPaths)
+            XCTAssertEqual(journal.loadCount(), 0)
+            XCTAssertEqual(journal.insertCount(), 0)
+        }
+    }
+
+    @MainActor func testPartnerGrantOnNonPartnerPreservesAuthorizedStaffReads() async {
+        let journal = ERPMemoryJournal()
+        let server = ERPFixtureTransport(journal: journal)
+        let client = ERPConsoleClient(transport: server, pendingStore: journal)
+        let model = ERPConsoleModel(client: client)
+        await server.setRoles(["DISPATCHER"])
+        await server.setPermissions(["partner.orders.read", "dispatch.manage"])
+        model.origin = origin; model.email = "dispatcher@example.test"; model.password = "test"
+        await model.signIn()
+        XCTAssertEqual(model.selectedWorkspace, .staff)
+        XCTAssertNotNil(model.dashboard)
+        await expect(.accessChanged) { _ = try await client.partnerOrders() }
+        let paths = await server.allPaths()
+        XCTAssertEqual(paths, ["/api/v1/auth/login", "/api/v1/me", "/api/v1/dashboard", "/api/v1/commands"])
+        XCTAssertGreaterThan(journal.loadCount(), 0)
+    }
+
+    @MainActor func testPartnerLoginOpensOnlyScopedPagedOrdersAndRechecksEachDetail() async {
+        let (model, server) = await partnerFixture()
+        let first = #"{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}"#
+        let next = #"{"id":"B","status":"SCHEDULED","updatedAt":"2026-11-25T01:02:03.000Z"}"#
+        await server.setPartnerResponses([(200, Data("{\"items\":[\(first)],\"nextAfter\":\"A\"}".utf8)),
+                                          (200, Data("{\"items\":[\(next)],\"nextAfter\":null}".utf8)), (200,Data(next.utf8))])
+        await model.signIn()
+        XCTAssertTrue(model.usesPartnerOrders)
+        XCTAssertTrue(model.email.isEmpty)
+        XCTAssertEqual(model.partnerPage?.items.map(\.id), ["A"])
+        await model.loadPartnerOrders(after: "A")
+        XCTAssertEqual(model.partnerPage?.items.map(\.id), ["B"])
+        await model.loadPartnerOrders(orderID: "B")
+        XCTAssertEqual(model.partnerDetail?.id, "B")
+        XCTAssertNil(model.partnerPage)
+        await model.refreshActions()
+        await model.loadKind("order")
+        await model.retryPending()
+        let paths = await server.allPaths()
+        XCTAssertEqual(paths, ["/api/v1/auth/login", "/api/v1/me", "/api/v1/partner/orders?limit=50",
+                               "/api/v1/partner/orders?limit=50&after=A", "/api/v1/partner/orders/B"])
+        await model.signOut()
+        XCTAssertNil(model.partnerDetail)
+    }
+
+    @MainActor func testPartnerErrorsPurgeOrdersAndRetryStartsWithFreshPage() async {
+        let (model, server) = await partnerFixture()
+        let page = Data(#"{"items":[{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}],"nextAfter":null}"#.utf8)
+        let error = Data(#"{"code":"NOT_FOUND_SAFE"}"#.utf8)
+        await server.setPartnerResponses([(200,page), (404,error), (503,error), (200,page), (403,error), (200,page)])
+        await model.signIn()
+        await model.loadPartnerOrders(orderID: "A")
+        XCTAssertNotNil(model.identity); XCTAssertNil(model.partnerPage); XCTAssertNil(model.partnerDetail)
+        XCTAssertFalse(model.problem.isEmpty)
+        await model.loadPartnerOrders()
+        XCTAssertFalse(model.problem.isEmpty); XCTAssertNil(model.partnerPage)
+        await model.loadPartnerOrders()
+        XCTAssertEqual(model.partnerPage?.items.first?.id, "A"); XCTAssertTrue(model.problem.isEmpty)
+        await model.loadPartnerOrders(orderID: "A")
+        XCTAssertNotNil(model.identity); XCTAssertNil(model.partnerDetail); XCTAssertNil(model.partnerPage)
+        XCTAssertEqual(model.partnerProblem, .partnerForbidden)
+        await model.loadPartnerOrders()
+        XCTAssertEqual(model.partnerPage?.items.first?.id, "A"); XCTAssertNil(model.partnerProblem)
+    }
+
+    @MainActor func testLatePartnerPageCannotSurviveHidingOrReplacementAccount() async {
+        let (model, server) = await partnerFixture()
+        let page = Data(#"{"items":[{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}],"nextAfter":"A"}"#.utf8)
+        let late = Data(#"{"items":[{"id":"secret-A","status":"CLOSED","updatedAt":"2026-11-25T01:02:03.000Z"}],"nextAfter":null}"#.utf8)
+        let other = Data(#"{"items":[],"nextAfter":null}"#.utf8)
+        await server.setPartnerResponses([(200,page),(200,late),(200,other)])
+        await model.signIn()
+        let entered = expectation(description: "Partner page requested"), gate = ERPRaceGate(entered)
+        await server.hold("/api/v1/partner/orders?limit=50&after=A", at: gate)
+        let read = Task { await model.loadPartnerOrders(after: "A") }
+        await fulfillment(of: [entered], timeout: 2)
+        model.setPartnerVisibility(false)
+        XCTAssertNil(model.partnerPage); XCTAssertFalse(model.busy)
+        await model.signOut()
+        await server.setActor(user: "user-b", company: "company-b")
+        model.setPartnerVisibility(true)
+        model.email = "other@example.test"; model.password = "test"; await model.signIn()
+        await gate.release(); await read.value
+        XCTAssertEqual(model.identity?.actor.companyId, "company-b")
+        XCTAssertEqual(model.partnerPage?.items.count, 0); XCTAssertNil(model.partnerDetail)
+    }
+
+    @MainActor func testCheckingDisplayedPartnerDetailKeepsItsRouteAndDropsRevokedProjection() async {
+        let (model, server) = await partnerFixture()
+        let detail = #"{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}"#
+        let page = Data("{\"items\":[\(detail)],\"nextAfter\":null}".utf8)
+        await server.setPartnerResponses([(200,page),(200,Data(detail.utf8)),(200,Data(detail.utf8)),(404,Data("{}".utf8))])
+        await model.signIn()
+        await model.loadPartnerOrders(orderID: "A")
+        await model.revalidatePartnerPresentation()
+        XCTAssertEqual(model.partnerDetail?.id, "A")
+        await model.revalidatePartnerPresentation()
+        XCTAssertNil(model.partnerDetail); XCTAssertNil(model.partnerPage); XCTAssertFalse(model.problem.isEmpty)
+        let paths = await server.allPaths()
+        XCTAssertEqual(paths.filter { $0 == "/api/v1/partner/orders/A" }.count, 3)
+    }
+
+    @MainActor func testPartnerResumeReadsScopeAgainEvenWhenMeRemainsActive() async {
+        let (model, server) = await partnerFixture()
+        let page = Data(#"{"items":[{"id":"A","status":"CONFIRMED","updatedAt":"2026-11-25T01:02:03.000Z"}],"nextAfter":null}"#.utf8)
+        await server.setPartnerResponses([(200,page),(401,Data(#"{"code":"NEEDS_REAUTH"}"#.utf8))])
+        await model.signIn()
+        model.setPartnerVisibility(false)
+        XCTAssertNil(model.partnerPage)
+        model.setPartnerVisibility(true)
+        await model.reloadSession()
+        XCTAssertNil(model.identity); XCTAssertNil(model.partnerPage)
+        let paths = await server.allPaths()
+        XCTAssertEqual(paths.filter { $0 == "/api/v1/me" }.count, 2)
+        XCTAssertEqual(paths.filter { $0 == "/api/v1/partner/orders?limit=50" }.count, 2)
+    }
     @MainActor func testWorkspaceEntryDefersOperationalReadsUntilSelectionAndClearsRoleDataOnSwitch() async throws {
         let journal = ERPMemoryJournal()
         let server = ERPFixtureTransport(journal: journal)

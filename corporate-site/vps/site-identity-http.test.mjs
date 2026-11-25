@@ -6,9 +6,9 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
+import {sessionAuthority,sessionDatabase} from '../tests/fixtures/partner-session-db.mjs';
 import {Script} from 'node:vm';
 import {createSiteIdentityHandler} from './site-identity-http.mjs';
-import {createSiteConsentAuthority} from './site-identity-consent.mjs';
 import {openLocalDatabase} from './database.mjs';
 import {createSessionForUser,destroySession,readSession} from './auth.mjs';
 import {FederationError,digest,opaque,parsePeerConfig,peerRequest,proofHeaders,readProof,signRequest,verifyRequest,signResponse,trustFingerprint,transportFingerprint} from './site-identity-protocol.mjs';
@@ -21,7 +21,7 @@ const sessionPath='/auth/site-identity/introspect-session';
 const basePeer={companyId:'synthetic-company',issuer:'https://synthetic-site.example/identity',audience:'synthetic-erp',
   version:1,active:true,keyId:'knaba-federation-site-http',secret:Buffer.alloc(32,47).toString('base64url')};
 const deferred=()=>{let resolve;const promise=new Promise(yes=>{resolve=yes;});return {promise,resolve};};
-async function fixture(t,{production=false}={}){
+async function fixture(t,{production=false,sessionOnly=false}={}){
   const directory=mkdtempSync(join(tmpdir(),'knaba-site-identity-http-')),dbPath=join(directory,'site.sqlite');
   const state={peer:null,calls:0,previews:new Map(),override:null,onInspect:null,badSignature:false,sessionsEnabled:false,onBodyRead:null};
   const erp=createServer((req,res)=>{void(async()=>{
@@ -37,8 +37,8 @@ async function fixture(t,{production=false}={}){
     res.end(output);
   })().catch(()=>{if(!res.headersSent)res.writeHead(403);res.end('{}');});});
   erp.listen(0,'127.0.0.1');await once(erp,'listening');
-  const {db}=openLocalDatabase(dbPath);
-  const handle=createSiteIdentityHandler(db,{config:()=>state.peer,developerEmail:'developer@example.test',
+  const db=sessionOnly?sessionDatabase():openLocalDatabase(dbPath).db;
+  const handle=createSiteIdentityHandler(db,{config:()=>state.peer,ownerEmail:'owner@example.test',developerEmail:'developer@example.test',
     origin:production?'https://site.example':'http://127.0.0.1',localTest:!production,sessionsEnabled:()=>state.sessionsEnabled});
   const site=createServer((req,res)=>{void(async()=>{
     const accountUser=readSession(db,req.headers.cookie);
@@ -103,7 +103,7 @@ async function fixture(t,{production=false}={}){
   state.count=()=>db.prepare('SELECT count(*) AS n FROM vps_site_identity_consents').get().n;
   state.audit=action=>db.prepare('SELECT count(*) AS n FROM portal_audit WHERE action=?').get(action).n;
   state.sessionProof=user=>{
-    const current=createSiteConsentAuthority(db,{config:()=>state.peer,developerEmail:'developer@example.test'}).current(user.cookie);
+    const current=sessionAuthority(db,state.peer,{developerEmail:'developer@example.test'}).current(user.cookie);
     return {companyId:state.peer.companyId,issuer:state.peer.issuer,audience:state.peer.audience,subject:current.subject,
       sessionDigest:current.sessionDigest,profileVersion:current.profileVersion,profileFingerprint:current.profileFingerprint,
       trustFingerprint:trustFingerprint(state.peer),transportFingerprint:transportFingerprint(state.peer)};
@@ -122,6 +122,86 @@ async function grant(f){
     nonceDigest:challenge.preview.nonceDigest,companyId:f.peer.companyId,targetUserId:challenge.preview.targetUserId,trustFingerprint:challenge.preview.trustFingerprint};
   return {user,challenge,shown,body,input};
 }
+
+const partnerPath='/auth/site-identity/introspect-partner-session';
+const partnerReceipt=(fixture,proof)=>peerRequest(fixture.peer,'site',partnerPath,proof);
+test('partner introspection checks effective approval, original subject and the signed company and purpose',async t=>{
+  const f=await fixture(t,{sessionOnly:true});
+  const partner=f.user({role:'partner'}),input=f.sessionProof(partner);
+  const failure=async (value,options={},status)=>{
+    const reply=await f.signedSession(value,{path:partnerPath,...options});
+    assert.equal(reply.status,status);
+    assert.equal(reply.headers.get('x-knaba-federation-response'),null);
+    assert.deepEqual(Object.keys(await reply.json()),['code']);
+  };
+  await failure(input,{},503);
+  f.sessionsEnabled=true;
+  const receipt=await partnerReceipt(f,input);
+  assert.equal(receipt.active,true);
+  assert.deepEqual(Object.keys(receipt).sort(),[...Object.keys(input),'active','expiresAt','checkedAt'].sort());
+  for(const key of Object.keys(input))assert.equal(receipt[key],input[key]);
+  await failure(input,{signedPath:sessionPath},403);
+  await failure({...input,companyId:'another-company'},{},403);
+  await failure({...input,role:'partner'},{},400);
+  assert.deepEqual(await partnerReceipt(f,{...input,subject:f.user({role:'partner'}).id}),{active:false});
+  const client=f.user();
+  f.db.prepare("UPDATE profiles SET requested_role='partner' WHERE id=?").run(client.id);
+  const clientProof=f.sessionProof(client);
+  assert.equal((await peerRequest(f.peer,'site',sessionPath,clientProof)).active,true);
+  assert.deepEqual(await partnerReceipt(f,clientProof),{active:false});
+  for(const role of ['admin','worker','bauleiter'])
+    assert.deepEqual(await partnerReceipt(f,f.sessionProof(f.user({role}))),{active:false});
+  assert.deepEqual(await partnerReceipt(f,f.sessionProof(f.user({role:'partner',email:'owner@example.test'}))),{active:false});
+  const owner=f.user({role:'partner'});
+  f.peer=parsePeerConfig({...f.peer,ownerUserId:owner.id},{localTest:true});
+  assert.deepEqual(await partnerReceipt(f,f.sessionProof(owner)),{active:false});
+  f.db.prepare("UPDATE vps_users SET email='another@example.test' WHERE id=?").run(partner.id);
+  assert.deepEqual(await partnerReceipt(f,f.sessionProof(partner)),{active:false});
+});
+test('partner introspection denies old proof after suspension, demotion, reapproval or logout',async t=>{
+  const f=await fixture(t,{sessionOnly:true});f.sessionsEnabled=true;
+  const partner=f.user({role:'partner'}),input=f.sessionProof(partner);
+  assert.equal((await partnerReceipt(f,input)).active,true);
+  const update=f.db.prepare('UPDATE profiles SET role=?,status=?,version=version+1 WHERE id=?');
+  update.run(null,'pending',partner.id);
+  assert.deepEqual(await partnerReceipt(f,input),{active:false});
+  update.run('partner','suspended',partner.id);
+  assert.deepEqual(await partnerReceipt(f,input),{active:false});
+  const generic=await f.signedSession(input);
+  assert.equal(generic.status,403);
+  assert.equal(generic.headers.get('x-knaba-federation-response'),null);
+  await generic.arrayBuffer();
+  update.run('client','approved',partner.id);
+  assert.deepEqual(await partnerReceipt(f,f.sessionProof(partner)),{active:false});
+  update.run('partner','approved',partner.id);
+  assert.deepEqual(await partnerReceipt(f,input),{active:false});
+  const current=f.sessionProof(partner);
+  assert.equal((await partnerReceipt(f,current)).active,true);
+  destroySession(f.db,partner.cookie);
+  const replacement=f.session(partner);
+  assert.deepEqual(await partnerReceipt(f,current),{active:false});
+  const replacementProof=f.sessionProof(replacement);
+  assert.equal((await partnerReceipt(f,replacementProof)).active,true);
+  f.db.prepare('UPDATE vps_users SET disabled=1 WHERE id=?').run(partner.id);
+  assert.deepEqual(await partnerReceipt(f,replacementProof),{active:false});
+});
+test('partner introspection does not sign an inactive receipt on SQLite failure or flag change',async t=>{
+  const f=await fixture(t,{sessionOnly:true});f.sessionsEnabled=true;
+  const input=f.sessionProof(f.user({role:'partner'}));
+  f.onBodyRead=async()=>{f.sessionsEnabled=false;};
+  const disabled=await f.signedSession(input,{path:partnerPath});
+  assert.equal(disabled.status,503);
+  assert.equal(disabled.headers.get('x-knaba-federation-response'),null);
+  assert.deepEqual(await disabled.json(),{code:'MISSING_CONFIGURATION'});
+  f.sessionsEnabled=true;f.onBodyRead=null;
+  f.db.close();
+  try{
+    const unavailable=await f.signedSession(input,{path:partnerPath});
+    assert.equal(unavailable.status,503);
+    assert.equal(unavailable.headers.get('x-knaba-federation-response'),null);
+    assert.deepEqual(await unavailable.json(),{code:'DEPENDENCY_UNAVAILABLE'});
+  }finally{f.db.open();}
+});
 
 test('signed introspection is independently disabled by default while normal F2 remains available',async t=>{
   const f=await fixture(t),user=f.user(),input=f.sessionProof(user);

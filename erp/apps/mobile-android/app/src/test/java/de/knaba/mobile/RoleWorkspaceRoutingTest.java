@@ -9,6 +9,24 @@ public class RoleWorkspaceRoutingTest {
         assertEquals(new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.CLIENT),
             RoleWorkspaceRouting.INSTANCE.route(List.of("CLIENT"), List.of("customer.portal")));
     }
+    @Test public void newPartnerReadRequiresDedicatedCanonicalActorAndExactGrant() {
+        var partner = new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.PARTNER);
+        assertEquals(partner, RoleWorkspaceRouting.INSTANCE.route(List.of("PARTNER"), List.of("partner.orders.read")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("PARTNER", "OWNER"), List.of("partner.orders.read", "identity.manage")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("PARTNER"), List.of("partner.*")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of("PARTNER", "CLIENT"), List.of("customer.portal")));
+        assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+            RoleWorkspaceRouting.INSTANCE.route(List.of(" partner "), List.of("*")));
+        for (String padding : List.of("\u00a0", "\u202f", "\u0085")) {
+            assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
+                RoleWorkspaceRouting.INSTANCE.route(List.of(padding + "PARTNER" + padding, "OWNER"), List.of("*")));
+        }
+        assertEquals(new RoleWorkspaceRouting.Destination.Open(RoleWorkspaceRouting.Workspace.CLIENT),
+            RoleWorkspaceRouting.INSTANCE.route(List.of("CLIENT"), List.of("customer.portal", "partner.orders.read")));
+    }
     @Test public void noPermissionNeverGrantsRole() {
         assertEquals(RoleWorkspaceRouting.Destination.NoAccess.INSTANCE,
             RoleWorkspaceRouting.INSTANCE.route(List.of("OWNER"), List.of("task.read")));

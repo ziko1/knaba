@@ -1,15 +1,24 @@
 plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
+val parallelPartnerTest = providers.gradleProperty("knabaParallelPartnerTest").orNull == "true"
 android {
     namespace = "de.knaba.mobile"
     compileSdk = 36
-    defaultConfig { applicationId = "de.knaba.mobile"; minSdk = 31; targetSdk = 36; versionCode = 10; versionName = "0.6.0" }
+    defaultConfig {
+        applicationId = "de.knaba.mobile"
+        minSdk = 31
+        targetSdk = 36
+        versionCode = 12
+        versionName = "0.6.2"
+        buildConfigField("boolean", "PARTNER_TEST_ONLY", "false")
+    }
     buildFeatures { buildConfig = true }
     bundle { language { enableSplit = false } }
     buildTypes {
         debug {
-            applicationIdSuffix = ".test"
+            buildConfigField("boolean", "PARTNER_TEST_ONLY", parallelPartnerTest.toString())
+            applicationIdSuffix = if (parallelPartnerTest) ".partner.test" else ".test"
             versionNameSuffix = "-test"
-            manifestPlaceholders["appLabel"] = "KNABA Test"
+            manifestPlaceholders["appLabel"] = if (parallelPartnerTest) "KNABA Partner Test" else "KNABA Test"
         }
         release { isMinifyEnabled = false; manifestPlaceholders["appLabel"] = "@string/app_name" }
     }

@@ -114,6 +114,17 @@ async function seedPrivateData(f: Fixture) {
 }
 
 describe('bounded permission-specific delegations', () => {
+  it('prevents creation, approval and application of staff delegations for partners', async () => {
+    const f = await fixture();
+    const request = { granteeId: f.worker.userId, permissions: ['task.read'], siteIds: ['site-b'], expiresAt: FUTURE, reason: REASON };
+    const draft = await run(f.tx, f.grantor, 'delegation.create', request);
+    await approvedDelegation(f);
+    const user = await f.tx.get('user', f.worker.userId);
+    await f.tx.save(user, { ...user.data, roles: ['PARTNER'] }, user.version);
+    await expect(run(f.tx, f.grantor, 'delegation.create', request)).rejects.toMatchObject({code:'ACCESS_DENIED'});
+    await expect(run(f.tx, f.approver, 'delegation.approve', { delegationId:draft.id, confirmedHash:draft.data.previewHash, reason:REASON })).rejects.toMatchObject({code:'ACCESS_DENIED'});
+    expect((await effectiveDelegations(f.tx, f.worker, NOW)).grants).toEqual([]);
+  });
   it('requires named resources and grants no access while still a draft', async () => {
     const f = await fixture();
     const draft = await run(f.tx, f.grantor, 'delegation.create', { granteeId: 'worker', permissions: ['task.read'], siteIds: ['site-b'], expiresAt: FUTURE, reason: REASON });

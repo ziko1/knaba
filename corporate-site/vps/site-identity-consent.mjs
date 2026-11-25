@@ -41,7 +41,7 @@ function requestFingerprint(peer,input){
 /** VPS authority only. The route owns CSRF and authenticated peer transport; a challenge
  * is the ERP's verified preview, never a set of browser-supplied identity claims.
  * Every database operation is synchronous; no network call occurs under SQLite locks. */
-export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Date.now,sessionsEnabled=()=>false}={}){
+export function createSiteConsentAuthority(db,{config,ownerEmail='',developerEmail='',clock=Date.now,sessionsEnabled=()=>false}={}){
   requireValue(typeof config==='function'&&typeof clock==='function'&&typeof sessionsEnabled==='function','MISSING_CONFIGURATION');
   const requireSessions=()=>requireValue(sessionsEnabled()===true,'MISSING_CONFIGURATION');
   let developer='';
@@ -68,7 +68,7 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
       return result;
     }catch(error){db.exec('ROLLBACK');throw error;}
   }
-  function actorFor(hash,peer,now){
+  function actorFor(hash,peer,now,partnerOnly=false){
     const user=db.prepare('SELECT u.id,u.email,u.disabled,s.created_at,s.expires_at FROM vps_sessions s JOIN vps_users u ON u.id=s.user_id WHERE s.token_hash=?').get(hash);
     requireValue(user&&user.disabled===0&&identifier(user.id,200)&&hasText(user.email,320)&&
       Number.isSafeInteger(user.created_at)&&user.created_at>=0&&user.created_at<=Math.floor(now/1000)&&
@@ -84,6 +84,10 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
       requireValue(profile.status==='approved'&&Number.isSafeInteger(profile.version)&&profile.version>0&&
         (ordinaryRoles.has(profile.role)||(profile.role==='owner'&&owner)));
     }else requireValue(owner);
+    // Match the website's effective approved role. A retained requested_role,
+    // mismatched profile address or protected operator must never attest a partner.
+    if(partnerOnly)requireValue(!owner&&address!==ownerEmail.trim().toLowerCase()&&
+      profile?.role==='partner'&&profile.email.trim().toLowerCase()===address);
     const snapshot=profile?[profile.id,profile.name,profile.email,profile.requested_role,profile.role,
       profile.status,profile.privacy_version,profile.created_at,profile.updated_at,profile.version,profile.last_mutation]:null;
     return {subject:user.id,displayName:profile?.name||user.email,email:user.email,sessionDigest:hash,
@@ -161,11 +165,25 @@ export function createSiteConsentAuthority(db,{config,developerEmail='',clock=Da
   return Object.freeze({
     /** Signed ERP-only current-session check. No consent grant is accepted or
      * consumed, and no profile/session snapshot is refreshed for the caller. */
-    introspectSession(input){
+    introspectSession(input,{partnerOnly=false}={}){
       return transaction((peer,now)=>{
-        const checked=sessionProof(input,peer),first=actorFor(checked.sessionDigest,peer,now);sameActor(checked,first);
+        const checked=sessionProof(input,peer);
+        const resolveSession=at=>{
+          try{
+            const actor=actorFor(checked.sessionDigest,peer,at,partnerOnly);
+            sameActor(checked,actor);
+            return actor;
+          }catch(error){
+            // An authenticated peer can distinguish a revoked partner from a site outage.
+            // Invalid proof, config, storage or transport errors still fail normally.
+            if(partnerOnly&&error instanceof FederationError&&error.code==='ACCESS_DENIED')return null;
+            throw error;
+          }
+        };
+        const first=resolveSession(now);
         return checkedAt=>{
-          const current=actorFor(checked.sessionDigest,peer,checkedAt);sameActor(checked,current);
+          const current=resolveSession(checkedAt);
+          if(!first||!current)return {active:false};
           const expiresAt=Math.min(first.expiresAt,current.expiresAt,peer.expiresAt?Date.parse(peer.expiresAt):Infinity);
           requireValue(expiresAt>checkedAt);
           return {active:true,...checked,expiresAt,checkedAt};

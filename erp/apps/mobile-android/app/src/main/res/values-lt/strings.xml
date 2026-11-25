@@ -318,4 +318,17 @@
     <string name="erp_workspace_choose">Pasirinkite darbo sritį</string>
     <string name="erp_workspace_switch">Pakeisti darbo sritį</string>
     <string name="erp_workspace_denied">Šiai paskyrai nėra prieinamos darbo srities.</string>
+    <string name="erp_partner_order">Užsakymas %1$s</string>
+    <string name="erp_partner_updated">Atnaujinta %1$s (Berlyno laiku)</string>
+    <string name="erp_partner_next">Kitas puslapis</string>
+    <string name="erp_partner_unavailable">Šis užsakymas nepasiekiamas.</string>
+    <string name="erp_partner_pending">Rengiamasi vykdyti</string>
+    <string name="erp_partner_confirmed">Patvirtinta</string>
+    <string name="erp_partner_scheduled">Suplanuota</string>
+    <string name="erp_partner_submitted">Darbas pateiktas</string>
+    <string name="erp_partner_review">Tikrina klientas</string>
+    <string name="erp_partner_closed">Užbaigta</string>
+    <string name="erp_partner_paused">Pristabdyta</string>
+    <string name="erp_partner_disputed">Ginčijama</string>
+    <string name="erp_partner_unknown">Būsena nežinoma</string>
 </resources>

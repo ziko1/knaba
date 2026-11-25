@@ -1,7 +1,7 @@
 import {createHash,createHmac,randomBytes,timingSafeEqual} from 'node:crypto';
 
 export const MAX_PROOF_AGE_MS=5*60_000;
-const paths={erp:new Set(['/api/v1/auth/site-links/inspect-challenge']),site:new Set(['/auth/site-identity/inspect','/auth/site-identity/redeem','/auth/site-identity/introspect-session'])};
+const paths={erp:new Set(['/api/v1/auth/site-links/inspect-challenge']),site:new Set(['/auth/site-identity/inspect','/auth/site-identity/redeem','/auth/site-identity/introspect-session','/auth/site-identity/introspect-partner-session'])};
 export const digest=value=>createHash('sha256').update(value).digest('hex');
 export const opaque=()=>randomBytes(32).toString('base64url');
 export const proofHash=/^[a-f0-9]{64}$/;

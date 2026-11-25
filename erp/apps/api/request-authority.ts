@@ -21,7 +21,10 @@ export type SelfDispatchCompletion=Readonly<{
 }>;
 type Reduction='LOGOUT'|'PASSWORD_ROTATED'|'MFA_CONFIGURED';
 type Acknowledgement=Reduction|Readonly<{kind:'DEVICE_RETIRED';resultHash:string}>;
-interface State {required:boolean;closed:boolean;proof?:RequestAuthorityProof;db?:DatabaseLike;validator?:RequestAuthorityValidator;ack?:Acknowledgement;selfDispatch?:SelfDispatchCompletion;}
+// A protected read may also depend on a second, online authority. Network I/O
+// runs before taking the response transaction's tenant lock.
+type ResponseAuthorityCheck = () => Promise<(tx:SqlTransaction) => Promise<void>>;
+interface State {responseCheck?:ResponseAuthorityCheck;required:boolean;closed:boolean;proof?:RequestAuthorityProof;db?:DatabaseLike;validator?:RequestAuthorityValidator;ack?:Acknowledgement;selfDispatch?:SelfDispatchCompletion;}
 interface Frame {state:State;authenticating:boolean;responseOnly?:SelfDispatchCompletion;}
 export interface AuthorityLease {state:State;proof:RequestAuthorityProof;tx:SqlTransaction;reduction?:Acknowledgement;selfDispatch?:SelfDispatchCompletion;responseOnly?:SelfDispatchCompletion;}
 const context=new AsyncLocalStorage<Frame>();
@@ -174,6 +177,13 @@ export async function recordOwnDeviceRetirement(tx:SqlTransaction,operation:'BIN
  assert(resultHash(result)===hash,'NEEDS_REAUTH');
  reductions.set(tx,Object.freeze({kind:'DEVICE_RETIRED',resultHash:hash}));
 }
+export function registerResponseAuthorityCheck(check:ResponseAuthorityCheck):void {
+ const frame=context.getStore();
+ assert(frame,'NEEDS_REAUTH');
+ const state=frame.state;
+ assert(state.proof?.kind==='SESSION'&&!state.closed&&!state.ack&&!state.responseCheck,'NEEDS_REAUTH');
+ state.responseCheck=check;
+}
 export async function verifyResponseAuthority(value?:unknown):Promise<void> {
  const frame=context.getStore();if(!frame)return;
  const state=frame.state;assert(!state.closed,'NEEDS_REAUTH');
@@ -188,6 +198,7 @@ export async function verifyResponseAuthority(value?:unknown):Promise<void> {
  if(state.ack){assert(ackMatches(value,state.ack),'NEEDS_REAUTH');return;}
  if(!state.proof){assert(!state.required,'NEEDS_REAUTH');return;}
  assert(state.db,'MISSING_CONFIGURATION');
- await state.db.transaction(state.proof.companyId,state.proof.userId,async()=>undefined,5000,true);
+ const check=await state.responseCheck?.();
+ await state.db.transaction(state.proof.companyId,state.proof.userId,async tx=>{await check?.(tx);},5000,true);
  assert(!state.closed,'NEEDS_REAUTH');
 }

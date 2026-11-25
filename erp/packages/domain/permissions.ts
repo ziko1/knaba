@@ -1,6 +1,6 @@
 import {Actor,DomainError,Entity} from './core.ts';
 export const ROLE_PERMISSIONS:Record<string,string[]>={
- OWNER:['company.manage','identity.manage','role.manage','legal.manage','bot.manage','bot.settings.manage','audit.read','site.read','site.create','site.structure.edit','task.read','task.create','task.assign','task.review','operations.read','decisions.read','decision.manage','integration.status'],
+ OWNER:['partner.access.manage','company.manage','identity.manage','role.manage','legal.manage','bot.manage','bot.settings.manage','audit.read','site.read','site.create','site.structure.edit','task.read','task.create','task.assign','task.review','operations.read','decisions.read','decision.manage','integration.status'],
  DIRECTOR:['site.read','site.create','site.structure.edit','order.manage','lead.manage','lead.read','quote.create','quote.approve','quote.issue','quote.accept','quote.read','price.manage','service.manage','dispatch.manage','crew.assign','decision.manage','decisions.read','task.read','task.create','task.assign','task.review','timesheet.read','timesheet.approve','operations.read','report.create','report.review','report.publish','report.read','chat.read','chat.write','chat.manage','translation.use','bot.manage','bot.settings.manage','notifications.manage','customer.manage'],
  OPERATIONS_MANAGER:['site.read','site.create','site.structure.edit','order.manage','lead.manage','lead.read','quote.create','quote.read','dispatch.manage','crew.assign','decision.manage','decisions.read','task.read','task.create','task.assign','task.review','timesheet.read','timesheet.approve','operations.read','report.create','report.review','report.publish','report.read','chat.read','chat.write','chat.manage','translation.use','customer.manage','inventory.request','inventory.read','inventory.approve'],
  DISPATCHER:['site.read','dispatch.manage','crew.assign','task.read','task.assign','operations.read','chat.read','chat.write','translation.use','trip.read','location.presence.read'],
@@ -18,7 +18,7 @@ export const ROLE_PERMISSIONS:Record<string,string[]>={
 };
 export function hasPermission(actor:Actor,p:string){return actor.permissions.includes(p);}
 export function enforcePermission(actor:Actor,p:string){if(!hasPermission(actor,p))throw new DomainError('ACCESS_DENIED');}
-export const sensitiveKinds=new Set(['user','employee','contact_identity','role_assignment','session','device','tracking_policy','location_sample','geopoint','payroll_calculation','rate_history','official_payslip','payout','payout_allocation','receipt','media_upload','knowledge','assistant_config','worker_registration_interest','partner_registration_interest']);
+export const sensitiveKinds=new Set(['user','employee','contact_identity','role_assignment','session','device','tracking_policy','location_sample','geopoint','payroll_calculation','rate_history','official_payslip','payout','payout_allocation','receipt','media_upload','knowledge','assistant_config','worker_registration_interest','partner_registration_interest','partner_access']);
 export function publicEntity(e:Entity):Entity{const data={...e.data};for(const key of ['passwordHash','password_hash','totpSecret','totp_secret','tokenHash','token_hash','codeHash','code_hash','csrf_hash','accessToken','apiKey','secret','privateKey'])delete data[key];return {...e,data};}
 // Command permissions are canonical; roles receive no implicit wildcard or finance/GPS bypass.
 const add=(role:string,rights:string[])=>ROLE_PERMISSIONS[role]=[...new Set([...(ROLE_PERMISSIONS[role]??[]),...rights])];
@@ -39,6 +39,8 @@ add('CLIENT',['commerce.read','customer.read','report.ack','lead.create']);
 add('EXTERNAL_BAULEITER',['commerce.read','customer.read','report.ack']);
 add('BOT_ADMIN',['assistant.manage','assistant.approve','automation.manage','automation.approve','device.manage']);
 for(const role of Object.keys(ROLE_PERMISSIONS))if(!['GUEST','SERVICE_ACCOUNT'].includes(role))add(role,['identity.self']);
+// Partner access uses the dedicated order projection and a current site binding.
+ROLE_PERMISSIONS.PARTNER=['partner.orders.read'];
 ROLE_PERMISSIONS.GUEST=['lead.create','lead.manage','commerce.read','chat.read','chat.write','translation.use'];
 ROLE_PERMISSIONS.SERVICE_ACCOUNT=['integration.process','automation.execute','chat.write','chat.read','translation.use','notifications.manage'];
 

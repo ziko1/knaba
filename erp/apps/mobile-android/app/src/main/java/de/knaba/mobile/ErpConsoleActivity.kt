@@ -29,7 +29,7 @@ import java.util.concurrent.Executors
 /** Native, server-authorized workspace. Demo data never enters a company session. */
 class ErpConsoleActivity : Activity() {
     private var api = ErpConsoleTransport()
-    private var discovery = ErpServerDiscovery()
+    private var discovery = ErpServerDiscovery(BuildConfig.PARTNER_TEST_ONLY)
     private val worker = Executors.newSingleThreadExecutor()
     private val configWorker = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
@@ -379,7 +379,7 @@ class ErpConsoleActivity : Activity() {
             run({ transport.configure(url); transport.login(address, secret, otp) }, failed = { password.setText(""); code.setText("") }) { response ->
                 actor = response.optJSONObject("actor")
                 readRetryAt = 0
-                password.setText(""); code.setText(""); recoverPending()
+                password.setText(""); code.setText(""); if (partnerAccess() == ErpConsoleTransport.PartnerAccess.NONE) recoverPending()
                 routeWorkspace()
             }
         }
@@ -455,6 +455,10 @@ class ErpConsoleActivity : Activity() {
             return
         }
 
+        if (workspace == RoleWorkspaceRouting.Workspace.PARTNER && scopedPartner()) {
+            showPartnerOrders()
+            return
+        }
         if (openPending && pendingRecovery != null && api.hasPendingCommand()) {
             showPendingRecovery()
             return
@@ -494,6 +498,78 @@ class ErpConsoleActivity : Activity() {
             renderDestinations()
         }
     }
+    private fun partnerAccess() = ErpConsoleTransport.PartnerAccess.from(actorValues("roles"), actorValues("permissions"))
+    private fun scopedPartner(): Boolean = !demoMode && partnerAccess() == ErpConsoleTransport.PartnerAccess.ORDERS
+
+    private fun partnerStatus(value: String): String = getString(when (value) {
+        "PENDING_OPERATIONS" -> R.string.erp_partner_pending
+        "CONFIRMED" -> R.string.erp_partner_confirmed
+        "SCHEDULED" -> R.string.erp_partner_scheduled
+        "IN_PROGRESS" -> R.string.erp_state_progress
+        "WORK_SUBMITTED" -> R.string.erp_partner_submitted
+        "CLIENT_REVIEW" -> R.string.erp_partner_review
+        "CLOSED" -> R.string.erp_partner_closed
+        "PAUSED" -> R.string.erp_partner_paused
+        "CANCELLED" -> R.string.erp_state_cancelled
+        "DISPUTED" -> R.string.erp_partner_disputed
+        else -> R.string.erp_partner_unknown
+    })
+
+    /** Each page and detail is freshly authorized. Returning never restores a previous DTO. */
+    private fun showPartnerOrders(after: String? = null, orderId: String? = null) {
+        val back: (() -> Unit)? = when {
+            orderId != null -> ({ showPartnerOrders(after) })
+            after != null -> ({ showPartnerOrders() })
+            else -> null
+        }
+        heading(getString(R.string.erp_orders), getString(R.string.erp_role_partner), back, showPending = false)
+        button(getString(R.string.erp_logout), navigation = true) { signOut() }
+        button(getString(R.string.erp_refresh)) { refreshRead?.invoke() }
+        val rows = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; content.addView(this) }
+        val ticket = screen
+        val transport = api
+        refreshRead = refresh@{
+            if (!foreground || busy || screen != ticket || isDestroyed) return@refresh
+            main.removeCallbacks(refreshTick)
+            clearList(rows)
+            run({
+                if (orderId == null) transport.partnerOrders(after) else transport.partnerOrder(orderId)
+            }, failed = { error ->
+                // Drop every navigation closure referring to the now-unverified IDs or cursor.
+                heading(getString(R.string.erp_orders), getString(R.string.erp_role_partner), showPending = false)
+                val failure = error as? ErpConsoleTransport.Failure
+                status(if (failure?.status == 404) getString(R.string.erp_partner_unavailable) else errorText(error))
+                button(getString(R.string.erp_refresh)) { showPartnerOrders() }
+                button(getString(R.string.erp_logout)) { signOut() }
+            }) { response ->
+                if (orderId != null) {
+                    label(getString(R.string.erp_partner_order, orderId), 19f, ink, rows)
+                    label(partnerStatus(response.getString("status")), parent = rows)
+                    val instant = java.time.Instant.parse(response.getString("updatedAt"))
+                    val date = java.time.format.DateTimeFormatter.ofLocalizedDateTime(java.time.format.FormatStyle.MEDIUM)
+                        .withLocale(resources.configuration.locales[0]).withZone(java.time.ZoneId.of("Europe/Berlin")).format(instant)
+                    label(getString(R.string.erp_partner_updated, date), parent = rows)
+                } else {
+                    val items = response.getJSONArray("items")
+                    if (items.length() == 0) label(getString(R.string.erp_empty), parent = rows)
+                    for (i in 0 until items.length()) {
+                        val item = items.getJSONObject(i)
+                        val id = item.getString("id")
+                        val card = panel(rows)
+                        label(partnerStatus(item.getString("status")), parent = card)
+                        button(getString(R.string.erp_partner_order, id), parent = card) { showPartnerOrders(after, id) }
+                    }
+                    if (!response.isNull("nextAfter")) {
+                        val next = response.getString("nextAfter")
+                        button(getString(R.string.erp_partner_next), parent = rows) { showPartnerOrders(next) }
+                    }
+                }
+                scheduleRefresh(30_000)
+            }
+        }
+        refreshRead?.invoke()
+    }
+
     private fun renderMetrics(parent: LinearLayout, result: JSONObject) {
         val horizontal = resources.configuration.screenWidthDp >= 380 && resources.configuration.fontScale <= 1.2f
         parent.orientation = if (horizontal) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
@@ -998,7 +1074,7 @@ class ErpConsoleActivity : Activity() {
     }
     private fun signOut(confirmed: Boolean = false) {
         if (mutation && busy) { status(getString(R.string.erp_wait)); return }
-        if (!confirmed && api.hasPendingCommand()) {
+        if (!confirmed && partnerAccess() == ErpConsoleTransport.PartnerAccess.NONE && api.hasPendingCommand()) {
             AlertDialog.Builder(this).setTitle(R.string.erp_unknown_title).setMessage(R.string.erp_unknown_leave)
                 .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_logout) { _, _ -> signOut(true) }.show()
             return
@@ -1009,7 +1085,7 @@ class ErpConsoleActivity : Activity() {
     private fun goBack() {
         if (mutation && busy) { status(getString(R.string.erp_wait)); return }
         val action = backAction
-        if (uncertain || api.hasPendingCommand()) {
+        if (partnerAccess() == ErpConsoleTransport.PartnerAccess.NONE && (uncertain || api.hasPendingCommand())) {
             AlertDialog.Builder(this).setTitle(R.string.erp_unknown_title).setMessage(R.string.erp_unknown_leave)
                 .setNegativeButton(R.string.erp_cancel, null).setPositiveButton(R.string.erp_confirm) { _, _ -> uncertain = false; if (action == null) signOut(true) else action() }.show()
         } else if (action != null) action() else if (actor != null) {
@@ -1030,7 +1106,10 @@ class ErpConsoleActivity : Activity() {
         startedOnce = true
     }
     override fun onStop() {
-        foreground = false; main.removeCallbacks(refreshTick); super.onStop()
+        foreground = false; main.removeCallbacks(refreshTick)
+        // A stopped partner screen retains neither orders nor a detail/cursor from the prior grant.
+        if (scopedPartner()) showPartnerOrders()
+        super.onStop()
     }
     override fun onRetainNonConfigurationInstance(): Any = RetainedSession(api, discovery, actor, demoMode, pendingRecovery)
     override fun onDestroy() {

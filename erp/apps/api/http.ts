@@ -28,9 +28,10 @@ import {renderAccountingExport} from '../../packages/integrations/accounting-exp
 import { assert,DomainError,isManager,type Actor,type Data,type Entity } from '../../packages/domain/core.js';
 import { activateInvitation,permits } from '../../packages/domain/identity.js';
 import { AuthService,RateLimiter,hashToken,opaqueToken,sameOrigin,type DatabaseLike,type EngineLike,type AuthOptions } from './auth.js';
+import type {PartnerCabinetAuthority} from './partner-cabinet.ts';
 import {SiteIdentityFlow,siteIdentityHttpError} from './site-identity-flow.ts';
 
-export interface ApiRuntime extends AuthOptions {db:DatabaseLike;engine:EngineLike;buildSha:string;version?:string;integrationStatus?:Record<string,string>;storage?:PrivateBlobStore;integrationCredentials?:IntegrationCredential[];siteIdentity?:SiteIdentityFlow}
+export interface ApiRuntime extends AuthOptions {db:DatabaseLike;engine:EngineLike;buildSha:string;version?:string;integrationStatus?:Record<string,string>;storage?:PrivateBlobStore;integrationCredentials?:IntegrationCredential[];siteIdentity?:SiteIdentityFlow;partnerCabinet?:PartnerCabinetAuthority}
 export const API_RUNTIME='KNABA_API_RUNTIME';
 @Catch()
 export class ApiExceptionFilter implements ExceptionFilter {
@@ -38,6 +39,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
 }
 export function moneyDisplay(value:number){assert(Number.isSafeInteger(value),'VALIDATION_ERROR');const n=BigInt(value),absolute=n<0n?-n:n;return `${n<0n?'-':''}${absolute/100n},${String(absolute%100n).padStart(2,'0')} EUR`;}
 export function csvCell(value:unknown){let text=String(value??'');if(typeof value==='string'&&/^\s*[=+@-]/.test(text))text=`'${text}`;return `"${text.replaceAll('"','""')}"`;}
+const dotOrderQuery=z.object({id:z.enum(['.','..'])}).strict();
 const envelopeSchema=z.object({input:z.unknown().default({}),expected_version:z.number().int().positive().optional(),idempotency_key:z.string().min(8).max(200)}).strict();
 const source=z.object({channel:z.literal('WEB').default('WEB'),landingPage:z.string().max(1000).optional(),campaign:z.string().max(200).optional()}).strict();
 const language=z.enum(['DE','UK','RU','PL','LT','EN']);
@@ -50,7 +52,7 @@ export class ApiController {
  private cursorKey:Buffer=randomBytes(32);
  private auth:AuthService;private storage:PrivateBlobStore;private publicLimiter=new RateLimiter(15,60000);private mutationLimiter=new RateLimiter(120,60000);private streams=new Map<string,number>();private uploadLimiter=new RateLimiter(4,60000);private activeUploads=0;
  constructor(@Inject(API_RUNTIME) private runtime:ApiRuntime){this.auth=new AuthService(runtime.db,runtime.engine,runtime);this.storage=runtime.storage??createPrivateBlobStore(runtime.db);if(runtime.encryptionKey)this.cursorKey=createHash('sha256').update('KNABA-V4-CURSOR\0').update(runtime.encryptionKey).digest();}
- private async actor(req:Request,mutation=false){const auth=mutation?await this.auth.mutation(req):await this.auth.authenticate(req);if(mutation)this.mutationLimiter.check(hashToken(auth.actor.userId));return auth;}
+ private async actor(req:Request,mutation=false){const auth=mutation?await this.auth.mutation(req):await this.auth.authenticate(req);assert(!auth.actor.roles.includes('PARTNER'),'ACCESS_DENIED');if(mutation)this.mutationLimiter.check(hashToken(auth.actor.userId));return auth;}
  @Get('health')health(){return {ok:true,application:'KNABA DE',mode:this.runtime.appMode,apiVersion:1};}
  @Get('ready')async ready(@Res({passthrough:true})res:Response){try{await this.runtime.db.query('SELECT knaba_assert_gps_storage_safe($1::text)',[this.runtime.companyId]);await this.runtime.db.query('SELECT token_hash FROM auth_sessions LIMIT 0');await this.runtime.siteSessions?.ready();await this.runtime.db.transaction(this.runtime.companyId,'READINESS',async tx=>{assert((await tx.list('company')).some(c=>c.id===this.runtime.companyId),'MISSING_CONFIGURATION');if(this.runtime.appMode==='PRODUCTION')assert((await tx.list('user')).some(u=>u.data.active&&u.data.roles?.includes('OWNER')),'MISSING_CONFIGURATION');});return {ready:true,database:'CONNECTED',mode:this.runtime.appMode,integrations:this.integrationStatus()};}catch{res.status(503);return {ready:false,code:'MISSING_CONFIGURATION'};}}
  @Get('version')version(){return {version:this.runtime.version??'0.1.0',sha:this.runtime.buildSha,gitSha:this.runtime.buildSha,apiVersion:1,mode:this.runtime.appMode};}
@@ -65,7 +67,20 @@ export class ApiController {
  @Post('auth/site-links/status')siteLinkStatus(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.status(req,body));}
  @Post('auth/site-links/unlink')unlinkSite(@Req()req:Request,@Body()body:unknown){return this.siteIdentity(flow=>flow.unlink(req,body));}
  @Post('auth/site-links/inspect-challenge')inspectSiteChallenge(@Req()req:Request,@Res()res:Response){return this.siteIdentity(async flow=>{const raw=(req as Request&{rawBody?:Buffer}).rawBody;assert(Buffer.isBuffer(raw),'VALIDATION_ERROR');const result=await flow.inspectChallenge(req,raw);res.status(200).set({'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','x-knaba-federation-response':result.signature}).send(result.bytes);});}
- @Get('me')async me(@Req()req:Request){const a=await this.actor(req);return {actor:a.actor,user:await this.auth.profile(a.actor),csrfToken:a.csrfToken,mode:this.runtime.appMode,version:this.runtime.buildSha};}
+ @Get('me')async me(@Req()req:Request){const a=await this.auth.authenticate(req);return {actor:a.actor,user:await this.auth.profile(a.actor),csrfToken:a.csrfToken,mode:this.runtime.appMode,version:this.runtime.buildSha};}
+ private async partnerOrdersFor(req:Request, orderId?:string, query:unknown=req.query){
+  const auth=await this.auth.authenticate(req);
+  assert(!auth.device && !auth.guest && !('siteSession' in auth) && auth.actor.companyId===this.runtime.companyId,'NEEDS_REAUTH');
+  assert(this.runtime.partnerCabinet,'MISSING_CONFIGURATION');
+  return this.runtime.partnerCabinet.orders(this.runtime.db,auth.actor,query,orderId);
+ }
+ @Get('partner/orders')partnerOrders(@Req()req:Request){return this.partnerOrdersFor(req);}
+ @Get('partner/orders/:id')partnerOrder(@Req()req:Request,@Param('id')id:string){return this.partnerOrdersFor(req,id);}
+ // URL clients normalize these two legal identifiers even when the dots are percent-encoded.
+ @Get('partner/order')partnerDotOrder(@Req()req:Request){
+  const {id}=dotOrderQuery.parse(req.query);
+  return this.partnerOrdersFor(req,id,{});
+ }
  @Post('auth/activate')async activate(@Req()req:Request,@Res({passthrough:true})res:Response,@Body()body:any){sameOrigin(req,this.runtime.publicOrigin);this.publicLimiter.check(hashToken(`invite:${req.ip??'unknown'}`));const result=await this.runtime.db.transaction(this.runtime.companyId,'INVITATION_ACTIVATION',tx=>activateInvitation(tx,this.runtime.companyId,body,new Date().toISOString(),this.runtime.encryptionKey));const mfa=Boolean(body.totpSecret&&body.otp);const session=await this.auth.createSession(result.userId,false,mfa);this.auth.cookie(res,session.token);const actor=await this.runtime.engine.getActor(result.userId,this.runtime.companyId);return {actor:{...actor,mfaVerified:mfa},user:await this.auth.profile(actor),csrfToken:session.csrfToken,mode:this.runtime.appMode,reauthenticationRequired:false};}
  @Get('commands')async commands(@Req()req:Request){const {actor}=await this.actor(req);return {items:Object.entries(this.runtime.engine.registry).filter(([,def])=>permits(actor.permissions,def.permission)).map(([name,def])=>({name,permission:def.permission,highRisk:!!def.highRisk,schema:zodToJsonSchema(def.schema,{$refStrategy:'none'})}))};}
  @Post('commands/:name')async command(@Req()req:Request,@Param('name')name:string,@Body()body:unknown){const {actor}=await this.actor(req,true);return this.runtime.engine.execute(actor,name,(()=>{const e=envelopeSchema.parse(body);return {input:e.input??{},expected_version:e.expected_version,idempotency_key:e.idempotency_key};})());}

@@ -1,6 +1,7 @@
 package de.knaba.mobile;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
@@ -55,8 +56,11 @@ public final class ErpConsoleTransportTest {
     }
     static final class Journal implements ErpConsoleTransport.Journal {
         final Map<String, String> records = new HashMap<>();
-        boolean failWrite, failRemove;
-        public String read(String scope) { return records.get(scope); }
+        boolean failRead, failWrite, failRemove;
+        public String read(String scope) throws IOException {
+            if (failRead) throw new IOException("PRIVATE_STORAGE_DIAGNOSTIC");
+            return records.get(scope);
+        }
         public void write(String scope, String envelope) throws Exception {
             if (failWrite) throw new IOException("PRIVATE_STORAGE_DIAGNOSTIC");
             records.put(scope, envelope);
@@ -217,6 +221,71 @@ public final class ErpConsoleTransportTest {
         Queue corruptQueue = new Queue(); corruptQueue.login(); ErpConsoleTransport corrupt = new ErpConsoleTransport(corruptQueue, journal); corrupt.configure("https://erp.example.invalid");
         fails("RECOVERY_STORAGE_INVALID", () -> corrupt.login("worker@example.invalid", "fixture", ""));
         check(!corrupt.isSignedIn() && journal.records.get(scopeKey).equals("corrupt"), "corrupt journal fails closed and preserves evidence");
+        Queue partnerQueue = new Queue();
+        Fake partnerLogin = partnerQueue.login();
+        JSONObject partnerIdentity = new JSONObject(partnerLogin.response);
+        partnerIdentity.getJSONObject("actor").put("roles", new JSONArray(List.of("PARTNER")))
+                .put("permissions", new JSONArray(List.of("partner.orders.read")));
+        partnerLogin.response = partnerIdentity.toString();
+        journal.failRead = true; journal.failWrite = true;
+        ErpConsoleTransport partnerApi = new ErpConsoleTransport(partnerQueue, journal);
+        partnerApi.configure("https://erp.example.invalid");
+        partnerApi.login("partner@example.invalid", "fixture", "");
+        check(partnerApi.isSignedIn() && partnerApi.pendingCommand() == null, "partner login skips unavailable command journal");
+        fails("ACCESS_CHANGED", partnerApi::dashboard);
+        fails("ACCESS_CHANGED", partnerApi::catalog);
+        fails("ACCESS_CHANGED", () -> partnerApi.entities("orders"));
+        fails("ACCESS_CHANGED", () -> partnerApi.messages("private-channel"));
+        fails("ACCESS_CHANGED", () -> partnerApi.command("task.create", input("unsent"), null));
+        fails("ACCESS_CHANGED", () -> partnerApi.command("user.password.rotate", new JSONObject()
+                .put("currentPassword", "synthetic-old-password").put("newPassword", "synthetic-new-password"), null));
+        check(partnerQueue.urls.size() == 1 && journal.records.get(scopeKey).equals("corrupt"),
+                "blocked requests leave transport and durable recovery untouched");
+        String orderId = "ä/../A +?#%";
+        JSONObject dto = new JSONObject().put("id",orderId).put("status","SCHEDULED").put("updatedAt","2026-11-25T10:30:00.000Z");
+        partnerQueue.add(new JSONObject().put("items",new JSONArray().put(dto)).put("nextAfter",orderId).toString());
+        check(partnerApi.partnerOrders(null).getString("nextAfter").equals(orderId),"opaque paging cursor");
+        partnerQueue.add("{\"items\":[],\"nextAfter\":null}"); partnerApi.partnerOrders(orderId);
+        String component = "%C3%A4%2F%2E%2E%2FA%20%2B%3F%23%25";
+        check(partnerQueue.urls.get(2).getFile().equals("/api/v1/partner/orders?limit=50&after="+component),"cursor is a single query component");
+        partnerQueue.add(dto.toString()); partnerApi.partnerOrder(orderId);
+        check(partnerQueue.urls.get(3).getFile().equals("/api/v1/partner/orders/"+component),"opaque ID is a single path component");
+        for (String dots : List.of(".","..")) {
+            partnerQueue.add(new JSONObject(dto.toString()).put("id", dots).toString()); partnerApi.partnerOrder(dots);
+            check(partnerQueue.urls.get(partnerQueue.urls.size()-1).getFile().equals("/api/v1/partner/order?id="+(dots.length()==1?"%2E":"%2E%2E")),"dot-only ID avoids dot-segment routing");
+        }
+        partnerQueue.add(dto.toString()); fails("INVALID_RESPONSE", () -> partnerApi.partnerOrder("different-order"));
+        partnerQueue.add("{\"items\":[],\"nextAfter\":\"foreign\"}"); fails("INVALID_RESPONSE", () -> partnerApi.partnerOrders(null));
+        partnerQueue.add(new JSONObject().put("items",new JSONArray().put(new JSONObject(dto.toString()).put("privateField","hidden"))).put("nextAfter",JSONObject.NULL).toString());
+        fails("INVALID_RESPONSE", () -> partnerApi.partnerOrders(null));
+        fails("INVALID_PARTNER_ORDER_ID", () -> partnerApi.partnerOrder(""));
+        partnerQueue.add(partnerIdentity.toString()); partnerApi.me();
+        partnerQueue.add("{}"); partnerApi.logout();
+        check(!partnerApi.isSignedIn() && partnerQueue.urls.get(partnerQueue.urls.size()-1).getPath().equals("/api/v1/auth/logout"),
+                "partner can recheck identity and revoke the captured session");
+        for (String padding : List.of("\u00a0", "\u202f", "\u0085")) {
+            check(ErpConsoleTransport.PartnerAccess.from(List.of(padding + "PARTNER" + padding, "OWNER"), List.of("*"))
+                    == ErpConsoleTransport.PartnerAccess.INVALID, "padded mixed partner cannot fall back to generic transport");
+        }
+        for (List<String> grants : List.of(List.of("customer.portal", "lead.manage_own"), List.of("*"), List.<String>of())) {
+            Queue deniedQueue = new Queue();
+            Fake deniedLogin = deniedQueue.login();
+            JSONObject reply = new JSONObject(deniedLogin.response);
+            reply.getJSONObject("actor").put("roles", new JSONArray(List.of("PARTNER")))
+                    .put("permissions", new JSONArray(grants));
+            deniedLogin.response = reply.toString();
+            ErpConsoleTransport unverifiedPartner = new ErpConsoleTransport(deniedQueue, journal);
+            unverifiedPartner.configure("https://erp.example.invalid");
+            unverifiedPartner.login("partner@example.invalid", "fixture", "");
+            fails("ACCESS_CHANGED", unverifiedPartner::catalog);
+            fails("ACCESS_CHANGED", () -> unverifiedPartner.partnerOrders(null));
+            fails("ACCESS_CHANGED", () -> unverifiedPartner.command("task.create", input("unsent"), null));
+            check(deniedQueue.urls.size() == 1 && unverifiedPartner.pendingCommand() == null,
+                    "partner without exact grant must neither send requests nor recover commands");
+        }
+        Queue staffQueue = new Queue(); ErpConsoleTransport staff = signed(staffQueue);
+        fails("ACCESS_CHANGED", () -> staff.partnerOrders(null));
+        check(staffQueue.urls.size() == 1, "partner reads require a literal role and grant before network I/O");
         System.out.println("PASS ERP transport assertions=" + cases + "; explicit HTTP/journal doubles and fresh-instance recovery; live ERP, Android OS process death NOT_RUN");
     }
 }

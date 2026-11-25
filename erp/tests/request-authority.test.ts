@@ -1,7 +1,13 @@
 import {afterEach,describe,it,expect,vi} from 'vitest';
 import {DomainError} from '../packages/domain/core.ts';
 import type {DatabaseLike,SqlTransaction} from '../apps/api/auth.ts';
-import {runRequestAuthority,duringAuthentication,registerRequestAuthority,beginRequestAuthority,finishRequestAuthority,committedRequestAuthority,recordOwnSessionRevocation,recordOwnDeviceRetirement,verifyResponseAuthority,prepareSelfDispatchScopeExpansion,authoritySnapshotHash,type RequestAuthorityProof,type SelfDispatchCompletion,type SelfDispatchChange} from '../apps/api/request-authority.ts';
+import {runRequestAuthority,duringAuthentication,registerRequestAuthority,registerResponseAuthorityCheck,beginRequestAuthority,finishRequestAuthority,committedRequestAuthority,recordOwnSessionRevocation,recordOwnDeviceRetirement,verifyResponseAuthority,prepareSelfDispatchScopeExpansion,authoritySnapshotHash,type RequestAuthorityProof,type SelfDispatchCompletion,type SelfDispatchChange} from '../apps/api/request-authority.ts';
+
+it('rejects a protected response check outside an authenticated request',()=>{
+ const check=async()=>async()=>{};
+ expect(()=>registerResponseAuthorityCheck(check)).toThrow('NEEDS_REAUTH');
+ runRequestAuthority(true,()=>expect(()=>registerResponseAuthorityCheck(check)).toThrow('NEEDS_REAUTH'));
+});
 
 // Explicit in-memory SQL/transaction doubles test async context and capabilities.
 // Actual HTTP/PostgreSQL races live in request-authority.integration.test.ts.

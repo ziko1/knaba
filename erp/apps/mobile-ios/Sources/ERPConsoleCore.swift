@@ -12,6 +12,12 @@ struct ERPActor: Decodable, Sendable {
     let permissions: [String]
     let siteIds: [String]?
     let customerIds: [String]?
+    var hasPartnerRole: Bool {
+        roles.contains {
+            $0.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() == "PARTNER"
+        }
+    }
+    var usesPartnerOrders: Bool { roles == ["PARTNER"] && permissions.contains("partner.orders.read") }
 }
 struct ERPUser: Decodable, Sendable {
     let id: String
@@ -210,13 +216,19 @@ actor ERPConsoleClient {
         guard let origin, let identity, cookie != nil, csrf != nil else { throw ERPFailure.expired }
         return Authority(generation: generation, origin: origin, companyId: identity.actor.companyId, userId: identity.actor.userId)
     }
-    func commandAuthority() throws -> Authority { try authority() }
+    func commandAuthority() throws -> Authority {
+        guard identity?.actor.hasPartnerRole != true else { throw ERPFailure.accessChanged }
+        return try authority()
+    }
     private func require(_ value: Authority) throws {
         guard value.generation == generation, value.origin == origin,
               value.companyId == identity?.actor.companyId, value.userId == identity?.actor.userId,
               cookie != nil, csrf != nil else { throw ERPFailure.accessChanged }
     }
-    private func send(_ path: String, method: String = "GET", body: Data? = nil, authenticated: Bool = true) async throws -> (Data, HTTPURLResponse) {
+    private func send(_ path: String, method: String = "GET", body: Data? = nil, authenticated: Bool = true, partnerRead: Bool = false) async throws -> (Data, HTTPURLResponse) {
+        if authenticated, let actor = identity?.actor, actor.hasPartnerRole {
+            guard method == "GET", path == "/api/v1/me" || (partnerRead && actor.usesPartnerOrders) else { throw ERPFailure.accessChanged }
+        }
         guard let base = origin else { throw ERPFailure.invalidOrigin }
         guard path.hasPrefix("/api/v1/"), !path.contains(".."), !path.contains("//"), !path.contains("#"),
               let url = URL(string: base.absoluteString + path), url.host == base.host, url.scheme == "https" else { throw ERPFailure.invalidPath }
@@ -324,6 +336,16 @@ actor ERPConsoleClient {
         reset()
         if let request { _ = try? await transport.data(for: request) }
     }
+    func partnerOrders(after: String? = nil) async throws -> ERPPartnerOrderPage {
+        guard identity?.actor.usesPartnerOrders == true else { throw ERPFailure.accessChanged }
+        let (data, _) = try await send(ERPPartnerOrder.listPath(after: after), partnerRead: true)
+        return try ERPPartnerOrderPage.decode(data, after: after)
+    }
+    func partnerOrder(id: String) async throws -> ERPPartnerOrder {
+        guard identity?.actor.usesPartnerOrders == true else { throw ERPFailure.accessChanged }
+        let (data, _) = try await send(ERPPartnerOrder.detailPath(id: id), partnerRead: true)
+        return try ERPPartnerOrder.decode(data, expectedID: id)
+    }
     func dashboard() async throws -> ERPDashboard { let (data, _) = try await send("/api/v1/dashboard"); return try JSONDecoder().decode(ERPDashboard.self, from: data) }
     func catalog() async throws -> [ERPCommand] { let (data, _) = try await send("/api/v1/commands"); return try JSONDecoder().decode(ERPCommands.self, from: data).items }
     func entities(_ kind: String, channelId: String? = nil) async throws -> [ERPItem] {
@@ -352,7 +374,7 @@ actor ERPConsoleClient {
     }
     func execute(_ command: ERPCommand, input: Data, expectedVersion: Int? = nil, authority expected: Authority? = nil) async throws -> ERPField {
         if let expected { try require(expected) }
-        let current = try authority()
+        let current = try commandAuthority()
         guard activeWrite == nil else { throw ERPFailure.pendingExists }
         guard ERPCommandName.isValid(command.name), !command.permission.isEmpty, input.count <= 65536,
               expectedVersion == nil || expectedVersion! > 0 else { throw ERPFailure.invalidPayload }
@@ -424,14 +446,14 @@ actor ERPConsoleClient {
     }
 
     func pendingCommand() throws -> ERPPendingCommand? {
-        let current = try authority()
+        let current = try commandAuthority()
         guard let pending = try validatedPending() else { return nil }
         guard let identity, pending.belongs(to: identity, origin: current.origin) else { throw ERPFailure.pendingDifferentActor }
         return pending
     }
 
     func retryPendingCommand() async throws -> ERPField {
-        let current = try authority()
+        let current = try commandAuthority()
         guard activeWrite == nil else { throw ERPFailure.pendingExists }
         guard let pending = try pendingCommand() else { throw ERPFailure.pendingChanged }
         let operation = UUID(); activeWrite = operation

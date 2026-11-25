@@ -386,7 +386,7 @@ export async function createKnabaVpsServer({
   if(identityPeer&&!localTest&&(identityPeer.siteOrigin!==origin||identityPeer.ownerUserId!==undefined&&identityPeer.ownerUserId!==ownerUserId))
     throw Error('SITE_IDENTITY_CONFIGURATION_MISMATCH');
   const {db,d1,migrations}=openLocalDatabase(dbPath,{allowMigrations:localTest});
-  const identityHandler=createSiteIdentityHandler(db,{config:identityConfig,developerEmail,origin,localTest,sessionsEnabled:identitySessionsEnabled,
+  const identityHandler=createSiteIdentityHandler(db,{config:identityConfig,ownerEmail,developerEmail,origin,localTest,sessionsEnabled:identitySessionsEnabled,
     ...(siteIdentityTransport?{transport:siteIdentityTransport}:{})});
   // Pin the configured owner's provisioned principal, never a browser email.
   // Deferred resolution permits the existing offline invite / trusted CLI bootstrap.

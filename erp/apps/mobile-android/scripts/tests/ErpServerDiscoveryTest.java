@@ -43,6 +43,22 @@ public final class ErpServerDiscoveryTest {
         }
     }
     public static void main(String[] args) throws Exception {
+        for (Object mode : List.of("PRODUCTION", "DEMO", "test", JSONObject.NULL)) {
+            Queue strict = new Queue();
+            strict.add(config("https://erp.knaba.de"));
+            JSONObject body = new JSONObject().put("ready",true).put("database","CONNECTED");
+            if (mode != JSONObject.NULL) body.put("mode",mode);
+            strict.add(body.toString());
+            try {
+                new ErpServerDiscovery(strict, true).discover();
+                throw new AssertionError("Test package accepted an unverified mode");
+            } catch (ErpConsoleTransport.Failure failure) {
+                check("SERVER_NOT_READY".equals(failure.code), "test-only build requires literal ready TEST");
+            }
+        }
+        Queue readyTest = new Queue();
+        readyTest.add(config("https://erp.knaba.de")); readyTest.add("{\"ready\":true,\"database\":\"CONNECTED\",\"mode\":\"TEST\"}");
+        check("https://erp.knaba.de".equals(new ErpServerDiscovery(readyTest, true).discover()), "test-only build accepts verified TEST");
         Queue q = new Queue(); Reply release = q.add(config("https://erp.knaba.de/"));
         Reply ready = q.add("{\"ready\":true,\"database\":\"CONNECTED\",\"mode\":\"TEST\"}");
         check("https://erp.knaba.de".equals(new ErpServerDiscovery(q).discover()),"Approved origin normalized");

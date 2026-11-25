@@ -17,8 +17,15 @@ class ErpServerDiscovery {
     private static final int MAX_BYTES = 32768;
     private final ErpConsoleTransport.ConnectionFactory connections;
 
-    ErpServerDiscovery() { this(url -> (HttpURLConnection) url.openConnection()); }
-    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections) { this.connections = connections; }
+    private final boolean requireTestMode;
+
+    ErpServerDiscovery() { this(false); }
+    ErpServerDiscovery(boolean requireTestMode) { this(url -> (HttpURLConnection) url.openConnection(), requireTestMode); }
+    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections) { this(connections, false); }
+    ErpServerDiscovery(ErpConsoleTransport.ConnectionFactory connections, boolean requireTestMode) {
+        this.connections = connections;
+        this.requireTestMode = requireTestMode;
+    }
 
     String discover() throws Exception {
         JSONObject config = get(CONFIG_URL);
@@ -36,7 +43,8 @@ class ErpServerDiscovery {
             if (!(host.equals("knaba.de") || host.endsWith(".knaba.de"))) throw new IllegalArgumentException();
         } catch (IllegalArgumentException invalid) { throw failure(0, "SERVER_CONFIG_INVALID"); }
         JSONObject ready = get(origin + "/ready");
-        if (!Boolean.TRUE.equals(ready.opt("ready")) || !"CONNECTED".equals(ready.opt("database")))
+        if (!Boolean.TRUE.equals(ready.opt("ready")) || !"CONNECTED".equals(ready.opt("database")) ||
+                (requireTestMode && !"TEST".equals(ready.opt("mode"))))
             throw failure(0, "SERVER_NOT_READY");
         return origin;
     }

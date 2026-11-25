@@ -318,4 +318,17 @@
     <string name="erp_workspace_choose">Wybierz panel</string>
     <string name="erp_workspace_switch">Zmień panel</string>
     <string name="erp_workspace_denied">To konto nie ma dostępu do żadnego panelu.</string>
+    <string name="erp_partner_order">Zlecenie %1$s</string>
+    <string name="erp_partner_updated">Zaktualizowano %1$s (Berlin)</string>
+    <string name="erp_partner_next">Następna strona</string>
+    <string name="erp_partner_unavailable">To zlecenie jest niedostępne.</string>
+    <string name="erp_partner_pending">Oczekuje na przygotowanie</string>
+    <string name="erp_partner_confirmed">Potwierdzone</string>
+    <string name="erp_partner_scheduled">Zaplanowane</string>
+    <string name="erp_partner_submitted">Praca zgłoszona</string>
+    <string name="erp_partner_review">Weryfikacja przez klienta</string>
+    <string name="erp_partner_closed">Zamknięte</string>
+    <string name="erp_partner_paused">Wstrzymane</string>
+    <string name="erp_partner_disputed">Sporne</string>
+    <string name="erp_partner_unknown">Nieznany status</string>
 </resources>
