@@ -27,7 +27,8 @@ enum ERPWorkspaceRoute: String, CaseIterable, Identifiable {
                 return matches(["WORKER", "EMPLOYEE", "TEAM_LEADER"], [
                     "task.read", "shift.read", "trip.read", "inventory.read", "dispatch.acknowledge", "payroll.self", "identity.self"
                 ])
-            case .partner: return matches(["PARTNER"], ["lead.manage_own", "customer.portal"])
+            // ERP has no canonical PARTNER actor. Never infer one from portal permissions.
+            case .partner: return false
             case .bauleiter:
                 return matches(["BAULEITER", "SITE_MANAGER", "INTERNAL_BAULEITER", "EXTERNAL_BAULEITER"], ["crew.assign", "dispatch.manage"]) ||
                     matches(["INTERNAL_BAULEITER"], ["site.read", "task.assign"]) || matches(["EXTERNAL_BAULEITER"], ["customer.portal"])
